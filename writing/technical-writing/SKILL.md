@@ -44,6 +44,7 @@ For `write` and `rewrite`, define a short language contract from this skill's [l
 - preferred terms, abbreviations, proper names, and protected spans;
 - actor, action, conditions, sequence, and grammatical backbone;
 - repetitive sentence patterns, formulaic openings/endings, empty connectors, nominalization stacks, and unsupported claims to avoid;
+- excessive paragraph breaks, unnecessary bullets, decorative dashes, and sentence fragments to avoid;
 - structures required by the document type, such as parallel actions in a procedure or repeated field order in a reference.
 
 Draft against that contract. Only after the final draft exists, invoke `$deai --mode check`. Let it detect the language, or pass `--lang zh|en|mixed` and `--profile generic`. Act only on meaningful findings. If a rewrite is needed, change flagged prose only; do not optimize mechanically for a detector score.
@@ -80,5 +81,5 @@ Report only issues that affect correct use, reproducibility, comprehension, or c
 - Every prose sentence has a recognizable grammatical backbone; modifier, reference, coordination, negation, and condition scope is unambiguous.
 - Parameters, units, ranges, defaults, limits, and version boundaries are sufficient for use or implementation.
 - Terminology, capitalization, formatting, and mixed-language text are consistent.
-- Headings, lists, tables, and references are scannable; procedures are executable and verifiable.
+- Paragraphs, headings, lists, tables, and references express real structure rather than visual fragmentation; procedures are executable and verifiable.
 - Risk information precedes the hazardous action and states the hazard, consequence, and avoidance method.

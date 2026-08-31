@@ -49,6 +49,8 @@ Examples:
 5. **Clarity and terminology:** actor、代词、术语、条件和限制是否明确。
 6. **Language and format:** 标题、列表、表格、代码格式、标点、空格和 accessibility。
 
+在第 6 步检查结构是否被视觉碎片化：连续单行段落、无必要项目列表、缺少谓语的说明性列表项、孤立加粗句，以及用 `--` 或破折号代替准确标点。此类问题通常为 Minor；若碎片化隐藏条件、因果、责任主体或适用范围，则按实际影响评为 Major。
+
 ## Report findings
 
 每条 finding 包含：

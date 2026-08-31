@@ -12,6 +12,7 @@
 - [Diátaxis](https://diataxis.fr/)：阅读 Tutorials、How-to guides、Reference、Explanation 及 map。主要吸收：学习、目标、查询和理解是不同读者意图，需采用不同写法。本 skill 不强制所有文档机械四分，README、user manual、design spec 等可保留适合自身目的的组合结构。
 - [OASIS DITA Technical Content](https://dita-lang.org/dita-techcomm/archspec/technicalcontent/dita-technicalcontent-informationtypes)：阅读 concept、general task、reference 和 information typing。主要吸收：concept 回答“是什么”、task 回答“如何做”、reference 支持查询；task 由前置/上下文、步骤、结果和 troubleshooting 等部分构成。不采用 XML schema 或 DTD 作为本 skill 的结构。
 - [ASD-STE100 Simplified Technical English, Issue 9](https://www.asd-ste100.org/assets/files/ASD-STE100_ISSUE9.pdf) 与 [official FAQ](https://www.asd-ste100.org/STE_faq.html)：主要吸收：controlled terminology、one word/one meaning、程序使用直接 imperative、降低句法歧义，以及 Warning/Caution 需表达风险。未机械采用航空词典、句长限制或领域专用规则。
+- [Sepia](https://github.com/Nanako0129/sepia)，尤其是其 [professional pass](https://github.com/Nanako0129/sepia/blob/main/skills/sepia/references/professional-pass.md) 与 [style pass](https://github.com/Nanako0129/sepia/blob/main/skills/sepia/references/style-pass.md)：主要吸收：先匹配项目既有文体、规范结构本身不应被视作 AI 痕迹、格式问题应按聚集模式判断，以及克制标题复述、层层总结、机械三项式、等长章节和装饰性格式。未采用其叙事结构规则，也不为“像人写的”而加入非正式语气、个人经历或不规则结构。
 
 ## Standards and official previews
 
@@ -20,4 +21,3 @@
 - [GB/T 32424-2015 官方记录](https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=46E7B46987557413B4AFDC53F1BD6D8A)：官方页面确认该标准为《系统与软件工程 用户文档的设计者和开发者要求》，采用国际标准且因版权不公开全文。仅结合其公开范围和 ISO/IEC 26514 的可访问资料理解用户文档的过程、结构和内容，不猜具体条文。
 - [GB/T 9969-2008 官方记录](https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=A948ABC041945DF531BADF590044C971)：官方页面确认其为现行《工业产品使用说明书 总则》。公开元数据有限；skill 对工业产品说明、安全、生命周期和 procedure 的具体规则主要依据 IEC/IEEE 82079-1 的公开资料，不把标题推断成条文。
 - [GB/T 8567-2006 官方记录](https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=84C42B6277D2714B7176B10C6E6B1A44)：官方页面确认其为现行《计算机软件文档编制规范》。未从不可访问内容推断模板或强制章节；本 skill 仅保留 design spec、interface spec、test-verification 等实际工程文档类型，并按读者用途裁剪结构。
-

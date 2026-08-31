@@ -20,6 +20,8 @@ Good:
 
 前一句只是名词短语，没有谓语，不能独立承担技术陈述。标题、表头和并列列表项可以使用短语，但同一列表应保持同类结构。
 
+不要把完整句拆成标题式短语、标签式片段或连续的单行段落。正文和说明性列表项通常应使用完整句；只有标题、标签、表头、术语清单、字段名及刻意平行的简短项目可以使用短语。
+
 ### Write natural, direct Chinese
 
 使用具体主体、精确动词和自然语序。避免公文腔、翻译腔和 AI 式层层总结。
@@ -200,6 +202,7 @@ Good:
 - 中文引文使用 `“ ”`；代码值、UI 标签和 identifier 不用引号代替格式。
 - 不混用全角字母、全角数字或全角空格。代码块内保持原始 ASCII。
 - 中文范围符号、波浪号和 dash 选择一种项目约定；避免同页混用 `-`、`~`、`～` 表示同一语义。
+- 不使用 `--` 模仿中文破折号。中文破折号写作 `——`，且仅在确有插入、解释或语义突转时使用；一般补充说明优先用逗号、冒号、括号或另起完整句。
 
 ### Chinese, Latin text, and numbers
 
@@ -247,6 +250,10 @@ Good:
 > The controller polls all sensors and reports failures.
 
 Prefer direct language, clear actors, present tense, and second person when addressing the reader. Use imperative verbs for procedures: `Connect the probe to TP3.`
+
+Do not turn ordinary prose into consecutive one-line paragraphs, label-like fragments, or bullet lists merely for emphasis. Keep a claim, its condition, and its consequence in one paragraph when they form one thought. Use bullets only for genuine sets, alternatives, fields, or parallel actions. Explanatory bullet items should normally be complete sentences.
+
+Use em dashes sparingly. Do not type `--` as prose punctuation, and do not use a dash where a comma, colon, parenthesis, period, or explicit conjunction states the relationship more accurately.
 
 ### Attach modifiers clearly
 
@@ -342,5 +349,6 @@ Keep these forms verbatim and format them as code when they are code entities:
 - 中文是否存在成分残缺、主语跳转、名词化堆叠、翻译腔、公文腔或不必要总结？
 - 英文是否有完整主句、正确主谓一致、清楚的 modifier/antecedent 和平行结构？
 - 英文是否直接、可翻译，且未机械禁用有用的被动语态？
+- 是否存在为制造节奏而滥用的单行段落、项目符号、短语式残句或破折号？
 - identifier、option、path、register 和 signal 是否逐字保留？
 - 中文标点、半角字符、空格、数字和单位是否一致？
