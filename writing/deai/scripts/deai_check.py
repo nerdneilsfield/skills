@@ -426,6 +426,16 @@ EN_INSTRUCTIONS = {
     "replace_vocabulary": "Replace with a more natural alternative.",
 }
 
+# Suggestions that can tempt unsupported additions need one shared guardrail.
+SOURCE_SENSITIVE_SUGGESTIONS = {
+    "quantify", "list_scope", "compare_baseline", "explain_why",
+    "specify_condition", "explain_novelty", "cite_sota", "quantify_progress",
+    "cite_specific", "quantify_exp", "list_methods", "list_items",
+    "quantify_percent", "quantify_items", "specify_scope", "specific_time",
+    "increasingly", "specific_impact", "cite_examples", "growth_data",
+    "add_specific",
+}
+
 
 class DeAIChecker:
     """Unified De-AI trace checker for Chinese and English."""
@@ -957,7 +967,15 @@ class DeAIChecker:
     def _get_instruction(self, key: str) -> str:
         """Get human-readable instruction for suggestion key."""
         default = "请改写得更具体、客观。" if self.lang == "zh" else "Rewrite to be more specific and objective."
-        return self.instructions.get(key, default)
+        instruction = self.instructions.get(key, default)
+        if key in SOURCE_SENSITIVE_SUGGESTIONS:
+            guard = (
+                "仅使用输入、用户提供或已核实来源；无依据时标记缺口，不补写。"
+                if self.lang == "zh"
+                else "Use only input, user-supplied, or verified source details; otherwise flag the gap and do not invent them."
+            )
+            return f"{instruction} {guard}"
+        return instruction
 
     def generate_suggestions_json(self, analysis: dict) -> list[dict]:
         """Generate structured suggestions for programmatic fixing."""
