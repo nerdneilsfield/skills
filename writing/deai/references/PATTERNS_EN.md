@@ -1,14 +1,16 @@
 # English AI Trace Patterns
 
-Reference document for detecting and replacing AI-typical writing patterns in English text. Organized by detection priority: structural patterns first, then vocabulary, then style.
+Reference document for detecting and replacing AI-typical writing patterns in English text. Organized by review priority: structural patterns first, then vocabulary, then style. A hit is a review cue, not an unconditional rewrite.
+
+Before editing, protect code fences, inline code, URLs, paths, commands, identifiers, LaTeX/Typst and math, citations and labels, quoted text, names, versions, dates, ranges, units, status codes, metrics, and formal terms. Preserve the actor, target, condition, scope, polarity, modality, completion state, direction, intensity, and cause/effect around them. Use a supplied writing sample as the voice baseline.
 
 ---
 
 ## 1. Tiered Vocabulary System
 
-### Tier 1 -- Always Flag
+### Tier 1 -- Flag by default
 
-These words and phrases appear 5-20x more frequently in AI-generated text than in human writing. Flag every occurrence regardless of context.
+These words and phrases are common review cues. Flag by default, then keep occurrences that are literal, technical, quoted, required by the genre, or supported by the writer's sample.
 
 | AI-typical word/phrase | Replacement(s) |
 |---|---|
@@ -19,7 +21,7 @@ These words and phrases appear 5-20x more frequently in AI-generated text than i
 | paradigm | model, framework, approach, way of thinking |
 | embark | start, begin, set out |
 | beacon | example, signal, guide |
-| testament to | evidence of, proof of, shows |
+| testament to | evidence of, shows |
 | robust | strong, solid, reliable, durable |
 | comprehensive | thorough, complete, full, wide-ranging |
 | cutting-edge | recent, advanced, new, modern |
@@ -65,7 +67,7 @@ These words and phrases appear 5-20x more frequently in AI-generated text than i
 
 ### Tier 2 -- Flag in Clusters
 
-These words are acceptable on their own. Flag when **2 or more** appear in the same paragraph -- that clustering pattern is a strong AI signal.
+These words are acceptable on their own. Flag only when several cluster unusually for the document and the scene or writer's sample does not support them. Paragraph boundaries are a review aid, not a universal threshold.
 
 | Word | Notes |
 |---|---|
@@ -107,9 +109,9 @@ These words are acceptable on their own. Flag when **2 or more** appear in the s
 | bolster | Replace with "strengthen" or "support" or "reinforce" |
 | encompass | Replace with "include" or "cover" or "span" |
 
-### Tier 3 -- Flag by Density
+### Tier 3 -- Flag by Unusual Density
 
-Common words that AI overuses. Flag only when they exceed **3% density** (occurrences per 1000 words > 30) within a section.
+Common words that can become repetitive. Flag only when document-level density is unusually high against the local genre or writer baseline. The frequencies below are rough historical cues, not thresholds or targets.
 
 | Word | AI-typical density | Human-typical density | Notes |
 |---|---|---|---|
@@ -184,7 +186,7 @@ Absolute claims without evidence. Flag and downgrade.
 
 ## 4. Vague Quantifiers
 
-Replace with concrete numbers or citations.
+Replace with concrete numbers or citations only when they are present in the input, supplied by the user, or verified from an authorized source. Otherwise delete the empty wrapper or use `audit-only`; bracketed `N`, `X%`, and author examples are not fill-in instructions.
 
 | Vague quantifier | Better alternative |
 |---|---|
@@ -198,7 +200,7 @@ Replace with concrete numbers or citations.
 | a substantial amount/number | N items, X% of the total |
 | some researchers | [Author et al.] and [Author et al.] |
 | recent work | [Author et al., Year] and [Author et al., Year] |
-| growing body of evidence | [cite 3+ sources from the last 5 years] |
+| growing body of evidence | use existing sources; otherwise flag the missing basis |
 | widely adopted | used in N systems/studies, adopted by X, Y, Z |
 
 ### Regex Pattern
@@ -259,7 +261,7 @@ These are document-level signals detectable by pattern analysis. They operate ab
 
 **Pattern**: Every result is "significant," "remarkable," or "substantial" regardless of actual effect size.
 
-**Detection**: Count intensity adjectives per results section. AI text typically uses 3-5x more than human text.
+**Detection**: Flag intensity adjectives when they cluster unusually in a results section or exceed the source's own baseline. Do not infer a defect from one quantified, technical, or quoted use.
 
 **Fix**: Remove the adjective and let the numbers speak. If the result is genuinely notable, explain why in concrete terms.
 
@@ -288,9 +290,9 @@ These are document-level signals detectable by pattern analysis. They operate ab
 
 ### 6.3 Synonym Cycling
 
-**Pattern**: AI uses 4+ different synonyms for the same concept within a section, cycling through them mechanically to appear varied. For example: "method" then "approach" then "technique" then "strategy" then "framework" -- all referring to the same thing.
+**Pattern**: AI can cycle through several undefined synonyms for the same concept to appear varied. For example: "method" then "approach" then "technique" then "strategy" then "framework" -- all referring to the same thing.
 
-**Detection**: Track referents per concept. If one concept is named by 4+ different terms within 500 words and none are defined as distinct, flag it.
+**Detection**: Track referents per concept. Review when one concept cycles through several undefined terms unusually relative to the writer's sample or genre; do not use a fixed term count or word window.
 
 **Fix**: Pick one or two terms and use them consistently. Define terms if distinctions matter.
 
@@ -298,14 +300,14 @@ These are document-level signals detectable by pattern analysis. They operate ab
 
 **Pattern**: AI groups items in threes with suspicious consistency: "efficiency, scalability, and reliability"; "planning, executing, and evaluating"; "fast, accurate, and robust."
 
-**Detection**: Count tricolon structures. More than 2 per 500 words is a strong AI signal.
+**Detection**: Flag only when tricolons cluster unusually and the writer's sample or genre does not support them. Do not use a universal count threshold.
 
 **Detection regex**:
 ```regex
 \b\w+,\s+\w+,\s+and\s+\w+\b
 ```
 
-**Fix**: Vary group sizes. Use pairs, lists of four, or single items. Break some triads into separate sentences.
+**Fix**: Vary group sizes only when repetition harms readability. Keep real taxonomies, API contracts, quotations, and sample-supported rhythm.
 
 ### 6.5 Negative Parallelism
 
@@ -316,15 +318,15 @@ These are document-level signals detectable by pattern analysis. They operate ab
 \b(not|n't)\s+(just|merely|only|simply)\s+.{5,40},\s*(but|it's|it is)\b
 ```
 
-**Fix**: Rephrase positively. State what something IS without the contrastive setup. Use this structure at most once per section.
+**Fix**: Rephrase positively when the contrastive setup repeats without rhetorical or technical purpose. Keep a deliberate instance; do not enforce a per-section quota.
 
 ### 6.6 Em Dash Overuse
 
-**Pattern**: AI text uses em dashes (--) at 3-5x the rate of human text, often as a crutch for parenthetical insertion.
+**Pattern**: Dense em-dash use can become a crutch for parenthetical insertion, but punctuation habits vary by writer and genre.
 
-**Detection**: Count em dashes per 1000 words. Human average: 2-4. AI average: 8-15.
+**Detection**: Flag only when em dashes cluster unusually or conflict with the scene and writer's sample. Do not use a per-1000-word quota.
 
-**Fix**: Replace most with commas, parentheses, or restructure as separate sentences. Keep 1-2 per 1000 words maximum.
+**Fix**: Replace some with commas, parentheses, or separate sentences only when meaning and voice permit. Keep deliberate punctuation.
 
 ### 6.7 Generic Conclusions
 
@@ -396,23 +398,41 @@ These are document-level signals detectable by pattern analysis. They operate ab
 
 **Pattern**: AI over-structures short text. Five headers in 200 words. Bullet points for two items. Numbered lists for non-sequential content.
 
-**Detection**: Compute structure-to-content ratio. More than 1 header per 200 words, or bullet lists with fewer than 3 items, are signals.
+**Detection**: Review structure when headings or tiny lists seem to fragment a short passage without helping navigation. Required headings, outline formats, and retrieval-oriented lists are not signals; use no fixed ratio.
 
-**Fix**: Merge short sections. Use prose for small amounts of content. Reserve headers for sections with 150+ words of content.
+**Fix**: Merge or convert a short section only when navigation improves and the user permits structural edits. Keep required headings and useful short lists.
 
 ### 6.13 Rhythm Uniformity
 
-**Pattern**: All sentences fall within 15-25 words. Human writing varies from 5-word fragments to 40-word complex sentences.
+**Pattern**: A passage can feel mechanical when sentence lengths are unusually uniform for its genre; writers and technical sections legitimately differ.
 
-**Detection**: Compute standard deviation of sentence length. AI text: stdev 3-5 words. Human text: stdev 8-15 words.
+**Detection**: Treat unusually narrow sentence-length spread as a cue, not a universal cutoff. Lists, procedures, and technical specs naturally have regular rhythm.
 
-**Fix**: Vary sentence length deliberately. Add some short punchy sentences. Allow occasional long sentences with subordinate clauses. Break monotony.
+**Fix**: Vary sentence length only when the scene permits. Do not add fragments, facts, or odd words merely to break a statistic.
+
+### 6.14 False agency
+
+**Pattern**: An inanimate subject is given human agency: “the data tells us”, “the decision emerged”, or “the complaint became a fix”.
+
+**Fix**: Name the actor when the source names one. Otherwise use a neutral factual construction; do not invent “the team”, “the author”, or a system capability. Literal technical behavior such as “the gateway returned 504” is valid.
+
+### 6.15 Unsourced authority
+
+**Pattern**: “Studies show”, “experts argue”, or “researchers found” appears without a source, link, or citation.
+
+**Fix**: Never add a citation. In `docs`/`status`/`academic`, flag the missing attribution (`audit-only`). In `chat`/`public-writing`, remove the wrapper only when the remaining claim stands independently; otherwise flag or remove the whole claim.
+
+### 6.16 Decorative detail
+
+**Pattern**: Precise personal-looking details (time, weather, props, dialogue) appear without a source and do no work for the claim.
+
+**Fix**: Remove or flag only when the detail is not user-provided and deleting it leaves facts and causality unchanged. Keep supplied experience, reproduction conditions, logs, and fictional scene details.
 
 ---
 
 ## 7. False Positive Rules
 
-Do NOT flag these patterns -- they represent legitimate, precise usage.
+Do not flag these patterns when the context is legitimate and precise. Protected spans are never style targets.
 
 | Pattern | Context that cancels the flag | Reason |
 |---|---|---|
@@ -431,6 +451,9 @@ Do NOT flag these patterns -- they represent legitimate, precise usage.
 | paradigm | In philosophy of science context (Kuhn) | Precise usage |
 | state-of-the-art | With specific benchmark name + score | Verified claim |
 | scalable | With complexity analysis (O(n), O(log n)) | Technical claim |
+| passive voice | Methods, reports, status updates, or an actor intentionally omitted | Grammar or genre choice |
+| em/en dash | Used in the writer's sample or for a clear parenthetical relation | Voice or meaning |
+| three-item list | A real three-part taxonomy, API contract, or quoted text | Content structure |
 
 ### False Positive Regex
 
@@ -472,7 +495,7 @@ comprehensive\s+(dataset|corpus|collection)\s+of\s+[\d,]+
 ### Experiments / Setup
 
 - **Common AI traces**: "Comprehensive experiments," vague dataset descriptions, template setup paragraphs.
-- **Fix strategy**: Specify exact dataset sizes, splits, hardware, training time, hyperparameters. Replace "extensive experiments" with "N experiments across M configurations."
+- **Fix strategy**: Specify exact dataset sizes, splits, hardware, training time, and hyperparameters when the source provides them. Otherwise flag the missing detail; do not invent it. Replace "extensive experiments" with the source's actual count or a neutral description.
 
 ### Results
 
@@ -493,7 +516,7 @@ comprehensive\s+(dataset|corpus|collection)\s+of\s+[\d,]+
 
 ## 9. Common Replacements Table
 
-Quick-reference table for the most frequent substitutions.
+Quick-reference table for common substitutions. Prefer deletion or an existing concrete detail over a synonym; examples are not mandatory replacements.
 
 | AI-typical (do not use) | Human-natural (use instead) |
 |---|---|

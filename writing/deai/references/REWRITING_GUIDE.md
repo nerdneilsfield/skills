@@ -1,16 +1,16 @@
 # De-AI Rewriting Strategy Guide / 去AI化改写策略指南
 
-This guide covers **how** to rewrite text to reduce AI detection rate. For pattern dictionaries of specific words and phrases to catch, see `PATTERNS_ZH.md` and `PATTERNS_EN.md`.
+This guide covers **how** to rewrite text so it reads naturally without changing its meaning. It is not a guarantee against any detector. For pattern dictionaries of specific words and phrases to review, see `PATTERNS_ZH.md` and `PATTERNS_EN.md`.
 
 ---
 
 ## Core Insight / 核心认知
 
-AIGC detectors identify **sentence-structure fingerprints** (skeleton repetition), not individual words. The same skeleton used 3+ times is far more dangerous than any single AI-typical word.
+AIGC detectors often react to **sentence-structure fingerprints** (skeleton repetition), not individual words. Repeated skeletons are a review cue; no fixed repetition count applies across genres.
 
-> **Evidence note** (2026-03, observational): Based on Zhihu user reports and Tencent Zhuque Lab 2025 analysis. Tested on Chinese academic writing. May not generalize to other languages or genres. Experience-based conclusion, not peer-reviewed.
+> **Evidence note:** Detector behavior varies by tool, language, genre, and revision history. Treat these patterns as heuristics, not validated universal thresholds.
 
-AIGC检测器识别的是**句式结构指纹**（骨架重复），而非单个词汇。同一骨架连续出现3次以上，比任何一个AI典型词汇都更危险。
+AIGC检测器常对**句式结构指纹**（骨架重复）敏感，而非只看单个词汇。重复骨架只是复核线索，不同体裁没有统一次数阈值。
 
 **Priority order / 改写优先级:**
 
@@ -22,13 +22,33 @@ Swapping synonyms while keeping the same skeleton is like changing the paint on 
 
 只换近义词而保留骨架，就像警察根据车型追踪时你只换了车漆。先改车型。
 
+## Guardrails before style / 先保真，再谈风格
+
+Before rewriting, note the genre and user constraints. Technical, status, and academic text usually needs minimal edits; chat and public prose allow more structural freedom. “Do not delete / keep sentence count” forbids sentence deletion, merging, and reordering.
+
+先看体裁和用户约束。技术、状态和学术文本通常只做小改；聊天和公开写作可有更大结构自由。“一句不删/保留句数”即禁止删句、合句、调序。“保长度”是硬约束：按用户指定的字符数、词数或句数及容差验收；未指定容差时，中文字符数、英文词数和句数均须与原文相等。报告前后计数与 `PASS`/`FAIL`，超差不得默称完成。
+
+Protect these spans before changing prose: code fences, inline code, URLs, paths, commands, identifiers, LaTeX/Typst and math, citations and labels, quoted text, names, versions, dates, ranges, units, status codes, metrics, and formal terms. Keep them byte-for-byte unless the user explicitly asks for edits. Around them, preserve the actor, target, condition, scope, polarity, modality, completion state, direction, intensity, and cause/effect.
+
+改写前先锁定：代码块、行内代码、URL、路径、命令、标识符、LaTeX/Typst 与公式、引用和标签、引文、人名、版本、日期、区间、单位、状态码、指标、正式术语。除非用户明确要求，否则逐字不动；其周围的主体、对象、条件、范围、否定、情态、完成态、方向、强度和因果关系也须保留。
+
+Use tiers as a filter, not an automatic rewrite command: Tier 1 is usually removable; Tier 2 needs paragraph-level clustering; Tier 3 needs unusual document-level density. Do not ban all adverbs, passive voice, dashes, headings, or three-item lists. Keep a form when grammar, genre, technical meaning, quotation, or the writer's sample supports it. Do not use synonyms merely to hide repetition.
+
+分级只用于筛选，不等于自动改写：Tier 1 通常可删，Tier 2 看段落聚集，Tier 3 看全文异常密度。不可一刀切禁副词、被动、破折号、标题或三项列举；语法、体裁、技术含义、引文或作者样本需要时应保留。不得靠同义词轮换躲重复。
+
+### Unsourced claims / 无源论断
+
+Never invent a source, citation key, author, year, sample size, or result. In `chat`/`public-writing`, remove an unsupported authority wrapper only when the remaining claim stands on its own; otherwise flag or remove the whole claim. In `docs`/`status`/`academic`, prefer `audit-only`: identify the missing attribution and preserve the claim unless the user asks to delete it. Put `[PENDING]` or `[SOURCE NEEDED]` in notes, not in final prose, unless the user explicitly requests placeholders.
+
+不得编造来源、citation key、作者、年份、样本量或结果。`chat`/`public-writing` 中，仅当去掉权威套话后原判断仍独立成立，才删套话留判断；否则整条标记或删除。`docs`/`status`/`academic` 默认 `audit-only`：指出缺少归属，除非用户要求删除，否则保留原论断。`[PENDING]`、`[SOURCE NEEDED]` 默认写在备注，不写进正文。
+
 ---
 
 ## Strategy 1: Skeleton Diversification / 骨架多样化
 
-Adjacent paragraphs and sections must use **different** sentence structures. When a detector sees the same opening pattern repeated across paragraphs, it flags the entire passage.
+Check adjacent paragraphs and sections for repeated sentence structures. Rewrite only when the same opening or skeleton is unusually dense; consistent structure is valid in procedures, specifications, and deliberate rhetoric.
 
-相邻段落和章节必须使用**不同的**句式结构。当检测器发现相同的开头模式在多段重复出现时，会标记整个段落。
+检查相邻段落和章节是否出现异常密集的同一骨架。只有重复已经造成模板感时才改；步骤、规范和刻意修辞中的一致结构可以保留。
 
 ### Chinese Examples / 中文示例
 
@@ -71,9 +91,9 @@ Section 5 asks whether regularization alone can solve the small-sample generaliz
 
 ### Practical rule / 实操规则
 
-Before submitting, list the opening pattern of each paragraph in a section. If any pattern appears 3+ times, rewrite at least one instance.
+Before submitting, scan paragraph openings and adjacent skeletons. Rewrite only when a pattern clusters unusually and creates template feel; do not enforce a numeric quota.
 
-提交前，列出每段的开头模式。如果任何模式出现3次以上，至少改写其中一个。
+提交前，扫描段落开头和相邻骨架。只有重复异常聚集并造成模板感时才改，不设统一次数阈值。
 
 **Failure mode:** Over-varying structure can make text feel incoherent; readers expect some structural consistency within a genre.
 
@@ -121,9 +141,9 @@ The causal link is self-evident. Removing "因此" and adding a concrete groundi
 
 ## Strategy 3: Concrete Over Vague / 具体化替代
 
-Vague praise and empty intensifiers are strong AI signals. Replace them with specific metrics, numbers, or observable facts. If you don't have the data, mark it.
+Vague praise and empty intensifiers are useful review signals. Replace them with specific metrics, numbers, or observable facts only when those details exist in the source. If they do not, flag the gap or remove the unsupported claim; never invent a number.
 
-模糊赞美和空洞的程度副词是强AI信号。用具体指标、数字或可观察的事实替代。没有数据就标注。
+模糊赞美和空洞的程度副词可作为复核信号。只有原文已有具体内容时，才用指标、数字或可观察事实替代。没有依据就标记缺口或删去无支撑论断，不得编数。
 
 ### Chinese / 中文
 
@@ -134,9 +154,7 @@ Vague praise and empty intensifiers are strong AI signals. Replace them with spe
 | 具有广泛的应用前景 | 已在XX电网的12个变电站部署试运行 |
 | 有效解决了该问题 | 将误报率从17%压缩至3.2% |
 
-If you cannot verify a claim, write:
-
-> 将检测精度提升至 [待补证]%
+If you cannot verify a claim, do not invent a number. In technical, status, and academic text, keep it with an `audit-only` note; in chat/public prose, flag or remove it when it cannot stand independently.
 
 ### English
 
@@ -147,15 +165,13 @@ If you cannot verify a claim, write:
 | has broad applications | deployed at 12 substations in XX power grid |
 | effectively addresses the problem | cut false positive rate from 17% to 3.2% |
 
-If you cannot verify a claim, write:
-
-> Improved detection accuracy to [PENDING VERIFICATION]%
+Keep `[PENDING]`/`[SOURCE NEEDED]` outside final prose unless the user explicitly requests placeholders.
 
 ### Rule / 规则
 
-Every claim should pass the "what number?" test. If you can't answer with a number, either find one or flag it.
+Every claim should pass the "what source-grounded detail?" test. Use an existing number, condition, object, or mechanism when available; otherwise flag the evidence gap. Never invent a number.
 
-每个主张都应通过"具体是多少?"测试。如果回答不出数字，要么找到数据，要么标注待补。
+每个主张都应通过“原文可核对的具体细节？”测试。若没有数字，可保留已有的条件、对象或机制；若证据不足则标注待补，不得编造。
 
 **Failure mode:** Fabricating specific numbers to replace vague claims is worse than leaving vague claims; only concretize when you have real data.
 
@@ -163,11 +179,11 @@ Every claim should pass the "what number?" test. If you can't answer with a numb
 
 ## Strategy 4: Vary Enumeration Structures / 列举结构差异化
 
-When listing 3+ items (methods, contributions, sensors, etc.), **never use the same list format twice** in a document section.
+When listing 3+ items, check whether the same list format is becoming mechanical. Change it only when the repetition harms readability; technical specifications and parallel comparisons may keep one format.
 
-当列举3项以上内容（方法、贡献、传感器等）时，在同一文档章节中**绝不重复使用同一种列举格式**。
+列举三项以上内容时，检查格式是否已经机械重复。只有影响可读性时才改；技术规格和并列比较可以保持统一格式。
 
-### Three formats to rotate / 三种格式轮换
+### Possible formats / 可选格式
 
 **Format A: Numbered list with periods / 编号句点式**
 
@@ -206,9 +222,9 @@ When listing 3+ items (methods, contributions, sensors, etc.), **never use the s
 
 ### Rule / 规则
 
-If Block 1 uses Format A, Block 2 should use B or C. Never let the detector see three numbered lists in a row.
+If adjacent blocks use the same format and the repetition feels mechanical, vary one block. Do not change a format merely to satisfy a detector.
 
-如果第一块用了格式A，第二块就用B或C。绝不能让检测器看到连续三个编号列表。
+相邻块使用同一格式且读起来机械时，改其中一块；不要为了迎合检测器强行换格式。
 
 **Failure mode:** Forcing different structures on naturally parallel items hurts readability; technical specs and method comparisons benefit from consistent format.
 
@@ -296,14 +312,14 @@ This strategy applies mainly to English writing, and to Chinese writing in non-f
 
 ### English
 
-Human writing has opinions, rhythm variation, and acknowledgment of complexity. AI writing is relentlessly balanced, evenly paced, and diplomatically neutral.
+Human writing has opinions, rhythm variation, and acknowledgment of complexity. Match those qualities only when the genre and source support them.
 
 **Practical tips:**
 
-- **Have opinions.** "Method X outperforms Y" is more human than "Method X and Method Y each have their own advantages."
+- **State supported judgments.** Prefer a clear comparison when the input contains one; do not invent a view to make text feel human.
 - **Vary rhythm.** Follow a long analytical sentence with a short punchy one. "This works. Here's why it shouldn't."
-- **Acknowledge mess.** "The results are not clean -- two of the five trials showed anomalous behavior that we cannot fully explain." This kind of honesty is rare in AI text.
-- **Use first person when appropriate.** "We chose X because..." is more natural than "X was chosen due to..."
+- **Acknowledge supplied limits.** Keep uncertainty and anomalies already present in the source.
+- **Use first person only when appropriate.** Do not replace passive voice with a new narrator or change responsibility.
 - **Be specific about uncertainty.** Not "further research is needed" but "we don't know whether this holds above 200°C."
 
 ### Chinese / 中文
@@ -316,37 +332,26 @@ Human writing has opinions, rhythm variation, and acknowledgment of complexity. 
 
 ### Rule / 规则
 
-Perfect structure feels algorithmic. Let some controlled imperfection in.
+Perfectly uniform structure can feel algorithmic. Vary it only where the scene allows; reproducible technical steps should stay reproducible.
 
-完美的结构感觉像算法。放入一些有控制的不完美。
+完美的结构可能像算法；仅在体裁允许且重复确实造成模板感时调整。步骤、规范和作者样本中的一致结构保留。
 
 **Failure mode:** Injecting personal voice into third-person academic writing violates style norms; only for blogs, essays, and informal contexts.
 
 ---
 
-## Strategy 8: Perplexity and Burstiness / 困惑度与突发性
+## Strategy 8: Natural rhythm / 自然节奏
 
-These are the two main statistical signals that AI detectors measure.
+Sentence-length variation can make prose easier to read, but it is not a target score and should not drive content changes.
 
-这是AI检测器衡量的两个主要统计信号。
+句长变化有助于阅读，但不是需要优化的检测分数。
 
 ### Perplexity / 困惑度
 
-**What it measures:** How unpredictable the next word is, given the previous words.
+Do not optimize “perplexity” or insert surprising words. Choose the clearest word that fits the writer and scene.
 
 **衡量什么：** 给定前面的词，下一个词有多不可预测。
 
-- AI text has **low** perplexity -- it always picks the most probable next word.
-- Human text has **higher** perplexity -- humans make surprising word choices, use idioms, switch registers.
-
-**How to increase perplexity / 如何提高困惑度:**
-
-- Use domain-specific jargon mixed with casual phrasing
-- 混合使用专业术语和口语化表达
-- Choose less common synonyms occasionally (not always -- that's also detectable)
-- 偶尔选择不太常见的近义词（不是每次——那也会被检测到）
-- Insert parenthetical asides and qualifications
-- 插入括号内的补充说明和限定
 
 ### Burstiness / 突发性
 
@@ -354,65 +359,38 @@ These are the two main statistical signals that AI detectors measure.
 
 **衡量什么：** 一段文字中句子复杂度的变化程度。
 
-- AI text has **low** burstiness -- sentences are uniformly medium-length and medium-complexity.
-- Human text has **high** burstiness -- a 40-word compound sentence followed by a 6-word fragment.
-
-**How to increase burstiness / 如何提高突发性:**
+**How to vary rhythm / 如何变化节奏:**
 
 - Mix sentence lengths deliberately. After a complex sentence, write a short one.
 - 刻意混合句子长度。复杂句之后写一个短句。
 - Vary paragraph lengths. Not every paragraph needs to be 4-5 sentences.
 - 变化段落长度。不是每段都需要4-5句话。
-- Occasionally use incomplete sentences or single-word emphasis. (Sparingly in academic text.)
-- 偶尔使用不完整的句子或单词强调。（学术文本中慎用。）
+- Use fragments only when the genre already permits them.
+- 只有体裁本来允许时才使用碎句。
 
 ### Practical test / 实操检验
 
-Read your text aloud. If every sentence takes roughly the same number of breaths, burstiness is too low. If no word surprises you, perplexity is too low.
+Read your text aloud. If every sentence takes roughly the same number of breaths, check whether the rhythm is too uniform. Do not add odd words or details merely to create surprise.
 
-大声朗读你的文本。如果每句话大约需要相同的呼吸次数，突发性太低。如果没有任何词让你意外，困惑度太低。
+大声朗读文本。如果每句话几乎需要相同呼吸次数，检查节奏是否过匀。不要为了制造“意外”而加入生僻词或新细节。
 
 **Failure mode:** Artificially increasing word unpredictability can produce gibberish; the goal is natural variation, not maximum entropy.
 
 ---
 
-## Strategy 9: Two-Pass Rewriting / 两轮改写
+## Fidelity reread / 保真回读
 
-A single rewriting pass catches the obvious patterns but often creates new ones. Always do two passes.
+After editing, compare protected spans and every changed fact, number, actor/target pair, condition, scope, negation, modality, and result. Check requested sentence/character/word counts when constrained.
 
-单次改写能捕捉明显的模式，但往往会制造新的模式。务必进行两轮改写。
+改写后核对保护区，以及每个变动事实、数字、主体/对象、条件、范围、否定、情态和结果。用户有限长或限句时，核对对应计数。
 
-### Process / 流程
+Also check for rewrite artifacts: a newly repeated skeleton, connector chain, unnaturally uniform sentence length, or needless synonym cycling. If obvious template residue remains, make one small cleanup pass. Stop when the next edit would change meaning, technical precision, formal register, or the writer's voice; there is no benefit in chasing zero AI traces.
 
-**Pass 1 -- Fix detected issues / 第一轮——修复检测到的问题**
-
-1. Run detection (automated or manual).
-2. Fix all flagged patterns: skeletons, connectors, vocabulary.
-3. Save the intermediate version.
-
-运行检测（自动或手动）→ 修复所有标记的模式 → 保存中间版本。
-
-**Pass 2 -- Hunt surviving patterns / 第二轮——追杀残存模式**
-
-1. Re-read the rewrite from scratch. Ask: "What still sounds obviously AI?"
-2. Look specifically for patterns that only become visible after the initial cleanup:
-   - New skeleton repetitions introduced by the rewrite itself
-   - Remaining connector chains that weren't flagged individually but form a pattern together
-   - Uniform sentence length after editing (a common side effect of careful rewriting)
-3. Fix surviving patterns.
-
-从头重读改写版本，问自己："什么地方仍然一眼看出是AI？"
-特别注意改写本身引入的新模式：新的骨架重复、残存的连接词链、编辑后变得整齐划一的句长。
-
-**Pass 2 catches 15-30% additional patterns** that are invisible before Pass 1 cleanup.
-
-第二轮通常能捕获额外15-30%的模式，这些在第一轮清理前是不可见的。
-
-**Failure mode:** Over-editing in pursuit of zero AI traces can strip natural flow; stop after 2 passes to avoid over-polishing.
+同时检查改写副作用：是否新增骨架重复、连接词链、句长齐整化或无意义的同义词轮换。若仍有明显套话，可再做一次小修。下一处修改会改变含义、技术精度、正式语域或作者声音时即停；不必追求“零 AI 痕迹”。
 
 ---
 
-## Strategy 10: Section-Specific Strategies / 分章节策略
+## Section-specific strategies / 分章节策略
 
 Different sections have different AI-trace profiles. Apply targeted strategies.
 
@@ -445,8 +423,8 @@ Different sections have different AI-trace profiles. Apply targeted strategies.
 ### Results / 结果
 
 - **Main risk / 主要风险:** Repetitive comparison sentences ("Our method outperforms X by Y%. Compared to Z, our method achieves...")
-- **Fix:** Vary comparison framing. Use tables for numbers, prose for insights. Lead with what is surprising or noteworthy.
-- **中文修复：** 变化比较的表达方式。数字放表格，见解用文字。先说值得注意的发现。
+- **Fix:** Vary comparison framing. Use tables for numbers, prose for insights. Lead with a notable result already present in the source.
+- **中文修复：** 变化比较的表达方式。数字放表格，见解用文字。先说原文已有的重要发现。
 
 ### Discussion / 讨论
 
@@ -457,8 +435,8 @@ Different sections have different AI-trace profiles. Apply targeted strategies.
 ### Conclusion / 结论
 
 - **Main risk / 主要风险:** Restating the abstract with slight paraphrase + generic ending.
-- **Fix:** Add something new -- a reflection, a caveat, or a specific recommendation. Cut all generic endings.
-- **中文修复：** 加入新内容——反思、注意事项或具体建议。删除所有万金油结尾。
+- **Fix:** If the source contains a caveat or recommendation, state it directly. Do not add new reflection or advice merely to avoid repetition; cut generic endings.
+- **中文修复：** 若原文已有反思、注意事项或具体建议，直接说明；不补新内容。删除万金油结尾。
 
 **Failure mode:** Applying narrative strategies to methods/results sections hurts reproducibility; keep technical sections precise.
 
@@ -514,95 +492,33 @@ Before finalizing any rewrite, verify:
 
 改写定稿前，确认以下各项：
 
-- [ ] No sentence skeleton appears 3+ times in adjacent paragraphs / 相邻段落中没有同一骨架出现3次以上
-- [ ] No two consecutive enumeration blocks use the same format / 没有连续两个列举块使用相同格式
+- [ ] Repeated sentence skeletons are reviewed at paragraph/genre level; valid procedural repetition is kept / 已按段落和体裁复核重复骨架；合理的步骤重复予以保留
+- [ ] Enumeration format changes only when repetition harms readability / 仅在格式重复影响可读性时调整列举方式
 - [ ] Connector words deleted (not replaced) where causality is obvious / 因果明显处的连接词已删除（而非替换）
-- [ ] Vague claims replaced with numbers or marked [PENDING] / 模糊主张已替换为数字或标注[待补证]
+- [ ] Vague claims use source-provided specifics, or the missing evidence is noted outside final prose / 模糊主张仅使用原文已有具体信息；缺证据写在正文外备注
 - [ ] Generic endings deleted or replaced with specifics / 万金油结尾已删除或替换为具体内容
 - [ ] Sentence lengths vary naturally (mix of short and long) / 句子长度自然变化（长短句混合）
 - [ ] Paragraph lengths vary (not all 4-5 sentences) / 段落长度有变化（不是都4-5句）
 - [ ] Technical content fully preserved / 技术内容完整保留
-- [ ] Two-pass rewriting completed / 已完成两轮改写
+- [ ] Fidelity reread completed; residual pass run only if needed / 已完成保真回读；仅在必要时做残留复核
 - [ ] Read aloud test passed / 通过了朗读测试
 
 ---
 
-## Strategy 11: Style Extraction & Application / 文风提取与应用
+## Style samples / 参考文风
 
-For creative or non-academic writing, extract the target style first:
-
-### Step 1: Feed 3-5 reference articles to an LLM with this 8-dimension analysis prompt:
-
-```json
-{
-  "style_summary": "one-liner description",
-  "language": { "sentence_pattern": [], "word_choice": { "formality_level": "1-5", "preferred_words": [], "avoided_words": [] }, "rhetoric": [] },
-  "structure": { "paragraph_length": "", "transition_style": "", "hierarchy_pattern": "" },
-  "narrative": { "perspective": "", "time_sequence": "", "narrator_attitude": "" },
-  "emotion": { "intensity": "1-5", "expression_style": "", "tone": "" },
-  "thinking": { "logic_pattern": "", "depth": "1-5", "rhythm": "" },
-  "uniqueness": { "signature_phrases": [], "imagery_system": [] },
-  "rhythm": { "syllable_pattern": "", "pause_pattern": "", "tempo": "" }
-}
-```
-
-### Step 2: Feed the extracted JSON + new topic to the LLM in a separate conversation
-
-### Step 3: Iterate 3-5 passes, reviewing and updating the style JSON each time
-
-**Key insight:** "Learn style first, then write" produces better results than "emulate while writing."
-
-> **Evidence note** (2026-03, observational): Style extraction effectiveness is based on community practice reports from 2025-2026 Chinese creative and academic writing contexts. Model capabilities change rapidly with each release. Not peer-reviewed.
-
-**Failure mode:** Cloning another author's style too closely is plagiarism of voice; use as inspiration, not replication.
+When the user supplies one to three samples, use them as a voice constraint. The `style_profile.py` output is optional guidance across eight dimensions: sentence patterns, word choice, rhetoric, structure, narrative perspective, emotion, rhythm, and punctuation. Preserve the sample's register without cloning signature phrases or adding personal facts. One profile pass plus the fidelity reread is enough unless the user asks for more.
 
 ---
 
-## Strategy 12: Multi-Model Collaborative Workflow / 多模型协作
+## Optional notes / 可选说明
 
-1. **Claude/DeepSeek:** Generate logical initial draft (handles complex requirements)
-2. **Gemini:** Polish/humanize final pass (lowest AI taste empirically)
-3. **Manual review:** Fix remaining model-specific tics
+Use one well-scoped model by default; switching models is unnecessary unless the user asks for comparison. Model-specific cues and punctuation guidance live in the language pattern files.
 
-> **Evidence note** (2026-03, observational): "Claude for logical initial drafts" and "Gemini for polish/lowest AI taste" reflects community preference as of 2025-2026, based on multiple Zhihu user reports and practitioner experience with Chinese creative and academic writing. Model capabilities change rapidly; re-evaluate when model versions update. Not peer-reviewed.
+### Model-specific and punctuation notes / 模型与标点
 
-**Failure mode:** Model switching adds latency and cost; for short documents, a single well-prompted model is often sufficient.
+Treat model-specific traits as hypotheses, not bans. Use the selected `--profile` and the language pattern file only when local evidence supports a cue; never apply a fixed blacklist.
 
----
+Review punctuation only when it is unusually dense or inconsistent with the scene. Keep punctuation inside protected spans, quotations, and supplied style samples; normalize outside them only when readability or project format improves. No fixed quota.
 
-## Strategy 13: Model-Specific Tic Override / 模型特有口癖覆盖
-
-Some model traits survive any prompt modification. Explicitly prohibit them:
-
-**DeepSeek tics to ban:**
-- 量子纠缠, 潮汐, 赛博朋克 (used in unrelated topics)
-- Obsessive preference for number 三 in structuring
-- Parenthetical annotation abuse: text (with constant parentheticals)
-- Tree-structured logic (1. → 1.1 → 1.1.1) instead of narrative prose
-
-**Detection metric -- Tree Ratio:**
-Tree Ratio = (numbered-list sentences + headers + enumerated points) / total sentences
-If Tree Ratio >50% → rewrite into prose narrative.
-
-> **Evidence note** (2026-03, observational): The 50% Tree Ratio threshold is an observational rule of thumb from community practice, not empirically validated with a controlled study. Adjust based on your specific genre and detector.
-
-**Failure mode:** Overly aggressive prohibition lists can over-constrain the model, producing bland output; ban only confirmed tics.
-
----
-
-## Strategy 14: Punctuation Normalization / 标点符号规范化
-
-AI punctuation signatures (from Tencent Zhuque 2025 research):
-
-> **Evidence note** (2026-03, industry report): Based on Tencent Zhuque Lab 2025 analysis. Specific to Chinese text detection and Chinese punctuation patterns. May not generalize to other languages or writing systems.
-
-| Signal | AI Frequency | Human Frequency | Fix |
-|--------|---|---|---|
-| 双引号 for single terms ("区块链") | 30% higher | Low | Remove or use parentheses |
-| 破折号 (dash) | Frequent, structural | Rare | Replace with comma/period |
-| Space around English/digits | 100% (Doubao) | ~5% | Remove padding spaces |
-| Nested 单引号 inside 双引号 | Abnormal | Absent | Flatten to single layer |
-
-**Rule:** Max 1 quoted term per paragraph. If >3 single-word quoted terms per 500 chars → rewrite.
-
-**Failure mode:** Removing all dashes and quoted terms can lose semantic precision; quotes around technical terms serve a definitional purpose.
+Punctuation examples: keep definitions and quoted terms; replace structural dashes or normalize spacing only when meaning, voice, and project format permit.
