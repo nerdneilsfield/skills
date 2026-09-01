@@ -38,7 +38,7 @@ class DeAIBatchProcessor:
         return checker.generate_report(analysis)
 
     def process_chapter_file(self, chapter_file: Path, output_dir: Path) -> bool:
-        """Process a single chapter file and annotate AI traces."""
+        """Process a single chapter file and annotate review candidates."""
         if not chapter_file.exists():
             print(f"[ERROR] Chapter file not found: {chapter_file}")
             return False
@@ -108,17 +108,16 @@ class DeAIBatchProcessor:
             total_traces += file_traces
             total_files += 1
 
-            worst_score = 0
+            highest_rate = 0
             if analysis["sections"]:
-                worst_score = max(
+                highest_rate = max(
                     checker.calculate_density_score(r)
                     for r in analysis["sections"].values()
                 )
 
-            status = "OK" if worst_score < 5 else "WARN" if worst_score < 10 else "CRIT"
             reports.append(
-                f"  [{status}] {f.name}: {file_traces} traces, "
-                f"worst section {worst_score:.1f}%"
+                f"  {f.name}: {file_traces} candidates, "
+                f"highest candidate rate {highest_rate:.1f}/100"
             )
 
         header = "=" * 70
@@ -143,7 +142,7 @@ class DeAIBatchProcessor:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Batch process documents for AI writing trace detection"
+        description="Batch process documents for writing-pattern review"
     )
     parser.add_argument("file", type=Path, help="Main file or directory")
     parser.add_argument("--lang", choices=["zh", "en", "mixed", "auto"], default="auto",

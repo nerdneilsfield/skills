@@ -14,6 +14,7 @@ Run:
 """
 
 import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -115,6 +116,45 @@ class TestStructural(unittest.TestCase):
     """Structural fixtures must trigger their expected category."""
 
     pass  # test methods are generated dynamically below
+
+
+class TestSuggestionGuardrails(unittest.TestCase):
+    """Source-sensitive suggestions must not invite fabricated details."""
+
+    def test_source_sensitive_instructions_include_no_invention_guard(self):
+        fixture = _FIXTURES_DIR / "should_match" / "zh_template_expressions.txt"
+        for lang, expected in (("zh", "不补写"), ("en", "do not invent")):
+            checker = DeAIChecker(fixture, lang=lang)
+            for key in ("cite_specific", "hedge", "condition", "limit", "frequency"):
+                self.assertIn(expected, checker._get_instruction(key))
+
+
+class TestScannerContract(unittest.TestCase):
+    """Scanner reports review candidates without making authorship judgments."""
+
+    def test_analyze_does_not_fail_on_candidate_rate(self):
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".txt", encoding="utf-8", delete=False
+        ) as f:
+            f.write("It is worth noting that the system is robust and completely fixed.")
+            path = Path(f.name)
+        try:
+            result = subprocess.run(
+                [sys.executable, str(_SCRIPTS_DIR / "deai_check.py"), str(path),
+                 "--analyze", "--lang", "en"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        finally:
+            path.unlink(missing_ok=True)
+
+    def test_false_agency_is_a_review_candidate(self):
+        cases = (("The decision emerged naturally.", "en"), ("这个决定自然形成。", "zh"))
+        for text, lang in cases:
+            result = _check_single_line(text, lang=lang)
+            self.assertIn("false_agency", {t["category"] for t in result["traces"]})
 
 
 # ---------------------------------------------------------------------------

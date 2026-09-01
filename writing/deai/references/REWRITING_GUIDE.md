@@ -14,13 +14,14 @@ AIGC检测器常对**句式结构指纹**（骨架重复）敏感，而非只看
 
 **Priority order / 改写优先级:**
 
-1. Skeleton repetition (structure) / 骨架重复（句式结构）
-2. Template expressions / 模板化表达
-3. AI vocabulary / AI高频词汇
+1. Document purpose and architecture / 文档目的与结构
+2. Paragraph and discourse flow / 段落功能与话语流
+3. Sentence skeletons and claims / 句式骨架与论断
+4. Template expressions and vocabulary / 模板表达与词汇
 
-Swapping synonyms while keeping the same skeleton is like changing the paint on a car the police are tracking by shape. Fix the shape first.
+Swapping synonyms while keeping the same skeleton or paragraph sequence cannot repair a document-level problem. Fix the deepest confirmed layer first.
 
-只换近义词而保留骨架，就像警察根据车型追踪时你只换了车漆。先改车型。
+只换近义词，修不了句式或段落顺序的问题。先修最深且确实存在的一层。
 
 ## Guardrails before style / 先保真，再谈风格
 
@@ -35,6 +36,91 @@ Protect these spans before changing prose: code fences, inline code, URLs, paths
 Use tiers as a filter, not an automatic rewrite command: Tier 1 is usually removable; Tier 2 needs paragraph-level clustering; Tier 3 needs unusual document-level density. Do not ban all adverbs, passive voice, dashes, headings, or three-item lists. Keep a form when grammar, genre, technical meaning, quotation, or the writer's sample supports it. Do not use synonyms merely to hide repetition.
 
 分级只用于筛选，不等于自动改写：Tier 1 通常可删，Tier 2 看段落聚集，Tier 3 看全文异常密度。不可一刀切禁副词、被动、破折号、标题或三项列举；语法、体裁、技术含义、引文或作者样本需要时应保留。不得靠同义词轮换躲重复。
+
+## Route by scene / 先看场景
+
+The target venue defines what “natural” means. Use the user's sample or one to three recent human-written artifacts already supplied or explicitly in scope. Match register, length, and formatting; do not browse for a persona or copy signature phrases unless the user asks.
+
+“自然”由发布场景决定。优先使用用户样本，或用户已明确纳入范围的 1–3 份近期人类文本，匹配语域、长度和格式。用户未要求时，不为搜寻“人设”而上网，不复制标志性短语。
+
+| Scene / 场景 | Preserve / 保留 | Review first / 先看 |
+|---|---|---|
+| Academic / 学术 | Claims, citations, terminology, section conventions | Unsupported authority, significance inflation, abstract–conclusion duplication |
+| Technical docs, status, postmortem / 技术文档、状态、复盘 | Commands, errors, versions, responsibility, required templates | Relevance, false agency, vague outcomes, repeated summaries |
+| Short reply or review comment / 短回复、评审意见 | Exact answer, requested tone, quoted material | Praise openers, restated question, support-desk closing, needless headings |
+| Public article, blog, essay / 公开文章、博客、评论 | Supplied stance, examples, uncertainty, author habits | Survey opening, symmetric coverage, weak paragraph purpose, generic reflection |
+| Narrative / 叙事与创作 | POV, characterization, dialogue, scene facts, deliberate motifs | Explained themes, tidy moral ending, repeated embodied emotion, overly neat causal chain |
+| Formal, legal, regulatory / 正式、法律、合规 | Defined terms, parallel clauses, required wording and order | Audit only unless the user authorizes substantive restructuring |
+
+Conventional structure is not an AI signal by itself. A changelog, API reference, methods section, incident template, or legal clause may need repetition for retrieval and precision.
+
+惯例结构本身不是 AI 信号。Changelog、API reference、方法章、事故模板或法律条款常为了检索和精度而重复。
+
+## Layered diagnosis / 分层诊断
+
+Diagnose completely before editing; a word-level hit must not distract from a deeper problem. For each finding, record a short quote or location, the layer, why it matters in this scene, and the smallest valid action. No evidence means no finding.
+
+先诊断完整，再动笔；词汇命中不得遮住更深问题。每项问题记录短引文或位置、所属层级、为何与当前场景冲突、最小可行修改。无证据，不立项。
+
+1. **Document architecture / 文档结构** — Does the order serve the reader's task? Review perfectly symmetric coverage, repeated announce→explain→recap blocks, a generic final reflection, or a body that never reaches the actual decision/evidence.
+2. **Discourse flow / 话语流** — Write the implicit question answered by each paragraph. Review an administrative sequence that repeats mechanically, paragraphs with no unique job, transitions that always perform the same move, and a middle that merely restates setup.
+3. **Sentence and claim / 句式与论断** — Review repeated skeletons, parallelism, false agency, scope drift, unsupported certainty, and rhythm that conflicts with the scene.
+4. **Surface / 表层** — Review template phrases, chatbot residue, vague vocabulary, synonym cycling, and punctuation clusters last.
+
+Useful discourse checks:
+
+- **Purpose test:** name the reader task served by each paragraph. Delete or merge only when a paragraph adds no distinct fact, reason, instruction, contrast, or decision.
+- **Outline test:** read paragraph-opening sentences together. If they form a suspiciously complete miniature of the text because every section announces and recaps itself, remove redundant signposting. Keep abstracts, summaries, and navigational openings required by the genre.
+- **Question-sequence test:** reduce each paragraph to its implicit question. If the sequence is a generic `what → why → how → conclusion` despite richer source material, reorganize around the actual problem, evidence, or decision. Never invent a contradiction, anecdote, dead end, or opinion to create irregularity.
+- **Symmetry test:** equal paragraph lengths and equal treatment of every option may hide the real judgment. Change emphasis only when the source or user supplies a priority or verdict.
+
+A single dash, formal transition, three-item list, passive sentence, or polished paragraph proves nothing. Findings become actionable through a high-signal defect or a scene-inappropriate cluster. Do not calculate an authorship probability.
+
+单个破折号、正式过渡词、三项列举、被动句或工整段落说明不了什么。只有高信号缺陷，或与场景冲突的聚集信号，才进入改写。不计算作者身份概率。
+
+## Choose rewrite depth / 选择改写深度
+
+- **Minimal refactor / 局部修订（默认）:** preserve order and voice; replace or delete confirmed defects in place.
+- **Structural refactor / 结构修订:** reorder, merge, or split existing material only when discourse defects are confirmed and the user's constraints allow it.
+- **Full recreate / 全文重写:** use only when explicitly requested. Extract a ledger of facts, claims, intent, relations, protected spans, and required format; draft fresh; compare every ledger item before returning.
+
+Repair the deepest confirmed layer first. Surface polishing before a structural repair wastes work and can make the remaining template more visible.
+
+## Governance overreach and paternalistic tone / 治理越权与“爹味”
+
+This is a scene-level defect, not a blacklist of `must`, `shall`, `必须`, or `不得`. Flag it when prose that should explain a system starts governing the reader, the project, or what people are allowed to say.
+
+这是场景与职责错位，不是对 `must`、`shall`、“必须”、“不得”的黑名单。本应解释系统的文本，开始管理读者、项目或汇报措辞时，才需复核。
+
+Review these patterns:
+
+- **Scope takeover / 职责篡位:** a design explanation grows approval gates, release authority, stop-use rules, or evidence-governance machinery that the document was not asked to own.
+- **Speech-policing / 管理措辞:** rules focus on what a report may call “delivered”, “verified”, or “acceptable” instead of stating the actual evidence state.
+- **Preventive legislation / 预防性立法:** every imagined misuse becomes a prohibition despite no observed failure, regulatory duty, or material risk.
+- **Reader distrust / 预设读者作恶:** wording assumes someone will hide a defect, substitute evidence, or manipulate a conclusion; replace accusation with a verifiable invariant.
+- **Formalized common sense / 常识制度化:** one technical dependency is expanded into stages, entry conditions, mandatory checks, failure handling, stop conditions, and repeated boundary notices without adding information.
+
+Do **not** flag necessary force in safety, security, privacy, legal/compliance, regulated acceptance plans, operational runbooks, destructive procedures, or user-requested release gates. A real requirement keeps its force. The test is whether the document owns that decision and whether violating it has a concrete consequence.
+
+安全、信息安全、隐私、法律/合规、受监管验收、运维 runbook、不可逆操作，或用户明确要求的发布门槛，可能就需要强制语气。真实要求不降级。只问两件事：该文档是否拥有这项决策职责；违反后是否有具体后果。
+
+Rewrite with `scope_restore`:
+
+1. Extract the underlying technical invariant, evidence state, owner, and consequence.
+2. State the invariant once as a property or condition. Prefer “`B0` is valid only for the calibrated layout” over a ladder of gates and prohibitions.
+3. Move genuine acceptance or release rules to the dedicated acceptance document when that artifact is in scope; otherwise note the misplaced responsibility instead of inventing a new document.
+4. Delete speculative enforcement, accusations, wording bans, and duplicated gate machinery that add no technical information.
+5. Keep `must`/`必须` only when actor, trigger, and failure consequence are real and relevant.
+
+Example:
+
+> 未完成评测时，报告只能写“尚未实测”，不得把设计目标写成已验证性能。
+
+Becomes:
+
+> 未完成评测时，性能状态记为“尚未实测”。
+
+The evidence boundary remains; the sentence no longer manages the writer. Never use this edit to weaken a safety stop or conceal an unverified result.
 
 ### Unsourced claims / 无源论断
 
@@ -115,7 +201,7 @@ Delete connector words when context already makes the causal relationship obviou
 > 温度每升高10°C，反应速率提高约一倍。**因此**，高温环境下的材料劣化速度显著加快。
 
 **After / 改后:**
-> 温度每升高10°C，反应速率提高约一倍。高温环境下材料劣化速度显著加快——这在户外暴露试验中已被反复验证。
+> 温度每升高10°C，反应速率提高约一倍。高温环境下，材料劣化更快。
 
 The causal link is self-evident. Removing "因此" and adding a concrete grounding detail makes it sound more human.
 
@@ -129,7 +215,7 @@ The causal link is self-evident. Removing "因此" and adding a concrete groundi
 > The learning rate was reduced by a factor of 10 at epoch 50. **Consequently**, the loss curve stabilized.
 
 **After:**
-> The learning rate dropped by 10x at epoch 50. The loss curve stabilized within three epochs.
+> The learning rate dropped by 10x at epoch 50. The loss curve stabilized.
 
 **Key rule / 关键规则:** Don't replace one AI connector with another. If you swap "因此" for "由此可见", the detection score doesn't change. Just delete.
 
@@ -241,15 +327,15 @@ Parallel structures like "不仅X，还Y" or "It is not only X but also Y" are A
 | Mechanical / 机械排比 | Natural / 自然改写 |
 |---|---|
 | 不仅需要考虑精度，还需要兼顾效率 | 精度是首要指标，但部署时的推理速度同样不可忽视 |
-| 不仅提升了检测率，还降低了误报率 | 检测率从82%提升至95%，误报率同步从12%降至3% |
+| 不仅提升了检测率，还降低了误报率 | 检测率提高，误报率同时下降 |
 | 不仅适用于A场景，还可推广至B场景 | 除A场景外，该方法在B场景中也通过了验证（见表4） |
 
 ### English
 
 | Mechanical | Natural |
 |---|---|
-| It not only improves accuracy but also reduces latency | Accuracy goes up; latency goes down -- the two are not in tension here |
-| The system is not just fast, it is also reliable | Speed and reliability usually trade off. Here they don't: median response time is 12ms at 99.97% uptime |
+| It not only improves accuracy but also reduces latency | Accuracy improves while latency falls |
+| The system is not just fast, it is also reliable | The system is fast and reliable |
 | This approach addresses not only X but also Y | The approach handles X. It also turns out to work for Y, though that was not the original design goal |
 
 ### Mixed cutting approaches / 混合切割方式
@@ -390,7 +476,7 @@ Also check for rewrite artifacts: a newly repeated skeleton, connector chain, un
 
 ---
 
-## Section-specific strategies / 分章节策略
+## Scene- and section-specific strategies / 场景与章节策略
 
 Different sections have different AI-trace profiles. Apply targeted strategies.
 
@@ -439,6 +525,32 @@ Different sections have different AI-trace profiles. Apply targeted strategies.
 - **中文修复：** 若原文已有反思、注意事项或具体建议，直接说明；不补新内容。删除万金油结尾。
 
 **Failure mode:** Applying narrative strategies to methods/results sections hurts reproducibility; keep technical sections precise.
+
+### Technical documentation and status text / 技术文档与状态文本
+
+- Lead with the task, behavior, decision, or current state; omit background the reader already has.
+- Keep required headings and repeated field shapes when they improve retrieval.
+- Preserve commands, errors, versions, owners, dates, and completion state exactly. Do not turn passive wording into an invented actor.
+- In postmortems, distinguish observed fact, inference, contributing condition, root cause, and action item; humanization must not soften responsibility.
+- In design documents, keep implementation invariants; move or remove project-governance language the document was not asked to own.
+
+### Short replies and review comments / 短回复与评审意见
+
+- Start with the answer or finding. Remove praise, restated questions, and offers of further help unless the relationship requires them.
+- Use prose for one point and a list only when items are genuinely enumerable.
+- Keep the requested politeness level; terseness is not automatically rude, and warmth is not automatically AI-like.
+
+### Public articles and essays / 公开文章与评论
+
+- Replace a topic survey with the source's actual problem, observation, or question.
+- Preserve a supplied judgment and its conditions. Do not add a first-person story, failed attempt, or controversy merely to sound human.
+- Let emphasis be uneven when the source supports it: spend space on the consequential or surprising part, not equally on every heading.
+
+### Narrative and creative prose / 叙事与创作
+
+- Preserve POV, tense, characterization, dialogue texture, scene facts, and deliberate motifs.
+- Review explanations of the theme, moral-summary endings, repeated bodily emotion cues, setting that always mirrors mood, and plots where every cause resolves neatly.
+- Remove or reshape only what the supplied story supports. Do not manufacture quirks, references, sensory detail, nonlinear chronology, subplots, or ambiguity as proof of humanity.
 
 ---
 
@@ -493,6 +605,9 @@ Before finalizing any rewrite, verify:
 改写定稿前，确认以下各项：
 
 - [ ] Repeated sentence skeletons are reviewed at paragraph/genre level; valid procedural repetition is kept / 已按段落和体裁复核重复骨架；合理的步骤重复予以保留
+- [ ] Scene and rewrite depth were chosen before editing / 已先确定场景与改写深度
+- [ ] Document purpose and paragraph-question sequence were reviewed before surface wording / 已先复核文档目的与段落问题序列，再修表层措辞
+- [ ] Directive language belongs to the scene and states a real actor, trigger, and consequence / 强制语气属于当前场景，且有真实主体、触发条件和后果
 - [ ] Enumeration format changes only when repetition harms readability / 仅在格式重复影响可读性时调整列举方式
 - [ ] Connector words deleted (not replaced) where causality is obvious / 因果明显处的连接词已删除（而非替换）
 - [ ] Vague claims use source-provided specifics, or the missing evidence is noted outside final prose / 模糊主张仅使用原文已有具体信息；缺证据写在正文外备注
@@ -507,7 +622,7 @@ Before finalizing any rewrite, verify:
 
 ## Style samples / 参考文风
 
-When the user supplies one to three samples, use them as a voice constraint. The `style_profile.py` output is optional guidance across eight dimensions: sentence patterns, word choice, rhetoric, structure, narrative perspective, emotion, rhythm, and punctuation. Preserve the sample's register without cloning signature phrases or adding personal facts. One profile pass plus the fidelity reread is enough unless the user asks for more.
+When the user supplies one to three samples, or explicitly puts relevant venue examples in scope, use them as a voice constraint. The `style_profile.py` output is optional guidance across eight dimensions: sentence patterns, word choice, rhetoric, structure, narrative perspective, emotion, rhythm, and punctuation. Preserve the sample's register without cloning signature phrases or adding personal facts. One profile pass plus the fidelity reread is enough unless the user asks for more.
 
 ---
 

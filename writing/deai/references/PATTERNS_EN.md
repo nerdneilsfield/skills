@@ -1,6 +1,6 @@
 # English AI Trace Patterns
 
-Reference document for detecting and replacing AI-typical writing patterns in English text. Organized by review priority: structural patterns first, then vocabulary, then style. A hit is a review cue, not an unconditional rewrite.
+Reference document for reviewing AI-typical patterns in English text. It covers sentence and surface signals; use `REWRITING_GUIDE.md` for scene routing, document architecture, and discourse flow. A hit is a review cue, not an authorship judgment or unconditional rewrite.
 
 Before editing, protect code fences, inline code, URLs, paths, commands, identifiers, LaTeX/Typst and math, citations and labels, quoted text, names, versions, dates, ranges, units, status codes, metrics, and formal terms. Preserve the actor, target, condition, scope, polarity, modality, completion state, direction, intensity, and cause/effect around them. Use a supplied writing sample as the voice baseline.
 
@@ -190,7 +190,7 @@ Replace with concrete numbers or citations only when they are present in the inp
 
 | Vague quantifier | Better alternative |
 |---|---|
-| many studies | [Author1 et al., Author2 et al., ...] (cite 2-5 specifically) |
+| many studies | use the input's specific sources; otherwise flag the missing attribution |
 | numerous experiments | N experiments across M configurations |
 | various methods | [list the methods], or N methods including ... |
 | several approaches | three/four/five approaches, specifically ... |
@@ -255,7 +255,7 @@ Filler phrases that fit any paper in any field. Delete or replace with field-spe
 
 ## 6. Structural Patterns
 
-These are document-level signals detectable by pattern analysis. They operate above the word level and are the strongest indicators of AI generation.
+These sentence- and passage-level patterns operate above individual words. Review them before vocabulary, but do not treat them as proof of AI generation.
 
 ### 6.1 Significance Inflation
 
@@ -428,6 +428,12 @@ These are document-level signals detectable by pattern analysis. They operate ab
 
 **Fix**: Remove or flag only when the detail is not user-provided and deleting it leaves facts and causality unchanged. Keep supplied experience, reproduction conditions, logs, and fictional scene details.
 
+### 6.17 Governance overreach / paternalistic tone
+
+**Pattern**: Explanatory prose starts issuing unrequested gates, prohibitions, reporting-language rules, or assumptions that readers will hide defects or misuse evidence. The governance structure becomes larger than the technical information it protects.
+
+**Fix**: Extract the real invariant, evidence state, actor, and consequence. State them once; remove speculative enforcement and wording-policing, or relocate genuine acceptance rules to the artifact that owns them. Do not weaken safety, security, legal, regulatory, runbook, or explicitly requested release requirements. This is contextual review, not a blacklist of `must` or `shall`.
+
 ---
 
 ## 7. False Positive Rules
@@ -531,7 +537,7 @@ Quick-reference table for common substitutions. Prefer deletion or an existing c
 | myriad | many |
 | plays a crucial role | is important for, is central to, directly affects |
 | with the rapid development of | since [specific advance] |
-| has attracted much attention | [cite 2-3 specific papers] |
+| has attracted much attention | use existing specific sources; otherwise remove or flag the unsupported wrapper |
 | comprehensive experiments | N experiments across M settings |
 | significant improvement | improved by X% |
 | novel approach | (describe what is new) |

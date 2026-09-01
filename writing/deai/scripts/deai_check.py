@@ -131,6 +131,12 @@ ZH_BUZZWORDS = {
     r"打通": "replace_vocabulary",
 }
 
+ZH_FALSE_AGENCY = {
+    r"(?:这个|该)?决定(?:自然)?形成": "neutralize_agency",
+    r"数据告诉我们": "neutralize_agency",
+    r"问题推动了修复": "neutralize_agency",
+}
+
 # ── Chinese Model-Specific Patterns (DeepSeek, etc.) ─────────────
 
 ZH_MODEL_TICS = {
@@ -200,7 +206,8 @@ PATTERN_META: dict[str, dict[str, str]] = {
     "model_tic":          {"severity": "HIGH",   "evidence": "model_specific", "signal": "annoying"},
     # LOW severity
     "buzzword":           {"severity": "LOW",    "evidence": "editorial",      "signal": "style"},
-    "tier3_density":      {"severity": "LOW",    "evidence": "empirical",      "signal": "detector"},
+    "tier3_cluster":      {"severity": "LOW",    "evidence": "empirical",      "signal": "detector"},
+    "false_agency":       {"severity": "MEDIUM", "evidence": "editorial",      "signal": "style"},
 }
 
 # Backwards-compatible helper
@@ -219,7 +226,7 @@ EN_TIER2_WORDS = [
     "overarching", "underpinning", "bolster", "encompass",
 ]
 
-# ── English Tier 3 Vocabulary (flag at high density only) ─────────
+# ── English Tier 3 Vocabulary (repetition candidate only) ──────
 
 EN_TIER3_WORDS = [
     "significant", "crucial", "nuanced", "multifaceted", "myriad",
@@ -359,77 +366,86 @@ EN_CHATBOT_ARTIFACTS = {
     r"\blet'?s\s+(?:explore|break\s+this\s+down|dive\s+in)\b": "delete_empty",
 }
 
+EN_FALSE_AGENCY = {
+    r"\bthe decision (?:emerged|formed|arose) naturally\b": "neutralize_agency",
+    r"\bthe (?:issue|problem|complaint) (?:drove|prompted|became) the (?:decision|fix|change)\b": "neutralize_agency",
+    r"\bthe data tells us\b": "neutralize_agency",
+}
+
 
 # ── Instructions ──────────────────────────────────────────────────
 
 ZH_INSTRUCTIONS = {
-    "quantify": '替换为具体数值或指标 (如 "降低了 12%").',
-    "list_scope": "列举具体分析了哪些方面.",
-    "compare_baseline": "陈述相对于基线的具体改进幅度.",
-    "explain_why": "解释具体的重要性或影响.",
-    "specify_condition": "说明成立的具体条件.",
-    "explain_novelty": "解释具体的技术差异点.",
-    "cite_sota": "引用具体的 SOTA 论文并对比指标.",
-    "quantify_progress": "用数据量化进展.",
-    "hedge": '使用学术限定语 (如 "实验结果表明").',
-    "condition": '增加前提条件 (如 "在本文设置下").',
-    "limit": "承认局限性或边界条件.",
-    "frequency": "使用频率副词或具体统计.",
-    "cite_specific": "引用具体文献 [1-3].",
-    "quantify_exp": "说明具体的实验或数据集数量.",
-    "list_methods": "列举具体的对比方法.",
-    "list_items": "列举具体的点.",
-    "quantify_percent": "说明具体百分比.",
-    "quantify_items": "说明确切数量.",
-    "specify_scope": "界定具体范围.",
-    "specific_time": '使用具体时间段或 "自 20XX 年以来".',
-    "increasingly": "描述具体的增长趋势.",
-    "specific_impact": "描述具体的功能或影响.",
+    "quantify": "使用原文已有的数值或指标；否则标记缺口.",
+    "list_scope": "列举原文已有的具体范围.",
+    "compare_baseline": "仅用原文已有的基线与改进幅度.",
+    "explain_why": "用原文已有的机制或影响说明重要性.",
+    "specify_condition": "仅补回原文已有的成立条件.",
+    "explain_novelty": "仅说明原文已有的技术差异点.",
+    "cite_sota": "仅使用原文已有的 SOTA 引用和指标；否则标记.",
+    "quantify_progress": "仅用原文已有的数据量化进展.",
+    "hedge": "删去无依据的确定语气，或仅用原文已有证据限定.",
+    "condition": "仅补回原文已有的前提条件；缺失则标记.",
+    "limit": "按原文已有边界收窄论断；缺失则标记.",
+    "frequency": "仅用原文已有的频率或计数；否则改中性或标记.",
+    "cite_specific": "仅使用原文已有的可核对引用；否则标记缺口.",
+    "quantify_exp": "仅说明原文已有的实验或数据集数量.",
+    "list_methods": "列举原文已有的对比方法.",
+    "list_items": "列举原文已有的具体项.",
+    "quantify_percent": "仅使用原文已有的百分比.",
+    "quantify_items": "仅使用原文已有的数量.",
+    "specify_scope": "仅用原文已有的对象或条件界定范围.",
+    "specific_time": "仅使用原文已有的时间段；否则删去空泛时间词或标记.",
+    "increasingly": "仅用原文已有的趋势证据；否则改中性或标记.",
+    "specific_impact": "仅描述原文已有的功能或影响.",
     "context_direct": "直接切入具体问题背景.",
-    "cite_examples": "提供具体的引用案例.",
-    "growth_data": "提供增长数据支持.",
-    "add_specific": "用具体内容替换空泛表述.",
+    "cite_examples": "仅列举原文已有的案例或引用.",
+    "growth_data": "仅用原文已有的增长数据.",
+    "add_specific": "用原文已有的具体内容替换空泛表述.",
     "delete_empty": "直接删除此表达.",
     "replace_vocabulary": "替换为更自然的中文表达.",
     "skeleton_vary": "改变句式结构，避免重复同一骨架.",
     "delete_connector": "删除冗余连接词，让因果关系隐含在上下文中.",
+    "neutralize_agency": "原文明确行动者时保留；否则改为中性事实句，不补写主体.",
 }
 
 EN_INSTRUCTIONS = {
-    "quantify": 'Replace with specific numbers or metrics (e.g., "reduces error by 12%").',
-    "list_scope": "Explicitly list what was covered (X, Y, Z).",
-    "compare_baseline": 'State improvement over baseline (e.g., "reduces error by X%").',
-    "explain_why": "Explain specific importance or impact.",
-    "specify_condition": "Specify under what conditions this holds.",
-    "explain_novelty": "Explain specific technical difference.",
-    "cite_sota": "Cite specific SOTA papers and compare metrics.",
-    "quantify_progress": "Quantify progress with data.",
-    "hedge": 'Use academic hedging (e.g., "results suggest").',
-    "condition": 'Add condition (e.g., "under assumption X").',
-    "limit": "Acknowledge limitations or boundaries.",
-    "frequency": "Use frequency adverb or specific count.",
-    "cite_specific": "Cite specific papers [1-3].",
-    "quantify_exp": "State number of experiments/datasets.",
-    "list_methods": "List specific methods compared.",
-    "list_items": "List specific items.",
-    "quantify_items": "State exact number.",
-    "quantify_percent": "State percentage.",
-    "specify_scope": "Define specific scope.",
-    "specific_time": 'Use specific time period or "since 20XX".',
-    "increasingly": 'Use "increasingly" or provide growth data.',
-    "specific_impact": "Describe specific impact or function.",
+    "quantify": "Use only numbers or metrics already present in the source; otherwise flag the gap.",
+    "list_scope": "List only the specific scope already present in the source.",
+    "compare_baseline": "Use only baseline and improvement details already present in the source.",
+    "explain_why": "Use only source-grounded mechanisms or effects to explain importance.",
+    "specify_condition": "Restore only conditions already present in the source.",
+    "explain_novelty": "State only technical differences already present in the source.",
+    "cite_sota": "Use only SOTA citations and metrics already present in the source; otherwise flag the gap.",
+    "quantify_progress": "Quantify progress only with data already present in the source.",
+    "hedge": "Remove unsupported certainty, or qualify only with evidence already in the source.",
+    "condition": "Restore only conditions present in the source; otherwise flag the gap.",
+    "limit": "Narrow the claim only with boundaries present in the source; otherwise flag the gap.",
+    "frequency": "Use only a frequency or count already in the source; otherwise neutralize or flag it.",
+    "cite_specific": "Use only verifiable citations already present in the source; otherwise flag the gap.",
+    "quantify_exp": "State only experiment or dataset counts already present in the source.",
+    "list_methods": "List only compared methods already present in the source.",
+    "list_items": "List only specific items already present in the source.",
+    "quantify_items": "Use only counts already present in the source.",
+    "quantify_percent": "Use only percentages already present in the source.",
+    "specify_scope": "Define scope only with objects or conditions already present in the source.",
+    "specific_time": "Use only a time period already present in the source; otherwise delete the vague time phrase or flag it.",
+    "increasingly": "Use only trend evidence already present in the source; otherwise neutralize or flag it.",
+    "specific_impact": "Describe only impact or function already present in the source.",
     "context_direct": "Start directly with the problem/context.",
-    "cite_examples": "Provide citation examples.",
-    "growth_data": "Provide growth data.",
-    "add_specific": "Replace with specific content.",
+    "cite_examples": "List only examples or citations already present in the source.",
+    "growth_data": "Use only growth data already present in the source.",
+    "add_specific": "Replace with specific content already present in the source.",
     "delete_empty": "Delete this expression entirely.",
     "replace_vocabulary": "Replace with a more natural alternative.",
+    "neutralize_agency": "Keep an actor named by the source; otherwise use a neutral factual construction and do not invent one.",
 }
 
 # Suggestions that can tempt unsupported additions need one shared guardrail.
 SOURCE_SENSITIVE_SUGGESTIONS = {
     "quantify", "list_scope", "compare_baseline", "explain_why",
     "specify_condition", "explain_novelty", "cite_sota", "quantify_progress",
+    "hedge", "condition", "limit", "frequency",
     "cite_specific", "quantify_exp", "list_methods", "list_items",
     "quantify_percent", "quantify_items", "specify_scope", "specific_time",
     "increasingly", "specific_impact", "cite_examples", "growth_data",
@@ -472,6 +488,7 @@ class DeAIChecker:
                 ("over_certainty_med", ZH_OVER_CERTAINTY_MED),
                 ("comparison_structure", ZH_COMPARISON_STRUCTURE),
                 ("buzzword", ZH_BUZZWORDS),
+                ("false_agency", ZH_FALSE_AGENCY),
                 ("punctuation_trace", ZH_PUNCTUATION_TRACES),
             ]
             # Model-specific: full set for deepseek/mixed profile,
@@ -494,6 +511,7 @@ class DeAIChecker:
                 ("tier1_vocabulary", EN_TIER1_VOCABULARY),
                 ("chatbot_artifact", EN_CHATBOT_ARTIFACTS),
                 ("generic_reference", EN_GENERIC_REFERENCES),
+                ("false_agency", EN_FALSE_AGENCY),
             ]
             if self.lang == "mixed":
                 self.instructions = {**EN_INSTRUCTIONS, **ZH_INSTRUCTIONS}
@@ -578,7 +596,7 @@ class DeAIChecker:
         return matches
 
     def _check_tier2_clusters(self, section_name: str) -> list[dict]:
-        """Detect Tier 2 word clusters (2+ in same paragraph)."""
+        """Surface Tier 2 word clusters as review candidates."""
         if self.lang == "zh":
             return []
         if section_name not in self.section_ranges:
@@ -618,8 +636,9 @@ class DeAIChecker:
         return traces
 
     def _check_paragraph_metrics(self, section_name: str) -> list[dict]:
-        """Compute paragraph-level structural metrics and flag anomalies.
+        """Surface paragraph-level metrics for scene-aware review.
 
+        Internal triggers only select candidates; they are not quality cutoffs.
         Metrics (per 500 chars/words):
         - parenthetical_rate: () or （）count
         - quote_term_rate: single-word quoted terms ("X" or \u201cX\u201d)
@@ -659,7 +678,7 @@ class DeAIChecker:
             traces.append({
                 "line": start, "text": f"Parenthetical rate: {paren_rate:.1f}/500c ({paren_count} total)",
                 "original": f"parenthetical_rate={paren_rate:.1f}",
-                "matched": f"parenthetical overload ({paren_count}x)",
+                "matched": f"parenthetical cluster ({paren_count}x)",
                 "pattern": "parenthetical_rate", "category": "paragraph_metric",
                 "section": section_name, "suggestion_type": "skeleton_vary",
             })
@@ -671,7 +690,7 @@ class DeAIChecker:
             traces.append({
                 "line": start, "text": f"Quoted-term rate: {quote_rate:.1f}/500c ({zh_quotes} total)",
                 "original": f"quote_term_rate={quote_rate:.1f}",
-                "matched": f"quote-term overload ({zh_quotes}x)",
+                "matched": f"quote-term cluster ({zh_quotes}x)",
                 "pattern": "quote_term_rate", "category": "paragraph_metric",
                 "section": section_name, "suggestion_type": "replace_vocabulary",
             })
@@ -687,7 +706,7 @@ class DeAIChecker:
             traces.append({
                 "line": start, "text": f"Enumeration ratio: {enum_ratio:.0%} ({enum_markers}/{total_content_lines})",
                 "original": f"enumeration_ratio={enum_ratio:.2f}",
-                "matched": f"enumeration overload ({enum_ratio:.0%})",
+                "matched": f"enumeration cluster ({enum_ratio:.0%})",
                 "pattern": "enumeration_ratio", "category": "paragraph_metric",
                 "section": section_name, "suggestion_type": "skeleton_vary",
             })
@@ -698,7 +717,7 @@ class DeAIChecker:
             traces.append({
                 "line": start, "text": f"Tree ratio: {tree_ratio:.0%} ({numbered_lines}/{total_content_lines})",
                 "original": f"tree_ratio={tree_ratio:.2f}",
-                "matched": f"tree structure ({tree_ratio:.0%})",
+                "matched": f"tree-heavy structure ({tree_ratio:.0%})",
                 "pattern": "tree_ratio", "category": "paragraph_metric",
                 "section": section_name, "suggestion_type": "skeleton_vary",
             })
@@ -706,11 +725,7 @@ class DeAIChecker:
         return traces
 
     def _check_sentence_uniformity(self, section_name: str) -> list[dict]:
-        """Detect AI-like sentence length uniformity (Desaire et al. 2023, AUC 0.98).
-
-        Humans vary sentence lengths (std dev ~10-15 words). AI keeps them
-        uniform (std dev ~3-6 words). Flag sections where std dev is too low.
-        """
+        """Surface unusually uniform sentence lengths as a review candidate."""
         if section_name not in self.section_ranges:
             return []
         start, end = self.section_ranges[section_name]
@@ -740,14 +755,13 @@ class DeAIChecker:
         mean_len = statistics.mean(sentence_lengths)
         std_len = statistics.stdev(sentence_lengths)
 
-        # Coefficient of variation: std/mean. AI typically <0.25; humans >0.35
+        # Coefficient of variation: std/mean.
         if mean_len == 0:
             return []
         cv = std_len / mean_len
 
         traces = []
-        # For English: flag if CV < 0.25 (very uniform)
-        # For Chinese: flag if CV < 0.20 (chars vary less naturally)
+        # Internal candidate triggers only; genre review decides whether to act.
         threshold = 0.20 if self.lang in ("zh", "mixed") else 0.25
         if cv < threshold:
             traces.append({
@@ -763,7 +777,7 @@ class DeAIChecker:
         return traces
 
     def _check_connector_overload(self, section_name: str) -> list[dict]:
-        """Detect connector word overload (3+ in same paragraph)."""
+        """Surface a connector cluster for review; do not judge it automatically."""
         if section_name not in self.section_ranges:
             return []
 
@@ -777,13 +791,14 @@ class DeAIChecker:
             if not line and paragraph_lines:
                 para_text = " ".join(t for _, t in paragraph_lines)
                 count = sum(1 for c in connectors if c in para_text.lower())
+                # Internal candidate trigger, not a universal quality cutoff.
                 if count >= 3:
                     first_line = paragraph_lines[0][0]
                     traces.append({
                         "line": first_line,
                         "text": para_text[:80],
                         "original": para_text[:80],
-                        "matched": f"{count} connectors in paragraph",
+                        "matched": f"connector cluster ({count} types)",
                         "pattern": "connector_overload",
                         "category": "structural",
                         "section": section_name,
@@ -797,8 +812,8 @@ class DeAIChecker:
 
         return traces
 
-    def _check_tier3_density(self, section_name: str) -> list[dict]:
-        """Detect Tier 3 words that appear at high density (>3% = >30 per 1000 words)."""
+    def _check_tier3_repetition(self, section_name: str) -> list[dict]:
+        """Surface repeated Tier 3 words without assigning a density verdict."""
         if self.lang == "zh":
             return []
         if section_name not in self.section_ranges:
@@ -812,33 +827,27 @@ class DeAIChecker:
                 section_text += " " + visible
 
         word_count = len(section_text.split())
-        if word_count < 50:
-            return []  # Too short for meaningful density analysis
-
         traces = []
         for word in EN_TIER3_WORDS:
             occurrences = len(re.findall(rf"\b{word}\b", section_text, re.IGNORECASE))
-            if occurrences == 0:
+            if occurrences < 2:
                 continue
-            density = (occurrences / word_count) * 1000
-            if density > 30:
-                # Find first occurrence line for the trace
-                first_line = start
-                for i in range(start - 1, min(end, len(self.lines))):
-                    visible = self.parser.extract_visible_text(self.lines[i].strip())
-                    if visible and re.search(rf"\b{word}\b", visible, re.IGNORECASE):
-                        first_line = i + 1
-                        break
-                traces.append({
-                    "line": first_line,
-                    "text": f'"{word}" appears {occurrences}x in {word_count} words ({density:.1f}/1000)',
-                    "original": f'"{word}" x{occurrences}',
-                    "matched": f"{word} ({occurrences}x, {density:.1f}/1000w)",
-                    "pattern": "tier3_density",
-                    "category": "tier3_density",
-                    "section": section_name,
-                    "suggestion_type": "replace_vocabulary",
-                })
+            first_line = start
+            for i in range(start - 1, min(end, len(self.lines))):
+                visible = self.parser.extract_visible_text(self.lines[i].strip())
+                if visible and re.search(rf"\b{word}\b", visible, re.IGNORECASE):
+                    first_line = i + 1
+                    break
+            traces.append({
+                "line": first_line,
+                "text": f'"{word}" appears {occurrences}x in {word_count} words',
+                "original": f'"{word}" x{occurrences}',
+                "matched": f"{word} ({occurrences}x)",
+                "pattern": "tier3_repetition",
+                "category": "tier3_cluster",
+                "section": section_name,
+                "suggestion_type": "replace_vocabulary",
+            })
 
         return traces
 
@@ -857,7 +866,7 @@ class DeAIChecker:
         return total
 
     def check_section(self, section_name: str) -> dict:
-        """Check a specific section for AI traces."""
+        """Check a section for writing-pattern review candidates."""
         results = {
             "section": section_name,
             "total_lines": 0,
@@ -888,14 +897,14 @@ class DeAIChecker:
         # Paragraph-level structural metrics
         results["traces"].extend(self._check_paragraph_metrics(section_name))
 
-        # Structural: sentence-length uniformity (Desaire et al. 2023, AUC 0.98)
+        # Structural: sentence-length uniformity candidate
         results["traces"].extend(self._check_sentence_uniformity(section_name))
 
         # Structural: connector overload
         results["traces"].extend(self._check_connector_overload(section_name))
 
-        # Tier 3 density detection (English)
-        results["traces"].extend(self._check_tier3_density(section_name))
+        # Tier 3 repetition candidate (English)
+        results["traces"].extend(self._check_tier3_repetition(section_name))
 
         # Dedup overlapping spans on the same line.
         # Only suppress a trace if its character span is fully contained
@@ -955,7 +964,7 @@ class DeAIChecker:
         return analysis
 
     def calculate_density_score(self, result: dict) -> float:
-        """Calculate AI trace density (traces per 100 words/chars)."""
+        """Calculate candidate rate for sorting, not an authorship or quality score."""
         words = result.get("total_words", 0)
         if words > 0:
             return (result["trace_count"] / words) * 100
@@ -1003,7 +1012,7 @@ class DeAIChecker:
 
         if self.lang == "zh":
             report.append(sep)
-            report.append("去AI化写作痕迹分析报告")
+            report.append("写作模式复核报告")
             report.append(sep)
             report.append(f"文件: {self.file_path}")
             report.append(f"语言: 中文")
@@ -1011,7 +1020,7 @@ class DeAIChecker:
         else:
             lang_label = "Mixed (ZH+EN)" if self.lang == "mixed" else "English"
             report.append(sep)
-            report.append("DE-AI WRITING TRACE ANALYSIS REPORT")
+            report.append("WRITING PATTERN REVIEW REPORT")
             report.append(sep)
             report.append(f"File: {self.file_path}")
             report.append(f"Language: {lang_label}")
@@ -1034,9 +1043,9 @@ class DeAIChecker:
         for i, (section_name, score, result) in enumerate(section_scores, 1):
             if score > 0:
                 if self.lang == "zh":
-                    report.append(f"{i}. {section_name}: {score:.1f}% ({result['trace_count']} 处痕迹)")
+                    report.append(f"{i}. {section_name}: {score:.1f}/100 ({result['trace_count']} 处候选)")
                 else:
-                    report.append(f"{i}. {section_name}: {score:.1f}% ({result['trace_count']} traces)")
+                    report.append(f"{i}. {section_name}: {score:.1f}/100 ({result['trace_count']} candidates)")
 
         report.append("")
         report.append(dash)
@@ -1061,9 +1070,9 @@ class DeAIChecker:
         report.append(sep)
         total_traces = sum(r["trace_count"] for r in analysis["sections"].values())
         if self.lang == "zh":
-            report.append(f"总计: {total_traces} 处 AI 痕迹")
+            report.append(f"总计: {total_traces} 处复核候选")
         else:
-            report.append(f"Total: {total_traces} AI traces")
+            report.append(f"Total: {total_traces} review candidates")
         report.append(sep)
 
         return "\n".join(report)
@@ -1071,7 +1080,7 @@ class DeAIChecker:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Analyze documents for AI writing traces (Chinese & English)"
+        description="Find writing-pattern review candidates (Chinese & English)"
     )
     parser.add_argument("file", type=Path, help="File to analyze")
     parser.add_argument("--lang", choices=["zh", "en", "mixed", "auto"], default="auto",
@@ -1081,7 +1090,7 @@ def main():
                         help="Model profile: generic (default), deepseek, claude, mixed")
     parser.add_argument("--section", type=str, help="Check specific section")
     parser.add_argument("--analyze", action="store_true", help="Full document analysis")
-    parser.add_argument("--score", action="store_true", help="Section scores only")
+    parser.add_argument("--score", action="store_true", help="Section candidate rates only")
     parser.add_argument("--fix-suggestions", action="store_true",
                         help="Generate JSON suggestions")
     parser.add_argument("--output", type=Path, help="Save output to file")
@@ -1116,25 +1125,14 @@ def main():
         else:
             print(report)
 
-        worst_score = 0
-        if analysis["sections"]:
-            worst_score = max(
-                checker.calculate_density_score(r)
-                for r in analysis["sections"].values()
-            )
-
-        if worst_score > 10:
-            sys.exit(2)
-        elif worst_score > 5:
-            sys.exit(1)
-        else:
-            sys.exit(0)
+        # Findings are review candidates, not a pass/fail gate.
+        sys.exit(0)
 
     elif args.section:
         result = checker.check_section(args.section.lower())
         score = checker.calculate_density_score(result)
         print(f"\nSection: {args.section}")
-        print(f"Density: {score:.1f}%")
+        print(f"Candidate rate: {score:.1f}/100")
         for trace in result["traces"]:
             print(f"Line {trace['line']}: \"{trace['matched']}\"")
             print(f"  {trace['text'][:80]}")
@@ -1143,12 +1141,12 @@ def main():
     elif args.score:
         analysis = checker.analyze_document()
         header = "章节" if checker.lang == "zh" else "Section"
-        density = "密度" if checker.lang == "zh" else "Density"
+        density = "候选率/100" if checker.lang == "zh" else "Candidates/100"
         print(f"\n{header:<20} {density:<10}")
         print("-" * 30)
         for section_name, result in analysis["sections"].items():
             score = checker.calculate_density_score(result)
-            print(f"{section_name:<20} {score:>6.1f}%")
+            print(f"{section_name:<20} {score:>6.1f}")
 
     else:
         print("[INFO] Use --analyze for full analysis, --score for density scores, "
