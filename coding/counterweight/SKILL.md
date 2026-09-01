@@ -1,6 +1,6 @@
 ---
 name: counterweight
-description: "Keep coding implementation and modification work proportional to current evidence: act directly on bounded changes, add process only when risk or coordination earns it, verify enough to support completion, and stop when done."
+description: "Use by default for coding implementation and modification work to keep process proportional to current evidence: act directly on bounded changes, add process only when risk or coordination earns it, verify enough to support completion, and stop when done."
 ---
 
 # Counterweight

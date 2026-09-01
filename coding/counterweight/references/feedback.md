@@ -18,7 +18,7 @@ Do not add a permanent test merely because code changed. Keep one only when the 
 
 Reject tests that only assert field presence, parameter forwarding, mock call counts, private implementation, a constant against itself, or an expected value recomputed by the algorithm under test. A successful one-time smoke or reproducer need not remain in the repository.
 
-For meaningful behavioral logic, bugs with a stable seam, public contracts, security boundaries, migrations, and data invariants, a focused permanent test often earns its cost. For text, simple config, imports, and mechanical wiring, targeted static or runtime verification is usually enough.
+Consider a permanent test only after the independent-oracle rule already passes and the behavior is costly enough to regress. Stable bug reproducers, public contracts, security boundaries, migrations, and data invariants are common cases where this may be true. For text, simple config, imports, and mechanical wiring, targeted static or runtime verification is usually enough.
 
 ## Failure routing
 

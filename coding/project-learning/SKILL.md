@@ -9,13 +9,13 @@ Persist knowledge only when rediscovering it later would impose real cost. The u
 
 ## Current project truth
 
-Use the narrowest existing applicable `AGENTS.md` for verified, durable, reusable, non-obvious facts such as correct build or test commands, source-of-truth and generated directories, required environment variables, fixtures, repository conventions, long-lived limitations, and recurring project-specific gotchas.
+Use the narrowest existing applicable `AGENTS.md` for verified, durable, reusable, non-obvious facts such as correct build or test commands, source-of-truth and generated directories, required environment variables, fixtures, repository conventions, long-lived limitations, recurring project-specific gotchas, and durable project-level user decisions about dependencies, language versions, or forbidden speculative behavior.
 
-Keep `AGENTS.md` short. Merge or replace stale statements instead of appending chronology. Do not create nested files for taxonomy alone, and do not duplicate information already clear from code or documentation.
+Keep `AGENTS.md` short. Merge or replace stale statements instead of appending chronology. If no applicable `AGENTS.md` exists and the knowledge clearly earns persistence, create a root `AGENTS.md`. Do not create nested files unless narrower scope is actually needed, and do not duplicate information already clear from code or documentation.
 
 ## Important history
 
-Use a learning log only for an unusual episode worth preserving: a hidden recurring failure, counterintuitive experiment, plausible routes disproved by evidence, special compiler or platform behavior, or a non-obvious compatibility or performance decision.
+Normally consider a learning log only for Deep work. Direct or Managed work should create one only for an exceptional finding whose historical evidence is likely to matter later: a hidden recurring failure, counterintuitive experiment, plausible routes disproved by evidence, special compiler or platform behavior, or a non-obvious compatibility or performance decision.
 
 Prefer an existing `docs/notes/`, `docs/incidents/`, `docs/decisions/`, or equivalent location. Only when none fits, use `docs/agent-notes/`. Keep the smallest useful form:
 

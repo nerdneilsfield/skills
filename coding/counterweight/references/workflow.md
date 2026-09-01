@@ -4,7 +4,7 @@ This reference expands workflow choices. The kernel's restraint remains binding.
 
 ## Shape
 
-Read the relevant project instructions and trace the code path far enough to see current behavior, callers, and established patterns. Shape asks only:
+Read only enough code and project guidance to locate the requested behavior, the change point, and necessary consequences. Trace callers or broader data flow only when the change can affect them or current evidence leaves scope unclear. Shape asks only:
 
 1. What outcome did the user request?
 2. Which unresolved decision would change the implementation?
