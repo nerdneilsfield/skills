@@ -41,6 +41,7 @@ Use a matching file from [templates](templates/) only when creating a document w
 For `write` and `rewrite`, define a short language contract from this skill's [language rules](references/language.md) before drafting. Do not rely on post-editing to repair the prose. Record:
 
 - target language, locale, tone, and reader expertise;
+- the document's authority: what it may specify, and which policy, approval, or reporting decisions remain outside its scope;
 - preferred terms, abbreviations, proper names, and protected spans;
 - actor, action, conditions, sequence, and grammatical backbone;
 - repetitive sentence patterns, formulaic openings/endings, empty connectors, nominalization stacks, and unsupported claims to avoid;
@@ -80,6 +81,7 @@ Report only issues that affect correct use, reproducibility, comprehension, or c
 - Actors, actions, conditions, sequence, and results are explicit.
 - Every prose sentence has a recognizable grammatical backbone; modifier, reference, coordination, negation, and condition scope is unambiguous.
 - Parameters, units, ranges, defaults, limits, and version boundaries are sufficient for use or implementation.
+- Normative language comes from the document's actual mandate; the draft does not invent approval gates, reporting rules, or organizational authority.
 - Terminology, capitalization, formatting, and mixed-language text are consistent.
 - Paragraphs, headings, lists, tables, and references express real structure rather than visual fragmentation; procedures are executable and verifiable.
 - Risk information precedes the hazardous action and states the hazard, consequence, and avoidance method.

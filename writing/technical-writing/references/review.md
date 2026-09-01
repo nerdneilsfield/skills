@@ -45,9 +45,11 @@ Examples:
 1. **Technical facts:** 名称、签名、参数、数值、单位、范围、默认值、版本、register、signal、错误和示例是否一致。
 2. **Safety and damage:** 风险、后果、规避、位置、备份、权限和不可逆操作是否完整。
 3. **Task completion:** prerequisite、条件、步骤顺序、expected result 和 verification 是否足以执行。
-4. **Document type:** 结构是否符合读者意图；reference 是否可查，explanation 是否解释因果，test 是否可判定。
+4. **Document type and authority:** 结构是否符合读者意图；文档是否越权增加审批门槛、汇报口径、责任制度或人员禁令。
 5. **Clarity and terminology:** actor、代词、术语、条件和限制是否明确。
 6. **Language and format:** 标题、列表、表格、代码格式、标点、空格和 accessibility。
+
+无来源的规范性要求若改变交付、审批或操作责任，通常评为 Major；单纯显得命令化但不改变责任时，评为 Minor。安全要求、法规条文、接口契约和经授权的验收规则不因语气强硬而构成问题。
 
 在第 6 步检查结构是否被视觉碎片化：连续单行段落、无必要项目列表、缺少谓语的说明性列表项、孤立加粗句，以及用 `--` 或破折号代替准确标点。此类问题通常为 Minor；若碎片化隐藏条件、因果、责任主体或适用范围，则按实际影响评为 Major。
 
