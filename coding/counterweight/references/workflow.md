@@ -2,6 +2,8 @@
 
 This reference expands workflow choices. The kernel's restraint remains binding.
 
+The tracks are separate execution contracts, not labels for the same behavior. Direct must not inherit Managed or Deep ceremony. Managed must perform dependency coordination but must not inherit Deep's design and authorization gate. Deep must not confuse analysis depth with permission to implement.
+
 ## Shape
 
 Read only enough code and project guidance to locate the requested behavior, the change point, and necessary consequences. Trace callers or broader data flow only when the change can affect them or current evidence leaves scope unclear. Shape asks only:
@@ -16,11 +18,11 @@ Fact questions belong to repository inspection. If a decision is blocking, ask o
 
 Use `SHAPE → EXECUTE → FEEDBACK → DONE` for bounded work: text and config edits, imports, simple wiring, established fields or flags, and local bugs whose cause and correct edit are evident. For Direct work, `FEEDBACK` is usually one cheap existing check.
 
-Do not announce the classification or create a task list. Do not request confirmation merely to increase confidence. Inspect, edit, verify, stop.
+Do not announce the classification, perform a coordination step, invoke `$grill-me`, or create a task list. Do not request confirmation merely to increase confidence. Inspect, edit, verify, stop.
 
 ## Managed
 
-Use Managed only when dependent edits are numerous enough that execution could drift. If an artifact is useful, keep one task document:
+Use `SHAPE (coordinate) → EXECUTE → FEEDBACK → DONE` when dependent edits are numerous enough that execution could drift. During `SHAPE`, identify their order, shared constraints, and integration points. This coordination is required; a persisted artifact is not. If recording it materially helps execution, keep one light plan:
 
 ```markdown
 # Goal
@@ -36,11 +38,23 @@ Use Managed only when dependent edits are numerous enough that execution could d
 - ...
 ```
 
-Omit empty sections. Do not add a proposal, separate design, task tree, risk matrix, milestones, future work, or implementation report. Execute after writing it; approval is required only when the user requested planning only or a real unresolved decision remains.
+Omit empty sections. Do not add a proposal, separate design, task tree, risk matrix, milestones, future work, or implementation report. Do not inherit Deep's design and authorization gate. Execute after coordination when the request authorizes implementation; `FEEDBACK` covers the changed integration points, not unrelated suites.
 
 ## Deep
 
-Use Deep only for a system-level decision or high-risk boundary. Keep one restrained document and select only necessary sections:
+Use `SHAPE (design + authorization gate) → EXECUTE if authorized → FEEDBACK → DONE` only for a system-level decision or high-risk boundary. Initial `SHAPE` may still downgrade the task when inspection finds an existing facility that removes that boundary.
+
+Deep determines analysis depth, not write authorization.
+
+Before modifying source code, configuration, tests, or persistent documents, classify the user's requested deliverable explicitly:
+
+- **Analysis, design, or review request**: inspect and produce the Deep artifact or response only. Do not implement.
+- **Explicit implementation request**: implementation may proceed after unresolved material decisions are settled and the restrained task plan is written.
+- **Ambiguous wording** such as "do this," "use Deep," "work on this," or a pasted proposal: do not treat it as write authorization. State the proposed implementation boundary and ask for approval.
+
+If another applicable workflow requires an approval checkpoint, follow the stricter workflow. Creation of a plan is never permission to execute it.
+
+Keep one restrained Deep artifact. If repository writes are not authorized, deliver it in the response only. Otherwise use the repository's existing planning or decision location; if none exists and a persistent artifact is warranted, use `docs/<topic>.md`. Select only necessary sections:
 
 ```markdown
 # Goal
@@ -54,7 +68,9 @@ Use Deep only for a system-level decision or high-risk boundary. Keep one restra
 # Check
 ```
 
-Add migration or rollback sections only when those operations exist. Investigation may show that an existing facility solves the problem; then downgrade and remove any artifact that no longer serves execution.
+Add migration or rollback sections only when those operations exist. `FEEDBACK` must cover the actual system boundary and risks that justified Deep. If later evidence removes that boundary, downgrade and remove any artifact that no longer serves execution.
+
+When the user requests plan stress-testing or invokes `$grill-me`, complete the Deep design first, then run `$grill-me` before requesting implementation approval. Do not begin implementation until the grill is resolved.
 
 ## Review
 
