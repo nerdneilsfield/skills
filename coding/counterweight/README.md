@@ -3,7 +3,7 @@
 This package contains three discoverable Skills:
 
 - `counterweight`: default restraint and evidence policy for coding work.
-- `grill-me`: decision-only clarification.
+- `grill-me`: user-invoked pressure testing of material decisions.
 - `project-learning`: conditional persistence of durable project knowledge.
 
 Install them from this repository with Skills CLI:

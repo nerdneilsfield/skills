@@ -1,14 +1,18 @@
 ---
 name: grill-me
-description: Clarify a plan, design, or implementation by asking only the unresolved decisions that materially change it; use when the user asks to be grilled or when blocking choices cannot be discovered from available facts.
+description: Stress-test a plan, design, or decision by surfacing unresolved choices that can materially change behavior, constraints, or implementation. Use when the user explicitly asks to be grilled or wants a plan pressure-tested.
 ---
 
 # Grill Me
 
-Find facts yourself from the repository, code, Git, tools, and relevant documentation. Ask the user only for decisions that materially change the real implementation.
+Find facts yourself from the repository, code, Git, tools, and relevant documentation. Ask the user only for decisions; do not turn missing confidence into questions.
 
-By default, ask one to three related blocking questions in a round. For each question, give a recommended default and the reason, so the user can answer by correcting only what differs. Combine choices that can be decided independently; defer a question whose meaning depends on an earlier answer.
+Work in rounds. By default, ask one to three independent material questions whose prerequisites are already settled. Defer a question when its meaning depends on an earlier answer. For each question, give a recommended default and the reason, so the user can answer by correcting only what differs.
 
-Do not ask about hypothetical future requirements, enumerate an exhaustive design tree, seek confidence through questions, or delegate fact lookup unless doing so has clear context-isolation value. Stop questioning as soon as the implementation shape is determined.
+Challenge fuzzy or overloaded terms only when the ambiguity could change behavior or design. Cross-check important claims against the code and existing project guidance. When an abstract choice remains ambiguous, probe it with one concrete scenario or counterexample before expanding the question tree.
 
-If the user explicitly requests a deep or relentless grill, continue across rounds, but pursue only decisions that remain capable of changing the design. Do not require every possible branch to be discussed and do not block action on facts you can verify yourself.
+Do not ask about hypothetical future requirements, enumerate an exhaustive design tree, or ask for facts you can verify yourself. Stop when no unresolved decision can materially change the requested behavior, constraints, acceptance criteria, or implementation.
+
+Stay stateless by default. If the user explicitly asks to preserve the outcome, prefer an existing task, spec, glossary, or decision artifact. Record only resolved terminology and decisions worth preserving. An ADR-like record earns existence only when the decision is hard to reverse, surprising without context, and the result of a real trade-off. Do not create a documentation system or write every answer down.
+
+If the user explicitly requests a deep or relentless grill, continue across rounds under the same rules. Go deeper on material decisions, not wider into hypothetical branches.

@@ -14,7 +14,7 @@ Fact questions belong to repository inspection. If a decision is blocking, ask o
 
 ## Direct
 
-Use `SHAPE → EXECUTE → CHEAP VERIFY → DONE` for bounded work: text and config edits, imports, simple wiring, established fields or flags, and local bugs whose cause and correct edit are evident.
+Use `SHAPE → EXECUTE → FEEDBACK → DONE` for bounded work: text and config edits, imports, simple wiring, established fields or flags, and local bugs whose cause and correct edit are evident. For Direct work, `FEEDBACK` is usually one cheap existing check.
 
 Do not announce the classification or create a task list. Do not request confirmation merely to increase confidence. Inspect, edit, verify, stop.
 

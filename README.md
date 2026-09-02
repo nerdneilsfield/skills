@@ -12,7 +12,7 @@
 | --- | --- |
 | [`co-commit`](coding/co-commit/) | 分析 Git 变更，按仓库既有提交惯例分组并逐次提交。 |
 | [`counterweight`](coding/counterweight/) | 让编码工作的流程、实现复杂度、测试和知识沉淀与当前证据及风险相称。 |
-| [`grill-me`](coding/grill-me/) | 只追问会实质改变实现形态的决策，并为每个问题给出推荐默认值。 |
+| [`grill-me`](coding/grill-me/) | 应用户要求，对计划、设计或决策做克制的压力测试。 |
 | [`project-learning`](coding/project-learning/) | 将真实开发中发现的少量、持久且可复用的项目知识沉淀到现有项目指引。 |
 | [`deai`](writing/deai/) | 审阅或改写中英文文本，减少模板化、官僚化、说教式和其他明显的 AI 写作痕迹，同时保留事实与技术含义。 |
 | [`luxun-style`](writing/luxun-style/) | 以鲁迅的语气、用词、逻辑和修辞写作或改写杂文、散文和评论。 |
@@ -72,7 +72,7 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | --- | --- |
 | [`co-commit`](coding/co-commit/) | Analyzes Git changes, groups them according to the repository's existing commit conventions, and creates the commits in sequence. |
 | [`counterweight`](coding/counterweight/) | Keeps coding process, implementation complexity, tests, and retained knowledge proportional to current evidence and risk. |
-| [`grill-me`](coding/grill-me/) | Asks only decisions that materially change implementation and recommends a default for each. |
+| [`grill-me`](coding/grill-me/) | Pressure-tests a plan, design, or decision when the user explicitly requests it. |
 | [`project-learning`](coding/project-learning/) | Persists small amounts of durable, reusable project knowledge discovered during real work. |
 | [`deai`](writing/deai/) | Reviews or rewrites Chinese and English prose to reduce templated, bureaucratic, paternalistic, and other conspicuous AI-writing patterns while preserving facts and technical meaning. |
 | [`luxun-style`](writing/luxun-style/) | Writes or rewrites essays, prose, and commentary in Lu Xun's tone, diction, reasoning, and rhetoric. |

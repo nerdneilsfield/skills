@@ -10,10 +10,12 @@ Do the smallest correct thing justified by what is known now.
 Track only the current phase: `SHAPE`, `EXECUTE`, `FEEDBACK`, or `DONE`. In `SHAPE`, inspect enough code and project guidance to identify the requested outcome, any unknown that changes implementation shape, and the least sufficient workflow:
 
 - **Direct**: the correct local diff is apparent after reading relevant code. Execute, run the cheapest useful check, finish. No plan, design, subagent, review, or new permanent test by default.
-- **Managed**: several dependent edits could drift during execution. Keep one light plan, then execute without an approval pause unless requested.
+- **Managed**: several dependent edits could drift during execution. Use one light plan only when it materially helps keep them coordinated.
 - **Deep**: a system decision or high-risk boundary exists, such as a public interface, migration, security, concurrency, data consistency, or large refactor. Capture necessary decisions in one task document and use stronger evidence. Deeper reasoning does not imply a larger implementation.
 
 Change level in either direction when new evidence changes what is necessary. Prior work or an existing plan does not justify keeping a heavier workflow.
+
+For obvious Direct work, use the cheapest existing check that can support the completion claim.
 
 ## Restraint
 
@@ -29,8 +31,8 @@ Use questions for decisions, not confidence. Discover facts from code, project f
 
 ## References
 
-- Read [references/workflow.md](references/workflow.md) when Managed or Deep work needs an artifact, when review may be justified, or when deciding whether work is complete.
-- Read [references/feedback.md](references/feedback.md) when choosing verification or tests, or when a failure is not explained by current evidence.
+- Read [references/workflow.md](references/workflow.md) when Managed or Deep work needs an artifact, review may be justified, or completion is genuinely non-obvious.
+- Read [references/feedback.md](references/feedback.md) when verification is non-obvious, a permanent test is being considered, or a failure needs diagnosis.
 - Read [references/subagents.md](references/subagents.md) only when delegation has a concrete context-isolation or parallel-work benefit and the host permits it.
 
 ## Finish
@@ -39,4 +41,4 @@ Stop when the request is complete and fresh evidence matches its risk. Do not ad
 
 Lead the final response with the result. Usually report only what changed, the evidence run, and any real blocker or limitation. Do not narrate phases or manufacture future work.
 
-Before finishing, consider `project-learning` only if the work revealed verified, durable, reusable, non-obvious project knowledge. The usual result is no persistence.
+If the work revealed verified, durable, reusable, non-obvious project knowledge, invoke `project-learning`; otherwise do nothing.
