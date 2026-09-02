@@ -12,6 +12,7 @@
 | --- | --- |
 | [`co-commit`](coding/co-commit/) | 分析 Git 变更，按仓库既有提交惯例分组并逐次提交。 |
 | [`counterweight`](coding/counterweight/) | 让编码工作的流程、实现复杂度、测试和知识沉淀与当前证据及风险相称。 |
+| [`counterweight-setup`](coding/counterweight-setup/) | 初始化或修订项目根 `AGENTS.md`，将 Counterweight 设为唯一默认任务工作流。 |
 | [`grill-me`](coding/grill-me/) | 应用户要求，对计划、设计或决策做克制的压力测试。 |
 | [`project-learning`](coding/project-learning/) | 将真实开发中发现的少量、持久且可复用的项目知识沉淀到现有项目指引。 |
 | [`deai`](writing/deai/) | 审阅或改写中英文文本，减少模板化、官僚化、说教式和其他明显的 AI 写作痕迹，同时保留事实与技术含义。 |
@@ -50,10 +51,14 @@ npx skills add nerdneilsfield/skills --skill technical-writing -g
 使用 $technical-writing 改写这份部署指南。
 ```
 
-`counterweight` 的描述覆盖 coding implementation / modification，支持隐式 Skill 选择。若 Agent 依赖项目指令选择默认 Skill，可在项目 `AGENTS.md` 加一行：
+`counterweight` 的描述覆盖 coding implementation / modification，支持隐式 Skill 选择。运行 `$counterweight-setup` 可将以下规则写入项目根 `AGENTS.md`：
 
 ```text
 Use $counterweight by default for coding implementation and modification tasks.
+
+Counterweight is the sole task workflow in this repository. Do not invoke or
+combine it with engineering-change, planning, orchestration, or other workflow
+skills unless the user explicitly names that additional skill.
 ```
 
 ### 仓库结构
@@ -72,6 +77,7 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | --- | --- |
 | [`co-commit`](coding/co-commit/) | Analyzes Git changes, groups them according to the repository's existing commit conventions, and creates the commits in sequence. |
 | [`counterweight`](coding/counterweight/) | Keeps coding process, implementation complexity, tests, and retained knowledge proportional to current evidence and risk. |
+| [`counterweight-setup`](coding/counterweight-setup/) | Initializes or updates the root `AGENTS.md` so Counterweight is the sole default task workflow. |
 | [`grill-me`](coding/grill-me/) | Pressure-tests a plan, design, or decision when the user explicitly requests it. |
 | [`project-learning`](coding/project-learning/) | Persists small amounts of durable, reusable project knowledge discovered during real work. |
 | [`deai`](writing/deai/) | Reviews or rewrites Chinese and English prose to reduce templated, bureaucratic, paternalistic, and other conspicuous AI-writing patterns while preserving facts and technical meaning. |
@@ -110,10 +116,14 @@ After installation, invoke a skill by name in an agent that supports Agent Skill
 Use $technical-writing to rewrite this deployment guide.
 ```
 
-The `counterweight` description covers coding implementation and modification for implicit Skill selection. If an agent relies on project instructions for default Skills, add one line to the project's `AGENTS.md`:
+The `counterweight` description covers coding implementation and modification for implicit Skill selection. Run `$counterweight-setup` to add these rules to the project's root `AGENTS.md`:
 
 ```text
 Use $counterweight by default for coding implementation and modification tasks.
+
+Counterweight is the sole task workflow in this repository. Do not invoke or
+combine it with engineering-change, planning, orchestration, or other workflow
+skills unless the user explicitly names that additional skill.
 ```
 
 ### Repository layout
