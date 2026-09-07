@@ -39,9 +39,13 @@ Workflow level and authorization are independent. Deep selects how carefully to 
 - Read [references/feedback.md](references/feedback.md) when verification is non-obvious, a permanent test is being considered, or a failure needs diagnosis.
 - Read [references/subagents.md](references/subagents.md) only when delegation has a concrete context-isolation or parallel-work benefit and the host permits it.
 
-## Finish
+## Commits during execution
 
-For authorized implementation in a Git repository, default to local commits after verification. This applies to all tracks: one coherent commit for a small change; verified task-sized commits for Deep. Respect explicit no-commit instructions and repository or host restrictions. Analysis, review, and plan-only requests do not authorize implementation commits. Read [references/commits.md](references/commits.md) before committing; do not leave eligible changes uncommitted merely because the user did not repeat the word "commit". Local commits do not authorize push, PR creation, merge, or release.
+Direct, Managed, and Deep share one commit policy: group by task intent, dependencies, and review/rollback boundaries, using the grouping principles of `/co-commit`. Track selection does not determine commit count. Read [references/commits.md](references/commits.md) before the first implementation edit to identify useful commit boundaries; no separate planning artifact is needed for Direct.
+
+Commit each coherent unit as soon as its simple functional or run check passes, including useful intermediate stages. Do not accumulate completed units until the entire request is finished. A task can produce several commits, while tightly coupled steps may need one commit. Respect explicit no-commit instructions and repository or host restrictions. Analysis, review, and plan-only requests do not authorize implementation commits. Local commits do not authorize push, PR creation, merge, or release.
+
+## Finish
 
 Stop when the requested behavior works, the necessary run/check succeeded, and the commit disposition is resolved. Perform Deep's planned functional acceptance; do not add an audit, adjacent refactor, documentation, edge-case set, dependency update, or roadmap without a current reason. Make the result easy to try with a short run command or usage example when useful. Do not wait indefinitely for user feedback or invent another iteration before it arrives.
 

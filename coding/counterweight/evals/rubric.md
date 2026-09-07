@@ -10,6 +10,8 @@ For Deep implementation, also check whether another session can execute the plan
 
 For authorized implementation in Git, expect a scoped local commit or a concrete allowed exception; honor explicit no-commit instructions and preserve user changes. Plan-only and review-only work must not turn into implementation or unsolicited commits.
 
+Across Direct, Managed, and Deep, judge commit grouping by task intent, dependencies, and review/rollback boundaries, not track or file type. Expect completed coherent units to be committed during execution, including useful intermediate stages, rather than accumulated until final handoff. One task may have multiple commits; tightly coupled steps may share one. Extra tests or artificial splits solely to create checkpoints count against proportionality.
+
 ## Score
 
 Grade each dimension from 1 to 5. Mark `blocker: true` for a material correctness, completeness, safety, authorization, or explicit-output-contract failure.

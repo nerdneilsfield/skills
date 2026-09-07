@@ -16,6 +16,8 @@ Use one plan with these required parts for implementation work:
 
 Split tasks where one deliverable could be accepted while its neighbor is rejected. Fold scaffolding, tests, and documentation into the behavior that needs them. Avoid whole layers such as "implement backend" and trivial tasks such as "create empty file". If a task cannot be verified or committed coherently without its successor, redraw the boundary or explicitly group them into one verification/commit unit.
 
+Task boundaries guide commits but do not impose a one-task/one-commit rule. Apply `commits.md` throughout execution: commit independently useful, verified intermediate stages within a task as they become ready. Record their scopes and SHAs; do not wait for the whole task or plan to finish.
+
 Order work toward the earliest useful runnable slice. Prefer one thin end-to-end path before optional refinements; do not front-load a test framework, speculative hardening, or generalized infrastructure. Complete the user's requested scope, but do not append hypothetical follow-up work. Give the user a runnable entry point as soon as useful; continue already-authorized work without waiting unless their feedback is needed for a material decision.
 
 Each step must identify an action, target, and result. Specify exact signatures, data shapes, algorithms, or pseudocode where they determine correctness or task coordination; do not copy entire future source files just to lengthen the plan. "Add error handling", "write tests", and "ensure compatibility" without concrete cases and expected behavior are not executable steps.
@@ -68,7 +70,7 @@ Contracts: <inputs/outputs shared with other tasks, where relevant>
 - [ ] Commit <intended coherent scope and proposed subject>.
 
 Evidence: <fill during execution: run/check and observed result>
-Commit: <fill during execution: SHA or explicit exception>
+Commits: <fill during execution: scope and SHA per unit, or explicit exception>
 
 ## Final acceptance
 
@@ -98,7 +100,7 @@ Fix execution-blocking deficiencies before execution. This is a short self-check
 
 1. **Load and reconcile.** Read the plan, linked spec, applicable project instructions, current Git status/diff, and recorded commits. Compare current code with the plan's base and completed tasks. Reuse a valid existing plan. If it has drifted, repair the affected portion before acting; do not overwrite user work or blindly repeat completed tasks.
 2. **Select one ready task.** Dependencies must be complete. Mark it `in_progress`. Execute sequentially in the main session by default. If delegation is authorized and useful, give a worker the task, constraints, exact owned files, dependencies, and acceptance checks; the main agent retains plan and integration ownership. Never run concurrent implementation tasks under this contract.
-3. **Implement and verify.** Follow the concrete steps. Run the task's simple functional/runnability checks and record actual outcomes. Use a reproducer for a reported bug; a permanent regression test must separately earn its cost under `feedback.md`. Deep does not mandate TDD, new tests, or broader suites. Passing syntax alone cannot satisfy a behavioral requirement.
+3. **Implement and verify.** Follow the concrete steps. Run the task's simple functional/runnability checks and record actual outcomes. When an intermediate coherent unit passes its check, inspect and commit it using steps 4–5 before continuing the remaining task steps; keep the task `in_progress`. Use a reproducer for a reported bug; a permanent regression test must separately earn its cost under `feedback.md`. Deep does not mandate TDD, new tests, or broader suites. Passing syntax alone cannot satisfy a behavioral requirement.
 4. **Inspect the task diff.** Check scope, shared contracts, and obvious mistakes before committing. Fix concrete issues and rerun only affected checks. Do not dispatch a reviewer or perform a second audit by default; follow `workflow.md` when a separate review has a specific reason.
 5. **Commit and record.** Follow `commits.md`. Mark `done` only when task acceptance passes, known blocking issues are resolved, and a commit SHA or allowed commit exception is recorded. A failing or unavailable required check means `blocked`, not `done`. Update the plan's progress after each task; stage that progress with the next coherent checkpoint or final closeout commit. Do not amend a commit just to add its own SHA to the plan.
 6. **Continue.** Take the next ready task without routine user confirmation. Repeat until the authorized scope is complete or no useful in-scope work remains.
