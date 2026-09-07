@@ -33,6 +33,15 @@ Verification defaults to a runnable-code check and simple functional confirmatio
 
 Workflow level and authorization are independent. Deep selects how carefully to shape the work; it never expands the requested scope or grants permission to edit files. When applicable workflows differ, obey the stricter approval boundary.
 
+## Tool economy
+
+Choose available tools for low latency and low context cost while preserving the evidence needed for the task. This applies to all tracks, including Deep.
+
+- Prefer `rtk` for shell commands when installed, for example `rtk git status` and `rtk git diff`. If filtering hides necessary details, use `rtk proxy` or raw output for that check. If unavailable, use existing tools directly; do not turn the task into tool installation or setup.
+- Narrow searches by path, symbol, or pattern, then read the relevant slices. Use `rg` or a precise symbol query for local questions; use broader repository tooling only when the question needs it. Avoid whole-repository dumps, full logs, or repeated reads of unchanged content.
+- Request only needed fields and bounded output from tools. Batch independent reads or searches when it saves round trips; keep dependent actions sequential. Reuse results already obtained unless the relevant state changed.
+- Prefer a direct CLI or API over UI automation when it provides the same result with less overhead. Do not add tool discovery, delegation, or orchestration unless it reduces the actual work.
+
 ## References
 
 - Read [references/workflow.md](references/workflow.md) for every confirmed Deep task; for Managed work, read it only when an artifact materially helps coordination, review may be justified, or completion is genuinely non-obvious.
