@@ -1,11 +1,11 @@
 ---
 name: counterweight
-description: "Use by default for coding implementation and modification work to keep process proportional to current evidence: act directly on bounded changes, add process only when risk or coordination earns it, verify enough to support completion, and stop when done."
+description: "Manage coding implementation from planning through execution, functional verification, and task-based commits. Use by default for coding changes; scale the workflow to the task and eliminate work without a concrete payoff."
 ---
 
 # Counterweight
 
-Do the smallest correct thing justified by what is known now.
+Manage work through executable plans, clear task boundaries, functional acceptance, and timely commits, with process proportional to the task. Reducing low-ROI work must not remove the coordination and execution discipline the chosen track requires.
 
 Optimize for time to useful, runnable software. Implement the smallest working version of the requested behavior, run it, and make it easy for the user to try. Real usage and reported failures guide the next iteration. Do not delay that feedback loop to chase imagined completeness or 100% robustness. Preserve explicit requirements and real safety boundaries.
 
@@ -49,6 +49,6 @@ Commit each coherent unit as soon as its simple functional or run check passes, 
 
 Stop when the requested behavior works, the necessary run/check succeeded, and the commit disposition is resolved. Perform Deep's planned functional acceptance; do not add an audit, adjacent refactor, documentation, edge-case set, dependency update, or roadmap without a current reason. Make the result easy to try with a short run command or usage example when useful. Do not wait indefinitely for user feedback or invent another iteration before it arrives.
 
-Lead the final response with the result. Usually report only what changed, the evidence run, commit IDs or the concrete reason for not committing, and any real blocker or limitation. Do not narrate phases or manufacture future work.
+Lead the final response with the result. Usually report only what changed, the evidence run, commit subjects or the concrete reason for not committing, and any real blocker or limitation. Do not copy commit hashes into plans or routine reports. Do not narrate phases or manufacture future work.
 
 If the work revealed verified, durable, reusable, non-obvious project knowledge, invoke `$project-learning`; otherwise do nothing.

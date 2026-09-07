@@ -76,4 +76,4 @@ Choose evidence that can actually support the claim. Re-read the request and cha
 
 Finish when requested behavior, necessary consequences, and real safety constraints are satisfied. Stop extra searching, testing, and review when they no longer discriminate between plausible outcomes.
 
-Resolve local commits using [commits.md](commits.md) before handoff. For Deep, also close the plan with functional evidence and commit IDs or explicit exceptions; record separate review results only if a review was actually needed.
+Resolve local commits using [commits.md](commits.md) before handoff. For Deep, retain only functional evidence and real limitations that help resumption; do not duplicate Git history or create bookkeeping-only commits. Record separate review results only if a review was actually needed.

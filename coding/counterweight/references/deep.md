@@ -4,19 +4,19 @@ Read this for every confirmed Deep task. Keep the implementation narrow; make it
 
 ## Build a plan another session can execute
 
-Inspect the relevant source, callers, repository instructions, test commands, and Git state before planning. Record the base commit and relevant pre-existing changes so execution can distinguish task work from user work. Verify referenced paths and symbols; mark new paths as new. Do not invent repository facts or commands.
+Inspect the relevant source, callers, repository instructions, run/check commands, and Git state before planning. Record only relevant pre-existing changes needed to distinguish task work from user work. Verify referenced paths and symbols; mark new paths as new. Do not invent repository facts or commands.
 
 Use one plan with these required parts for implementation work:
 
 1. **Outcome and scope:** observable success, exclusions, and the request or spec being implemented.
 2. **Decisions and constraints:** the chosen approach, rationale for consequential trade-offs, exact interface/data contracts, and invariants. Include rollout, compatibility, and rollback only when relevant. Separate resolved decisions from blocking unknowns.
 3. **Acceptance map:** assign each required behavior or invariant an ID; map it to an owning task, simple verification procedure, and expected observable result. Confirm the code runs and the requested function works. Include failure behavior only for a reported bug, explicit requirement, or concrete reachable risk; do not invent rare scenarios to populate the map.
-4. **Ordered tasks:** one independently verifiable deliverable per task, dependencies, exact files/symbols, ordered implementation steps, checks, and intended commit boundary.
-5. **Execution and progress:** how to resume, task states, completed evidence and commits, blockers, and final integration checks.
+4. **Ordered tasks:** one independently verifiable deliverable per task, dependencies, and intended commit boundary. Fully detail exact files/symbols, implementation steps, and checks for the next ready task; refine later tasks before executing them.
+5. **Execution and progress:** how to resume, task states, completed evidence, blockers, and final integration checks.
 
 Split tasks where one deliverable could be accepted while its neighbor is rejected. Fold scaffolding, tests, and documentation into the behavior that needs them. Avoid whole layers such as "implement backend" and trivial tasks such as "create empty file". If a task cannot be verified or committed coherently without its successor, redraw the boundary or explicitly group them into one verification/commit unit.
 
-Task boundaries guide commits but do not impose a one-task/one-commit rule. Apply `commits.md` throughout execution: commit independently useful, verified intermediate stages within a task as they become ready. Record their scopes and SHAs; do not wait for the whole task or plan to finish.
+Task boundaries guide commits but do not impose a one-task/one-commit rule. Apply `commits.md` throughout execution: commit independently useful, verified intermediate stages within a task as they become ready. Do not wait for the whole task or plan to finish, and do not duplicate Git history in the plan.
 
 Order work toward the earliest useful runnable slice. Prefer one thin end-to-end path before optional refinements; do not front-load a test framework, speculative hardening, or generalized infrastructure. Complete the user's requested scope, but do not append hypothetical follow-up work. Give the user a runnable entry point as soon as useful; continue already-authorized work without waiting unless their feedback is needed for a material decision.
 
@@ -34,7 +34,7 @@ Replace the fields below with repository evidence. Omit irrelevant optional fiel
 ## Outcome and scope
 
 <Requested behavior, exclusions, spec link if one exists.>
-Base: <commit>. Existing changes: <relevant paths and ownership, or none>.
+Existing changes: <relevant paths and ownership, or none>.
 Authorization: <implementation / plan-only; material approvals still needed>.
 
 ## Decisions and constraints
@@ -70,7 +70,6 @@ Contracts: <inputs/outputs shared with other tasks, where relevant>
 - [ ] Commit <intended coherent scope and proposed subject>.
 
 Evidence: <fill during execution: run/check and observed result>
-Commits: <fill during execution: scope and SHA per unit, or explicit exception>
 
 ## Final acceptance
 
@@ -82,15 +81,17 @@ feature works; reuse task evidence when it already proves this.>
 <Last completed task, next ready task, deviations/blockers, final evidence.>
 ```
 
-Status, evidence, and commit fields are execution records, not missing design. They can be pending in a ready plan; file targets, contracts, and acceptance procedures cannot.
+Status and evidence fields are execution records, not missing design. Fully specify the next ready task's targets, contracts, and acceptance procedure. Later tasks must have an outcome, dependencies, and acceptance intent; mark details that depend on earlier results and resolve them before those tasks start. Do not investigate every downstream detail before delivering the first runnable slice.
+
+When an unknown prevents a later task from becoming ready, allow a bounded discovery task: name the question, relevant module or entry point, expected finding, and stopping condition. Its deliverable is enough evidence to specify the dependent task, not a repository-wide survey. Discovery alone does not require a commit.
 
 ## Readiness gate
 
 Before implementation, check the plan against the request and inspected repository:
 
 - Every requirement has a task and falsifiable acceptance check; no task adds unsupported scope.
-- Paths, shared signatures, data shapes, dependencies, and commands agree across tasks.
-- Steps are concrete enough for a fresh session to execute without redesigning the feature.
+- Known paths, shared signatures, data shapes, dependencies, and commands agree across tasks; unresolved downstream details are explicit.
+- The next ready task is concrete enough for a fresh session to execute without redesigning the feature.
 - Checks confirm runnable code and requested functionality without speculative rare-case coverage; rollout/rollback procedures exist where the requested change needs them.
 - No unresolved decision blocks the next task; unresolved later decisions are labeled and block their dependents.
 
@@ -98,11 +99,11 @@ Fix execution-blocking deficiencies before execution. This is a short self-check
 
 ## Execute and resume
 
-1. **Load and reconcile.** Read the plan, linked spec, applicable project instructions, current Git status/diff, and recorded commits. Compare current code with the plan's base and completed tasks. Reuse a valid existing plan. If it has drifted, repair the affected portion before acting; do not overwrite user work or blindly repeat completed tasks.
+1. **Load and reconcile.** Read the plan, linked spec, applicable project instructions, current Git status/diff, and relevant Git history. Compare current code with completed task states. Reuse a valid existing plan. If it has drifted, repair the affected portion before acting; do not overwrite user work or blindly repeat completed tasks.
 2. **Select one ready task.** Dependencies must be complete. Mark it `in_progress`. Execute sequentially in the main session by default. If delegation is authorized and useful, give a worker the task, constraints, exact owned files, dependencies, and acceptance checks; the main agent retains plan and integration ownership. Never run concurrent implementation tasks under this contract.
 3. **Implement and verify.** Follow the concrete steps. Run the task's simple functional/runnability checks and record actual outcomes. When an intermediate coherent unit passes its check, inspect and commit it using steps 4–5 before continuing the remaining task steps; keep the task `in_progress`. Use a reproducer for a reported bug; a permanent regression test must separately earn its cost under `feedback.md`. Deep does not mandate TDD, new tests, or broader suites. Passing syntax alone cannot satisfy a behavioral requirement.
 4. **Inspect the task diff.** Check scope, shared contracts, and obvious mistakes before committing. Fix concrete issues and rerun only affected checks. Do not dispatch a reviewer or perform a second audit by default; follow `workflow.md` when a separate review has a specific reason.
-5. **Commit and record.** Follow `commits.md`. Mark `done` only when task acceptance passes, known blocking issues are resolved, and a commit SHA or allowed commit exception is recorded. A failing or unavailable required check means `blocked`, not `done`. Update the plan's progress after each task; stage that progress with the next coherent checkpoint or final closeout commit. Do not amend a commit just to add its own SHA to the plan.
+5. **Commit and continue.** Follow `commits.md`. Mark `done` only when task acceptance passes, known blocking issues are resolved, and the change is committed or an allowed no-commit exception applies. A failing or unavailable required check means `blocked`, not `done`. Keep task status current when it helps resumption. Do not create, amend, or delay a commit solely to update plan bookkeeping.
 6. **Continue.** Take the next ready task without routine user confirmation. Repeat until the authorized scope is complete or no useful in-scope work remains.
 
 On failure, use the diagnosis loop in `feedback.md`. A task can be `pending`, `in_progress`, `blocked`, or `done`; record the concrete blocker and next action. Do not proceed into dependent tasks on failed assumptions. Independent ready work may continue sequentially while a blocker is unresolved.
@@ -113,4 +114,4 @@ When evidence invalidates the design, update the affected decisions, tasks, and 
 
 After task checks pass, confirm the assembled feature runs and meets the requested behavior with the planned minimal functional check. Reuse task evidence when it already proves that result; a separate integration suite or final audit is not required. Rerun checks only where later changes invalidate earlier evidence. Fix known issues and verify affected paths without adding speculative edge-case tests.
 
-Close the plan with observed results, commit IDs, and any remaining limitation. Required acceptance still blocked means the work is incomplete, even if implementation commits exist. Commit the final plan update with any final fixes or as one closeout documentation commit. Report the result and a useful run/try command. Real user feedback can start the next iteration; do not preempt it with imagined scenarios. Do not claim review, test execution, or completion that did not occur.
+Close a persistent plan with observed results and any remaining limitation only when that record helps later work. Required acceptance still blocked means the work is incomplete, even if implementation commits exist. Do not make a closeout commit solely for plan bookkeeping. Report the result and a useful run/try command. Real user feedback can start the next iteration; do not preempt it with imagined scenarios. Do not claim review, test execution, or completion that did not occur.

@@ -4,7 +4,7 @@ Default to simple functional verification and evidence that the changed code can
 
 Implement a runnable version first by default, then check the real behavior and hand it over for use. User reports, real inputs, and observed failures usually provide better next-step evidence than agent-invented scenarios. Do not hold delivery for a speculative test suite. TDD remains useful when explicitly requested, when an existing failing test already defines the task, or when a small test-first loop directly helps solve an observed bug; it is not a prerequisite for starting implementation.
 
-Choose one useful check, not a ladder of checks to run in sequence:
+Start with the smallest useful check. Add another only when it covers a separate explicit requirement, a real safety boundary, or a mandatory repository gate that the first cannot establish:
 
 - Feature: run a representative input through the changed path and inspect the expected result; use an existing focused test if cheaper.
 - Bug: run the reported reproducer and confirm the symptom is gone.
