@@ -42,39 +42,25 @@ Omit empty sections. Do not add a proposal, separate design, task tree, risk mat
 
 ## Deep
 
-Use `SHAPE (design + authorization gate) → EXECUTE if authorized → FEEDBACK → DONE` only for a system-level decision or high-risk boundary. Initial `SHAPE` may still downgrade the task when inspection finds an existing facility that removes that boundary.
+Use Deep only for a system-level decision or high-risk boundary. Initial `SHAPE` may still downgrade the task when inspection finds an existing facility that removes that boundary. Read [deep.md](deep.md) for the required plan contract, readiness gate, task execution loop, and integration acceptance.
 
 Deep determines analysis depth, not write authorization.
 
 Before modifying source code, configuration, tests, or persistent documents, classify the user's requested deliverable explicitly:
 
 - **Analysis, design, or review request**: inspect and produce the Deep artifact or response only. Do not implement.
-- **Explicit implementation request**: implementation may proceed after unresolved material decisions are settled and the restrained task plan is written.
-- **Ambiguous wording** such as "do this," "use Deep," "work on this," or a pasted proposal: do not treat it as write authorization. State the proposed implementation boundary and ask for approval.
+- **Implementation request**: implementation proceeds after unresolved material decisions are settled and the executable task plan passes its readiness gate. Carry forward authorization from the conversation; do not ask again just because a plan now exists.
+- **Unclear deliverable**: infer intent from the whole conversation, not isolated wording. If it remains unclear whether the user wants analysis or implementation, state the proposed implementation boundary and ask. A mode selection or pasted proposal alone does not authorize implementation.
 
 If another applicable workflow requires an approval checkpoint, follow the stricter workflow. Creation of a plan is never permission to execute it.
 
-Keep one restrained Deep artifact. If repository writes are not authorized, deliver it in the response only. Otherwise use the repository's existing planning or decision location; if none exists and a persistent artifact is warranted, use `docs/<topic>.md`. Select only necessary sections:
-
-```markdown
-# Goal
-
-# Decisions
-
-# Change
-
-# Constraints
-
-# Check
-```
-
-Add migration or rollback sections only when those operations exist. `FEEDBACK` must cover the actual system boundary and risks that justified Deep. If later evidence removes that boundary, downgrade and remove any artifact that no longer serves execution.
+Keep design decisions, executable tasks, and progress in one Deep plan, linking an existing spec rather than duplicating it. For implementation, persist it in the existing planning location or `docs/plans/YYYY-MM-DD-<topic>.md` when no convention exists. For plan-only work, honor the requested output location; without authorization to write a plan file, deliver it in the response. An analysis or design-only deliverable need not invent implementation tasks. If later evidence removes the Deep boundary, downgrade and record why; do not delete existing artifacts merely to reduce ceremony.
 
 When the user requests plan stress-testing or invokes `$grill-me`, complete the Deep design first, then run `$grill-me` before requesting implementation approval. Do not begin implementation until the grill is resolved.
 
 ## Review
 
-Review is not a completion ritual. Use independent judgment only when it has material expected value: high risk, security, migration, public API, large diff, substantial unresolved uncertainty, or an explicit user request.
+Before committing, inspect the changed diff for scope and obvious mistakes. A separate review pass or reviewer is not a default gate in any track, including Deep. Add one only for a concrete difficult boundary, an observed concern, or an explicit request where independent judgment has material value and the host permits it. Do not turn routine diff inspection into a multi-stage review pipeline, or call it independent review.
 
 Ask a reviewer to find only material issues:
 
@@ -89,3 +75,5 @@ Suggestions about future elegance, optional hardening, or more tests are not fin
 Choose evidence that can actually support the claim. Re-read the request and changed diff, then use fresh verification proportionate to risk. A passing narrow check does not imply unrelated properties.
 
 Finish when requested behavior, necessary consequences, and real safety constraints are satisfied. Stop extra searching, testing, and review when they no longer discriminate between plausible outcomes.
+
+Resolve local commits using [commits.md](commits.md) before handoff. For Deep, also close the plan with functional evidence and commit IDs or explicit exceptions; record separate review results only if a review was actually needed.
