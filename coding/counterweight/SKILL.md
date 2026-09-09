@@ -25,6 +25,10 @@ Four rules govern the work:
 
 Before adding an abstraction, interface, dependency, config knob, fallback, retry, cache, compatibility layer, generalized utility, public API, persistent state, background worker, or extra documentation, identify the current requirement, reachable caller, observed failure, trust boundary, or platform constraint that needs it. Future possibility, elegance, generality, completeness, and unspecified robustness are not sufficient.
 
+Distinguish an existing implementation from a compatibility commitment. Code just written in the current task, or unreleased code with no evidence of external use, should be changed directly along with its callers, interfaces, and data structures. Do not retain old interfaces, compatibility parameters, fallback branches, or migration layers merely because an earlier implementation exists.
+
+Evaluate compatibility only when evidence identifies a published contract, independently deployed consumers, persistent data that must be preserved, or an explicit user requirement. Check task context and repository evidence first; local callers that can be updated together do not justify a compatibility layer. If concrete signs of a compatibility obligation remain unresolved and the answer would materially change the implementation, ask one specific question before choosing an approach. Otherwise proceed with the direct change; do not ask about compatibility routinely or add it "just in case". Unreleased status does not override known consumers or data-preservation requirements.
+
 Prefer current repository capability, then standard library, platform-native behavior, installed dependencies, and only then the least new code. Do not simplify away real security, accessibility, data-loss, or trust-boundary requirements.
 
 Use questions for decisions, not confidence. Discover facts from code, project files, Git, and relevant documentation. Ask only when an unresolved choice materially changes the result.
