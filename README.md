@@ -10,6 +10,7 @@
 
 | Skill | 用途 |
 | --- | --- |
+| [`qi-read-paper`](research/qi-read-paper/) | 分三轮精读算法与工程论文，理解问题、方法与图表证据，评估局限和复现路径。 |
 | [`co-commit`](coding/co-commit/) | 分析 Git 变更，按仓库既有提交惯例分组并逐次提交。 |
 | [`counterweight`](coding/counterweight/) | 让编码工作的流程、实现复杂度、测试和知识沉淀与当前证据及风险相称。 |
 | [`counterweight-setup`](coding/counterweight-setup/) | 初始化或修订项目根 `AGENTS.md`，将 Counterweight 设为唯一默认任务工作流。 |
@@ -75,6 +76,7 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 
 | Skill | Purpose |
 | --- | --- |
+| [`qi-read-paper`](research/qi-read-paper/) | Reads algorithm and engineering papers in three rounds, covering the problem, methods and visual evidence, limitations, and reproduction steps. |
 | [`co-commit`](coding/co-commit/) | Analyzes Git changes, groups them according to the repository's existing commit conventions, and creates the commits in sequence. |
 | [`counterweight`](coding/counterweight/) | Keeps coding process, implementation complexity, tests, and retained knowledge proportional to current evidence and risk. |
 | [`counterweight-setup`](coding/counterweight-setup/) | Initializes or updates the root `AGENTS.md` so Counterweight is the sole default task workflow. |
