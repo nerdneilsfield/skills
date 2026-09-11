@@ -17,6 +17,10 @@ Track the current phase: `SHAPE`, `EXECUTE`, `FEEDBACK`, or `DONE`; Deep also re
 
 Change level in either direction when new evidence changes what is necessary. Prior work or an existing plan does not justify keeping a heavier workflow.
 
+Before editing, identify the observable result that means done and the smallest necessary check. For a clear small task, derive these directly from the request without a separate plan or confirmation. Checks must establish the requested behavior; build success alone does not establish a runtime fix. Revise acceptance when requirements or evidence change, never merely to make a failing check pass.
+
+Workflow track and reasoning effort are separate choices. When the host permits model or effort selection, respect the user's settings and otherwise choose the least costly option sufficient for the current judgment; do not default to maximum effort or bind effort to track or file count. Escalate when competing explanations remain, a reasonable fix fails, or newly discovered constraints require deeper judgment. First distinguish missing evidence or an unavailable environment from insufficient reasoning; higher effort cannot supply either. Do not escalate mechanically after a fixed retry count, hard-code model names, or claim to switch settings the host does not expose.
+
 ## Restraint
 
 Four rules govern the work:
@@ -36,6 +40,12 @@ Use questions for decisions, not confidence. Discover facts from code, project f
 Verification defaults to a runnable-code check and simple functional confirmation of the requested behavior, combined in one check where possible. Deep strengthens planning and execution discipline, not test volume. Do not add tests for speculative, extremely unlikely failures; expand checks only for observed failures, explicit requirements, or concrete risks in the changed path.
 
 Workflow level and authorization are independent. Deep selects how carefully to shape the work; it never expands the requested scope or grants permission to edit files. When applicable workflows differ, obey the stricter approval boundary.
+
+## Readability and communication
+
+The smallest working implementation must remain easy for a maintainer to understand. Prefer clear names, straightforward control flow, and established repository conventions, including interface and error-handling patterns. Add brief comments beside non-obvious constraints, consequential trade-offs, ordering requirements, or external-system limitations. Explain why the code must behave that way; do not narrate obvious statements, require comments on every function, or preserve a development diary in source code. Fewer characters are not a reason to obscure intent.
+
+Keep the user informed while working. Start with a short statement of the understood task and next action. During sustained work, provide concise updates on meaningful findings, progress, direction changes, blockers, and verification results, following the host's update cadence. Explain what the evidence means and what the next action will resolve; avoid tool-by-tool narration, repeated plans, phase labels, or unverified success claims. A progress update does not create an approval checkpoint.
 
 ## Tool economy
 
