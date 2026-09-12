@@ -43,7 +43,9 @@ Verification defaults to a runnable-code check and simple functional confirmatio
 
 Workflow level and authorization are independent. Deep selects how carefully to shape the work; it never expands the requested scope or grants permission to edit files. When applicable workflows differ, obey the stricter approval boundary.
 
-## Readability and communication
+## Maintainability and communication
+
+Maintainability applies to Direct, Managed, and Deep, throughout design, implementation, and diff inspection. Keep responsibilities aligned with existing modules, ownership of state and policy clear, and changed behavior easy to locate, diagnose, and modify. Prefer solutions that avoid unnecessary coupling and duplicated business rules; judge the smallest change by its ongoing maintenance cost as well as its immediate diff size. Do not introduce speculative abstractions or expand into adjacent cleanup in the name of maintainability. Address maintenance issues introduced by the current change within its scope. Explain consequential trade-offs or accepted maintenance costs briefly when useful; small tasks need no separate document, checklist, or review phase.
 
 The smallest working implementation must remain easy for a maintainer to understand. Prefer clear names, straightforward control flow, and established repository conventions, including interface and error-handling patterns. Add brief comments beside non-obvious constraints, consequential trade-offs, ordering requirements, or external-system limitations. Explain why the code must behave that way; do not narrate obvious statements, require comments on every function, or preserve a development diary in source code. Fewer characters are not a reason to obscure intent.
 
