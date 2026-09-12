@@ -17,6 +17,8 @@ Track the current phase: `SHAPE`, `EXECUTE`, `FEEDBACK`, or `DONE`; Deep also re
 
 Change level in either direction when new evidence changes what is necessary. Prior work or an existing plan does not justify keeping a heavier workflow.
 
+For Deep, process restraint must preserve design substance: explain the overall design, shared contracts, maintenance trade-offs, and each task's behavioral change and acceptance. Leave local coding choices to implementation; a plan need not prescribe function bodies or line-by-line edits. Distinguish an exploration draft from a ready plan; do not present a roadmap of unresolved system decisions as completed planning.
+
 Before editing, identify the observable result that means done and the smallest necessary check. For a clear small task, derive these directly from the request without a separate plan or confirmation. Checks must establish the requested behavior; build success alone does not establish a runtime fix. Revise acceptance when requirements or evidence change, never merely to make a failing check pass.
 
 Workflow track and reasoning effort are separate choices. When the host permits model or effort selection, respect the user's settings and otherwise choose the least costly option sufficient for the current judgment; do not default to maximum effort or bind effort to track or file count. Escalate when competing explanations remain, a reasonable fix fails, or newly discovered constraints require deeper judgment. First distinguish missing evidence or an unavailable environment from insufficient reasoning; higher effort cannot supply either. Do not escalate mechanically after a fixed retry count, hard-code model names, or claim to switch settings the host does not expose.

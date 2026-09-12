@@ -9,18 +9,20 @@ Inspect the relevant source, callers, repository instructions, run/check command
 Use one plan with these required parts for implementation work:
 
 1. **Outcome and scope:** observable success, exclusions, and the request or spec being implemented.
-2. **Decisions and constraints:** the chosen approach, rationale for consequential trade-offs, exact interface/data contracts, and invariants. Include rollout, compatibility, and rollback only when relevant. Separate resolved decisions from blocking unknowns.
+2. **Design and constraints:** the current behavior and proposed change, affected components and their responsibilities, and the chosen approach with rationale for consequential trade-offs. Specify shared interface/data contracts and invariants. Where they determine correctness, describe data flow, state transitions and triggers, resource ownership/lifetime, limits and overflow behavior, and failure/recovery paths. Include rollout, compatibility, and rollback only when relevant. Separate resolved decisions from blocking unknowns; requirements such as "bounded queues" or "recover after failure" need concrete mechanisms, not just restatement.
 3. **Acceptance map:** assign each required behavior or invariant an ID; map it to an owning task, simple verification procedure, and expected observable result. Confirm the code runs and the requested function works. Include failure behavior only for a reported bug, explicit requirement, or concrete reachable risk; do not invent rare scenarios to populate the map.
-4. **Ordered tasks:** one independently verifiable deliverable per task, dependencies, and intended commit boundary. Fully detail exact files/symbols, implementation steps, and checks for the next ready task; refine later tasks before executing them.
+4. **Ordered tasks:** every task identifies an independently verifiable deliverable, affected modules or known files, the intended behavioral change and approach, dependencies/shared contracts, acceptance procedure and expected result, and intended commit boundary. Identify exact symbols only when they are a necessary integration point. The next task must be actionable without another system-design phase; it need not prescribe local coding steps. A task title and a promise to design it later are insufficient.
 5. **Execution and progress:** how to resume, task states, completed evidence, blockers, and final integration checks.
 
 Split tasks where one deliverable could be accepted while its neighbor is rejected. Fold scaffolding, tests, and documentation into the behavior that needs them. Avoid whole layers such as "implement backend" and trivial tasks such as "create empty file". If a task cannot be verified or committed coherently without its successor, redraw the boundary or explicitly group them into one verification/commit unit.
 
 Task boundaries guide commits but do not impose a one-task/one-commit rule. Apply `commits.md` throughout execution: commit independently useful, verified intermediate stages within a task as they become ready. Do not wait for the whole task or plan to finish, and do not duplicate Git history in the plan.
 
-Order work toward the earliest useful runnable slice. Prefer one thin end-to-end path before optional refinements; do not front-load a test framework, speculative hardening, or generalized infrastructure. Complete the user's requested scope, but do not append hypothetical follow-up work. Give the user a runnable entry point as soon as useful; continue already-authorized work without waiting unless their feedback is needed for a material decision.
+Order work toward the earliest useful runnable slice after establishing a coherent design for the requested scope. Resolve decisions that determine feasibility, task boundaries, or shared contracts before treating the implementation plan as ready; a runnable first slice does not justify postponing those decisions. Do not front-load a test framework, speculative hardening, or generalized infrastructure. Complete the user's requested scope, but do not append hypothetical follow-up work. Give the user a runnable entry point as soon as useful; continue already-authorized work without waiting unless their feedback is needed for a material decision.
 
-Each step must identify an action, target, and result. Specify exact signatures, data shapes, algorithms, or pseudocode where they determine correctness or task coordination; do not copy entire future source files just to lengthen the plan. "Add error handling", "write tests", and "ensure compatibility" without concrete cases and expected behavior are not executable steps.
+Describe each task through its target, approach, and observable result. Specify shared data shapes, state transitions, or interface semantics where correctness or coordination depends on them; exact signatures are needed only when a fixed external or existing contract requires them. Leave helper functions, internal decomposition, local algorithms, and coding order to the implementer unless a consequential design decision requires otherwise. Do not include function bodies, implementation code, or line-by-line edit recipes by default. "Add error handling", "write tests", and "ensure compatibility" without concrete behavior and expected results are still insufficient.
+
+Consider maintenance in the design: explain how responsibilities fit existing modules, which component owns shared state or policy, and how likely changes and observed failures can be localized and understood. Where alternatives have meaningful costs, record why the chosen approach reduces coupling, duplicated logic, or diagnostic burden, and acknowledge any accepted maintenance cost. Use current repository evidence and requested behavior; do not invent future extension points, frameworks, or generic abstractions to claim maintainability. This belongs in the relevant design decision, not a mandatory separate essay or checklist.
 
 For each check, supply a working directory, command or precise manual procedure, necessary input/setup, and expected outcome. State what confirms the requested behavior, not merely "exit 0". Prefer an existing run command with a simple input/output example; reuse focused tests when useful, without requiring new test code. If an environment is unavailable, state what cannot yet be verified and how to obtain that evidence. Unknown commands or unresolved contracts block readiness for affected tasks; do not fill gaps with plausible-looking shell commands.
 
@@ -31,15 +33,19 @@ Replace the fields below with repository evidence. Omit irrelevant optional fiel
 ```markdown
 # <Topic> implementation plan
 
+Plan readiness: <exploration draft / ready / blocked; concrete reason if not ready>.
+
 ## Outcome and scope
 
 <Requested behavior, exclusions, spec link if one exists.>
 Existing changes: <relevant paths and ownership, or none>.
 Authorization: <implementation / plan-only; material approvals still needed>.
 
-## Decisions and constraints
+## Design and constraints
 
-<Resolved approach, boundary contracts, invariants, consequential trade-offs.>
+<Current behavior, proposed component responsibilities and interactions.>
+<Resolved approach and rationale, shared contracts and invariants.>
+<Relevant state transitions, ownership, limits and failure/recovery mechanisms.>
 <Rollout and rollback procedure when relevant.>
 
 ## Acceptance map
@@ -61,10 +67,10 @@ asking for approval at each checkpoint.
 Status: pending
 Depends on: <task IDs or none>
 Acceptance: <IDs>
-Files: <Create/Modify/Test: exact paths and relevant symbols>
+Targets: <Affected modules or verified files; mark proposed new files; exact symbols only when needed>
 Contracts: <inputs/outputs shared with other tasks, where relevant>
 
-- [ ] <Concrete implementation step with target and expected behavior.>
+- [ ] <Behavioral change, chosen approach, and relevant integration boundary.>
 - [ ] <Verification step: cwd, command/procedure, prerequisites, expected result.>
 - [ ] Inspect the diff for scope, contract mistakes, and unnecessary code.
 - [ ] Commit <intended coherent scope and proposed subject>.
@@ -81,21 +87,24 @@ feature works; reuse task evidence when it already proves this.>
 <Last completed task, next ready task, deviations/blockers, final evidence.>
 ```
 
-Status and evidence fields are execution records, not missing design. Fully specify the next ready task's targets, contracts, and acceptance procedure. Later tasks must have an outcome, dependencies, and acceptance intent; mark details that depend on earlier results and resolve them before those tasks start. Do not investigate every downstream detail before delivering the first runnable slice.
+Status and evidence fields are execution records, not missing design. Repeat the task block for every implementation task with substantive behavioral changes and checks. Local coding choices may remain open without being listed as blockers. For unresolved design questions that depend on earlier findings, name the required evidence or predecessor and affected task. Do not defer architecture, shared protocol/state contracts, or ownership decisions that could invalidate earlier work. Plan length follows the necessary design content, not a target for brevity or a requirement to reproduce future source code.
 
-When an unknown prevents a later task from becoming ready, allow a bounded discovery task: name the question, relevant module or entry point, expected finding, and stopping condition. Its deliverable is enough evidence to specify the dependent task, not a repository-wide survey. Discovery alone does not require a commit.
+During exploration, a bounded discovery task may record a question, relevant module or entry point, expected finding, and stopping condition. Mark the plan as an exploration draft while foundational decisions remain open. Continue authorized investigation and incorporate its findings; writing a discovery task is not completion of planning. If progress requires unavailable evidence or a user decision, report the concrete blocker and affected tasks rather than inventing contracts or calling the draft ready. Discovery alone does not require a commit.
 
 ## Readiness gate
 
 Before implementation, check the plan against the request and inspected repository:
 
 - Every requirement has a task and falsifiable acceptance check; no task adds unsupported scope.
+- The overall design explains how the requested behavior works across components, including relevant failure paths; shared decisions are resolved rather than assigned to future implementation.
+- Every implementation task identifies targets, behavioral changes, relevant contracts, and acceptance; remaining design dependencies are explicit, while routine coding choices remain with the implementer.
+- Consequential maintenance trade-offs are addressed in the design without speculative abstractions or a separate maintenance workstream.
 - Known paths, shared signatures, data shapes, dependencies, and commands agree across tasks; unresolved downstream details are explicit.
 - The next ready task is concrete enough for a fresh session to execute without redesigning the feature.
 - Checks confirm runnable code and requested functionality without speculative rare-case coverage; rollout/rollback procedures exist where the requested change needs them.
 - No unresolved decision blocks the next task; unresolved later decisions are labeled and block their dependents.
 
-Fix execution-blocking deficiencies before execution. This is a short self-check, not another planning/review phase; sufficient means the next task can be implemented and its result checked without guessing material requirements. Do not polish the plan for its own sake or request permission already given. Plan-only requests end with the plan and any genuine open decisions.
+Fix these deficiencies before claiming planning is complete or starting implementation. A fresh executor should be able to implement the next task and understand how later tasks integrate without redesigning the system or guessing material requirements. This is a content check, not a separate review pipeline or prose-polishing stage. Do not request permission already given. Plan-only requests end with a ready plan, or an explicitly incomplete draft and genuine blockers when further authorized investigation cannot resolve them; honor an explicit request for an outline or exploratory draft.
 
 ## Execute and resume
 
