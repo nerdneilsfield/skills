@@ -1,6 +1,6 @@
 ---
 name: counterweight-setup
-description: Initialize or update the current repository's root AGENTS.md so Counterweight is the sole default task workflow. Use when the user asks to enable, initialize, configure, or repair Counterweight project instructions.
+description: Enable Counterweight or repair its setup in a repository's root AGENTS.md.
 ---
 
 # Counterweight Setup
@@ -57,6 +57,29 @@ conflicting text and ask only about that unresolved choice before writing a
 contradictory setup. Report conflicts in global or other out-of-scope files
 without modifying them. Do not combine workflows merely to perform this setup.
 
+## Development entry points
+
+During authorized setup, add or update a short development navigation section
+only when the root guidance lacks useful entry points. Use a bounded inspection
+of existing project documentation and configuration to verify each reference.
+Point readers to the relevant build/run/check instructions, architecture guidance,
+and formatter or representative code conventions, with a brief indication of
+when each is useful. Reuse existing navigation when sufficient.
+
+Make reading conditional on the task; do not require the entire documentation
+set before every edit. Prefer links to existing sources of truth over copied
+commands or manuals. Do not invent paths, commands, conventions, or claims that
+tests are isolated or safe. Missing documentation does not authorize creating a
+development manual, changing tooling, or expanding beyond the target file.
+Omit unverified entries and report a material missing entry point when useful.
+
+For an explicit request to repair or clean up project instructions, inspect the
+target file for obsolete blanket reading requirements, duplicate checks, and
+repeated approval gates. Revise them only within the requested scope and with
+supporting evidence, preserving real safety and validation requirements. Ordinary
+enablement authorizes the workflow conflict handling above and verified navigation,
+not a rewrite of all project rules; report other concerns without changing them.
+
 ## Verify
 
 Before finishing:
@@ -68,3 +91,5 @@ Before finishing:
    authorized replacement; repeating setup should make no further changes.
 5. Report the file created or updated, any workflow rules replaced, and any
    unresolved conflict. For inspection-only requests, report findings only.
+6. Confirm navigation references exist, explain when to use them, and do not
+   duplicate existing guidance or impose unconditional reading.
