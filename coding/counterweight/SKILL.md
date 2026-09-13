@@ -1,13 +1,11 @@
 ---
 name: counterweight
-description: "Manage coding implementation from planning through execution, functional verification, and task-based commits. Use by default for coding changes; scale the workflow to the task and eliminate work without a concrete payoff."
+description: "Plan, implement, and verify coding changes with effort proportional to the task."
 ---
 
 # Counterweight
 
-Manage work through executable plans, clear task boundaries, functional acceptance, and timely commits, with process proportional to the task. Reducing low-ROI work must not remove the coordination and execution discipline the chosen track requires.
-
-Optimize for time to useful, runnable software. Implement the smallest working version of the requested behavior, run it, and make it easy for the user to try. Real usage and reported failures guide the next iteration. Do not delay that feedback loop to chase imagined completeness or 100% robustness. Preserve explicit requirements and real safety boundaries.
+Deliver the requested behavior as useful, runnable software through clear task boundaries, functional acceptance, and timely commits. Scale process to the task while preserving explicit requirements, real safety boundaries, and the chosen track's execution discipline. Let real usage and observed failures guide further work.
 
 Track the current phase: `SHAPE`, `EXECUTE`, `FEEDBACK`, or `DONE`; Deep also records task status in its plan. During initial `SHAPE`, inspect enough code and project guidance to select exactly one least-sufficient track. Do not blend their default obligations:
 
@@ -21,7 +19,7 @@ For Deep, process restraint must preserve design substance: explain the overall 
 
 Before editing, identify the observable result that means done and the smallest necessary check. For a clear small task, derive these directly from the request without a separate plan or confirmation. Checks must establish the requested behavior; build success alone does not establish a runtime fix. Revise acceptance when requirements or evidence change, never merely to make a failing check pass.
 
-Workflow track and reasoning effort are separate choices. When the host permits model or effort selection, respect the user's settings and otherwise choose the least costly option sufficient for the current judgment; do not default to maximum effort or bind effort to track or file count. Escalate when competing explanations remain, a reasonable fix fails, or newly discovered constraints require deeper judgment. First distinguish missing evidence or an unavailable environment from insufficient reasoning; higher effort cannot supply either. Do not escalate mechanically after a fixed retry count, hard-code model names, or claim to switch settings the host does not expose.
+Workflow track and reasoning effort are separate. When the host allows selection, respect user settings and choose sufficient effort rather than maximum by default. Escalate for unresolved competing explanations, a failed reasonable fix, or new constraints, not file count or a retry counter. Obtain missing evidence or environment access rather than substituting deeper reasoning; never claim an unavailable setting change.
 
 ## Restraint
 
@@ -31,9 +29,7 @@ Four rules govern the work:
 
 Before adding an abstraction, interface, dependency, config knob, fallback, retry, cache, compatibility layer, generalized utility, public API, persistent state, background worker, or extra documentation, identify the current requirement, reachable caller, observed failure, trust boundary, or platform constraint that needs it. Future possibility, elegance, generality, completeness, and unspecified robustness are not sufficient.
 
-Distinguish an existing implementation from a compatibility commitment. Code just written in the current task, or unreleased code with no evidence of external use, should be changed directly along with its callers, interfaces, and data structures. Do not retain old interfaces, compatibility parameters, fallback branches, or migration layers merely because an earlier implementation exists.
-
-Evaluate compatibility only when evidence identifies a published contract, independently deployed consumers, persistent data that must be preserved, or an explicit user requirement. Check task context and repository evidence first; local callers that can be updated together do not justify a compatibility layer. If concrete signs of a compatibility obligation remain unresolved and the answer would materially change the implementation, ask one specific question before choosing an approach. Otherwise proceed with the direct change; do not ask about compatibility routinely or add it "just in case". Unreleased status does not override known consumers or data-preservation requirements.
+Existing code alone is not a compatibility commitment. Change task-local or unreleased interfaces and their local callers together unless evidence identifies a published contract, independently deployed consumers, data that must be preserved, or an explicit user requirement. Preserve those obligations even for unreleased code. Ask only when concrete signs of an unresolved obligation would change the approach; otherwise avoid compatibility parameters, wrappers, and fallback layers added merely to retain an earlier implementation.
 
 Prefer current repository capability, then standard library, platform-native behavior, installed dependencies, and only then the least new code. Do not simplify away real security, accessibility, data-loss, or trust-boundary requirements.
 
@@ -41,7 +37,7 @@ Use questions for decisions, not confidence. Discover facts from code, project f
 
 Verification defaults to a runnable-code check and simple functional confirmation of the requested behavior, combined in one check where possible. Deep strengthens planning and execution discipline, not test volume. Do not add tests for speculative, extremely unlikely failures; expand checks only for observed failures, explicit requirements, or concrete risks in the changed path.
 
-Workflow level and authorization are independent. Deep selects how carefully to shape the work; it never expands the requested scope or grants permission to edit files. When applicable workflows differ, obey the stricter approval boundary.
+Workflow level and authorization are independent. Carry forward the user's authorized scope; analysis-only requests do not authorize implementation. Resolve instruction conflicts by authority, applicability, and current user intent, not by automatically choosing the most restrictive wording. Do not activate another workflow merely because it imposes an approval gate. Honor applicable host and project restrictions, but do not repeat an approval already given or infer a new gate from optional skill guidance.
 
 ## Maintainability and communication
 
@@ -51,7 +47,7 @@ Before editing, inspect applicable project guidance, formatter/linter configurat
 
 When the current task introduces or changes information needed to continue development, make that information discoverable in the repository: update the relevant existing setup/development documentation, project guidance, or nearby comment. Preserve necessary non-obvious constraints and their reasons instead of leaving them only in chat. Prefer existing sources of truth, link rather than duplicate, and correct affected stale instructions. If existing configuration, code examples, and documentation already explain how to continue, no additional prose is needed. Do not create routine handoff reports, chat transcripts, speculative abstractions, or unrelated cleanup. Small tasks need no separate document, checklist, or review phase.
 
-The smallest working implementation must remain easy for a maintainer to understand. Prefer clear names, straightforward control flow, and established repository conventions, including interface and error-handling patterns. Add brief comments beside non-obvious constraints, consequential trade-offs, ordering requirements, or external-system limitations. Explain why the code must behave that way; do not narrate obvious statements, require comments on every function, or preserve a development diary in source code. Fewer characters are not a reason to obscure intent.
+Use clear names and straightforward control flow. Brief comments should explain non-obvious constraints, trade-offs, ordering requirements, or external limitations, without narrating obvious statements or requiring comments on every function.
 
 Keep the user informed while working. Start with a short statement of the understood task and next action. During sustained work, provide concise updates on meaningful findings, progress, direction changes, blockers, and verification results, following the host's update cadence. Explain what the evidence means and what the next action will resolve; avoid tool-by-tool narration, repeated plans, phase labels, or unverified success claims. A progress update does not create an approval checkpoint.
 

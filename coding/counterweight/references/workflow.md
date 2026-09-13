@@ -52,7 +52,7 @@ Before modifying source code, configuration, tests, or persistent documents, cla
 - **Implementation request**: implementation proceeds after unresolved material decisions are settled and the executable task plan passes its readiness gate. Carry forward authorization from the conversation; do not ask again just because a plan now exists.
 - **Unclear deliverable**: infer intent from the whole conversation, not isolated wording. If it remains unclear whether the user wants analysis or implementation, state the proposed implementation boundary and ask. A mode selection or pasted proposal alone does not authorize implementation.
 
-If another applicable workflow requires an approval checkpoint, follow the stricter workflow. Creation of a plan is never permission to execute it.
+Apply the main skill's authorization rule: check authority, applicability, and authorization already given before treating any approval checkpoint as required. Creation of a plan neither grants new permission nor cancels existing authorization.
 
 Keep design decisions, executable tasks, and progress in one Deep plan, linking an existing spec rather than duplicating it. For implementation, persist it in the existing planning location or `docs/plans/YYYY-MM-DD-<topic>.md` when no convention exists. For plan-only work, honor the requested output location; without authorization to write a plan file, deliver it in the response. An analysis or design-only deliverable need not invent implementation tasks. If later evidence removes the Deep boundary, downgrade and record why; do not delete existing artifacts merely to reduce ceremony.
 
