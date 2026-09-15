@@ -37,9 +37,12 @@ Use the existing suitable dependency first in established projects. When choosin
 | Tests | Catch2, integrated with CTest |
 | Logging | spdlog |
 | Command-line argument parsing | [p-ranav/argparse](https://github.com/p-ranav/argparse) |
+| Terminal progress for iterative or batch work | [p-ranav/indicators](https://github.com/p-ranav/indicators), for tqdm-like feedback |
 | GUI | Dear ImGui with SDL |
 
-Do not add all four to a starter project. Pin compatible versions when introducing them and apply the vendoring policy to their required dependencies. For GUI work, choose an SDL version, ImGui platform backend, and renderer that fit the actual target platforms; retain their required source and state the choice. Do not assume a preferred library's upstream CMake configuration is offline-safe without inspecting it.
+Do not add these libraries wholesale to a starter project. Pin compatible versions when introducing them and apply the vendoring policy to their required dependencies. For GUI work, choose an SDL version, ImGui platform backend, and renderer that fit the actual target platforms; retain their required source and state the choice. Do not assume a preferred library's upstream CMake configuration is offline-safe without inspecting it.
+
+For long-running iteration or batch processing, consider indicators when progress helps the user understand the wait; a loop alone does not justify a progress UI. Show measured completion when a total is known, or activity without a fabricated percentage when it is unknown. Throttle updates, keep progress separate from machine-readable output, and disable animated rendering or use sparse plain messages for non-interactive output. Coordinate progress with logging so they remain readable.
 
 ## Formatting, analysis, and command entry points
 
