@@ -30,8 +30,8 @@ established fields or flags, and local bugs whose cause and correct edit are
 evident. Feedback is usually one cheap existing check.
 
 Do not announce the classification, perform a coordination step, create a
-task list, or invoke a grill. Do not request confirmation merely to increase
-confidence. Inspect, edit, verify, stop.
+task list, or invoke a grill or cut. Do not request confirmation merely to
+increase confidence. Inspect, edit, verify, stop.
 
 ## Managed
 

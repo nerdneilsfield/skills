@@ -1,6 +1,6 @@
 ---
 name: counterweight
-version: 0.4.0
+version: 0.5.0
 description: >
   Default workflow for coding implementation and modification: writing new code,
   fixing bugs, refactoring, wiring config, adding features, and debugging. Picks
@@ -84,10 +84,9 @@ Obligations:
   one light plan only when recording that coordination materially helps.
   Verify the affected integration points. Do not inherit Deep's design gate.
 - **Deep** — Read [references/workflow.md](references/workflow.md) and
-  [references/deep.md](references/deep.md). Resolve material decisions, specify
-  independently verifiable tasks, and execute when authorized. The plan must
-  explain design, shared contracts, and each task's acceptance; it need not
-  prescribe function bodies.
+  [references/deep.md](references/deep.md). Resolve material decisions and
+  execute when authorized. The plan must explain design, contracts, and
+  acceptance; not function bodies.
 
 Before editing, name the observable result that means done and the smallest
 check that can establish it. Build success alone does not prove a runtime fix.
@@ -139,21 +138,22 @@ For authorized implementation in a Git repository, all tracks share one policy:
   intermediate stages. Do not accumulate until the request is finished.
 - Local commits only. Push, PR, merge, and release each need separate authorization.
 
+Before committing, drop new abstractions, dependencies, config, permanent tests,
+or docs that lack a current caller, observed failure, or explicit request. Do
+not open a review round.
+
 Read [references/commits.md](references/commits.md) when grouping is non-obvious,
 unrelated changes are already staged, or a hook or commit fails.
 
 ## Maintainability
 
 A later reader with no chat history should find entry points, follow existing
-style, and verify further changes from the repository itself. When the task
-changes information needed to continue development, update the relevant
-existing guidance.
+style, and verify further changes from the repository. Update existing
+guidance when the task changes how to continue.
 
-Prefer low-latency, low-context tools. If the project or host provides a
-filtered shell or Git wrapper, prefer it for routine status and diff reads; fall
-back to raw output when filtering hides necessary detail. Read
-[references/subagents.md](references/subagents.md) only when delegation has a
-concrete isolation or parallel-work benefit.
+Prefer low-latency tools. Prefer a host Git wrapper for status and diffs.
+Read [references/subagents.md](references/subagents.md) only when delegation
+has a concrete isolation or parallel-work benefit.
 
 ## What the user sees
 
@@ -171,11 +171,12 @@ Stop when the requested behavior works, the necessary check passed, and the
 commit disposition is resolved. Perform Deep's planned functional acceptance.
 Do not add an audit, adjacent refactor, or roadmap without a current reason.
 
-If the task proved a durable, reusable, non-obvious project fact — a corrected
-build command, a source-of-truth directory, a required environment variable —
-add one or two lines to the narrowest existing `AGENTS.md`. Record current
-truth, not a task recap. The usual result is no change.
+If the task proved a durable, reusable, non-obvious project fact, add one or
+two lines to the narrowest existing `AGENTS.md`. Record current truth, not a
+task recap. The usual result is no change.
 
-If `$project-learning` is installed and the finding is unusually important,
-defer to it. If `$grill-me` is installed and the user asks to be grilled,
-defer to it. Neither is required for this skill to work.
+Companions are optional. Defer to `$project-learning`, `$grill-me`, or
+`$counterweight-cut` only when installed and the user or finding calls for
+them. After Deep work that added an abstraction, dependency, test file, or
+compatibility layer, ask once whether to run cut. Do not start it unasked.
+Direct and small Managed work do not mention cut.

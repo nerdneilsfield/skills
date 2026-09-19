@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 — 2026-09-20
+
+- Kernel: one-glance self-check before commit; no extra review round.
+- Optional `$counterweight-cut` exit after Deep work that added an
+  abstraction, dependency, test file, or compatibility layer. Ask once;
+  never start unasked. Direct and small Managed do not mention it.
+- Companion `counterweight-cut`: short, report-only cut list. Not part of
+  setup's default workflow.
+
 ## 0.4.0 — 2026-09-20
 
 Pin this version for eval A/B. Changes:

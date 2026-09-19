@@ -14,6 +14,7 @@
 | [`co-commit`](coding/co-commit/) | 分析 Git 变更，按仓库既有提交惯例分组并逐次提交。 |
 | [`counterweight`](coding/counterweight/) | 让编码工作的流程、实现复杂度、测试和知识沉淀与当前证据及风险相称。 |
 | [`counterweight-setup`](coding/counterweight-setup/) | 初始化或修订项目根 `AGENTS.md`，写入 Counterweight 的编码克制规则。 |
+| [`counterweight-cut`](coding/counterweight-cut/) | 实现之后列出本次 diff 里没挣到留下资格的东西；默认只出清单，用户点名才改。 |
 | [`cpp`](coding/cpp/) | 沉淀 C++20、CMake presets、精简 vendor 依赖及统一构建和 lint 入口的工程约定。 |
 | [`grill-me`](coding/grill-me/) | 应用户要求，对计划、设计或决策做克制的压力测试。 |
 | [`project-learning`](coding/project-learning/) | 将真实开发中发现的少量、持久且可复用的项目知识沉淀到现有项目指引。 |
@@ -73,6 +74,7 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`co-commit`](coding/co-commit/) | Analyzes Git changes, groups them according to the repository's existing commit conventions, and creates the commits in sequence. |
 | [`counterweight`](coding/counterweight/) | Keeps coding process, implementation complexity, tests, and retained knowledge proportional to current evidence and risk. |
 | [`counterweight-setup`](coding/counterweight-setup/) | Initializes or updates the root `AGENTS.md` with Counterweight's coding-restraint rules. |
+| [`counterweight-cut`](coding/counterweight-cut/) | After implementation, lists what in this diff did not earn the cost of staying. Default is a cut list; edit only when asked. |
 | [`cpp`](coding/cpp/) | Applies C++20, CMake presets, minimal vendored dependencies, and consistent build and lint entry points. |
 | [`grill-me`](coding/grill-me/) | Pressure-tests a plan, design, or decision when the user explicitly requests it. |
 | [`project-learning`](coding/project-learning/) | Persists small amounts of durable, reusable project knowledge discovered during real work. |

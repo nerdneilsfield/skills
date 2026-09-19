@@ -1,6 +1,6 @@
 # Counterweight behavior rubric
 
-When evaluating, use identical cases, models, settings, permissions, and trial counts; isolate user configuration and grade conditions blind. `core.jsonl` tests the main skill without companions. `suite.jsonl` tests `grill-me` and `project-learning`. New high-risk cases use `evals/fixtures/`. Compare against one-line YAGNI using `baseline.md`.
+When evaluating, use identical cases, models, settings, permissions, and trial counts; isolate user configuration and grade conditions blind. `core.jsonl` tests the main skill without companions. `suite.jsonl` tests `grill-me`, `project-learning`, and `counterweight-cut`. New high-risk cases use `evals/fixtures/`. Compare against one-line YAGNI using `baseline.md`.
 
 ## Gate
 
