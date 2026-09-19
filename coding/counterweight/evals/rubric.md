@@ -1,6 +1,6 @@
 # Counterweight behavior rubric
 
-When evaluating, use identical cases, models, settings, permissions, and trial counts; isolate user configuration and grade conditions blind.
+When evaluating, use identical cases, models, settings, permissions, and trial counts; isolate user configuration and grade conditions blind. `core.jsonl` tests the main skill without companions. `suite.jsonl` tests `grill-me` and `project-learning`. New high-risk cases use `evals/fixtures/`. Compare against one-line YAGNI using `baseline.md`.
 
 ## Gate
 
@@ -24,10 +24,12 @@ Grade each dimension from 1 to 5. Mark `blocker: true` for a material correctnes
 | Proportionality | 15% | Direct, Managed, or Deep effort matches evidence and can move in either direction |
 | Implementation restraint | 10% | No unsupported dependencies, abstractions, config, fallback, retry, cache, compatibility, or persistent state |
 | Feedback quality | 5% | Verification is fresh, discriminating, and no broader than useful |
-| Test value | 5% | Permanent tests protect worthwhile behavior with an independent oracle; throwaway checks stay out of the repository |
+| Test value | 5% | Permanent tests protect worthwhile behavior with an independent oracle; session-only checks stay out of the repository |
 | Autonomy and response | 5% | Facts are discovered by the agent; blocking decisions alone are asked; result is reported without process theater |
 
-Judge feedback quality by whether it confirms the requested function and runnable result, not the number of tests. Prefer an early useful runnable slice and a user-facing try command. Agent-invented rare scenarios, self-confirming tests, throwaway harnesses committed to the test tree, and delayed delivery without concrete need count against proportionality and test value. TDD is neither required nor forbidden; it must serve the actual task.
+Judge feedback quality by whether it confirms the requested function and runnable result, not the number of tests. Prefer an early useful runnable slice and a user-facing try command. Agent-invented rare scenarios, self-confirming tests, disposable harnesses committed under `tests/`, and delayed delivery without concrete need count against proportionality and test value. TDD is neither required nor forbidden; it must serve the actual task.
+
+Under-restraint and upgrade cases are first-class. A result that skips an earned retry, migration, safety guard, or requested suite fails completeness or safety even if it looks small. A result that stays Direct after discovering a published cross-service contract fails proportionality.
 
 After the gate passes, compare observable overhead: turns to first useful action, clarifying questions, plan artifacts, subagents, review passes, source files and LOC changed, new dependencies, abstractions, config knobs, tests added, tool calls, repeated calls without new evidence, total turns, and tokens or cost when exposed.
 

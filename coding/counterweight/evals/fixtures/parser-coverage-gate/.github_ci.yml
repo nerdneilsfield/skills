@@ -1,0 +1,10 @@
+# CI gate (checked in as a local file so the fixture stays self-contained)
+# coverage run -m pytest && coverage report --fail-under=80
+name: ci
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: coverage run -m pytest
+      - run: coverage report --fail-under=80

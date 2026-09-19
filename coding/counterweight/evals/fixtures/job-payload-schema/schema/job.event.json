@@ -1,0 +1,11 @@
+{
+  "$id": "https://example.invalid/schema/job.event.json",
+  "title": "JobEvent",
+  "type": "object",
+  "required": ["job_id", "status"],
+  "properties": {
+    "job_id": {"type": "string"},
+    "status": {"type": "string", "enum": ["queued", "running", "done"]}
+  },
+  "additionalProperties": false
+}
