@@ -13,7 +13,7 @@
 | [`qi-read-paper`](research/qi-read-paper/) | 分三轮精读算法与工程论文，理解问题、方法与图表证据，评估局限和复现路径。 |
 | [`co-commit`](coding/co-commit/) | 分析 Git 变更，按仓库既有提交惯例分组并逐次提交。 |
 | [`counterweight`](coding/counterweight/) | 让编码工作的流程、实现复杂度、测试和知识沉淀与当前证据及风险相称。 |
-| [`counterweight-setup`](coding/counterweight-setup/) | 初始化或修订项目根 `AGENTS.md`，将 Counterweight 设为唯一默认任务工作流。 |
+| [`counterweight-setup`](coding/counterweight-setup/) | 初始化或修订项目根 `AGENTS.md`，写入 Counterweight 的编码克制规则。 |
 | [`cpp`](coding/cpp/) | 沉淀 C++20、CMake presets、精简 vendor 依赖及统一构建和 lint 入口的工程约定。 |
 | [`grill-me`](coding/grill-me/) | 应用户要求，对计划、设计或决策做克制的压力测试。 |
 | [`project-learning`](coding/project-learning/) | 将真实开发中发现的少量、持久且可复用的项目知识沉淀到现有项目指引。 |
@@ -53,15 +53,7 @@ npx skills add nerdneilsfield/skills --skill technical-writing -g
 使用 $technical-writing 改写这份部署指南。
 ```
 
-`counterweight` 的描述覆盖 coding implementation / modification，支持隐式 Skill 选择。运行 `$counterweight-setup` 可将以下规则写入项目根 `AGENTS.md`：
-
-```text
-Use $counterweight by default for coding implementation and modification tasks.
-
-Counterweight is the sole task workflow in this repository. Do not invoke or
-combine it with engineering-change, planning, orchestration, or other workflow
-skills unless the user explicitly names that additional skill.
-```
+`counterweight` 的描述覆盖 coding implementation / modification，支持隐式 Skill 选择。运行 `$counterweight-setup` 写入项目根 `AGENTS.md`；具体文本以该 skill 为准。
 
 ### 仓库结构
 
@@ -80,7 +72,7 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`qi-read-paper`](research/qi-read-paper/) | Reads algorithm and engineering papers in three rounds, covering the problem, methods and visual evidence, limitations, and reproduction steps. |
 | [`co-commit`](coding/co-commit/) | Analyzes Git changes, groups them according to the repository's existing commit conventions, and creates the commits in sequence. |
 | [`counterweight`](coding/counterweight/) | Keeps coding process, implementation complexity, tests, and retained knowledge proportional to current evidence and risk. |
-| [`counterweight-setup`](coding/counterweight-setup/) | Initializes or updates the root `AGENTS.md` so Counterweight is the sole default task workflow. |
+| [`counterweight-setup`](coding/counterweight-setup/) | Initializes or updates the root `AGENTS.md` with Counterweight's coding-restraint rules. |
 | [`cpp`](coding/cpp/) | Applies C++20, CMake presets, minimal vendored dependencies, and consistent build and lint entry points. |
 | [`grill-me`](coding/grill-me/) | Pressure-tests a plan, design, or decision when the user explicitly requests it. |
 | [`project-learning`](coding/project-learning/) | Persists small amounts of durable, reusable project knowledge discovered during real work. |
@@ -120,15 +112,7 @@ After installation, invoke a skill by name in an agent that supports Agent Skill
 Use $technical-writing to rewrite this deployment guide.
 ```
 
-The `counterweight` description covers coding implementation and modification for implicit Skill selection. Run `$counterweight-setup` to add these rules to the project's root `AGENTS.md`:
-
-```text
-Use $counterweight by default for coding implementation and modification tasks.
-
-Counterweight is the sole task workflow in this repository. Do not invoke or
-combine it with engineering-change, planning, orchestration, or other workflow
-skills unless the user explicitly names that additional skill.
-```
+The `counterweight` description covers coding implementation and modification for implicit Skill selection. Run `$counterweight-setup` to write the project's root `AGENTS.md`; the exact text lives in that skill.
 
 ### Repository layout
 

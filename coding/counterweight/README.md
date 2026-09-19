@@ -1,9 +1,24 @@
 # Counterweight Skills
 
+## Source of truth
+
+Do not restate these concepts elsewhere. Link here, then to the authority.
+
+| Concept | Authority | Other files may |
+| --- | --- | --- |
+| Four earn rules | [SKILL.md](SKILL.md) | cite, not restate |
+| Implementation ladder | [SKILL.md](SKILL.md) | cite |
+| Track definitions and selection | [SKILL.md](SKILL.md) | cite |
+| Authorization | [SKILL.md](SKILL.md) | cite |
+| Commit grouping and timing | [references/commits.md](references/commits.md) | SKILL.md: four bullets + link |
+| Check choice and permanent vs session-only tests | [references/feedback.md](references/feedback.md) | SKILL.md: four-line list + link |
+| Deep plan contract | [references/deep.md](references/deep.md) | cite |
+| Setup text written into AGENTS.md | [../counterweight-setup/SKILL.md](../counterweight-setup/SKILL.md) | never inline in any README |
+
 This package contains four discoverable Skills:
 
 - `counterweight`: default restraint and evidence policy for coding work.
-- `counterweight-setup`: initializes or updates root `AGENTS.md` so Counterweight is the sole default task workflow.
+- `counterweight-setup`: initializes or updates root `AGENTS.md`.
 - `grill-me`: user-invoked pressure testing of material decisions.
 - `project-learning`: conditional persistence of durable project knowledge.
 
@@ -16,22 +31,18 @@ npx skills add nerdneilsfield/skills --skill grill-me
 npx skills add nerdneilsfield/skills --skill project-learning
 ```
 
-Run `$counterweight-setup` to configure a project's root `AGENTS.md`. It adds:
+`counterweight` works when installed alone. `grill-me` and `project-learning`
+are optional. Run `$counterweight-setup` to write the project's root
+`AGENTS.md`; the exact text lives in that skill.
 
-```text
-Use $counterweight by default for coding implementation and modification tasks.
+No hook or router is required; actual automatic invocation depends on the
+host's Skill support.
 
-Counterweight is the sole task workflow in this repository. Do not invoke or
-combine it with engineering-change, planning, orchestration, or other workflow
-skills unless the user explicitly names that additional skill.
-```
+Direct handles bounded edits without planning overhead. Managed coordinates
+dependent edits. Deep uses an executable plan; see
+[Deep planning and execution](references/deep.md). Verification, commits, and
+authorization follow [SKILL.md](SKILL.md).
 
-No hook or router is required; actual automatic invocation depends on the host's Skill support.
-
-Direct handles bounded edits without planning overhead. Managed coordinates dependent edits. Deep uses an executable plan with exact targets, dependencies, acceptance checks, and a progress record; execution follows `task → run/check → commit`, then confirms the assembled feature works. No automatic reviewer pipeline is required. See [Deep planning and execution](references/deep.md).
-
-Verification stays small in every track: confirm the code runs and the requested function works. Reuse existing checks or a simple smoke run; do not add permanent tests or rare-failure coverage without concrete evidence that they are needed. Session-only scripts and reproducers belong in `/tmp` or an uncommitted local directory, not the project's test tree. Deep adds execution discipline, not a larger test campaign.
-
-Prioritize the first useful runnable version and real user feedback. TDD is optional, useful for a concrete problem or explicit request; imagined edge cases and agent-written tests that mirror the implementation must not delay delivery.
-
-For implementation work in a Git repository, all tracks use `/co-commit`'s grouping principles: commit by task intent, dependencies, and review/rollback boundaries. Commit each verified coherent unit during execution, including useful intermediate stages; do not wait until the whole request is finished. Track selection does not determine commit count, and one task may produce several commits. Explicit no-commit instructions and host/repository restrictions take precedence. Commit scope excludes unrelated user changes; push, PR creation, merge, and release require their own authorization. See [commit contract](references/commits.md).
+Evals: [evals/core.jsonl](evals/core.jsonl) for the main skill,
+[evals/suite.jsonl](evals/suite.jsonl) for optional companions,
+[evals/baseline.md](evals/baseline.md) for the YAGNI comparison.

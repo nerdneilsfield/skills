@@ -1,83 +1,181 @@
 ---
 name: counterweight
-description: "Plan, implement, and verify coding changes with effort proportional to the task."
+version: 0.4.0
+description: >
+  Default workflow for coding implementation and modification: writing new code,
+  fixing bugs, refactoring, wiring config, adding features, and debugging. Picks
+  the lightest sufficient process (Direct / Managed / Deep) and keeps
+  abstractions, dependencies, tests, docs, and commits proportional to current
+  evidence and risk. Use when a request would otherwise produce a plan, a
+  framework, a compatibility layer, a retry/cache/fallback, or a test suite that
+  nothing in the repository asks for. Not for answering questions about existing
+  code, standalone code review, or writing prose documents.
 ---
 
 # Counterweight
 
-Deliver the requested behavior as useful, runnable software through clear task boundaries, functional acceptance, and timely commits. Scale process to the task while preserving explicit requirements, real safety boundaries, and the chosen track's execution discipline. Let real usage and observed failures guide further work.
+Deliver the requested behavior as useful, runnable software.
 
-Track the current phase: `SHAPE`, `EXECUTE`, `FEEDBACK`, or `DONE`; Deep also records task status in its plan. During initial `SHAPE`, inspect enough code and project guidance to select exactly one least-sufficient track. Do not blend their default obligations:
-
-- **Direct** — `SHAPE → EXECUTE → FEEDBACK → DONE`. Use when the correct local diff is apparent. No coordination step, plan, design, `$grill-me`, subagent, review, or new permanent test by default. `FEEDBACK` is the cheapest existing check that supports completion.
-- **Managed** — `SHAPE (coordinate) → EXECUTE → FEEDBACK → DONE`. Use when several dependent edits could drift. Before editing, identify their order and integration points; write one light plan only when recording that coordination materially helps. Verify the affected integration points. Do not inherit Deep's design and authorization gate.
-- **Deep** — `SHAPE (decisions + executable plan) → EXECUTE (task → run/check → commit) → FEEDBACK (working feature) → DONE`. Use when a system decision or high-risk boundary remains, such as a public interface, migration, security, concurrency, data consistency, or large refactor. Read [references/workflow.md](references/workflow.md) and [references/deep.md](references/deep.md). Resolve material decisions, specify independently verifiable tasks, and execute the plan when authorized. Deep earns concrete instructions and progress checkpoints, not a larger implementation or automatic review pipeline.
-
-Change level in either direction when new evidence changes what is necessary. Prior work or an existing plan does not justify keeping a heavier workflow.
-
-For Deep, process restraint must preserve design substance: explain the overall design, shared contracts, maintenance trade-offs, and each task's behavioral change and acceptance. Leave local coding choices to implementation; a plan need not prescribe function bodies or line-by-line edits. Distinguish an exploration draft from a ready plan; do not present a roadmap of unresolved system decisions as completed planning.
-
-Before editing, identify the observable result that means done and the smallest necessary check. For a clear small task, derive these directly from the request without a separate plan or confirmation. Checks must establish the requested behavior; build success alone does not establish a runtime fix. Revise acceptance when requirements or evidence change, never merely to make a failing check pass.
-
-Workflow track and reasoning effort are separate. When the host allows selection, respect user settings and choose sufficient effort rather than maximum by default. Escalate for unresolved competing explanations, a failed reasonable fix, or new constraints, not file count or a retry counter. Obtain missing evidence or environment access rather than substituting deeper reasoning; never claim an unavailable setting change.
+Workflow track, reasoning effort, authorization, and review are separate.
 
 ## Restraint
 
-Four rules govern the work:
+> Process must earn execution. Complexity must earn implementation. Tests must
+> earn maintenance. Knowledge must earn persistence.
 
-> Process must earn execution. Complexity must earn implementation. Tests must earn maintenance. Knowledge must earn persistence.
+Do not simplify away real security, accessibility, data-loss, or trust-boundary
+requirements.
 
-Before adding an abstraction, interface, dependency, config knob, fallback, retry, cache, compatibility layer, generalized utility, public API, persistent state, background worker, or extra documentation, identify the current requirement, reachable caller, observed failure, trust boundary, or platform constraint that needs it. Future possibility, elegance, generality, completeness, and unspecified robustness are not sufficient.
+Existing code is not by itself a compatibility commitment. Change task-local or
+unreleased interfaces with their local callers unless evidence identifies a
+published contract, independently deployed consumers, data that must be
+preserved, or an explicit user requirement. Preserve those obligations even for
+unreleased code.
 
-Existing code alone is not a compatibility commitment. Change task-local or unreleased interfaces and their local callers together unless evidence identifies a published contract, independently deployed consumers, data that must be preserved, or an explicit user requirement. Preserve those obligations even for unreleased code. Ask only when concrete signs of an unresolved obligation would change the approach; otherwise avoid compatibility parameters, wrappers, and fallback layers added merely to retain an earlier implementation.
+Ask only when an unresolved choice materially changes the result. Discover facts
+from code, project files, Git, and relevant documentation.
 
-Prefer current repository capability, then standard library, platform-native behavior, installed dependencies, and only then the least new code. Do not simplify away real security, accessibility, data-loss, or trust-boundary requirements.
+## Implementation ladder
 
-Use questions for decisions, not confidence. Discover facts from code, project files, Git, and relevant documentation. Ask only when an unresolved choice materially changes the result.
+Before writing new code, walk this in order and stop at the first level that
+satisfies the current requirement:
 
-Verification defaults to a runnable-code check and simple functional confirmation of the requested behavior, combined in one check where possible. Deep strengthens planning and execution discipline, not test volume. Do not add tests for speculative, extremely unlikely failures; expand checks only for observed failures, explicit requirements, or concrete risks in the changed path. Write a test into the repository only when it earns future maintenance, and then with extreme restraint. Put session-only scripts, fixtures, and reproducers in `/tmp` or one uncommitted local directory, never in the project's test tree.
+1. Does this need to exist at all? — name the requirement, reachable caller,
+   observed failure, trust boundary, or platform constraint that demands it.
+2. Existing repository capability.
+3. Standard library.
+4. Platform or framework native behavior.
+5. An already-installed dependency.
+6. The smallest new code that works.
 
-Workflow level and authorization are independent. Carry forward the user's authorized scope; analysis-only requests do not authorize implementation. Resolve instruction conflicts by authority, applicability, and current user intent, not by automatically choosing the most restrictive wording. Do not activate another workflow merely because it imposes an approval gate. Honor applicable host and project restrictions, but do not repeat an approval already given or infer a new gate from optional skill guidance.
+Future possibility, elegance, generality, completeness, and unspecified
+robustness do not move you down a level.
 
-## Maintainability and communication
+## Calibration
 
-Maintainability applies to Direct, Managed, and Deep. A human or another agent with no chat history should be able to use the repository itself to find the relevant development entry points, follow the same structure, formatting and code style, and build, run and verify subsequent changes. Treat this ability to continue work consistently as a property of the delivered repository, not of the final chat response or a session handoff.
+- "Add caching to compute()" + compute is pure → `functools.lru_cache` or the
+  repository's equivalent. Not a CacheManager, provider interface, or config knob.
+- "Parse the generated metadata file" + generator and consumer share one current
+  schema → implement that schema path only. No checksum, fallback parser, or
+  future-version layer.
+- "Pass region to the SDK constructor" + the repository already validates config
+  parsing and has a smoke path → use them. No field-exists or mock-call-count test.
+- "Add retry to this call" + logs show it really fails several times a day →
+  the retry is earned. Restraint is not a reason to skip it.
 
-Before editing, inspect applicable project guidance, formatter/linter configuration, and nearby representative code as needed to learn the existing conventions. Follow those conventions for file placement, naming, interfaces, error handling, and checks rather than introducing a personal style. Keep responsibilities and state ownership clear, and behavior easy to locate, diagnose, and modify. Avoid unnecessary coupling and duplicated business rules; a smaller diff is not automatically easier to maintain.
+## Track selection
 
-When the current task introduces or changes information needed to continue development, make that information discoverable in the repository: update the relevant existing setup/development documentation, project guidance, or nearby comment. Preserve necessary non-obvious constraints and their reasons instead of leaving them only in chat. Prefer existing sources of truth, link rather than duplicate, and correct affected stale instructions. If existing configuration, code examples, and documentation already explain how to continue, no additional prose is needed. Do not create routine handoff reports, chat transcripts, speculative abstractions, or unrelated cleanup. Small tasks need no separate document, checklist, or review phase.
+| Signal | Track |
+| --- | --- |
+| You can name the files and the correct edit before reading further | Direct |
+| Edits are clear but dependent; wrong order drops one | Managed |
+| An unresolved system decision remains: public interface, migration, concurrency, data consistency, security boundary, large refactor | Deep |
 
-Use clear names and straightforward control flow. Brief comments should explain non-obvious constraints, trade-offs, ordering requirements, or external limitations, without narrating obvious statements or requiring comments on every function.
+When two tracks both seem to fit, take the lighter one and escalate on new
+evidence. Prior work or an existing plan never justifies keeping the heavier
+track.
 
-Keep the user informed while working. Start with a short statement of the understood task and next action. During sustained work, provide concise updates on meaningful findings, progress, direction changes, blockers, and verification results, following the host's update cadence. Explain what the evidence means and what the next action will resolve; avoid tool-by-tool narration, repeated plans, phase labels, or unverified success claims. A progress update does not create an approval checkpoint.
+Obligations:
 
-## Tool economy
+- **Direct** — No coordination step, plan, design, subagent, review, or new
+  permanent test by default. Feedback is the cheapest existing check that
+  supports completion.
+- **Managed** — Identify order and integration points before editing; write
+  one light plan only when recording that coordination materially helps.
+  Verify the affected integration points. Do not inherit Deep's design gate.
+- **Deep** — Read [references/workflow.md](references/workflow.md) and
+  [references/deep.md](references/deep.md). Resolve material decisions, specify
+  independently verifiable tasks, and execute when authorized. The plan must
+  explain design, shared contracts, and each task's acceptance; it need not
+  prescribe function bodies.
 
-Choose available tools for low latency and low context cost while preserving the evidence needed for the task. This applies to all tracks, including Deep.
+Before editing, name the observable result that means done and the smallest
+check that can establish it. Build success alone does not prove a runtime fix.
 
-- Prefer `rtk` for shell commands when installed, for example `rtk git status` and `rtk git diff`. If filtering hides necessary details, use `rtk proxy` or raw output for that check. If unavailable, use existing tools directly; do not turn the task into tool installation or setup.
-- Narrow searches by path, symbol, or pattern, then read the relevant slices. Use `rg` or a precise symbol query for local questions; use broader repository tooling only when the question needs it. Avoid whole-repository dumps, full logs, or repeated reads of unchanged content.
-- Request only needed fields and bounded output from tools. Batch independent reads or searches when it saves round trips; keep dependent actions sequential. Reuse results already obtained unless the relevant state changed.
-- Prefer a direct CLI or API over UI automation when it provides the same result with less overhead. Do not add tool discovery, delegation, or orchestration unless it reduces the actual work.
+## Authorization
 
-## References
+| Situation | Rule |
+| --- | --- |
+| Analysis, review, or plan-only request | Inspect and report; do not modify files |
+| Authorization already given in this conversation | Carry it forward; do not ask again |
+| A plan now exists | Not a new gate, and not a cancellation of existing authorization |
+| Local commit authorized | Never implies push, PR, merge, or release |
 
-- Read [references/workflow.md](references/workflow.md) for every confirmed Deep task; for Managed work, read it only when an artifact materially helps coordination, review may be justified, or completion is genuinely non-obvious.
-- Read [references/feedback.md](references/feedback.md) when verification is non-obvious, a permanent or throwaway test is being considered, or a failure needs diagnosis.
-- Read [references/subagents.md](references/subagents.md) only when delegation has a concrete context-isolation or parallel-work benefit and the host permits it.
+An explicit user instruction about process weight overrides track defaults. If
+the user asks for a plan, TDD, full test coverage, an ADR, or a review, provide
+it. Restraint never overrides an explicit request.
 
-## Commits during execution
+Do not infer a new gate from optional skill guidance.
 
-Direct, Managed, and Deep share one commit policy: group by task intent, dependencies, and review/rollback boundaries, using the grouping principles of `/co-commit`. Track selection does not determine commit count. Read [references/commits.md](references/commits.md) before the first implementation edit to identify useful commit boundaries; no separate planning artifact is needed for Direct.
+## Verification
 
-Commit each coherent unit as soon as its simple functional or run check passes, including useful intermediate stages. Do not accumulate completed units until the entire request is finished. A task can produce several commits, while tightly coupled steps may need one commit. Respect explicit no-commit instructions and repository or host restrictions. Analysis, review, and plan-only requests do not authorize implementation commits. Local commits do not authorize push, PR creation, merge, or release.
+Start with the smallest check that can support the claim:
+
+- Feature: run a representative input through the changed path, inspect the result.
+- Bug: run the reported reproducer, confirm the symptom is gone.
+- Build/import: compile, typecheck, or load the affected entry point.
+- Text/config: inspect the diff or run the relevant parser/config check.
+
+Add a second check only for a separate explicit requirement, a real safety
+boundary, or a mandatory repository gate. Fresh evidence must match the claim:
+a parser check cannot prove runtime behavior.
+
+Write a test into the repository only when it earns future maintenance, and then
+with extreme restraint. Put session-only scripts, fixtures, and reproducers in
+`/tmp` or one uncommitted local directory, never under `tests/`.
+
+Read [references/feedback.md](references/feedback.md) when considering a
+permanent test, or when diagnosing a failure whose cause is unclear.
+
+## Commits
+
+For authorized implementation in a Git repository, all tracks share one policy:
+
+- Group by task intent, dependency, and review/rollback boundary — not by track,
+  file type, or Conventional Commit type.
+- Stage named paths or hunks only. Never `git add .`, `git add -A`, or
+  `git commit -am`. Preserve unrelated user changes.
+- Commit each coherent unit as soon as its check passes, including useful
+  intermediate stages. Do not accumulate until the request is finished.
+- Local commits only. Push, PR, merge, and release each need separate authorization.
+
+Read [references/commits.md](references/commits.md) when grouping is non-obvious,
+unrelated changes are already staged, or a hook or commit fails.
+
+## Maintainability
+
+A later reader with no chat history should find entry points, follow existing
+style, and verify further changes from the repository itself. When the task
+changes information needed to continue development, update the relevant
+existing guidance.
+
+Prefer low-latency, low-context tools. If the project or host provides a
+filtered shell or Git wrapper, prefer it for routine status and diff reads; fall
+back to raw output when filtering hides necessary detail. Read
+[references/subagents.md](references/subagents.md) only when delegation has a
+concrete isolation or parallel-work benefit.
+
+## What the user sees
+
+| Report | Do not report |
+| --- | --- |
+| What changed | Phase or track names |
+| The check that was run and its actual result | Tool-by-tool narration |
+| Commit subjects, or the concrete reason nothing was committed | Repeated plans |
+| Real blockers and limits | Invented follow-up work |
+| A non-obvious omission and its one-clause reason | Unverified success claims |
 
 ## Finish
 
-As part of ordinary diff inspection, check that the change follows repository conventions and that any development instructions or constraints it changed are discoverable without this conversation. Close task-created gaps in the appropriate repository location; do not turn this into a repository-wide documentation audit or require a fresh agent to prove it.
+Stop when the requested behavior works, the necessary check passed, and the
+commit disposition is resolved. Perform Deep's planned functional acceptance.
+Do not add an audit, adjacent refactor, or roadmap without a current reason.
 
-Stop when the requested behavior works, the necessary run/check succeeded, and the commit disposition is resolved. Perform Deep's planned functional acceptance; do not add an audit, adjacent refactor, documentation, edge-case set, dependency update, or roadmap without a current reason. Make the result easy to try with a short run command or usage example when useful. Do not wait indefinitely for user feedback or invent another iteration before it arrives.
+If the task proved a durable, reusable, non-obvious project fact — a corrected
+build command, a source-of-truth directory, a required environment variable —
+add one or two lines to the narrowest existing `AGENTS.md`. Record current
+truth, not a task recap. The usual result is no change.
 
-Lead the final response with the result. Usually report only what changed, the evidence run, commit subjects or the concrete reason for not committing, and any real blocker or limitation. Do not copy commit hashes into plans or routine reports. Do not narrate phases or manufacture future work.
-
-If the work revealed verified, durable, reusable, non-obvious project knowledge, invoke `$project-learning`; otherwise do nothing.
+If `$project-learning` is installed and the finding is unusually important,
+defer to it. If `$grill-me` is installed and the user asks to be grilled,
+defer to it. Neither is required for this skill to work.
