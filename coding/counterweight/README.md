@@ -30,7 +30,7 @@ No hook or router is required; actual automatic invocation depends on the host's
 
 Direct handles bounded edits without planning overhead. Managed coordinates dependent edits. Deep uses an executable plan with exact targets, dependencies, acceptance checks, and a progress record; execution follows `task → run/check → commit`, then confirms the assembled feature works. No automatic reviewer pipeline is required. See [Deep planning and execution](references/deep.md).
 
-Verification stays small in every track: confirm the code runs and the requested function works. Reuse existing checks or a simple smoke run; do not add permanent tests or rare-failure coverage without concrete evidence that they are needed. Deep adds execution discipline, not a larger test campaign.
+Verification stays small in every track: confirm the code runs and the requested function works. Reuse existing checks or a simple smoke run; do not add permanent tests or rare-failure coverage without concrete evidence that they are needed. Session-only scripts and reproducers belong in `/tmp` or an uncommitted local directory, not the project's test tree. Deep adds execution discipline, not a larger test campaign.
 
 Prioritize the first useful runnable version and real user feedback. TDD is optional, useful for a concrete problem or explicit request; imagined edge cases and agent-written tests that mirror the implementation must not delay delivery.
 

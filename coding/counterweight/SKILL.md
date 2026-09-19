@@ -35,7 +35,7 @@ Prefer current repository capability, then standard library, platform-native beh
 
 Use questions for decisions, not confidence. Discover facts from code, project files, Git, and relevant documentation. Ask only when an unresolved choice materially changes the result.
 
-Verification defaults to a runnable-code check and simple functional confirmation of the requested behavior, combined in one check where possible. Deep strengthens planning and execution discipline, not test volume. Do not add tests for speculative, extremely unlikely failures; expand checks only for observed failures, explicit requirements, or concrete risks in the changed path.
+Verification defaults to a runnable-code check and simple functional confirmation of the requested behavior, combined in one check where possible. Deep strengthens planning and execution discipline, not test volume. Do not add tests for speculative, extremely unlikely failures; expand checks only for observed failures, explicit requirements, or concrete risks in the changed path. Write a test into the repository only when it earns future maintenance, and then with extreme restraint. Put session-only scripts, fixtures, and reproducers in `/tmp` or one uncommitted local directory, never in the project's test tree.
 
 Workflow level and authorization are independent. Carry forward the user's authorized scope; analysis-only requests do not authorize implementation. Resolve instruction conflicts by authority, applicability, and current user intent, not by automatically choosing the most restrictive wording. Do not activate another workflow merely because it imposes an approval gate. Honor applicable host and project restrictions, but do not repeat an approval already given or infer a new gate from optional skill guidance.
 
@@ -63,7 +63,7 @@ Choose available tools for low latency and low context cost while preserving the
 ## References
 
 - Read [references/workflow.md](references/workflow.md) for every confirmed Deep task; for Managed work, read it only when an artifact materially helps coordination, review may be justified, or completion is genuinely non-obvious.
-- Read [references/feedback.md](references/feedback.md) when verification is non-obvious, a permanent test is being considered, or a failure needs diagnosis.
+- Read [references/feedback.md](references/feedback.md) when verification is non-obvious, a permanent or throwaway test is being considered, or a failure needs diagnosis.
 - Read [references/subagents.md](references/subagents.md) only when delegation has a concrete context-isolation or parallel-work benefit and the host permits it.
 
 ## Commits during execution
