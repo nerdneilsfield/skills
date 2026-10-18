@@ -569,3 +569,44 @@ Quick-reference table for common substitutions. Prefer deletion or an existing c
 | bustling | busy, active |
 | deep dive | close look, detailed study |
 | unpack | explain, break down |
+| preliminary (self-label) | (state what is actually established) |
+| we do not claim X | The analysis covers... / X remains untested |
+| unfortunately / merely | (state the fact directly) |
+| these results do not by themselves establish | (restore the claim if the source supports it) |
+| further research is needed | Next, we will... |
+
+---
+
+## 10. Defensive Writing
+
+Under review-framed prompts, newer LLMs inject ungrounded qualifications, self-undermining wording, reviewer prebuttal, and sometimes retract the author's own claims (arXiv:2610.11355). The scanner reports these as the `defensive` category (MEDIUM). Full rules, the claim-audit workflow, and the evidence live in `DEFENSIVE_WRITING.md`; this section lists the lexical candidates. Judgment-heavy signals ("the improvement does not mean that…") belong to the claim audit, not the scanner.
+
+### 10.1 Self-undermining (self_undermining)
+
+| ID | Regex | Example |
+|----|-------|---------|
+| D-EN-01 | `unfortunately` | Unfortunately, we were only able to test on small datasets. |
+| D-EN-02 | `merely` + achieve/reach/attain/improve/yield/provide/offer/show | Our method merely achieves a marginal gain. |
+| D-EN-03 | `only (achieves/reaches/attains)` | The model only reaches 80% accuracy. |
+| D-EN-04 | `still lags` / `limited (improvement/gain/success/applicability)` | The model still lags behind the baseline. |
+| D-EN-05 | `preliminary (study/studies/work/analysis)` / `tentative(ly)` | This is a preliminary study. |
+| D-EN-06 | `further (research/work/studies) (is/are) (needed/required/warranted)` | Further research is needed. |
+
+### 10.2 Ungrounded qualification (ungrounded_qualification)
+
+| ID | Regex | Example |
+|----|-------|---------|
+| D-EN-07 | `(these/our/the) results do not (by themselves) (establish/prove/demonstrate)` | These results do not by themselves establish robustness. |
+| D-EN-08 | `in the (evaluated/tested/considered) (settings/conditions/scenarios/datasets)` | In the evaluated settings, our approach wins. |
+| D-EN-09 | `cannot rule out` / `may not generalize` | The design cannot rule out confounding. |
+| D-EN-10 | `should (not be interpreted as / be interpreted with caution / be read with the caveat)` | The scores should be read with the caveat that… |
+| D-EN-11 | `remains to be (established/verified/confirmed/tested)` | This remains to be established. |
+
+### 10.3 Reviewer prebuttal / negative scope (reviewer_prebuttal / negative_scope)
+
+| ID | Regex | Example |
+|----|-------|---------|
+| D-EN-12 | `one might (argue/object/question)` / `a (natural/reasonable/valid) (question/concern)` / `critics might` | One might argue that our evaluation covers only English. |
+| D-EN-13 | `we` + up to 3 words + `(do not/cannot) claim` | We therefore do not claim stability. |
+
+Handling: restore claims the source supports (`restore_claim`); delete ungrounded qualifications (`delete_hedge`); recast real limits as one positive statement; keep a negation that carries evidence (e.g., the interval includes zero) and restate it positively. Grounded validity, ethics, and safety caveats always stay; never use anti-defensive edits to upgrade a claim the evidence does not carry. Hedges are normal academic calibration (Hyland) — `unfortunately` and `may not generalize` are candidates only; judge grounding against the source.

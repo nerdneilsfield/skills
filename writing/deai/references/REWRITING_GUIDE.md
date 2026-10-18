@@ -511,18 +511,20 @@ Different sections have different AI-trace profiles. Apply targeted strategies.
 - **Main risk / 主要风险:** Repetitive comparison sentences ("Our method outperforms X by Y%. Compared to Z, our method achieves...")
 - **Fix:** Vary comparison framing. Use tables for numbers, prose for insights. Lead with a notable result already present in the source.
 - **中文修复：** 变化比较的表达方式。数字放表格，见解用文字。先说原文已有的重要发现。
+- **Defensive risk / 防御性风险:** Result analysis and discussion carry the highest ungrounded-qualification rates (GPT-6-astra: 1.30 vs 1.32 per 100 words), and retractions appear across all paragraph types (arXiv:2610.11355 Table 1). Run the claim audit in `DEFENSIVE_WRITING.md` §5 on any text that has passed an AI "review" prompt / 结果分析与讨论的无依据限定率最高（GPT-6-astra 每百词 1.30 对 1.32），撤回散见各类段落；凡经过 AI"审稿"话术处理过的文本，按 `DEFENSIVE_WRITING.md` §5 做结论审计。
 
 ### Discussion / 讨论
 
-- **Main risk / 主要风险:** Generic hedging and future work boilerplate.
-- **Fix:** Be specific about limitations ("fails when N < 50") and future work ("next step: test on dataset X").
-- **中文修复：** 具体说明局限（"当N<50时失效"）和下一步计划（"计划在X数据集上测试"）。
+- **Main risk / 主要风险:** Generic hedging and future work boilerplate; ungrounded qualifications and self-undermining inserted by review-framed AI passes.
+- **Fix:** Be specific about limitations ("fails when N < 50") and future work ("next step: test on dataset X"). Delete doubts the source never raised; state each real limitation once, positively (name → consequence → bound → next step). Never prebut the reviewer in the paper body.
+- **中文修复：** 具体说明局限（"当N<50时失效"）和下一步计划（"计划在X数据集上测试"）。删除原文没有提出的怀疑；真实局限正面陈述一次。正文不替审稿人攻击自己。
+- **Defensive risk / 防御性风险:** Discussion shows the highest ungrounded-qualification rate (GPT-6-astra: 1.32 vs 1.30 per 100 words in result analysis) and concentrates not-shown statements ("these results do not by themselves establish…" / "结果并不意味着…"); audit each against the evidence per `DEFENSIVE_WRITING.md` §5 / 讨论段的无依据限定率最高（每百词 1.32，略高于结果分析的 1.30），也是"未展示陈述"的集中区；逐条对照证据审计。
 
 ### Conclusion / 结论
 
-- **Main risk / 主要风险:** Restating the abstract with slight paraphrase + generic ending.
-- **Fix:** If the source contains a caveat or recommendation, state it directly. Do not add new reflection or advice merely to avoid repetition; cut generic endings.
-- **中文修复：** 若原文已有反思、注意事项或具体建议，直接说明；不补新内容。删除万金油结尾。
+- **Main risk / 主要风险:** Restating the abstract with slight paraphrase + generic ending; a fresh self-negation or expanded limitations smuggled into the final paragraph.
+- **Fix:** If the source contains a caveat or recommendation, state it directly. Do not add new reflection or advice merely to avoid repetition; cut generic endings and cut fresh self-negation the source does not state (see `DEFENSIVE_WRITING.md` §6).
+- **中文修复：** 若原文已有反思、注意事项或具体建议，直接说明；不补新内容。删除万金油结尾；删除原文没有陈述的、末段新增的自我否定。
 
 **Failure mode:** Applying narrative strategies to methods/results sections hurts reproducibility; keep technical sections precise.
 
@@ -612,6 +614,8 @@ Before finalizing any rewrite, verify:
 - [ ] Connector words deleted (not replaced) where causality is obvious / 因果明显处的连接词已删除（而非替换）
 - [ ] Vague claims use source-provided specifics, or the missing evidence is noted outside final prose / 模糊主张仅使用原文已有具体信息；缺证据写在正文外备注
 - [ ] Generic endings deleted or replaced with specifics / 万金油结尾已删除或替换为具体内容
+- [ ] Ungrounded qualifications deleted; supported claims restored to source strength, never beyond it / 无依据限定已删除；有证据支撑的结论已恢复原强度，且未超出证据
+- [ ] Claim audit done on academic text shaped by AI or reviewer-framed prompts (`DEFENSIVE_WRITING.md` §5) / 对经 AI 或"审稿"话术处理过的学术文本已做结论审计
 - [ ] Sentence lengths vary naturally (mix of short and long) / 句子长度自然变化（长短句混合）
 - [ ] Paragraph lengths vary (not all 4-5 sentences) / 段落长度有变化（不是都4-5句）
 - [ ] Technical content fully preserved / 技术内容完整保留

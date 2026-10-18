@@ -2,3 +2,9 @@
 The statistically significant improvement of 15% demonstrates effectiveness.
 We observed a significant improvement by 23% over the baseline.
 This comprehensive analysis covers from transformer to diffusion models.
+# Defensive-writing false positives should not match
+We evaluate on English benchmarks; multilingual transfer remains untested.
+The results show that the method improves accuracy by 3.2% on all three benchmarks.
+# Defensive-pattern false positives should not match
+The controller merely forwards the packet.
+The preliminary results are in Table 2.

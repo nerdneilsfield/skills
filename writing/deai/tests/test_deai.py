@@ -157,6 +157,92 @@ class TestScannerContract(unittest.TestCase):
             self.assertIn("false_agency", {t["category"] for t in result["traces"]})
 
 
+class TestDefensiveCategory(unittest.TestCase):
+    """Defensive fixtures must trigger the 'defensive' category itself,
+    not just any trace; mixed mode keeps English patterns case-insensitive."""
+
+    def test_defensive_fixtures_trigger_defensive_category(self):
+        for fixture_name in ("zh_defensive.txt", "en_defensive.txt"):
+            fixture = _FIXTURES_DIR / "should_match" / fixture_name
+            lang = _detect_lang_hint(fixture_name)
+            for line_no, text in _load_fixture_lines(fixture):
+                result = _check_single_line(text, lang=lang)
+                categories = {t["category"] for t in result["traces"]}
+                self.assertIn(
+                    "defensive",
+                    categories,
+                    f"Expected a defensive-category trace.\n"
+                    f"  File: {fixture_name}:{line_no}\n"
+                    f"  Text: {text!r}",
+                )
+
+    def test_mixed_mode_defensive_case_insensitive(self):
+        result = _check_single_line(
+            "Unfortunately, our method merely achieves a marginal gain.",
+            lang="mixed",
+        )
+        self.assertIn("defensive", {t["category"] for t in result["traces"]})
+
+    def test_mixed_mode_instruction_language_follows_match(self):
+        result = _check_single_line(
+            "Unfortunately, our method merely achieves a marginal gain.",
+            lang="mixed",
+        )
+        trace = next(t for t in result["traces"] if t["category"] == "defensive")
+        instruction = ""
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".txt", encoding="utf-8", delete=False
+        ) as f:
+            f.write("Unfortunately, our method merely achieves a marginal gain.")
+            path = Path(f.name)
+        try:
+            checker = DeAIChecker(path, lang="mixed")
+            instruction = checker._get_instruction(trace["suggestion_type"], trace["matched"])
+        finally:
+            path.unlink(missing_ok=True)
+        self.assertIsNone(
+            __import__("re").search(r"[一-鿿]", instruction),
+            f"English match got a Chinese instruction: {instruction!r}",
+        )
+
+
+class TestRegistrationContract(unittest.TestCase):
+    """Registered categories must be declared in PATTERN_META (no silent
+    fallback); the defensive family's suggestion keys must resolve in both
+    instruction dicts and the source-sensitive set."""
+
+    def _registered(self, lang: str, profile: str):
+        from deai_check import PATTERN_META, ZH_INSTRUCTIONS, EN_INSTRUCTIONS, SOURCE_SENSITIVE_SUGGESTIONS  # noqa: E402
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".txt", encoding="utf-8", delete=False
+        ) as f:
+            f.write("sample text 示例文本\n")
+            path = Path(f.name)
+        try:
+            checker = DeAIChecker(path, lang=lang, profile=profile)
+            return checker.all_patterns, PATTERN_META, ZH_INSTRUCTIONS, EN_INSTRUCTIONS, SOURCE_SENSITIVE_SUGGESTIONS
+        finally:
+            path.unlink(missing_ok=True)
+
+    def test_all_registered_categories_declared_in_meta(self):
+        for lang in ("zh", "en", "mixed"):
+            for profile in ("generic", "deepseek", "claude", "mixed"):
+                all_patterns, pattern_meta, *_ = self._registered(lang, profile)
+                for category, _ in all_patterns:
+                    self.assertIn(category, pattern_meta, f"{lang}/{profile}: {category}")
+
+    def test_defensive_suggestion_keys_closed_loop(self):
+        for lang in ("zh", "en", "mixed"):
+            all_patterns, _, zh_instr, en_instr, source_sensitive = self._registered(lang, "generic")
+            for category, patterns_dict in all_patterns:
+                if category != "defensive":
+                    continue
+                for key in patterns_dict.values():
+                    self.assertIn(key, zh_instr, f"{lang}: {key} missing from ZH instructions")
+                    self.assertIn(key, en_instr, f"{lang}: {key} missing from EN instructions")
+                    self.assertIn(key, source_sensitive, f"{lang}: {key} not marked source-sensitive")
+
+
 # ---------------------------------------------------------------------------
 # Dynamic test generation
 # ---------------------------------------------------------------------------

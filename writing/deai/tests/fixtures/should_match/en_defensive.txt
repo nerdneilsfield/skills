@@ -1,0 +1,21 @@
+# Defensive writing should match (self-undermining / ungrounded qualification / prebuttal / generic scope)
+Unfortunately, we were only able to test on small datasets.
+Our method merely achieves a marginal gain on this task.
+The model still lags behind the Transformer baseline on long documents.
+These results do not by themselves establish that the method is robust.
+In the evaluated settings, our approach outperforms all baselines.
+We do not claim that the model generalizes to other domains.
+One might argue that our evaluation covers only English benchmarks.
+This is a preliminary study, and further research is needed.
+The observational design cannot rule out confounding factors.
+These findings remain to be established.
+This result does not establish causality.
+These findings do not establish general applicability.
+Under the evaluated conditions, the method performs best.
+The approach only achieves a modest improvement.
+We observed limited improvement over the baseline.
+These conclusions are tentative at best.
+The effect may not generalize to other domains.
+A natural question is whether the model scales.
+Critics might point out the missing baseline.
+We therefore do not claim that the model is robust.

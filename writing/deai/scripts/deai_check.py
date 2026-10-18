@@ -202,6 +202,10 @@ PATTERN_META: dict[str, dict[str, str]] = {
     "generic_reference":  {"severity": "MEDIUM", "evidence": "empirical",      "signal": "detector"},
     "punctuation_trace":  {"severity": "MEDIUM", "evidence": "observational",  "signal": "annoying"},
     "paragraph_metric":   {"severity": "MEDIUM", "evidence": "observational",  "signal": "detector"},
+    # Defensive writing: ungrounded hedging, self-undermining, prebuttal,
+    # claim retraction. Quantified across 12 models in arXiv:2610.11355
+    # (preprint); act on clusters or on claims the source supports.
+    "defensive":          {"severity": "MEDIUM", "evidence": "empirical",      "signal": "detector"},
     # Model-specific
     "model_tic":          {"severity": "HIGH",   "evidence": "model_specific", "signal": "annoying"},
     # LOW severity
@@ -373,6 +377,72 @@ EN_FALSE_AGENCY = {
 }
 
 
+# ── Defensive Writing Patterns (arXiv:2610.11355) ────────────────
+# Ungrounded qualifications, self-undermining wording, reviewer
+# prebuttal, and claim retraction/scope-shrink signatures. MEDIUM
+# severity: single hits are normal academic calibration; act on
+# clusters or on claims the source demonstrably supports.
+
+ZH_DEFENSIVE = {
+    # D-ZH-01: self-undermining openers and verdicts
+    r"遗憾的是": "self_undermining",
+    r"不可否认": "self_undermining",
+    r"仍(?:明显)?落后": "self_undermining",
+    r"效果有限": "self_undermining",
+    r"存在严重不足": "self_undermining",
+    r"仍存在不足": "self_undermining",
+    r"仍(?:存在|有)较大差距": "self_undermining",
+    r"有待进一步研究": "positive_future_work",
+    r"有待完善": "positive_future_work",
+    r"尚需深入": "positive_future_work",
+    r"初步(?:研究|探索)": "self_undermining",
+    r"本文尝试": "self_undermining",
+    r"本文仅(?:在|针对)": "self_undermining",
+    r"囿于(?:水平|能力)": "self_undermining",
+    r"仅供参考": "self_undermining",
+    r"限于篇幅": "self_undermining",
+    r"才疏学浅|抛砖引玉|敬请批评指正|不当之处敬请指正": "self_undermining",
+    # D-ZH-02: ungrounded qualification
+    r"应谨慎理解": "ungrounded_qualification",
+    r"不宜过度解读": "ungrounded_qualification",
+    r"有待时间检验": "ungrounded_qualification",
+    r"仍需进一步验证": "ungrounded_qualification",
+    r"并不能据此推断": "ungrounded_qualification",
+    r"在(?:本文)?(?:评估|实验|测试)的(?:设定|设置|场景|条件)下": "ungrounded_qualification",
+    # D-ZH-03: reviewer prebuttal / negative scope
+    r"一个自然的疑问是": "reviewer_prebuttal",
+    r"有人可能(?:认为|质疑|指出)": "reviewer_prebuttal",
+    r"批评者或许": "reviewer_prebuttal",
+    r"值得警惕的是": "reviewer_prebuttal",
+    r"本文(?:并)?未(?:能)?(?:证明|声称)": "negative_scope",
+    r"不主张": "negative_scope",
+}
+
+EN_DEFENSIVE = {
+    # D-EN-01: self-undermining openers and verdicts
+    r"\bunfortunately\b": "self_undermining",
+    r"\bmerely\s+(?:achiev\w*|reach\w*|attain\w*|improv\w*|yield\w*|provid\w*|offer\w*|show\w*)": "self_undermining",
+    r"\bonly\s+(?:achieves?|reaches?|attains?)\b": "self_undermining",
+    r"\bstill\s+lags?\b": "self_undermining",
+    r"\blimited\s+(?:improvement|gains?|success|applicability)\b": "self_undermining",
+    r"\bpreliminary\s+(?:study|studies|work|analysis)\b": "self_undermining",
+    r"\btentative(?:ly)?\b": "self_undermining",
+    r"\bfurther\s+(?:research|work|studies?)\s+(?:is|are)\s+(?:needed|required|warranted)\b": "positive_future_work",
+    # D-EN-02: ungrounded qualification
+    r"\b(?:these|those|our|the|this|its)\s+(?:results?|findings?|observations?|experiments?)\s+(?:do|does)\s+not\s+(?:by\s+(?:themselves|itself)\s+)?(?:establish|prove|demonstrate)\b": "ungrounded_qualification",
+    r"\b(?:in|under|across)\s+the\s+(?:evaluated|tested|considered)\s+(?:settings|conditions|scenarios|datasets|configurations?)\b": "ungrounded_qualification",
+    r"\bcannot\s+rule\s+out\b": "ungrounded_qualification",
+    r"\bmay\s+not\s+generalize\b": "ungrounded_qualification",
+    r"\bshould\s+(?:not\s+be\s+interpreted\s+as|be\s+interpreted\s+with\s+caution|be\s+read\s+with\s+the\s+caveat)\b": "ungrounded_qualification",
+    r"\bremains?\s+to\s+be\s+(?:established|verified|confirmed|tested)\b": "ungrounded_qualification",
+    # D-EN-03: reviewer prebuttal / negative scope
+    r"\bone\s+might\s+(?:argue|object|question)\b": "reviewer_prebuttal",
+    r"\ba\s+(?:natural|reasonable|valid)\s+(?:question|concern)\b": "reviewer_prebuttal",
+    r"\bcritics?\s+might\b": "reviewer_prebuttal",
+    r"\bwe\s+(?:[a-z]+\s+){0,3}?(?:do\s+not|cannot)\s+claim\b": "negative_scope",
+}
+
+
 # ── Instructions ──────────────────────────────────────────────────
 
 ZH_INSTRUCTIONS = {
@@ -407,6 +477,11 @@ ZH_INSTRUCTIONS = {
     "skeleton_vary": "改变句式结构，避免重复同一骨架.",
     "delete_connector": "删除冗余连接词，让因果关系隐含在上下文中.",
     "neutralize_agency": "原文明确行动者时保留；否则改为中性事实句，不补写主体.",
+    "ungrounded_qualification": "核对原文依据：证据支持则删除限定并恢复原结论强度；确有缺口则只陈述缺口本身一次.",
+    "self_undermining": "删除自我削弱措辞，直接陈述原文已有的结果、范围或贡献；真实局限保留事实，正面陈述一次.",
+    "reviewer_prebuttal": "删除预演审稿的句子；该问题真实且影响结论时，改为正面范围或局限说明.",
+    "positive_future_work": "改为“下一步将…”的正面陈述；仅在原文确有未完成事项时保留一次.",
+    "negative_scope": "改为正面范围陈述（“本文覆盖/验证了…”），只说一次；若该否定的后半句给出证据（如区间含零），保留否定并正面重述一次.",
 }
 
 EN_INSTRUCTIONS = {
@@ -439,6 +514,11 @@ EN_INSTRUCTIONS = {
     "delete_empty": "Delete this expression entirely.",
     "replace_vocabulary": "Replace with a more natural alternative.",
     "neutralize_agency": "Keep an actor named by the source; otherwise use a neutral factual construction and do not invent one.",
+    "ungrounded_qualification": "Check the source: if the evidence supports the claim, drop the qualification and restore the original strength; if a real gap exists, state the gap itself once.",
+    "self_undermining": "Delete the self-undermining wording; state the source's actual result, scope, or contribution; keep a real limitation as one factual statement.",
+    "reviewer_prebuttal": "Delete the reviewer-prebutting sentence; if the concern is real and material, restate it as a positive scope or limitation note.",
+    "positive_future_work": "Recast as a positive next-step statement ('Next, we will...'); keep only if the gap is real and stated once.",
+    "negative_scope": "Recast as a positive scope statement ('The analysis covers...'), said once; if the negation carries evidence (e.g., the interval includes zero), keep it and restate it positively.",
 }
 
 # Suggestions that can tempt unsupported additions need one shared guardrail.
@@ -450,6 +530,8 @@ SOURCE_SENSITIVE_SUGGESTIONS = {
     "quantify_percent", "quantify_items", "specify_scope", "specific_time",
     "increasingly", "specific_impact", "cite_examples", "growth_data",
     "add_specific",
+    "ungrounded_qualification", "self_undermining", "reviewer_prebuttal",
+    "positive_future_work", "negative_scope",
 }
 
 
@@ -490,6 +572,7 @@ class DeAIChecker:
                 ("buzzword", ZH_BUZZWORDS),
                 ("false_agency", ZH_FALSE_AGENCY),
                 ("punctuation_trace", ZH_PUNCTUATION_TRACES),
+                ("defensive", ZH_DEFENSIVE),
             ]
             # Model-specific: full set for deepseek/mixed profile,
             # pseudo-academic only for generic, skip for claude
@@ -512,6 +595,7 @@ class DeAIChecker:
                 ("chatbot_artifact", EN_CHATBOT_ARTIFACTS),
                 ("generic_reference", EN_GENERIC_REFERENCES),
                 ("false_agency", EN_FALSE_AGENCY),
+                ("defensive", EN_DEFENSIVE),
             ]
             if self.lang == "mixed":
                 self.instructions = {**EN_INSTRUCTIONS, **ZH_INSTRUCTIONS}
@@ -550,6 +634,10 @@ class DeAIChecker:
             # Specific ranges
             if "comprehensive" in pattern:
                 if "from" in context_after and "to" in context_after:
+                    return True
+            # "As a preliminary" introduces definitions, not self-labels
+            if "preliminary" in pattern:
+                if re.search(r"\bas\s+a\s+preliminary\b", context_before, re.IGNORECASE):
                     return True
 
         return False
