@@ -563,7 +563,7 @@ class DeAIChecker:
 
         start, end = self.section_ranges[section_name]
         matches = []
-        re_flags = re.IGNORECASE if self.lang == "en" else 0
+        re_flags = re.IGNORECASE if self.lang in ("en", "mixed") else 0
 
         for i in range(start - 1, min(end, len(self.lines))):
             line = self.lines[i]
@@ -973,14 +973,23 @@ class DeAIChecker:
             return 0.0
         return (result["trace_count"] / result["total_lines"]) * 100
 
-    def _get_instruction(self, key: str) -> str:
-        """Get human-readable instruction for suggestion key."""
-        default = "请改写得更具体、客观。" if self.lang == "zh" else "Rewrite to be more specific and objective."
-        instruction = self.instructions.get(key, default)
+    def _get_instruction(self, key: str, matched: str = "") -> str:
+        """Get human-readable instruction for suggestion key.
+
+        In mixed documents, derive the instruction and guard language from the
+        matched text (CJK -> Chinese) so an English sentence never receives
+        Chinese advice, and a Chinese hit never gets an English guard.
+        """
+        use_zh = self.lang == "zh"
+        if self.lang == "mixed":
+            use_zh = bool(re.search(r"[一-鿿]", matched))
+        default = "请改写得更具体、客观。" if use_zh else "Rewrite to be more specific and objective."
+        instructions = ZH_INSTRUCTIONS if use_zh else EN_INSTRUCTIONS
+        instruction = instructions.get(key, default)
         if key in SOURCE_SENSITIVE_SUGGESTIONS:
             guard = (
                 "仅使用输入、用户提供或已核实来源；无依据时标记缺口，不补写。"
-                if self.lang == "zh"
+                if use_zh
                 else "Use only input, user-supplied, or verified source details; otherwise flag the gap and do not invent them."
             )
             return f"{instruction} {guard}"
@@ -1000,7 +1009,7 @@ class DeAIChecker:
                     "issue": trace["text"],
                     "pattern": trace["pattern"],
                     "suggestion_key": trace["suggestion_type"],
-                    "instruction": self._get_instruction(trace["suggestion_type"]),
+                    "instruction": self._get_instruction(trace["suggestion_type"], trace.get("matched", "")),
                 })
         return suggestions
 
@@ -1059,11 +1068,11 @@ class DeAIChecker:
                     if self.lang == "zh":
                         report.append(f"  第{trace['line']}行 [{trace['category']}] \"{trace['matched']}\"")
                         report.append(f"    {trace['text'][:80]}")
-                        report.append(f"    -> 建议: {self._get_instruction(trace['suggestion_type'])}")
+                        report.append(f"    -> 建议: {self._get_instruction(trace['suggestion_type'], trace['matched'])}")
                     else:
                         report.append(f"  Line {trace['line']} [{trace['category']}] \"{trace['matched']}\"")
                         report.append(f"    {trace['text'][:80]}")
-                        report.append(f"    -> Suggestion: {self._get_instruction(trace['suggestion_type'])}")
+                        report.append(f"    -> Suggestion: {self._get_instruction(trace['suggestion_type'], trace['matched'])}")
 
         # Summary
         report.append("")
@@ -1136,7 +1145,7 @@ def main():
         for trace in result["traces"]:
             print(f"Line {trace['line']}: \"{trace['matched']}\"")
             print(f"  {trace['text'][:80]}")
-            print(f"  -> {checker._get_instruction(trace['suggestion_type'])}\n")
+            print(f"  -> {checker._get_instruction(trace['suggestion_type'], trace['matched'])}\n")
 
     elif args.score:
         analysis = checker.analyze_document()
