@@ -21,3 +21,12 @@
 - [GB/T 32424-2015 官方记录](https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=46E7B46987557413B4AFDC53F1BD6D8A)：官方页面确认该标准为《系统与软件工程 用户文档的设计者和开发者要求》，采用国际标准且因版权不公开全文。仅结合其公开范围和 ISO/IEC 26514 的可访问资料理解用户文档的过程、结构和内容，不猜具体条文。
 - [GB/T 9969-2008 官方记录](https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=A948ABC041945DF531BADF590044C971)：官方页面确认其为现行《工业产品使用说明书 总则》。公开元数据有限；skill 对工业产品说明、安全、生命周期和 procedure 的具体规则主要依据 IEC/IEEE 82079-1 的公开资料，不把标题推断成条文。
 - [GB/T 8567-2006 官方记录](https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=84C42B6277D2714B7176B10C6E6B1A44)：官方页面确认其为现行《计算机软件文档编制规范》。未从不可访问内容推断模板或强制章节；本 skill 仅保留 design spec、interface spec、test-verification 等实际工程文档类型，并按读者用途裁剪结构。
+
+## README writing references
+
+实际访问日期：2026-10-19。吸收进 [readme.md](readme.md)。
+
+- [banesullivan/README](https://github.com/banesullivan/README)：主要吸收：Highlights 段、四问测试（能解决我的问题吗/能用这个代码吗/谁做的/去哪里了解更多）、安装单行命令与最低要求、开发说明后置、截图和 GIF 优先、邀请反馈与贡献、按项目成熟度把 README 收缩为 pitch 加链接集。未采用其鼓励的 emoji 标题用法，见 readme.md 对 emoji 标题的限制。
+- [How to write a good README?（dev.to 讨论）](https://dev.to/jmfayard/how-to-write-a-good-readme-discuss-4hkl)：主要吸收：README 不是文档本体而是信息入口（README is not your documentation）、quickstart 最短成功路径、徽章只放真实信号且建立信任、结尾的 license/contributing/credits/致谢、README 是通往项目其余信息的 springboard、以陌生读者身份 onboarding 自测、README 与代码同步演进。徽章数量下限（3 至 6 个）为个人偏好，未采用。
+- [Omer-Dahan/readme-skill](https://github.com/Omer-Dahan/readme-skill)（GitHub 上的 README 写作 skill）：主要吸收：先建事实清单再写作、每条事实标注来源、配置默认值取自配置加载代码而非注释、徽章与 manifest 一致、LICENSE 徽章需要 LICENSE 文件、遗漏是 README 最常见的不准确、刷新而非追加过期内容、emoji 标题的 GitHub slug 保留 U+FE0F 导致锚点失效的陷阱、由未参与写作的模型独立复核。未采用其高装饰性 house style（居中 HTML 头图、emoji 功能卡片），与本 skill 的“不用装饰性格式”原则冲突。
+- [SvaraNova/skills 的 github-readme](https://github.com/SvaraNova/skills/tree/main/docs/github-readme)（GitHub 上的 README 写作 skill）：主要吸收：先读仓库再写、一句话定位（是什么、给谁用、差异点）、quickstart 在干净环境复现、徽章不超过 6 个且只放真实信号、代码块不带 shell prompt、相对链接与图片 alt 文本、README 发布到包仓库时改用绝对 URL、仓库已有惯例优先（含 emoji 标题）、review checklist 收尾。

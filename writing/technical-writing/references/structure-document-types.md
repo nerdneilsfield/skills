@@ -21,11 +21,11 @@ README 通常是组合页，可同时包含 overview、quick start、configurati
 
 **Need:** 快速判断项目是什么、是否适用、如何开始、去哪里查详情。
 
-**Usually includes:** 目的和范围、关键能力与限制、最短可运行示例、安装或入口、配置摘要、后续链接。
+**Usually includes:** 一句话定位、关键能力与限制、Highlights、演示素材（截图、GIF 或极短代码示例）、最短可运行示例、安装与最低要求、配置摘要、文档与社区链接、许可证。
 
-**Writing:** 先给价值和适用边界，再给最短成功路径。README 中的 reference 只保留高频项，详细表格链接到专页。
+**Writing:** 先给价值和适用边界，再给最短成功路径。README 中的 reference 只保留高频项，详细表格链接到专页。README 是信息入口而非文档本体；结构与规则见 [readme.md](readme.md)。
 
-**Common failure:** 用项目历史、目录树或内部架构占据开头；quick start 缺少版本、依赖或验证结果。
+**Common failure:** 用项目历史、目录树或内部架构占据开头；把 README 当完整文档倾倒；quick start 缺少版本、依赖或验证结果。
 
 ### Tutorial / quick start
 

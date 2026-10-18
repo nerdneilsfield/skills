@@ -31,6 +31,7 @@ Then read only what the task needs:
 - Chinese, English, or mixed-language prose: [references/language.md](references/language.md)
 - tutorial, quick start, how-to, troubleshooting, deployment, user manual, or test-verification: [references/procedures.md](references/procedures.md)
 - reference, API, CLI, interface, or hardware reference: [references/reference-writing.md](references/reference-writing.md) and [references/code-numbers-units.md](references/code-numbers-units.md)
+- README or repository front page: [references/readme.md](references/readme.md)
 - human, equipment, data, security, or environmental risk: [references/warnings-safety.md](references/warnings-safety.md)
 - `review` mode: [references/review.md](references/review.md)
 
