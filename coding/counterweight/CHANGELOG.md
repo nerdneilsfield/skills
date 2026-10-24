@@ -9,6 +9,7 @@
 - New `references/hosts.md`: running the roles on codex, opencode, kimi code,
   grok build, and pi without the extension, with verified and unverified facts
   kept apart.
+- Roles: size the timeout to the input; double on timeout, cap at 1800.
 - `counterweight-setup` gains an optional, user-chosen roles section.
 - Unchanged: Direct, Managed, track selection, and zero subagents and zero
   automatic reviewers by default.

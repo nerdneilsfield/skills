@@ -29,6 +29,10 @@ for configuration.
   done. The end check, if any, decides that. Treat findings as input to verify,
   not as orders: a reviewer can be wrong, and the main model sees code the role
   was not given.
+- **Size the timeout to the input.** Start at 300 seconds. If the input is
+  plainly large (a long diff, many files), start higher. On a timeout, double it
+  (300, 600, 1200, 1800) and run again. Cap at 1800: a role that still times out
+  there needs a smaller input (split by file or commit), not more time.
 - **Pick a model for the job.** Explorer and historian can be cheap. Review and
   over_review should differ from the implementer's model. Planner must be
   stronger than the implementer (see below).
