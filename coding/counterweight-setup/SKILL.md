@@ -70,6 +70,25 @@ conflicting text and ask only about that unresolved choice before writing a
 contradictory setup. Report conflicts in global or other out-of-scope files
 without modifying them.
 
+## Optional roles
+
+Not part of the required section and never written by default. Add this only
+when the user explicitly asks to enable review, over-review, a historian, or
+PAUSE for a repository, and only after confirming which host runs it. Every
+choice below is the user's: model names, which roles, and whether any is forced.
+
+- **pi with the `pi-counterweight` extension.** Do not write role rules into
+  `AGENTS.md`; point the user to the extension's own `/cw-setup`.
+- **Any other host** (codex, opencode, kimi code, grok build, or pi without the
+  extension). Add one short section to `AGENTS.md` naming only the roles the
+  user chose, the model for each, and a line saying to follow
+  `counterweight/references/roles.md` and `hosts.md`. Do not copy those files
+  in. State plainly that these roles are run by the main model, which may skip
+  them, unless the user has also set up a host hook; do not describe a role as
+  automatic that nothing triggers.
+- Do not invent model names or host config paths. Take models from the user.
+  Leave out any host detail that `hosts.md` marks unverified.
+
 ## Development entry points
 
 During authorized setup, add or update a short development navigation section

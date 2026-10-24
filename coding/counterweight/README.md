@@ -12,7 +12,9 @@ Do not restate these concepts elsewhere. Link here, then to the authority.
 | Authorization | [SKILL.md](SKILL.md) | cite |
 | Commit grouping and timing | [references/commits.md](references/commits.md) | SKILL.md: four bullets + link |
 | Check choice and permanent vs session-only tests | [references/feedback.md](references/feedback.md) | SKILL.md: four-line list + link |
-| Deep plan contract | [references/deep.md](references/deep.md) | cite |
+| Deep plan contract and closeout disposal of plan text | [references/deep.md](references/deep.md) | cite |
+| Optional roles (review, over_review, historian, planner/PAUSE) and when each earns its cost | [references/roles.md](references/roles.md) | cite |
+| Running the roles on codex, opencode, kimi, grok, pi | [references/hosts.md](references/hosts.md) | cite, never copy flags |
 | Setup text written into AGENTS.md | [../counterweight-setup/SKILL.md](../counterweight-setup/SKILL.md) | never inline in any README |
 
 This package contains five discoverable Skills:

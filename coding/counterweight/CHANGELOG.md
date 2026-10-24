@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.0 — 2026-10-24
+
+- Deep closeout sorts the plan's text once by what earns keeping; a finished
+  plan is a record, not a living spec.
+- New `references/roles.md`: optional read-only roles and when each earns its
+  cost.
+- New `references/hosts.md`: running the roles on codex, opencode, kimi code,
+  grok build, and pi without the extension, with verified and unverified facts
+  kept apart.
+- `counterweight-setup` gains an optional, user-chosen roles section.
+- Unchanged: Direct, Managed, track selection, and zero subagents and zero
+  automatic reviewers by default.
+
 ## 0.5.0 — 2026-09-20
 
 - Kernel: one-glance self-check before commit; no extra review round.

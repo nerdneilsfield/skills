@@ -284,3 +284,20 @@ After task checks pass, confirm the assembled feature with the planned
 minimal functional check. Reuse task evidence when it already proves that.
 Required acceptance still blocked means the work is incomplete. Report the
 result and a try command. Do not claim checks that did not occur.
+
+### What happens to the plan's text
+
+At closeout the plan is an execution record, not a living spec. Sort its
+content once, line by line, by what would make it worth keeping. Do this only
+for Deep; a Managed light plan or a Direct edit leaves nothing to sort.
+
+| Content | Fate |
+| --- | --- |
+| An acceptance item with a cheap, deterministic, independent oracle | Becomes a permanent check only if it earns one under [feedback.md](feedback.md); otherwise discard the line. Once the check exists the prose is redundant. |
+| The reason for an irreversible, surprising trade-off (a limit accepted, an alternative rejected) | Keep as prose in the narrowest existing guidance file, one or two lines. A test can say what happens; it cannot say why it was allowed to. |
+| The semantics of a published contract that code and types cannot express | Keep, linked from the type or schema that owns it. |
+| What the code now does, the file list, the task steps | Discard from anything you keep. The code and Git are the record. |
+| A discovery task's open question | Resolved: its answer goes into one of the rows above or nowhere. Unresolved: leave it in the plan, marked unresolved, and say so in the report. |
+
+Do not edit a finished plan again as if it described current behavior. When a
+later task reads an old plan, check it against the code first; the code wins.

@@ -1,6 +1,6 @@
 ---
 name: counterweight
-version: 0.5.0
+version: 0.6.0
 description: >
   Default workflow for coding implementation and modification: writing new code,
   fixing bugs, refactoring, wiring config, adding features, and debugging. Picks
@@ -153,7 +153,10 @@ guidance when the task changes how to continue.
 
 Prefer low-latency tools. Prefer a host Git wrapper for status and diffs.
 Read [references/subagents.md](references/subagents.md) only when delegation
-has a concrete isolation or parallel-work benefit.
+has a concrete isolation or parallel-work benefit. Read
+[references/roles.md](references/roles.md) and
+[references/hosts.md](references/hosts.md) only when the user or the project
+config asks for a review, over-review, historian, or planner run.
 
 ## What the user sees
 
