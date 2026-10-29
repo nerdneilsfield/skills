@@ -144,3 +144,7 @@ vite.config.ts.timestamp-*
 
 # Counterweight tool metering
 .cw/
+
+# Local Python support-tool bytecode
+__pycache__/
+*.py[cod]

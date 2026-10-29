@@ -35,4 +35,4 @@ Use a controllable clock when time itself is the behavior being tested and the d
 
 ## Reading sources
 
-Selected ideas come from [ECC's cpp-testing](https://github.com/affaan-m/ecc/blob/main/skills/cpp-testing/SKILL.md) and [Jeffallan's C++ Pro](https://github.com/Jeffallan/claude-skills/blob/main/skills/cpp-pro/SKILL.md). Their GoogleTest, dependency-download, unconditional sanitizer, and benchmark defaults are not adopted here. The main skill's Catch2, vendoring, and proportional-verification rules remain authoritative for this skill.
+Selected ideas come from [ECC's cpp-testing](https://github.com/affaan-m/ecc/blob/main/skills/cpp-testing/SKILL.md) and [Jeffallan's C++ Pro](https://github.com/Jeffallan/claude-skills/blob/main/skills/cpp-pro/SKILL.md). Their GoogleTest, dependency-download, unconditional sanitizer, and benchmark defaults are not adopted here. The main `cpp` skill owns capability preferences and proportional verification; [cpp-project-init](../../cpp-project-init/SKILL.md) is the single owner of vendor/build/offline policy.

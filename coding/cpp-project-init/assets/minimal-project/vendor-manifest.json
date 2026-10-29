@@ -1,0 +1,12 @@
+{
+  "dependencies": [
+    {
+      "name": "fixture-math",
+      "revision": "self-authored-fixture-v1 (not an upstream release)",
+      "upstream": "https://github.com/nerdneilsfield/skills",
+      "source": "third_party/fixture-math-v1",
+      "licenses": ["third_party/fixture-math-v1/LICENSE"],
+      "notes": "Synthetic original fixture included in this skills bundle. No external code fetched. Not a real package pin."
+    }
+  ]
+}

@@ -15,7 +15,11 @@
 | [`counterweight`](coding/counterweight/) | 让编码工作的流程、实现复杂度、测试和知识沉淀与当前证据及风险相称。 |
 | [`counterweight-setup`](coding/counterweight-setup/) | 初始化或修订项目根 `AGENTS.md`，写入 Counterweight 的编码克制规则。 |
 | [`counterweight-cut`](coding/counterweight-cut/) | 实现之后列出本次 diff 里没挣到留下资格的东西；默认只出清单，用户点名才改。 |
-| [`cpp`](coding/cpp/) | 沉淀 C++20、CMake presets、精简 vendor 依赖及统一构建和 lint 入口的工程约定。 |
+| [`cpp`](coding/cpp/) | 共享 C++ 工程原则、接口与所有权约定，按问题路由到专用技能。 |
+| [`cpp-project-init`](coding/cpp-project-init/) | 项目初始化、工具链与固定版本 vendor 源码、离线构建的统一规则及完整样例。 |
+| [`cpp-debug`](coding/cpp-debug/) | 最小排查后仍未解释的错误、崩溃、挂起、数据竞争与内存问题。 |
+| [`cpp-performance`](coding/cpp-performance/) | CPU 性能测量、缓存与竞争、线程调度、内存压力及有证据的修复与预防。 |
+| [`cpp-numerics`](coding/cpp-numerics/) | Eigen、求解器、稀疏与数值计算的正确性、数据边界及优化。 |
 | [`grill-me`](coding/grill-me/) | 应用户要求，对计划、设计或决策做克制的压力测试。 |
 | [`project-learning`](coding/project-learning/) | 将真实开发中发现的少量、持久且可复用的项目知识沉淀到现有项目指引。 |
 | [`deai`](writing/deai/) | 审阅或改写中英文文本，减少模板化、官僚化、说教式和其他明显的 AI 写作痕迹，同时保留事实与技术含义。 |
@@ -56,6 +60,8 @@ npx skills add nerdneilsfield/skills --skill technical-writing -g
 
 `counterweight` 的描述覆盖 coding implementation / modification，支持隐式 Skill 选择。运行 `$counterweight-setup` 写入项目根 `AGENTS.md`；具体文本以该 skill 为准。
 
+C++ 技能可离线使用：构建/vendor/工具链规则归 `cpp-project-init`，线程与 BLAS 并行预算归 `cpp-performance`；按症状先读对应参考，需要时跨层查阅。验证方法见 [tests/README.md](tests/README.md)。
+
 ### 仓库结构
 
 Skills 按用途存放在 `coding/` 和 `writing/` 等目录中。每个 skill 的规则位于该目录的 `SKILL.md`，详细规范、脚本和测试仅在实际需要时提供。
@@ -75,7 +81,11 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`counterweight`](coding/counterweight/) | Keeps coding process, implementation complexity, tests, and retained knowledge proportional to current evidence and risk. |
 | [`counterweight-setup`](coding/counterweight-setup/) | Initializes or updates the root `AGENTS.md` with Counterweight's coding-restraint rules. |
 | [`counterweight-cut`](coding/counterweight-cut/) | After implementation, lists what in this diff did not earn the cost of staying. Default is a cut list; edit only when asked. |
-| [`cpp`](coding/cpp/) | Applies C++20, CMake presets, minimal vendored dependencies, and consistent build and lint entry points. |
+| [`cpp`](coding/cpp/) | Shared C++ engineering, ownership and interface guidance with specialist routing. |
+| [`cpp-project-init`](coding/cpp-project-init/) | Project setup, toolchain and pinned-vendor/offline build policy with complete local examples. |
+| [`cpp-debug`](coding/cpp-debug/) | Unexplained failures after minimal triage, crashes, hangs, races and memory errors. |
+| [`cpp-performance`](coding/cpp-performance/) | CPU measurement, cache/contention, scheduling, memory pressure, evidence-based remedies and prevention. |
+| [`cpp-numerics`](coding/cpp-numerics/) | Eigen, solvers, sparse computation, numerical correctness and data-boundary optimization. |
 | [`grill-me`](coding/grill-me/) | Pressure-tests a plan, design, or decision when the user explicitly requests it. |
 | [`project-learning`](coding/project-learning/) | Persists small amounts of durable, reusable project knowledge discovered during real work. |
 | [`deai`](writing/deai/) | Reviews or rewrites Chinese and English prose to reduce templated, bureaucratic, paternalistic, and other conspicuous AI-writing patterns while preserving facts and technical meaning. |
@@ -115,6 +125,8 @@ Use $technical-writing to rewrite this deployment guide.
 ```
 
 The `counterweight` description covers coding implementation and modification for implicit Skill selection. Run `$counterweight-setup` to write the project's root `AGENTS.md`; the exact text lives in that skill.
+
+C++ skills work offline: `cpp-project-init` owns build/vendor/toolchain policy and `cpp-performance` owns thread/BLAS budgets. Start with the matching symptom reference and follow cross-layer evidence as needed. See [tests/README.md](tests/README.md) for validation.
 
 ### Repository layout
 

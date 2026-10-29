@@ -1,0 +1,19 @@
+{
+  "metric": "latency",
+  "unit": "ms",
+  "direction": "lower",
+  "samples": [
+    78,
+    80,
+    82
+  ],
+  "correctness_passed": true,
+  "metadata": {
+    "input": "synthetic-fixture-not-a-real-benchmark",
+    "compiler": "example-compiler-v2",
+    "build": "Release",
+    "cpu": "example-cpu",
+    "threads": 1,
+    "warmup": "same-policy"
+  }
+}
