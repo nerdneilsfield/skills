@@ -18,9 +18,11 @@ from pathlib import Path
 
 try:
     from parsers import get_parser, detect_language
+    from word_rules import replacement_patterns, avoid_patterns
 except ImportError:
     sys.path.append(str(Path(__file__).parent))
     from parsers import get_parser, detect_language
+    from word_rules import replacement_patterns, avoid_patterns
 
 
 # ── Chinese Patterns ──────────────────────────────────────────────
@@ -120,6 +122,11 @@ ZH_OVER_CERTAINTY_MED = {
 
 ZH_COMPARISON_STRUCTURE = {
     r"一方面.*另一方面": "skeleton_vary",
+    # 平衡句式（CHINESE_PROSE.md §2）：对称框架逼出原文未必支持的对照。
+    # 用懒惰匹配而不是排除字符类：全角标点在字符类里不可靠。
+    r"不是.{1,30}?而是": "skeleton_vary",
+    r"不仅.{1,30}?更是": "skeleton_vary",
+    r"与其说.{1,30}?不如说": "skeleton_vary",
 }
 
 ZH_BUZZWORDS = {
@@ -206,6 +213,8 @@ PATTERN_META: dict[str, dict[str, str]] = {
     # claim retraction. Quantified across 12 models in arXiv:2610.11355
     # (preprint); act on clusters or on claims the source supports.
     "defensive":          {"severity": "MEDIUM", "evidence": "empirical",      "signal": "detector"},
+    # 中文用词表：word_rules.py，editorial 偏好，由审阅者决定是否改写。
+    "word_preference":    {"severity": "LOW",    "evidence": "editorial",      "signal": "style"},
     # Model-specific
     "model_tic":          {"severity": "HIGH",   "evidence": "model_specific", "signal": "annoying"},
     # LOW severity
@@ -482,6 +491,8 @@ ZH_INSTRUCTIONS = {
     "reviewer_prebuttal": "删除预演审稿的句子；该问题真实且影响结论时，改为正面范围或局限说明.",
     "positive_future_work": "改为“下一步将…”的正面陈述；仅在原文确有未完成事项时保留一次.",
     "negative_scope": "改为正面范围陈述（“本文覆盖/验证了…”），只说一次；若该否定的后半句给出证据（如区间含零），保留否定并正面重述一次.",
+    "swap_word": "按用词表替换为指定词.",
+    "avoid_word": "删去该词，把句子改写成具体的动作、状态或细节，不要找同义词.",
 }
 
 EN_INSTRUCTIONS = {
@@ -573,6 +584,7 @@ class DeAIChecker:
                 ("false_agency", ZH_FALSE_AGENCY),
                 ("punctuation_trace", ZH_PUNCTUATION_TRACES),
                 ("defensive", ZH_DEFENSIVE),
+                ("word_preference", {**replacement_patterns(), **avoid_patterns()}),
             ]
             # Model-specific: full set for deepseek/mixed profile,
             # pseudo-academic only for generic, skip for claude
