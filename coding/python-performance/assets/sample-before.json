@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "workload": "synthetic-example",
+  "metric": "batch_latency",
+  "unit": "seconds",
+  "direction": "lower",
+  "scope": "synthetic values; not a performance claim",
+  "samples": [
+    1.0,
+    1.1,
+    0.9
+  ],
+  "correctness": true,
+  "metadata": {
+    "fixture": true
+  }
+}

@@ -6,7 +6,7 @@ Prerequisite: already installed Python 3.9+ standard library. From the repositor
 python3 -m unittest discover -s tests -v
 ```
 
-On Windows use `py -3` or an explicit Python 3 executable; no assumption is made about the `python` alias. No packages, network, external profilers or C++ libraries are required. Tests use temporary directories, local fixtures and subprocesses only to invoke these authored Python scripts with `--help`/invalid-input arguments. A symlink regression is skipped only when the OS explicitly cannot create symlinks; other failures are not hidden.
+On Windows use `py -3` or an explicit Python 3 executable; no assumption is made about the `python` alias. No packages, network, external profilers or C++ libraries are required. Tests use temporary directories and finite authored fixtures; subprocess checks include helper CLI inputs and the explicitly documented local C++/Python examples. They do not install dependencies or execute arbitrary external workloads. A symlink regression is skipped only when the OS explicitly cannot create symlinks; other failures are not hidden.
 
 The suite covers sample distributions, direction/units, correctness failures, metadata type/mismatch/explicit deliberate variable, zero baseline and overflow, bounded JSON reads, vendor path confinement/empty license records, and allowlisted snapshot fields. Passing these tests is not statistical validation of benchmarks, legal license validation, offline CMake proof or execution of the debugger/numeric documentation examples.
 
@@ -15,3 +15,9 @@ The original self-authored C++ fixture lives at `coding/cpp-project-init/assets/
 `test_proc_sampler.py` additionally validates read-only Linux proc sampling using original temporary files: PID/TID reuse, counter decreases, thread truncation, ancestor CPU quotas, permission/disappearance handling, parsing and output bounds. These tests do not require Linux proc access; an actual runtime smoke requires Linux and an owned/authorized PID. See the performance skill's proc-sampler guide for limits and attribution rules.
 
 `test_remediation_examples.py` compiles the original C++20 remediation fixture in Debug and Release using an already installed Unix-style `c++`, then checks output. It uses temporary binaries and explicit checks active under NDEBUG. Without the suitable compiler/platform it skips with an explicit reason; no toolchain is installed. These are correctness examples, not performance benchmarks.
+
+## Python skill examples and helpers
+
+Run the same stdlib unittest discovery command from the complete repository root. New Python tests cover bounded read-only environment metadata and JSON sample comparison, finite record ownership, equivalent hotspot examples, optional NumPy numerical behavior, ML split metadata and optional training examples, and data-analysis/plot examples. Third-party prerequisites are checked explicitly; a missing framework is SKIP rather than a simulated pass. No dependencies are installed.
+
+The runtime-only Python skills bundle intentionally omits root tests. Each runtime asset documents its own self-contained command; this development suite is delivered separately. A macro/metadata or stdlib fixture cannot validate an unavailable profiler, accelerator, package manager, browser or GPU. Do not turn library import success into a claim that all native ABI/device paths work.

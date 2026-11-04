@@ -20,6 +20,12 @@
 | [`cpp-debug`](coding/cpp-debug/) | 最小排查后仍未解释的错误、崩溃、挂起、数据竞争与内存问题。 |
 | [`cpp-performance`](coding/cpp-performance/) | CPU 性能测量、缓存与竞争、线程调度、内存压力及有证据的修复与预防。 |
 | [`cpp-numerics`](coding/cpp-numerics/) | Eigen、求解器、稀疏与数值计算的正确性、数据边界及优化。 |
+| [`python`](coding/python/) | Python 共享数据契约、可变性、资源、失败与验证主线。 |
+| [`python-performance`](coding/python-performance/) | 抓热点，区分 Python/native CPU、等待、内存和并行瓶颈，给出修复与复测。 |
+| [`python-numerics`](coding/python-numerics/) | 数值计算的形状、dtype、布局、精度、分块、求解器与设备边界。 |
+| [`python-environments`](coding/python-environments/) | uv/Conda/Pixi、镜像与依赖链、环境/内核切换、离线制品及 CUDA ABI。 |
+| [`python-ml`](coding/python-ml/) | 经典机器学习与深度学习的数据划分、训练、评估、性能及模型制品。 |
+| [`python-data-analysis`](coding/python-data-analysis/) | 数据质量、连接/分组口径、大数据执行、统计与诚实可视化。 |
 | [`grill-me`](coding/grill-me/) | 应用户要求，对计划、设计或决策做克制的压力测试。 |
 | [`project-learning`](coding/project-learning/) | 将真实开发中发现的少量、持久且可复用的项目知识沉淀到现有项目指引。 |
 | [`deai`](writing/deai/) | 审阅或改写中英文文本，减少模板化、官僚化、说教式和其他明显的 AI 写作痕迹，同时保留事实与技术含义。 |
@@ -62,6 +68,8 @@ npx skills add nerdneilsfield/skills --skill technical-writing -g
 
 C++ 技能可离线使用：构建/vendor/工具链规则归 `cpp-project-init`，线程与 BLAS 并行预算归 `cpp-performance`；按症状先读对应参考，需要时跨层查阅。验证方法见 [tests/README.md](tests/README.md)。
 
+Python 技能按任务选择资料，不把所有工具混为一个教程；技能正文离线自足，实际离线重建仍需预先准备兼容制品。各资产提供独立运行入口，完整仓库测试见 [tests/README.md](tests/README.md)。
+
 ### 仓库结构
 
 Skills 按用途存放在 `coding/` 和 `writing/` 等目录中。每个 skill 的规则位于该目录的 `SKILL.md`，详细规范、脚本和测试仅在实际需要时提供。
@@ -86,6 +94,12 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`cpp-debug`](coding/cpp-debug/) | Unexplained failures after minimal triage, crashes, hangs, races and memory errors. |
 | [`cpp-performance`](coding/cpp-performance/) | CPU measurement, cache/contention, scheduling, memory pressure, evidence-based remedies and prevention. |
 | [`cpp-numerics`](coding/cpp-numerics/) | Eigen, solvers, sparse computation, numerical correctness and data-boundary optimization. |
+| [`python`](coding/python/) | Shared Python data, mutation, resource, failure and verification contracts. |
+| [`python-performance`](coding/python-performance/) | Locate hotspots and distinguish Python/native CPU, waiting, memory and scaling problems, then repair and remeasure. |
+| [`python-numerics`](coding/python-numerics/) | Numerical shapes, dtype, layout, accuracy, blocking, solvers and device boundaries. |
+| [`python-environments`](coding/python-environments/) | uv/Conda/Pixi, sources and dependency chains, interpreter/kernel switching, offline artifacts and CUDA ABI. |
+| [`python-ml`](coding/python-ml/) | Classical ML and deep-learning splits, training, evaluation, performance and trusted artifacts. |
+| [`python-data-analysis`](coding/python-data-analysis/) | Data quality, joins/groups, larger-than-memory execution, statistical meaning and honest visualization. |
 | [`grill-me`](coding/grill-me/) | Pressure-tests a plan, design, or decision when the user explicitly requests it. |
 | [`project-learning`](coding/project-learning/) | Persists small amounts of durable, reusable project knowledge discovered during real work. |
 | [`deai`](writing/deai/) | Reviews or rewrites Chinese and English prose to reduce templated, bureaucratic, paternalistic, and other conspicuous AI-writing patterns while preserving facts and technical meaning. |
@@ -127,6 +141,8 @@ Use $technical-writing to rewrite this deployment guide.
 The `counterweight` description covers coding implementation and modification for implicit Skill selection. Run `$counterweight-setup` to write the project's root `AGENTS.md`; the exact text lives in that skill.
 
 C++ skills work offline: `cpp-project-init` owns build/vendor/toolchain policy and `cpp-performance` owns thread/BLAS budgets. Start with the matching symptom reference and follow cross-layer evidence as needed. See [tests/README.md](tests/README.md) for validation.
+
+Python skills select references by the current question rather than preload every tool. Guidance is self-contained offline; actual offline reconstruction still requires compatible artifacts. Assets have standalone entrypoints; repository validation is documented in [tests/README.md](tests/README.md).
 
 ### Repository layout
 
