@@ -13,7 +13,7 @@ for configuration.
 | --- | --- | --- | --- |
 | explorer | one question | compact evidence; the format is in [subagents.md](subagents.md) | edits, design advice |
 | review | the request and the diff | `WRONG` blocks for behavior errors and weakened real boundaries; `none` | missing tests, refactors, fixes |
-| over_review | the request and the diff | `CUT` blocks for what did not earn its place; `none` | correctness, replacement designs |
+| over_review | the request, the diff, and the turn's commands | `CUT` blocks for what did not earn its place, in the diff or in a command; `none` | correctness, replacement designs |
 | research | one question the main model could not settle | conclusion first; unread parts marked `未核实` | implementation, a roadmap |
 | historian | the current history document and a stage report | the whole rewritten document | invented dates, ids, or causes |
 | planner | the transcript so far and the edit about to happen | one four-part fix plan | tool use, reviewing earlier work |
@@ -44,6 +44,13 @@ not a pair: review alone, over_review alone, or both are all valid. Run them on
 a coherent unit of finished work, not on every edit. Pass the request in the
 user's words and the diff; the roles do not run `git diff` themselves. When both
 are chosen, run them on the same diff in parallel.
+
+A diff shows files, not commands. For over_review, also pass the turn's
+non-readonly tool calls (shell commands, edits, writes), in the order they
+happened, labelled as calls rather than results. Reads, searches, and listings
+do not belong in that list. The `pi-counterweight` extension collects this
+itself; without it, the host has to. A command is a finding only when nothing in
+the request calls for it. A rerun that checks the change is not one.
 
 When one earns its cost is the material-risk test in [workflow.md](workflow.md)
 (Review). `none` ends a run; do not rerun on the same diff without new evidence.

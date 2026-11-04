@@ -93,7 +93,9 @@ Notes that matter:
 
 ## Running a review
 
-1. Write the request, then the diff, to a temp file outside the repo.
+1. Write the request, then the diff, to a temp file outside the repo. For
+   over_review, append the turn's shell commands, edits, and writes after the
+   diff, in order, and label them as tool calls rather than results.
 2. Run the host's read-only child with the role prompt from `roles.md` (copy the
    rules into the host's profile format; do not paraphrase their limits) and a
    model other than the implementer's.

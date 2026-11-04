@@ -145,6 +145,12 @@ not open a review round.
 Read [references/commits.md](references/commits.md) when grouping is non-obvious,
 unrelated changes are already staged, or a hook or commit fails.
 
+## Scope
+
+When the repository has `.cw/goal.md`, treat it as the bound on this task: do
+the work inside it and do not widen it. It is the user's words, not a spec to
+elaborate. Do not edit the file. A goal that is absent changes nothing.
+
 ## Maintainability
 
 A later reader with no chat history should find entry points, follow existing

@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- `over_review` also judges the turn's shell commands, edits, and writes, not
+  only the diff. A command is a finding only when the request never called for
+  it.
+- When `.cw/goal.md` exists, it bounds the task. The skill does not read or
+  write it; the `pi-counterweight` extension injects it.
+
 ## 0.6.0 — 2026-10-24
 
 - Deep closeout sorts the plan's text once by what earns keeping; a finished
