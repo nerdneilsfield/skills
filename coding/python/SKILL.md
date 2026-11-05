@@ -1,24 +1,24 @@
 ---
 name: python
-description: Shared Python engineering guidance for data contracts, mutation, resource lifetime, failures and verification; use alongside the relevant specialist for Python application, numerical, ML or analysis work.
+description: "Use when writing or reviewing ordinary Python whose question is a data contract, mutation, resource lifetime, failure behavior, or verification, and no specialist owns it. Hand hotspots to python-performance, array/solver numerics to python-numerics, uv/Conda/Pixi or CUDA/ABI packaging to python-environments, model training or evaluation to python-ml, and tabular analysis or charts to python-data-analysis. Not for those specialist tasks."
 ---
 
 # Python: make the work and its boundaries explicit
 
-Start with what the operation means, what data it may mutate, what success/failure publishes, and which interpreter must execute it. Then measure the same work before changing how it runs. This shared guidance is not a new project framework or permission to replace existing environments.
+This hub is the shared contract for ordinary Python: what an operation means, what it may mutate, what success or failure publishes, and which interpreter executes it. Measure that same work before changing how it runs. Use this hub when no specialist owns the task. It is not a second copy of performance, numerics, environment, ML, or analysis procedures, and it is not permission to replace an existing environment.
 
-## Choose the question, not a tool inventory
+## Hand the task to one specialist
 
-| Current task | Read first |
+| Current task | Skill or reference |
 | --- | --- |
-| General input/output, mutation/ownership, streaming failure or resource boundary | [Engineering contract](references/engineering-contract.md) |
-| Hotspots, Python/native CPU, waiting, memory growth, parallel scaling | [python-performance](../python-performance/SKILL.md) |
-| Array/tensor shape, dtype, layout, numerical accuracy, kernels/solvers | [python-numerics](../python-numerics/SKILL.md) |
-| Interpreter, uv/Conda/Pixi, sources/mirrors, locks, offline artifacts, CUDA ABI | [python-environments](../python-environments/SKILL.md) |
-| Classical ML or deep-learning training, evaluation and artifacts | [python-ml](../python-ml/SKILL.md) |
-| Tabular/time/missing data, statistical summaries and visualization | [python-data-analysis](../python-data-analysis/SKILL.md) |
+| Data contract, mutation, resource lifetime, expected failure, or verification, and none of the rows below | [Engineering contract](references/engineering-contract.md) |
+| Hotspots, Python versus native CPU, waiting, memory growth, event-loop stalls, or application scaling | [python-performance](../python-performance/SKILL.md) |
+| Array or tensor shape, dtype, layout, broadcasting, numerical accuracy, solvers, BLAS, or JIT/device boundaries | [python-numerics](../python-numerics/SKILL.md) |
+| Interpreter, uv, venv, Conda, Pixi, mirrors, locks, offline artifacts, or CUDA/native ABI | [python-environments](../python-environments/SKILL.md) |
+| Classical ML or deep-learning splits, training, evaluation, checkpoints, or training-loop performance | [python-ml](../python-ml/SKILL.md) |
+| Tabular, time, or missing data, join and group meaning, statistical summaries, or charts | [python-data-analysis](../python-data-analysis/SKILL.md) |
 
-Read the matching reference first; follow another layer only when evidence crosses its boundary. An ordinary Python change does not require every skill. If a required named skill is missing, tell the user that exact name to install from this bundle; do not globally search, fetch a substitute, auto-install or invent its content. Continue independent work only.
+When a specialist row matches, load that skill and keep only this hub's contract rules. Do not load a second specialist for the same task. A second skill is a different row: a slow training loop loads `python-ml`; a broken lockfile loads `python-environments`. An ordinary Python change loads this hub or one specialist, not every skill. If a required named skill is missing, tell the user that exact name to install from this bundle; do not globally search, fetch a substitute, auto-install or invent its content. Continue independent work only.
 
 ## One connected operation
 

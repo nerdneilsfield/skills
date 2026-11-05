@@ -1,14 +1,13 @@
 ---
 name: cpp-numerics
-description: Use when creating or modifying CPU C++ matrix kernels, residuals, solvers, factor graphs or numerical-library adapters for SLAM, reconstruction, calibration or perception, including incorrect, unstable or slow numerical results.
+description: "Use when creating or changing CPU C++ Eigen code, residuals, Jacobians, manifolds, factor graphs, sparse or BLAS solvers, or numerical data-boundary adapters, including unstable, non-finite, or numerically wrong results. Defer shared conventions to cpp and thread-budget profiling to cpp-performance. Not for crashes or races (cpp-debug) or project/vendor setup (cpp-project-init)."
 ---
 
 # CPU numerical correctness and optimization
 
-Start with the mathematical/data contract, then optimize the measured computation. Apply shared `cpp` policy and `cpp-performance` measurement discipline. Core scope: Eigen, Ceres/GTSAM, SO(3)/SE(3), sparse solvers and CPU BLAS/LAPACK. OpenCV/PCL/Open3D appear at data boundaries, not as complete API guides. CUDA is separate and deferred.
+Start with the mathematical and data contract, then optimize that computation. This skill owns CPU Eigen expressions, residuals, Jacobians, manifolds, factor graphs, sparse and BLAS solvers, and numerical data-boundary adapters (including SLAM, reconstruction, calibration, and perception), and unstable, non-finite, or numerically wrong results. Defer shared language and ownership rules to `cpp`. Defer new projects, CMake presets, and vendoring to `cpp-project-init`. Defer crashes, races, and memory corruption to `cpp-debug`. Defer process-wide CPU, cache, scheduler, and thread-budget measurement to `cpp-performance`; keep numerical acceptance in this skill. Core libraries: Eigen, Ceres/GTSAM, SO(3)/SE(3), sparse solvers, and CPU BLAS/LAPACK. OpenCV/PCL/Open3D appear at data boundaries, not as complete API guides. CUDA is separate and deferred.
 
-
-Shared language policy is `cpp`; build/vendor changes use `cpp-project-init` and shared thread/measurement policy uses `cpp-performance`. If a needed named skill is missing, ask the user to install that exact skill from this bundle. Do not globally search, fetch a substitute, automatically install or invent its contents; continue only independent model/data checks.
+If a needed named skill is missing, ask the user to install that exact skill from this bundle. Do not globally search, fetch a substitute, automatically install or invent its contents; continue only independent model/data checks.
 
 ## Offline supporting materials
 
@@ -54,7 +53,7 @@ For existing Sophus projects, preserve the supported API/version and conventions
 
 - Inspect sparse format, index width, symmetry assumptions and ordering. Reuse symbolic analysis/factorization only when the corresponding sparsity/value invariants permit it; record what changed between solves.
 - Compare backend changes on representative sizes including small fixed matrices. Include conversion/setup costs and memory, not just the backend kernel time.
-- Thread budgets, nested application/solver/BLAS teams and backend control selection are owned by [cpp-performance parallelism/BLAS](../cpp-performance/references/parallelism-and-blas.md). Read that only when threading is implicated; keep numerical quality gates here. If unavailable, ask the user to install **`cpp-performance`** from this bundle, not search globally.
+- Thread budgets, nested application/solver/BLAS teams, and backend control selection are owned by [cpp-performance parallelism/BLAS](../cpp-performance/references/parallelism-and-blas.md). Read that when nested application, solver, or BLAS thread counts are part of the measurement; keep numerical quality gates here. If unavailable, ask the user to install **`cpp-performance`** from this bundle, not search globally.
 - New source/backend integration uses [cpp-project-init](../cpp-project-init/SKILL.md), the sole vendor/legal/offline owner. SuiteSparse licensing remains component-specific; identify the actual retained components when applying that policy.
 
 ## Image and point-cloud boundaries

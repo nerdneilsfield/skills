@@ -1,11 +1,11 @@
 ---
 name: python-ml
-description: Use when building, evaluating, debugging or optimizing Python machine-learning models and deep-learning training or inference, including data leakage, misleading validation, unstable training, slow data loading, GPU out-of-memory and unreliable checkpoints.
+description: "Use when the user asks to build, evaluate, debug, or speed up a classical ML or deep-learning training or inference pipeline: leakage, misleading splits, unstable training, slow data loading, GPU out-of-memory, or untrusted checkpoints. Defer shared contracts to python. Not for generic profiling outside a training loop (python-performance), array kernels with no model (python-numerics), packaging (python-environments), or descriptive tables and charts (python-data-analysis)."
 ---
 
 # Machine learning: trustworthy evidence before faster training
 
-Treat the model as one stage of a reproducible decision pipeline: **prediction contract → data separation → fitted transformation → training → independent evaluation → deployment evidence**. A faster epoch with duplicated samples, changed precision or weaker validation is not an equivalent improvement.
+Run this skill for classical ML or deep-learning training, evaluation, checkpoints, and performance inside that loop. Treat the model as one stage of a reproducible decision pipeline: **prediction contract → data separation → fitted transformation → training → independent evaluation → deployment evidence**. A faster epoch with duplicated samples, changed precision or weaker validation is not an equivalent improvement. Defer shared data contracts to `python`. Defer generic profiling outside a training or inference loop to `python-performance`, array kernels with no model to `python-numerics`, packaging and CUDA/ABI repair to `python-environments`, and descriptive tables or charts to `python-data-analysis`.
 
 Preserve the project's framework and model family unless the task calls for changing them. Classical ML and deep learning share data/evaluation contracts but need different implementation references. The examples use scikit-learn and PyTorch to make those contracts executable; neither is mandatory for every project.
 
@@ -20,9 +20,9 @@ Preserve the project's framework and model family unless the task calls for chan
 | Bundled script inputs, commands and coverage | [Executable examples](references/executable-examples.md) |
 | Maintenance or tracing a version-sensitive claim | [Research sources](references/sources.md) |
 
-Read only the matching reference initially; cross to another when the evidence crosses its boundary. Each reference explains decisions offline. URLs are attribution, not missing instructions.
+Read the matching reference first. Read a second reference in this skill after the first one names a different stage (for example a split bug that is also a checkpoint mismatch). Each reference explains decisions offline. URLs are attribution, not missing instructions.
 
-Use `python-environments` for interpreter/package source/lock/CUDA ABI changes; `python-performance` for generic Python/native CPU/wait/system profiling; `python-numerics` for array layout, kernels, dtype/reduction correctness and JIT boundaries. If a needed named skill is missing, ask to install that exact skill from this bundle; do not globally search, fetch a replacement or invent its contents. Independent data/model checks can continue.
+Defer interpreter, package source, lock, and CUDA ABI changes to `python-environments`. Defer generic Python or native CPU, wait, and system profiling outside this loop to `python-performance`. Defer array layout, kernels, dtype or reduction correctness, and JIT boundaries with no model to `python-numerics`. Defer descriptive joins and charts to `python-data-analysis`. Defer shared contracts to `python`. If a needed named skill is missing, ask to install that exact skill from this bundle; do not globally search, fetch a replacement or invent its contents. Independent data and model checks can continue.
 
 ## Establish what must remain true
 

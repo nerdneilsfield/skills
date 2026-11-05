@@ -1,11 +1,11 @@
 ---
 name: python-environments
-description: Use when creating, reproducing, or diagnosing Python environments with uv, venv, Conda, or Pixi, including native-library and CUDA package compatibility. Not for CUDA kernel optimization.
+description: "Use when creating, reproducing, or diagnosing a Python environment with uv, venv, Conda, or Pixi, including locks, mirrors, offline artifacts, native ABI, and CUDA package compatibility. Defer shared contracts to python. Not for CUDA kernel authoring, numerical algorithms (python-numerics), profiling code that already runs (python-performance), or model quality (python-ml)."
 ---
 
 # Reproducible Python environments
 
-Make the intended workload run in an identifiable environment, without replacing a working workflow merely to standardize tools. This skill owns Python environment, interpreter, lock/artifact, native ABI and GPU packaging policy. C++ vendoring restrictions do not prohibit Python package managers.
+Make the intended workload run in an identifiable environment, without replacing a working workflow merely to standardize tools. Run this skill for interpreter, uv, venv, Conda, Pixi, lock, mirror, offline-artifact, native ABI, or CUDA package failures. This skill owns that packaging policy. Defer shared data contracts to `python`. Defer numerical algorithms to `python-numerics`, profiling of code that already imports to `python-performance`, model quality to `python-ml`, and tabular analysis to `python-data-analysis`. C++ vendoring restrictions do not prohibit Python package managers. CUDA kernel authoring is outside this skill.
 
 ## Select only the relevant reference
 
@@ -29,7 +29,7 @@ References explain procedures locally; web links are provenance, not required re
 5. Explain the smallest repair, destination prefix, required artifacts and validation before performing authorized changes. Do not delete the only working environment or modify system Python, drivers, shell startup files or global configuration.
 6. Validate interpreter identity, intended dependencies, then an explicitly selected minimal workload. Imports can execute code and load native libraries; metadata inspection alone is not a runtime health check.
 
-For numerical correctness or performance work beyond environment repair, use `python-numerics` or `python-performance` only when relevant and available. If a needed named specialist is absent, tell the user that exact skill name to install; do not globally search, fetch a substitute or auto-install it. This environment workflow remains independently usable.
+After the environment runs the intended workload, stop. Defer numerical correctness to `python-numerics`, process profiling to `python-performance`, model quality to `python-ml`, and tabular analysis to `python-data-analysis`. Defer shared data contracts to `python`. If a needed named specialist is absent, tell the user that exact skill name to install; do not globally search, fetch a substitute or auto-install it. This environment workflow remains independently usable.
 
 ## Completion evidence
 

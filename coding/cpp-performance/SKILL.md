@@ -1,29 +1,28 @@
 ---
 name: cpp-performance
-description: Use when C++ CPU latency, throughput, memory use, cache/cacheline contention, context switching, thread oversubscription, paging, or scalability is a measured problem or an explicit optimization target.
+description: "Use when the user asks to speed up or shrink C++ CPU code, or when latency, throughput, cache or lock contention, context switches, thread oversubscription, paging, or scaling is a measured problem. Defer shared conventions to cpp. Not for crashes or undefined behavior (cpp-debug), Eigen/solver/numerical-quality changes (cpp-numerics), or creating or vendoring a project (cpp-project-init)."
 ---
 
 # Measured C++ CPU optimization
 
-Optimize the bottleneck of a representative workload, not a list of coding preferences. Use shared `cpp` conventions; use `cpp-debug` first for undefined behavior and `cpp-numerics` for floating-point/solver changes. CUDA is deferred and not part of this skill.
+Optimize the bottleneck of a representative workload, not a list of coding preferences. This skill owns measured C++ CPU latency, throughput, cache and lock contention, scheduling, thread oversubscription, paging, allocation, and scaling. Defer language and ownership rules to `cpp`. Defer project creation and vendoring to `cpp-project-init`. Defer crashes, hangs, races, and undefined behavior to `cpp-debug` before any speed change. Defer Eigen, residual, solver, and numerical-quality changes to `cpp-numerics`, including a slow kernel whose model, layout, or precision is the question. CUDA is deferred and not part of this skill.
 
-
-Shared language policy is `cpp`; build/vendor changes use `cpp-project-init`, uncertain UB uses `cpp-debug`, and model/precision questions use `cpp-numerics`. If a needed named skill is missing, ask the user to install that exact skill from this bundle. Do not globally search, fetch a substitute, automatically install or invent it; continue only independent measurements/reasoning.
+If a needed named skill is missing, ask the user to install that exact skill from this bundle. Do not globally search, fetch a substitute, automatically install or invent it; continue only independent measurements/reasoning.
 
 ## Start with the matching symptom, not all references
 
-Read the matching row first. These are routes, not cumulative requirements. Follow a related reference when evidence crosses layers (for example runnable pressure plus memory stalls); do not enforce an artificial one-reference limit or preload the entire directory.
+Read the matching row first. These are routes, not a requirement to open every file. Read the paired reference for that same symptom when the first one does not name the mechanism (for example runnable pressure plus memory stalls). Do not preload the entire directory.
 
-| Present question / evidence | First local reference | Continue only if needed |
+| Present question / evidence | First local reference | Paired reference for this symptom |
 | --- | --- | --- |
 | No trustworthy baseline, noisy timing, unclear acceptance | [Measurement/report](references/measurement-and-report.md) | [Existing sample JSON tool](references/local-benchmark-tool.md) |
-| Need the platform's CPU/stack profiler | [Profiler selection](references/profilers-and-threading.md) | Relevant mechanism below |
+| Need the platform's CPU/stack profiler | [Profiler selection](references/profilers-and-threading.md) | Cache, scheduler, or memory reference matching the profile |
 | Cache/TLB/bandwidth, shared lines or lock contention | [Cache/shared-line evidence](references/cpu-cache-sharing-contention.md) | [Cache/synchronization remedies](references/cache-and-synchronization-remedies.md) |
 | Context switches, migrations, runnable delay, usable CPU/quota | [Scheduler/thread capacity](references/scheduler-thread-capacity.md) | [Read-only PID sampler](references/proc-sampler-guide.md) |
-| Nested application/solver/BLAS teams or thread-budget selection | [Parallelism/BLAS policy](references/parallelism-and-blas.md) | Capacity evidence or numeric quality as indicated |
+| Nested application/solver/BLAS teams or thread-budget selection | [Parallelism/BLAS policy](references/parallelism-and-blas.md) | Scheduler/thread capacity here; `cpp-numerics` when the model or residual is wrong |
 | RSS/PSS, faults, reclaim, swap or NUMA | [Memory/NUMA evidence](references/memory-pressure-numa.md) | [Thread/memory remedies](references/thread-and-memory-remedies.md) |
 | A cause is already supported; need a scoped fix/prevention | [Cache/synchronization remedies](references/cache-and-synchronization-remedies.md) or [thread/memory remedies](references/thread-and-memory-remedies.md) | [Runnable correctness examples](assets/remediation-examples/README.md) |
-| Eigen/solver model, data layout or numerical quality fails | `cpp-numerics` | Its relevant model/validation reference |
+| Eigen/solver model, data layout or numerical quality fails | `cpp-numerics` | That skill's Eigen, nonlinear-solver, or sparse/BLAS reference |
 
 Tool invocation, schemas, permissions, examples and limitations live with the matching local guide. References are self-contained offline; source links are provenance. If a cross-skill owner is missing, name the exact skill for the user to install from this bundle, not a global search or automatic download.
 
