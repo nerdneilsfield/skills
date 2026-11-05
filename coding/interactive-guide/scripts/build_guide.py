@@ -12,10 +12,10 @@ import tempfile
 from pathlib import Path
 
 APP = Path(__file__).resolve().parents[1] / "assets" / "app"
-BLOCKS = {"text", "callout", "code", "figure", "compare", "steps", "terms", "quiz", "formula", "mermaid", "flow", "graph"}
+BLOCKS = {"text", "callout", "code", "figure", "compare", "steps", "terms", "quiz", "formula", "mermaid", "flow", "graph", "claim", "figuretour"}
 REQUIRED = {"text": ["md"], "callout": ["md"], "code": ["code"], "figure": ["src", "alt"], "compare": ["headers", "rows"],
             "steps": ["items"], "terms": ["items"], "quiz": ["question", "options", "answer"], "formula": ["tex"],
-            "mermaid": ["code"], "flow": ["nodes", "edges", "flows"], "graph": ["nodes", "edges"]}
+            "mermaid": ["code"], "claim": ["kind", "md"], "figuretour": ["src", "alt", "stops"], "flow": ["nodes", "edges", "flows"], "graph": ["nodes", "edges"]}
 
 
 def location_error(repo, where, file, line):
@@ -91,6 +91,11 @@ def validate(data, repo):
                 errors += check_graph(block, repo, where)
             elif kind == "code" and block.get("file"):
                 errors.append(location_error(repo, where, block["file"], block.get("line")))
+            elif kind == "claim" and block["kind"] not in {"author", "evidence", "inference", "unknown"}:
+                errors.append(f"{where}: unknown claim kind {block['kind']}")
+            elif kind == "figuretour":
+                errors += [f"{where}: stop {n} leaves the image" for n, s in enumerate(block["stops"], 1)
+                           if s["x"] < 0 or s["y"] < 0 or s["x"] + s["w"] > 100 or s["y"] + s["h"] > 100]
             elif kind == "quiz" and not 0 <= block["answer"] < len(block["options"]):
                 errors.append(f"{where}: answer out of range")
     return [e for e in errors if e]
@@ -101,7 +106,7 @@ def inline_images(data, base):
     errors = []
     for page in data["pages"]:
         for block in page.get("blocks", []):
-            if block.get("type") != "figure" or str(block.get("src", "")).startswith("data:"):
+            if block.get("type") not in {"figure", "figuretour"} or str(block.get("src", "")).startswith("data:"):
                 continue
             src = block["src"]
             path = base / src

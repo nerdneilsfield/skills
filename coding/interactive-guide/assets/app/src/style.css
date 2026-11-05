@@ -87,3 +87,10 @@ ol.stepsb li::before{content:counter(s);position:absolute;left:0;top:0;width:28p
 .level{font:13px var(--mono);color:var(--shu)}
 #kg,.kg{height:clamp(320px,62vh,560px);background:var(--gofun);border:1px solid var(--line)}
 @media (max-width:640px){.page,.tabs div{padding-left:18px;padding-right:18px}header.top{padding:8vh 18px 5vh}}
+.origin{font:12px var(--mono);margin-right:10px}.origin.paper{color:var(--ai)}.origin.explain{color:var(--shu)}
+.claim{max-width:40em;padding:2px 0 2px 16px;border-left:3px solid var(--rikyu)}
+.claim.author{border-color:var(--yamabuki)}.claim.evidence{border-color:var(--ai)}.claim.inference{border-color:var(--shu)}
+.claim b{font-weight:500;font-size:13px;color:var(--nezumi);display:block}.claim .where{font:12px var(--mono);color:var(--ai)}
+.ftour .stage{position:relative;line-height:0}.ftour img{width:100%;height:auto;display:block;background:#fff;border:1px solid var(--line)}
+.ftour .spot{position:absolute;border:2px solid var(--shu);box-shadow:0 0 0 2000px rgba(20,20,20,.35);transition:all .35s;pointer-events:none}
+.ftour .clip{position:absolute;inset:0;overflow:hidden;pointer-events:none}

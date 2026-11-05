@@ -7,7 +7,9 @@ A guide is `{title, summary, repo, commit, pages[]}`. A page is `{id, title, lev
 | `text` | `md` | Markdown prose |
 | `callout` | `md`, `title`, `kind` (`warn`, `check`, or empty) | The one thing to remember, or a trap |
 | `code` | `code`, `file`, `line` | A short excerpt with its location |
-| `figure` | `src`, `alt`, `caption`, `source` | A local image, always inlined as base64 |
+| `figure` | `src`, `alt`, `caption`, `source`, `origin` (`paper`, `explain`), `ref` | A local image, always inlined as base64. `origin` shows whose figure it is |
+| `figuretour` | `src`, `alt`, `caption`, `origin`, `ref`, `stops[{x, y, w, h, title, md}]` | Step through regions of one figure. Coordinates are percentages of the image |
+| `claim` | `kind` (`author`, `evidence`, `inference`, `unknown`), `md`, `where` | Keep a claim, its evidence, and your inference visibly apart |
 | `compare` | `headers[]`, `rows[][]` | Trade-offs |
 | `steps` | `items[]` | An ordered procedure |
 | `terms` | `items[{term, meaning}]` | Vocabulary |

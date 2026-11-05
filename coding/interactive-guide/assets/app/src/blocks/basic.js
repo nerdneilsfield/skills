@@ -11,9 +11,28 @@ export function code(b) {
   if (b.file) d.append(el("div", "loc", b.file + (b.line ? ":" + b.line : "")));
   d.append(el("pre", null, b.code)); return d;
 }
+const ORIGIN = { paper: "论文原图", explain: "补充解释图" };
+export const originTag = (b) => el("span", "origin " + b.origin, (ORIGIN[b.origin] || b.origin) + (b.ref ? " · " + b.ref : ""));
+const CLAIM = { author: "作者主张", evidence: "论文证据", inference: "分析推断", unknown: "未报告" };
+export function claim(b) {
+  const d = el("div", "claim " + b.kind); d.append(el("b", null, CLAIM[b.kind]));
+  const body = el("div"); body.innerHTML = marked.parse(b.md); d.append(body);
+  if (b.where) d.append(el("div", "where", b.where)); return d;
+}
+export function figuretour(b) {
+  const root = el("div", "ftour"), g = el("div", "grid"), stage = el("div", "stage"), i = el("img"), clip = el("div", "clip"), spot = el("div", "spot"), box = el("aside");
+  i.src = b.src; i.alt = b.alt; clip.append(spot); stage.append(i, clip); g.append(stage, box); root.append(g);
+  const ctl = el("div", "ctl"), prev = el("button", null, "上一处"), next = el("button", null, "下一处"), n = el("span", "count"); ctl.append(prev, next, n); root.append(ctl);
+  if (b.caption || b.origin) { const c = el("p", "legend"); if (b.origin) c.append(originTag(b)); if (b.caption) c.append(b.caption); root.append(c); }
+  let k = 0;
+  const show = () => { const s = b.stops[k]; spot.style.cssText = `left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%`;
+    box.replaceChildren(el("h3", null, s.title)); const p = el("div", "prose"); p.innerHTML = marked.parse(s.md); box.append(p); n.textContent = `${k + 1} / ${b.stops.length}`; };
+  prev.onclick = () => { k = Math.max(0, k - 1); show(); }; next.onclick = () => { k = Math.min(b.stops.length - 1, k + 1); show(); }; show(); return root;
+}
 export function figure(b) {
   const f = el("figure"), i = el("img"); i.src = b.src; i.alt = b.alt; i.loading = "lazy"; f.append(i);
-  if (b.caption) f.append(el("figcaption", null, b.caption)); return f;
+  if (b.caption || b.origin) { const c = el("figcaption"); if (b.origin) c.append(originTag(b)); if (b.caption) c.append(b.caption); f.append(c); }
+  return f;
 }
 export function compare(b) {
   const t = el("table", "cmp"), h = el("tr");

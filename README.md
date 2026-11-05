@@ -11,6 +11,7 @@
 | Skill | 用途 |
 | --- | --- |
 | [`qi-read-paper`](research/qi-read-paper/) | 用户给出论文并要求精读、逐轮讲解或评估复现时使用；只问一个具体点时直接回答。不用于写技术文档或改文风。 |
+| [`paper-page`](research/paper-page/) | 一次读完三轮并生成交互网页，内嵌论文原图和解释图。 |
 | [`research-report`](research/research-report/) | 用户要求基于多个来源写调研报告或综述时使用：来源简述、大纲、分章、配图、全文审阅与导出。 |
 | [`paper-search`](research/paper-search/) | 用户要求找论文、查相关工作或追引用时使用：扩展检索词、多来源交叉、按既定标准筛选、记录检索过程与停止条件。不用于精读单篇（qi-read-paper）或据此写综述（research-report）。 |
 | [`paper-compare`](research/paper-compare/) | 用户要求横向比较多篇方法或做对比表时使用：区分作者声称、实验证据与你的推断，标出不可比的指标和数据集。不用于找论文或精读单篇。 |
@@ -108,6 +109,7 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | Skill | Purpose |
 | --- | --- |
 | [`qi-read-paper`](research/qi-read-paper/) | Use when the user supplies a paper and asks for a close reading, round-by-round explanation, or reproduction assessment. Answer a single concrete question directly. Not for writing technical docs or changing literary voice. |
+| [`paper-page`](research/paper-page/) | Read a paper in all three rounds at once into an interactive page with its figures and explanatory figures. |
 | [`research-report`](research/research-report/) | Use for research reports or surveys from many sources: source notes, outline, chapters, figures, full review, and export. |
 | [`paper-search`](research/paper-search/) | Use when the user asks to find papers, gather related work, or track citations: expand the query, cross-check several sources, screen against stated criteria, and log the search and its stopping rule. Not for reading one paper (qi-read-paper) or writing the survey from the hits (research-report). |
 | [`paper-compare`](research/paper-compare/) | Use to compare several methods side by side or build a comparison table: separate the authors' claims from measured evidence and your inference, and flag metrics or datasets that are not comparable. Not for finding the papers or reading one closely. |
