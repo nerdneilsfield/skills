@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+/* 色名取自日本の伝統色; hex 为常见数字近似值，不是历史定值。 */
+:root{
+  --kinari:#f7f4ec; --gofun:#fffdf8; --sumi:#2b2b2b; --nezumi:#7b7c7d; --rikyu:#888e7e;
+  --ai:#165e83; --koiai:#0f2350; --shu:#c8553d; --koke:#69821b; --yamabuki:#c9a227;
+  --line:#d9d4c7; --wash:#ebe6d9;
+  --serif:"Hiragino Mincho ProN","Yu Mincho","Noto Serif CJK SC","Noto Serif CJK JP","Songti SC",serif;
+  --mono:"JetBrains Mono","SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --kinari:#1b1d22; --gofun:#23262c; --sumi:#e8e4d8; --nezumi:#9a9a94; --rikyu:#9aa08e;
+  --ai:#6fa8c7; --koiai:#a9c4dc; --shu:#e08a70; --koke:#a3b866; --yamabuki:#d8b95a;
+  --line:#3a3d44; --wash:#2c2f36;
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--kinari);color:var(--sumi);font:17px/1.9 var(--serif);-webkit-font-smoothing:antialiased}
+header.top{max-width:1120px;margin:0 auto;padding:12vh 32px 8vh}
+h1{font-size:clamp(34px,5vw,56px);font-weight:500;line-height:1.3;letter-spacing:.04em;margin:0 0 28px}
+.lede{max-width:38em;margin:0}
+.meta{margin-top:28px;font:13px/1.6 var(--mono);color:var(--nezumi)}
+nav.steps{position:sticky;top:0;z-index:5;background:var(--kinari);border-bottom:1px solid var(--line)}
+nav.steps div{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;gap:32px;overflow-x:auto}
+nav.steps a{padding:14px 0;color:var(--nezumi);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;font-size:15px}
+nav.steps a.on{color:var(--sumi);border-color:var(--shu)}
+section{max-width:1120px;margin:0 auto;padding:88px 32px;scroll-margin-top:52px}
+h2{font-size:28px;font-weight:500;letter-spacing:.04em;margin:0 0 12px}
+.intro{max-width:38em;color:var(--nezumi);margin:0 0 40px}
+.grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+svg.map{width:100%;height:auto;display:block;background:var(--gofun);border:1px solid var(--line)}
+.node rect{fill:var(--gofun);stroke:var(--line);stroke-width:1.2;transition:stroke .25s,fill .25s}
+.node text{font:14px var(--serif);fill:var(--sumi);pointer-events:none}
+.node{cursor:pointer;outline:none}
+.node:hover rect,.node:focus rect{stroke:var(--ai)}
+.node.sel rect{stroke:var(--ai);stroke-width:2}
+.node.act rect{fill:var(--wash);stroke:var(--shu);stroke-width:2}
+.node.dim{opacity:.35}
+.edge{fill:none;stroke:var(--line);stroke-width:1.3}
+.edge.inferred{stroke-dasharray:5 5}
+.edge.act{stroke:var(--shu);stroke-width:2}
+.pulse{fill:var(--shu)}
+.band{font:12px var(--mono);fill:var(--nezumi)}
+aside{min-height:280px}
+aside h3{font-size:21px;font-weight:500;margin:0 0 8px}
+.loc{font:13px var(--mono);color:var(--ai);word-break:break-all}
+.tag{font:12px var(--mono);margin-left:10px;color:var(--koke)}
+.tag.inferred{color:var(--shu)}
+pre{background:var(--gofun);border:1px solid var(--line);border-left:3px solid var(--ai);padding:14px 16px;margin:16px 0 0;overflow:auto;font:13px/1.7 var(--mono)}
+.flows{display:flex;flex-wrap:wrap;gap:8px 12px;margin-bottom:24px}
+button{font:14px var(--serif);color:var(--sumi);background:none;border:1px solid var(--line);padding:6px 16px;cursor:pointer;transition:border-color .2s,color .2s}
+button:hover,button:focus-visible{border-color:var(--ai);color:var(--ai);outline:none}
+button.on{border-color:var(--shu);color:var(--shu)}
+.ctl{display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+.count{font:13px var(--mono);color:var(--nezumi)}
+.bar{height:2px;background:var(--line);margin-top:14px}.bar i{display:block;height:100%;width:0;background:var(--shu);transition:width .3s}
+.legend{font-size:13px;color:var(--nezumi);margin-top:12px}
+dl.terms{display:grid;grid-template-columns:minmax(120px,max-content) 1fr;gap:10px 28px;max-width:46em;margin:0}
+dt{color:var(--ai)}dd{margin:0}
+footer{max-width:1120px;margin:0 auto;padding:40px 32px 80px;color:var(--nezumi);font-size:14px;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="top"><h1 id="title"></h1><p class="lede" id="summary"></p><div class="meta" id="meta"></div></header>
+<nav class="steps"><div id="nav"></div></nav>
+<main id="main"></main>
+<footer id="foot"></footer>
+<script id="data" type="application/json">__DATA__</script>
+<script>
+"use strict";
+const D=JSON.parse(document.getElementById("data").textContent);
+const NS="http://www.w3.org/2000/svg";
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+const sv=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+document.title=D.title;
+document.getElementById("title").textContent=D.title;
+document.getElementById("summary").textContent=D.summary;
+document.getElementById("meta").textContent=[D.repo,D.commit].filter(Boolean).join(" @ ");
+document.getElementById("foot").textContent="虚线和“推断”标记的内容未在源码中逐一证实。位置基于上述 commit。";
+const main=document.getElementById("main"),nav=document.getElementById("nav");
+const LEVELS=[["l1","一 全貌"],["l2","二 结构"],["l3","三 调用"]];
+if((D.terms||[]).length)LEVELS.push(["l4","四 术语"]);
+LEVELS.forEach(([id,t])=>{const a=el("a",null,t);a.href="#"+id;nav.append(a)});
+function section(id,title,intro){const s=el("section");s.id=id;s.append(el("h2",null,title));if(intro)s.append(el("p","intro",intro));main.append(s);return s}
+function describe(box,o){box.replaceChildren();box.append(el("h3",null,o.title||o.label));
+  if(o.file){const l=el("div","loc",o.file+(o.line?":"+o.line:""));const t=el("span","tag"+(o.verified===false?" inferred":""),o.verified===false?"推断":"已核对");l.append(t);box.append(l)}
+  const b=o.explain||o.summary;if(b)box.append(el("p",null,b));if(o.code)box.append(el("pre",null,o.code))}
+/* layered layout: each node declares layer and optional band */
+const W=760,NW=150,NH=46,GAPY=96,TOP=40;
+const layers=[...new Set(D.nodes.map(n=>n.layer))].sort((a,b)=>a-b);
+const pos={};
+layers.forEach((L,i)=>{const row=D.nodes.filter(n=>n.layer===L);const step=W/(row.length+1);
+  row.forEach((n,j)=>{pos[n.id]={x:step*(j+1),y:TOP+i*GAPY}})});
+const H=TOP+layers.length*GAPY;
+function drawMap(host,onPick){const s=sv("svg",{class:"map",viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":D.title});
+  const edges={},nodes={};
+  D.edges.forEach(e=>{const a=pos[e.from],b=pos[e.to];const my=(a.y+b.y)/2;
+    const p=sv("path",{class:"edge"+(e.verified===false?" inferred":""),d:`M${a.x} ${a.y+NH/2} C${a.x} ${my},${b.x} ${my},${b.x} ${b.y-NH/2}`});
+    edges[e.from+">"+e.to]=p;s.append(p)});
+  D.nodes.forEach(n=>{const g=sv("g",{class:"node",tabindex:"0",role:"button","aria-label":n.label});const c=pos[n.id];
+    g.append(sv("rect",{x:c.x-NW/2,y:c.y-NH/2,width:NW,height:NH,rx:2}));
+    const t=sv("text",{x:c.x,y:c.y+5,"text-anchor":"middle"});t.textContent=n.label;g.append(t);
+    const pick=()=>{Object.values(nodes).forEach(x=>x.classList.remove("sel"));g.classList.add("sel");onPick(n)};
+    g.addEventListener("click",pick);g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pick()}});
+    nodes[n.id]=g;s.append(g)});
+  host.append(s);return {svg:s,nodes,edges}}
+/* level one */
+const s1=section("l1","全貌",D.overview||"");
+const list=el("dl","terms");(D.stages||[]).forEach(x=>{list.append(el("dt",null,x.name),el("dd",null,x.text))});if((D.stages||[]).length)s1.append(list);
+/* level two */
+const s2=section("l2","结构","点击模块查看职责和入口位置。");const g2=el("div","grid");s2.append(g2);
+const left2=el("div"),box2=el("aside");g2.append(left2,box2);drawMap(left2,n=>describe(box2,n));describe(box2,D.nodes[0]);
+const lg=el("p","legend","实线为已核对的调用，虚线为推断。");left2.append(lg);
+/* level three */
+const s3=section("l3","调用","选一个问题，看一次调用怎样走过代码。方向键单步，空格播放。");
+const pick=el("div","flows");s3.append(pick);const g3=el("div","grid");s3.append(g3);
+const left3=el("div"),box3=el("aside");g3.append(left3,box3);
+const map=drawMap(left3,n=>describe(box3,n));
+const ctl=el("div","ctl"),prev=el("button",null,"上一步"),play=el("button",null,"播放"),next=el("button",null,"下一步"),count=el("span","count");ctl.append(prev,play,next,count);left3.append(ctl);
+const bar=el("div","bar"),fill=el("i");bar.append(fill);left3.append(bar);
+const pulse=sv("circle",{class:"pulse",r:6,opacity:0});map.svg.append(pulse);
+let flow=D.flows[0],idx=0,timer=null,raf=null;
+function clear(){Object.values(map.nodes).forEach(n=>n.classList.remove("act","dim"));Object.values(map.edges).forEach(e=>e.classList.remove("act"))}
+function fly(path){cancelAnimationFrame(raf);if(!path||reduce){pulse.setAttribute("opacity",0);return}
+  const len=path.getTotalLength(),t0=performance.now(),dur=650;pulse.setAttribute("opacity",1);
+  const go=t=>{const k=Math.min(1,(t-t0)/dur),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2,p=path.getPointAtLength(len*e);pulse.setAttribute("cx",p.x);pulse.setAttribute("cy",p.y);
+    if(k<1)raf=requestAnimationFrame(go);else pulse.setAttribute("opacity",0)};raf=requestAnimationFrame(go)}
+function show(){const st=flow.steps[idx];clear();const used=new Set(flow.steps.flatMap(s=>[s.from,s.to]));
+  Object.entries(map.nodes).forEach(([id,n])=>{if(!used.has(id))n.classList.add("dim")});
+  map.nodes[st.to].classList.add("act");if(st.from)map.nodes[st.from].classList.add("act");
+  const p=map.edges[st.from+">"+st.to]||null;if(p)p.classList.add("act");fly(p);
+  describe(box3,st);count.textContent=`${idx+1} / ${flow.steps.length}`;fill.style.width=((idx+1)/flow.steps.length*100)+"%"}
+function stop(){clearInterval(timer);timer=null;play.textContent="播放"}
+function step(d){idx=Math.max(0,Math.min(flow.steps.length-1,idx+d));show()}
+function toggle(){if(timer){stop();return}if(idx>=flow.steps.length-1)idx=-1;play.textContent="暂停";const tick=()=>{if(idx>=flow.steps.length-1){stop();return}step(1)};tick();timer=setInterval(tick,2600)}
+prev.onclick=()=>{stop();step(-1)};next.onclick=()=>{stop();step(1)};play.onclick=toggle;
+D.flows.forEach((f,i)=>{const b=el("button",i?null:"on",f.title);b.onclick=()=>{stop();flow=f;idx=0;[...pick.children].forEach(c=>c.classList.remove("on"));b.classList.add("on");show()};pick.append(b)});
+document.addEventListener("keydown",e=>{if(e.target.closest&&e.target.closest("button,.node"))return;
+  if(e.key==="ArrowRight"){stop();step(1)}else if(e.key==="ArrowLeft"){stop();step(-1)}else if(e.key===" "){e.preventDefault();toggle()}});
+show();
+/* level four */
+if((D.terms||[]).length){const s4=section("l4","术语","代码里反复出现、读懂调用要先知道的词。");const d=el("dl","terms");D.terms.forEach(t=>d.append(el("dt",null,t.term),el("dd",null,t.meaning)));s4.append(d)}
+const links=[...nav.children];const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle("on",a.hash==="#"+e.target.id))}),{rootMargin:"-40% 0px -55% 0px"});
+document.querySelectorAll("section").forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

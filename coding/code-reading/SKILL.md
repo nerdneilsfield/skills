@@ -9,6 +9,8 @@ metadata:
 
 # Read a repository you have never seen
 
+If the user wants to see the flow as an interactive page, finish the trace here, then hand it to `code-walkthrough`.
+
 The output is a map plus a list of things you verified and things you only suspect. A summary with no `file:line` is a guess.
 
 ## 1. Size the repository before reading it
