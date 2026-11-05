@@ -1,6 +1,6 @@
 # Fixing thread and memory bottlenecks, then avoiding their return
 
-Use this after the evidence identifies a plausible mechanism, not merely a large counter. The diagnostic companions are [scheduler/thread capacity](scheduler-thread-capacity.md), [memory pressure/NUMA](memory-pressure-numa.md), and the [read-only proc collector](proc-sampler-guide.md). This reference supplies the next implementation choices and acceptance tests offline. It does not authorize deployment quota, affinity, memory-policy or kernel-setting changes.
+Use this after the evidence identifies a plausible mechanism, not merely a large counter. The diagnostic companions are scheduler/thread capacity (`scheduler-thread-capacity.md`), memory pressure/NUMA (`memory-pressure-numa.md`), and the read-only proc collector (`proc-sampler-guide.md`). This reference supplies the next implementation choices and acceptance tests offline. It does not authorize deployment quota, affinity, memory-policy or kernel-setting changes.
 
 For every change keep five things together: the slow workload and quality target; the specific resource hypothesis; one reversible implementation change; correctness and resource side effects; comparable before/after evidence. A reduced switch/fault count alone is not success if throughput, tail latency, memory or numerical quality worsens. Test representative small/large, balanced/skewed and burst/steady inputs, not only the input that made the optimization attractive.
 
@@ -8,7 +8,7 @@ For every change keep five things together: the slow workload and quality target
 
 **Precondition.** During the actual slow phase there is excessive runnable demand relative to allowed CPUs/visible quota, or a worker-count sweep shows increasing runnable delay/preemption/throttling while useful throughput plateaus or falls. Sleeping I/O threads do not by themselves establish this. Identify all pools, CPU masks, quota periods and shared cgroup users first.
 
-**Concrete change and verification.** Apply the single [parallelism/BLAS policy](parallelism-and-blas.md): it owns the explicit orchestration budget, outer/inner experiment, backend-control scope, correctness/quality risks and acceptance/prevention rules. Use the capacity evidence above as its input. Continue to the following sections only if granularity, waiting, buffer ownership or memory behavior also needs changing; do not recreate a second thread policy here.
+**Concrete change and verification.** Apply the single parallelism/BLAS policy (`parallelism-and-blas.md`): it owns the explicit orchestration budget, outer/inner experiment, backend-control scope, correctness/quality risks and acceptance/prevention rules. Use the capacity evidence above as its input. Continue to the following sections only if granularity, waiting, buffer ownership or memory behavior also needs changing; do not recreate a second thread policy here.
 
 ## 2. Too-small tasks and wakeups: batch only where latency permits
 

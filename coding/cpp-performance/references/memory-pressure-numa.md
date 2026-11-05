@@ -114,7 +114,7 @@ Build a hypothesis from **where hot workers run + where their hot data resides +
 
 For an approved isolated follow-up experiment, compare the existing configuration with a deliberate ownership/locality change: parallel initialization by owning workers, per-worker shards, or a documented affinity/placement setting for that test process. Keep input/work amount/threads and quality fixed, include initialization cost, record allowed CPUs/nodes and compare end-to-end latency/bandwidth. Such placement changes are a separate authorized experiment, not a side effect of observation. Reject improvements that merely exclude work or create imbalanced memory exhaustion.
 
-Use supported load-latency/remote-access hardware evidence when available, noting model-specific events and sampling bias. If unavailable, call the remote-access cause a hypothesis supported by placement/timing rather than a measured remote-traffic rate. See [profilers and threading](profilers-and-threading.md) for the existing platform tooling boundaries.
+Use supported load-latency/remote-access hardware evidence when available, noting model-specific events and sampling bias. If unavailable, call the remote-access cause a hypothesis supported by placement/timing rather than a measured remote-traffic rate. See profilers and threading (`profilers-and-threading.md`) for the existing platform tooling boundaries.
 
 ## 6. Worked offline interpretation fixtures
 
@@ -150,4 +150,4 @@ Command/field semantics were checked against primary project/kernel documentatio
 
 ## From diagnosis to a fix
 
-Use [concrete remedies and preventive patterns](thread-and-memory-remedies.md) for evidence-gated implementation choices, correctness/side effects and A/B acceptance. Do not stop at a counter label or apply every remedy at once.
+Use concrete remedies and preventive patterns (`thread-and-memory-remedies.md`) for evidence-gated implementation choices, correctness/side effects and A/B acceptance. Do not stop at a counter label or apply every remedy at once.

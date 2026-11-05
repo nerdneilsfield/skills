@@ -100,7 +100,7 @@ For barriers, instrument the arrival-time spread per iteration and last-arriving
 
 ## 6. Nested parallelism: route to the shared policy
 
-Once scheduler evidence implicates competing worker layers, use [parallelism/BLAS policy](parallelism-and-blas.md), which owns the inventory, budget, outer/inner experiment and runtime-control rules. Use this reference's mask/quota/runqueue observations to constrain that experiment; no separate thread-control matrix is maintained here.
+Once scheduler evidence implicates competing worker layers, use parallelism/BLAS policy (`parallelism-and-blas.md`), which owns the inventory, budget, outer/inner experiment and runtime-control rules. Use this reference's mask/quota/runqueue observations to constrain that experiment; no separate thread-control matrix is maintained here.
 
 ## 7. Cross-platform mapping
 
@@ -118,4 +118,4 @@ State the resource envelope, measurement scope, thread identities, observed pres
 
 ## From diagnosis to a fix
 
-Use [concrete remedies and preventive patterns](thread-and-memory-remedies.md) for evidence-gated implementation choices, correctness/side effects and A/B acceptance. Do not stop at a counter label or apply every remedy at once.
+Use concrete remedies and preventive patterns (`thread-and-memory-remedies.md`) for evidence-gated implementation choices, correctness/side effects and A/B acceptance. Do not stop at a counter label or apply every remedy at once.

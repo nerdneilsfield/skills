@@ -1,6 +1,10 @@
 ---
 name: cpp-debug
 description: "Use when C++ crashes, hangs, races, corrupts memory, or fails nondeterministically, or when a wrong result or build/test failure is still unexplained after the first diagnostic and nearby diff. Defer shared conventions to cpp. Not for project setup (cpp-project-init), measured speed work (cpp-performance), or Eigen/solver/numerical-contract failures (cpp-numerics)."
+license: MIT
+compatibility: Uses gdb or lldb and sanitizer-capable compilers when installed; python3 runs the bundled script. Designed for Linux; other platforms need their own debugger.
+metadata:
+  author: DengQi
 ---
 
 # C++ diagnosis from evidence

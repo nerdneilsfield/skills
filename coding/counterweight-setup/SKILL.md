@@ -1,6 +1,11 @@
 ---
 name: counterweight-setup
 description: "Use when the user asks to enable Counterweight or repair its rules in the repository root AGENTS.md. Not for implementing or modifying product code (counterweight) or for listing what to delete from a diff (counterweight-cut)."
+license: MIT
+compatibility: Requires a git repository with a writable root AGENTS.md.
+metadata:
+  author: DengQi
+disable-model-invocation: true
 ---
 
 # Counterweight Setup

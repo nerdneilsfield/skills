@@ -1,6 +1,10 @@
 ---
 name: cpp
 description: "Use when writing, reviewing, or maintaining C++ code, including alongside a C++ specialist: language, ownership, RAII, the error model, headers, interfaces, library preference, and ordinary build or dependency edits. Creating a project or restructuring its build is cpp-project-init."
+license: MIT
+compatibility: For C++ projects; uses the project toolchain.
+metadata:
+  author: DengQi
 ---
 
 # Shared C++ engineering conventions

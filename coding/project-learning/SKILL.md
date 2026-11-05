@@ -1,6 +1,9 @@
 ---
 name: project-learning
 description: "Use when real repository work just uncovered a verified, durable, reusable, non-obvious fact that later agents would otherwise rediscover. Put it in the narrowest existing project guidance, or rarely in a short learning log. Not for enabling Counterweight (counterweight-setup), routine recaps, or user-facing documentation (technical-writing)."
+license: MIT
+metadata:
+  author: DengQi
 ---
 
 # Project Learning

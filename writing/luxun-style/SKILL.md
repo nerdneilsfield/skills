@@ -1,6 +1,9 @@
 ---
 name: luxun-style
 description: "用户要求用鲁迅的语气、用词、逻辑或修辞来写作、改写或分析杂文、散文、评论时使用。不用于软件和工程技术文档（technical-writing）、只去除 AI 腔（deai），或精读论文（qi-read-paper）。"
+license: MIT
+metadata:
+  author: DengQi
 ---
 
 # 鲁迅风格写作助手

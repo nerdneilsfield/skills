@@ -114,4 +114,4 @@ Record: workload/build/CPU → measurement availability and scope → specific h
 
 ## From diagnosis to a fix
 
-Use [concrete remedies and preventive patterns](cache-and-synchronization-remedies.md) for evidence-gated implementation choices, correctness/side effects and A/B acceptance. Do not stop at a counter label or apply every remedy at once.
+Use concrete remedies and preventive patterns (`cache-and-synchronization-remedies.md`) for evidence-gated implementation choices, correctness/side effects and A/B acceptance. Do not stop at a counter label or apply every remedy at once.

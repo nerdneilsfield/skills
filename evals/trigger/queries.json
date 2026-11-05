@@ -1,0 +1,1102 @@
+[
+ {
+  "id": "cpp-01",
+  "expected": "cpp",
+  "query": "Add a `ConnectionPool` class to net/pool.hpp that hands out sockets and returns them when the caller's handle goes out of scope. Should I use unique_ptr with a custom deleter or write a small RAII guard?"
+ },
+ {
+  "id": "cpp-02",
+  "expected": "cpp",
+  "query": "Review this header: it has `using namespace std;` at file scope, raw `new` in a constructor, and a public `std::vector<Foo*>` member. What would you change first?"
+ },
+ {
+  "id": "cpp-03",
+  "expected": "cpp",
+  "query": "我想给 `ConfigLoader::load()` 加上错误处理。现在它出错就 throw std::runtime_error，但调用方在嵌入式环境里禁用了异常，该怎么设计返回值？"
+ },
+ {
+  "id": "cpp-04",
+  "expected": "cpp",
+  "query": "Refactor this 400-line `Parser::parse()` into smaller functions without changing the public interface in parser.h. Keep it C++17."
+ },
+ {
+  "id": "cpp-05",
+  "expected": "cpp",
+  "query": "Should I vendor fmt or just use std::format in a codebase that has to build with GCC 11? Give me a library preference recommendation for logging and string formatting."
+ },
+ {
+  "id": "cpp-06",
+  "expected": "cpp",
+  "query": "Can you explain when to take `std::string_view` vs `const std::string&` vs by-value `std::string` for sink parameters in our public API? We keep getting dangling views."
+ },
+ {
+  "id": "cpp-07",
+  "expected": "cpp",
+  "query": "Please add a new source file src/codec/base64.cpp and its header to the existing CMakeLists.txt and make sure it's linked into the `codec` target with the right include visibility."
+ },
+ {
+  "id": "cpp-08",
+  "expected": "cpp",
+  "query": "帮我 review 一下这段代码：基类析构函数没有 virtual，派生类里持有 std::unique_ptr<Impl>，Impl 在头文件里只有前置声明，会不会有问题？"
+ },
+ {
+  "id": "cpp-09",
+  "expected": "cpp",
+  "query": "Write a small thread-safe LRU cache template with a `get` that returns `std::optional<V>`. No need to be lock-free, just correct and readable."
+ },
+ {
+  "id": "cpp-10",
+  "expected": "cpp",
+  "query": "We have a function returning `bool` plus an out-param for errors in 30 call sites. Propose a consistent error model (expected vs exceptions vs error codes) and show one converted example."
+ },
+ {
+  "id": "cpp-11",
+  "expected": "cpp",
+  "query": "Is it OK for my class to hold a `T&` member and still be movable? Show me how to restructure ownership so a `Renderer` borrows a `Device` safely."
+ },
+ {
+  "id": "cpp-12",
+  "expected": "cpp",
+  "query": "把这个 C 风格的 `FILE*` 读取函数改写成现代 C++：用 RAII 管理文件句柄，并且返回 std::expected 或类似的错误类型。"
+ },
+ {
+  "id": "cpp-13",
+  "expected": "cpp",
+  "query": "I need to split widget.h so that including it doesn't drag in <boost/asio.hpp>. What's the cleanest way, pimpl or an interface class with a factory?"
+ },
+ {
+  "id": "cpp-14",
+  "expected": "cpp",
+  "query": "Our CMake target links `Threads::Threads` publicly but only the .cpp uses it. Fix the target_link_libraries visibility on `libtelemetry` and check I'm not leaking include dirs."
+ },
+ {
+  "id": "cpp-15",
+  "expected": "cpp",
+  "query": "Design the abstract interface for a `StorageBackend` with S3 and local-disk implementations. Do I want virtual functions, templates, or std::function here?"
+ },
+ {
+  "id": "cpp-16",
+  "expected": "cpp",
+  "query": "Just do a quick code review of this move constructor: it copies the vector and forgets to null out the source pointer. Anything else off about it?"
+ },
+ {
+  "id": "cpp-17",
+  "expected": "cpp",
+  "query": "这个类有拷贝构造和析构，但没写赋值运算符和移动操作，按 Rule of Three/Five/Zero 应该怎么改？请给出改后的完整代码。"
+ },
+ {
+  "id": "cpp-18",
+  "expected": "cpp",
+  "query": "Add a `--verbose` flag to our existing CLI in main.cpp using CLI11, which is already in the build. Just wire it through to the logger."
+ },
+ {
+  "id": "cpp-19",
+  "expected": "cpp",
+  "query": "A teammate used `shared_ptr` everywhere in our scene graph, including parent back-pointers. Review the ownership and tell me what should be unique, shared, or weak."
+ },
+ {
+  "id": "cpp-20",
+  "expected": "cpp",
+  "query": "Rename the namespace `old_api` to `v2` across headers and add a deprecated alias, keeping ABI of the exported `Session` class unchanged where possible."
+ },
+ {
+  "id": "cpp-project-init-01",
+  "expected": "cpp-project-init",
+  "query": "Set up a brand new C++20 project called `lidar_tools` with a library, an app and a tests folder, CMakePresets.json for debug/release/asan, and clang-format and clang-tidy configs."
+ },
+ {
+  "id": "cpp-project-init-02",
+  "expected": "cpp-project-init",
+  "query": "我们的 CMake 项目现在靠 README 里的一长串命令构建，帮我重构成 CMakePresets.json，包含 configure、build、test 三类 preset，并区分 Linux 和 macOS。"
+ },
+ {
+  "id": "cpp-project-init-03",
+  "expected": "cpp-project-init",
+  "query": "Our CI machines have no internet. How do I vendor spdlog, fmt and GoogleTest into third_party/ so `cmake --preset release` builds fully offline?"
+ },
+ {
+  "id": "cpp-project-init-04",
+  "expected": "cpp-project-init",
+  "query": "I want a single `just` file (or Makefile) with targets like `build`, `test`, `lint`, `format`, `run` so new devs don't need to remember cmake flags. Set that up for our repo layout."
+ },
+ {
+  "id": "cpp-project-init-05",
+  "expected": "cpp-project-init",
+  "query": "Convert our hand-written top-level CMakeLists.txt, which has 600 lines of add_subdirectory and hardcoded paths, to a clean preset-driven structure with an `INSTALL` export."
+ },
+ {
+  "id": "cpp-project-init-06",
+  "expected": "cpp-project-init",
+  "query": "Bootstrap a header-only C++ library with a CMake config package, an examples directory and a Catch2 test target. Make it consumable via find_package."
+ },
+ {
+  "id": "cpp-project-init-07",
+  "expected": "cpp-project-init",
+  "query": "把依赖从 FetchContent 改成 vendored 的子目录，并写一个脚本 scripts/vendor.sh 来更新它们，这样构建时不需要联网。"
+ },
+ {
+  "id": "cpp-project-init-08",
+  "expected": "cpp-project-init",
+  "query": "Create the skeleton for a C++ monorepo with three libraries (core, io, viz) and one executable; each library should have its own CMakeLists and share a common warnings interface target."
+ },
+ {
+  "id": "cpp-project-init-09",
+  "expected": "cpp-project-init",
+  "query": "We use Conan today and it breaks behind our firewall. Move to vendored sources plus toolchain files, with a preset for cross compiling to aarch64."
+ },
+ {
+  "id": "cpp-project-init-10",
+  "expected": "cpp-project-init",
+  "query": "I need `cmake --workflow` or equivalent one-liners so that `./dev build`, `./dev test` and `./dev tidy` work the same locally and in GitHub Actions."
+ },
+ {
+  "id": "cpp-project-init-11",
+  "expected": "cpp-project-init",
+  "query": "新建一个 C++ 命令行工具项目，需要 CMake、clang-format、pre-commit 钩子、以及 compile_commands.json 自动链接到根目录，请给出完整目录和文件内容。"
+ },
+ {
+  "id": "cpp-project-init-12",
+  "expected": "cpp-project-init",
+  "query": "Add sanitizer, coverage and LTO configurations as separate presets to my existing project, inheriting from a hidden base preset so they don't duplicate cache variables."
+ },
+ {
+  "id": "cpp-project-init-13",
+  "expected": "cpp-project-init",
+  "query": "Our repo has dependencies fetched at configure time from GitHub and the build is flaky. Reorganize so every dependency is pinned, vendored, and verified by checksum."
+ },
+ {
+  "id": "cpp-project-init-14",
+  "expected": "cpp-project-init",
+  "query": "Set up a project template I can reuse: when I run a script it generates a new C++ library with matching test, benchmark and docs folders wired into CMake."
+ },
+ {
+  "id": "cpp-project-init-15",
+  "expected": "cpp-project-init",
+  "query": "Reorganize the developer workflow: right now people run `mkdir build && cd build && cmake ..` with different flags. I want presets plus a `Taskfile.yml` that wraps them."
+ },
+ {
+  "id": "cpp-project-init-16",
+  "expected": "cpp-project-init",
+  "query": "帮我为一个跨平台 C++ 项目配置 CMake 工具链文件和 preset，支持 MSVC、clang 和 gcc，并且依赖都放在 vendor 目录下离线可编译。"
+ },
+ {
+  "id": "cpp-project-init-17",
+  "expected": "cpp-project-init",
+  "query": "Start a fresh C++ plugin project that builds a shared library and a small host executable that dlopens it. Include the build scripts and a README with the commands."
+ },
+ {
+  "id": "cpp-project-init-18",
+  "expected": "cpp-project-init",
+  "query": "We're migrating from Makefiles to CMake. Create the new top-level layout with presets and a vendor/ dir, and show how the old `make test` maps to the new entry point."
+ },
+ {
+  "id": "cpp-project-init-19",
+  "expected": "cpp-project-init",
+  "query": "Make our project buildable in an air-gapped lab: a tarball with sources, vendored deps and the exact toolchain version, and a single command to configure and build it."
+ },
+ {
+  "id": "cpp-project-init-20",
+  "expected": "cpp-project-init",
+  "query": "Initialize a C++ repo for an embedded target with an arm-none-eabi toolchain file, presets for host-unit-tests vs firmware, and a flash script under tools/."
+ },
+ {
+  "id": "cpp-debug-01",
+  "expected": "cpp-debug",
+  "query": "My server segfaults roughly once per 5000 requests, only in the release build. The core dump points at `std::_Hash_node` inside `SessionTable::find`. How do I find the cause?"
+ },
+ {
+  "id": "cpp-debug-02",
+  "expected": "cpp-debug",
+  "query": "程序偶尔卡死，gdb attach 看到两个线程分别在等 mutex A 和 mutex B，但我找不到哪里加锁顺序反了。怎么系统地定位？"
+ },
+ {
+  "id": "cpp-debug-03",
+  "expected": "cpp-debug",
+  "query": "ThreadSanitizer reports a data race between `Worker::stop()` and `Worker::run()` on `m_running`, but it's a std::atomic<bool>. Why is it still firing?"
+ },
+ {
+  "id": "cpp-debug-04",
+  "expected": "cpp-debug",
+  "query": "After upgrading to GCC 13 the unit tests pass locally but fail in CI with a different float result in `test_geometry`. Same flags as far as I can tell. How do I track down why?"
+ },
+ {
+  "id": "cpp-debug-05",
+  "expected": "cpp-debug",
+  "query": "Valgrind says 'invalid read of size 8' after a free in my event queue, but the free is in a destructor I thought was only called once. Walk me through finding who double-owns it."
+ },
+ {
+  "id": "cpp-debug-06",
+  "expected": "cpp-debug",
+  "query": "The output of my simulation differs between runs even with a fixed seed, and only with more than 4 threads. I have no idea what's nondeterministic."
+ },
+ {
+  "id": "cpp-debug-07",
+  "expected": "cpp-debug",
+  "query": "链接时报 undefined reference to `vtable for Shape`，类里所有虚函数我都实现了，找不到原因，已经查了半天。"
+ },
+ {
+  "id": "cpp-debug-08",
+  "expected": "cpp-debug",
+  "query": "Heap corruption: `free(): invalid next size (fast)` shows up long after the buggy write. What tooling would you use to catch the original overwrite?"
+ },
+ {
+  "id": "cpp-debug-09",
+  "expected": "cpp-debug",
+  "query": "My program hangs at exit about 1 in 20 runs. Stack traces show a thread blocked in `std::thread::join` while another is in a condition_variable wait. Help me find the lost wakeup."
+ },
+ {
+  "id": "cpp-debug-10",
+  "expected": "cpp-debug",
+  "query": "This test passes under -O0 and fails under -O2 with an assert in `Matrix::invert`. I suspect UB but UBSan prints nothing. What next?"
+ },
+ {
+  "id": "cpp-debug-11",
+  "expected": "cpp-debug",
+  "query": "我的程序在 Release 下结果是对的，Debug 下 `std::vector` 越界崩溃，但是我看不出哪里越界了，加了 -fsanitize=address 也没报。"
+ },
+ {
+  "id": "cpp-debug-12",
+  "expected": "cpp-debug",
+  "query": "CMake builds fine on my machine but on a coworker's it fails with a template error deep in <ranges>. Same commit. I can't explain it; how do I isolate what differs?"
+ },
+ {
+  "id": "cpp-debug-13",
+  "expected": "cpp-debug",
+  "query": "Random crashes inside a shared library loaded with dlopen, stack shows a garbage return address. Could be ABI mismatch or stack smash; how do I distinguish them?"
+ },
+ {
+  "id": "cpp-debug-14",
+  "expected": "cpp-debug",
+  "query": "`ctest` shows test_io flaky: fails ~3% of the time with 'file not found' though the file is created right before. Can't reproduce under a debugger."
+ },
+ {
+  "id": "cpp-debug-15",
+  "expected": "cpp-debug",
+  "query": "A lambda captured by reference outlives its scope in my async callback code, and I see sporadic wrong values rather than a crash. How do I confirm that's the cause?"
+ },
+ {
+  "id": "cpp-debug-16",
+  "expected": "cpp-debug",
+  "query": "程序在 ASan 下报 stack-use-after-return，但是代码里我没有返回局部变量的地址。请帮我分析怎么定位这个问题。"
+ },
+ {
+  "id": "cpp-debug-17",
+  "expected": "cpp-debug",
+  "query": "Our service leaks nothing according to LeakSanitizer but RSS keeps growing, and the numbers are off after a few hours. First figure out whether it's a bug in our code or the allocator."
+ },
+ {
+  "id": "cpp-debug-18",
+  "expected": "cpp-debug",
+  "query": "The unit test returns 0.99999 where it should be 1.0 only on arm64. Nobody can explain it, and the formula hasn't changed. Where do I begin?"
+ },
+ {
+  "id": "cpp-debug-19",
+  "expected": "cpp-debug",
+  "query": "Debug why `std::sort` with my comparator sometimes crashes with a huge out-of-bounds index. The comparator looks fine to me."
+ },
+ {
+  "id": "cpp-debug-20",
+  "expected": "cpp-debug",
+  "query": "Inconsistent results: the same input file gives different parse outputs on two consecutive runs of a single-threaded program. Uninitialized memory? How do I confirm with tools?"
+ },
+ {
+  "id": "cpp-performance-01",
+  "expected": "cpp-performance",
+  "query": "Our order-matching loop does 2M messages/s but must hit 5M. perf shows 30% of cycles in `std::unordered_map::find`. What are my options to cut it?"
+ },
+ {
+  "id": "cpp-performance-02",
+  "expected": "cpp-performance",
+  "query": "我的程序 64 核机器上只比 8 核快 1.5 倍，perf 显示大量时间在 futex 上。怎么提升扩展性？"
+ },
+ {
+  "id": "cpp-performance-03",
+  "expected": "cpp-performance",
+  "query": "Reduce the binary size of our C++ firmware from 3.2 MB to under 2 MB. We use iostream and a few templates heavily."
+ },
+ {
+  "id": "cpp-performance-04",
+  "expected": "cpp-performance",
+  "query": "Convert my array-of-structs particle system to something more cache-friendly; profiling shows lots of L1 misses on the `update()` loop."
+ },
+ {
+  "id": "cpp-performance-05",
+  "expected": "cpp-performance",
+  "query": "p99 latency spikes to 40 ms every few seconds in our trading gateway; p50 is 80 µs. It looks like allocation or lock contention. How should I analyze and fix this?"
+ },
+ {
+  "id": "cpp-performance-06",
+  "expected": "cpp-performance",
+  "query": "We spawn one std::thread per request plus a thread pool inside each library call, and the box has 16 cores with load average 90. Fix the oversubscription."
+ },
+ {
+  "id": "cpp-performance-07",
+  "expected": "cpp-performance",
+  "query": "Is it worth replacing std::map with a flat sorted vector in this lookup table of 200 entries read 10M times per second? Show me how to measure it."
+ },
+ {
+  "id": "cpp-performance-08",
+  "expected": "cpp-performance",
+  "query": "我们的图像处理函数处理 4K 帧要 18 ms，目标 8 ms。已经用 -O3 了，想用 SIMD 或者改内存布局，应该先从哪里下手？"
+ },
+ {
+  "id": "cpp-performance-09",
+  "expected": "cpp-performance",
+  "query": "Transparent huge pages and page faults: our process spends 12% of time in the kernel on `page_fault` after startup. How do we pre-fault or pool memory?"
+ },
+ {
+  "id": "cpp-performance-10",
+  "expected": "cpp-performance",
+  "query": "Lock contention on a global `std::mutex` guarding our metrics registry is showing as top in profile. Propose a lower-contention design."
+ },
+ {
+  "id": "cpp-performance-11",
+  "expected": "cpp-performance",
+  "query": "Our `std::shared_ptr` copies in the hot path show up with atomic increments at 15% of runtime. How can I avoid them without changing semantics?"
+ },
+ {
+  "id": "cpp-performance-12",
+  "expected": "cpp-performance",
+  "query": "Write a micro-benchmark with Google Benchmark to compare `std::vector<bool>`, `std::bitset`, and a custom bitmap for set-membership queries, and then tell me how to read the results."
+ },
+ {
+  "id": "cpp-performance-13",
+  "expected": "cpp-performance",
+  "query": "帮我优化这个 N-body 模拟的内循环：现在是 O(N^2)，N 为 50000，单线程要 40 秒，想用多线程加 SIMD，或者换算法。"
+ },
+ {
+  "id": "cpp-performance-14",
+  "expected": "cpp-performance",
+  "query": "The job scheduler wakes workers via condition_variable and I think wakeup latency is hurting throughput of tiny tasks (~5 µs each). What alternatives exist?"
+ },
+ {
+  "id": "cpp-performance-15",
+  "expected": "cpp-performance",
+  "query": "Memory footprint of our graph structure is 12 GB for 100M nodes; each Node has a vtable pointer, shared_ptr children and padding. Shrink it."
+ },
+ {
+  "id": "cpp-performance-16",
+  "expected": "cpp-performance",
+  "query": "Branch mispredictions at 8% in my tokenizer; perf stat says IPC is 0.9. How do I restructure the inner loop?"
+ },
+ {
+  "id": "cpp-performance-17",
+  "expected": "cpp-performance",
+  "query": "Using Intel VTune we see false sharing on the per-thread counters array. Show me how to fix the layout and verify the improvement."
+ },
+ {
+  "id": "cpp-performance-18",
+  "expected": "cpp-performance",
+  "query": "NUMA effects: throughput drops 40% when threads are spread across both sockets. How do I pin threads and place memory properly?"
+ },
+ {
+  "id": "cpp-performance-19",
+  "expected": "cpp-performance",
+  "query": "Our startup takes 6 seconds because of static initializers and dynamic linking of 200 shared objects. Cut it down."
+ },
+ {
+  "id": "cpp-performance-20",
+  "expected": "cpp-performance",
+  "query": "为什么我把 `-march=native` 加上之后吞吐量反而下降了 10%？怎么定位是向量化还是频率降低导致的？"
+ },
+ {
+  "id": "cpp-numerics-01",
+  "expected": "cpp-numerics",
+  "query": "Write the residual and analytic Jacobian for a reprojection error on SE(3) pose and 3D point using Eigen, for use in a Ceres AutoDiffCostFunction replacement."
+ },
+ {
+  "id": "cpp-numerics-02",
+  "expected": "cpp-numerics",
+  "query": "我在 GTSAM 里做 pose graph 优化，加入回环后结果发散，噪声模型我用了 isotropic 0.1。怎么判断是因子写得有问题还是初值问题？"
+ },
+ {
+  "id": "cpp-numerics-03",
+  "expected": "cpp-numerics",
+  "query": "Implement a `LocalParameterization` (or Manifold) for unit quaternions in Ceres, with Plus and the 3x4 PlusJacobian, and a unit test that checks it against numeric differentiation."
+ },
+ {
+  "id": "cpp-numerics-04",
+  "expected": "cpp-numerics",
+  "query": "My hand-eye calibration solver gives different rotations depending on the initial guess. How should I formulate it as a nonlinear least squares problem on SO(3) to make it stable?"
+ },
+ {
+  "id": "cpp-numerics-05",
+  "expected": "cpp-numerics",
+  "query": "We solve a 200k x 200k sparse normal equation with Eigen::SimplicialLDLT and it takes 90 seconds. Which solver or ordering should we try for a bundle-adjustment-like structure?"
+ },
+ {
+  "id": "cpp-numerics-06",
+  "expected": "cpp-numerics",
+  "query": "Eigen's `A.inverse() * b` gives garbage for my near-singular 6x6 covariance matrix. What should I use instead and how do I check conditioning?"
+ },
+ {
+  "id": "cpp-numerics-07",
+  "expected": "cpp-numerics",
+  "query": "帮我写一个 GTSAM 自定义因子：IMU 预积分之外的轮速里程计约束，需要给出 evaluateError 以及对 Pose3 的雅可比。"
+ },
+ {
+  "id": "cpp-numerics-08",
+  "expected": "cpp-numerics",
+  "query": "Review my Jacobian for a point-to-plane ICP residual; finite differences disagree with the analytic version in the rotation block by a factor of about 2."
+ },
+ {
+  "id": "cpp-numerics-09",
+  "expected": "cpp-numerics",
+  "query": "Implement Schur-complement elimination for the landmarks in a small structure-from-motion problem using Eigen sparse blocks, and explain how to keep it symmetric positive definite."
+ },
+ {
+  "id": "cpp-numerics-10",
+  "expected": "cpp-numerics",
+  "query": "Our visual odometry's pose drifts, and the covariance from `Marginals` is huge in one direction. Is this gauge freedom, a missing prior, or bad scaling?"
+ },
+ {
+  "id": "cpp-numerics-11",
+  "expected": "cpp-numerics",
+  "query": "My Levenberg-Marquardt loop in Eigen stalls after 3 iterations with cost still 1e4. I use numeric diff with step 1e-8. Is the step wrong?"
+ },
+ {
+  "id": "cpp-numerics-12",
+  "expected": "cpp-numerics",
+  "query": "给定相机内参标定的 Ceres 问题，畸变系数 k1,k2 经常估成很大的值，如何加参数块约束或者缩放让它稳定？"
+ },
+ {
+  "id": "cpp-numerics-13",
+  "expected": "cpp-numerics",
+  "query": "Compute the covariance of a rotation estimate from the Hessian J^T J when the state lives on a manifold. Should I use the tangent-space covariance or the ambient one?"
+ },
+ {
+  "id": "cpp-numerics-14",
+  "expected": "cpp-numerics",
+  "query": "Using Eigen, implement a numerically stable way to compute the nullspace of a 3x4 projection matrix and a robust triangulation (DLT then refine) for multiple views."
+ },
+ {
+  "id": "cpp-numerics-15",
+  "expected": "cpp-numerics",
+  "query": "My `Eigen::LLT` of the information matrix fails intermittently with 'not positive definite' in a SLAM backend. How do I diagnose and fix this robustly?"
+ },
+ {
+  "id": "cpp-numerics-16",
+  "expected": "cpp-numerics",
+  "query": "A Kalman filter on SE(2) loses symmetry in P over thousands of steps and the NEES goes off. How do I keep it consistent without just symmetrizing blindly?"
+ },
+ {
+  "id": "cpp-numerics-17",
+  "expected": "cpp-numerics",
+  "query": "For a LiDAR-camera extrinsic calibration problem, parameterise the unknown as se(3) and write an auto-diff-free cost with Jacobians via adjoint. Check with a gradient test."
+ },
+ {
+  "id": "cpp-numerics-18",
+  "expected": "cpp-numerics",
+  "query": "The Ceres solver reports 'CONVERGENCE' but the trajectory is clearly wrong; residual blocks use a Huber loss with scale 1.0 on pixel errors in the 100s. What's going on?"
+ },
+ {
+  "id": "cpp-numerics-19",
+  "expected": "cpp-numerics",
+  "query": "我们的稀疏 BLAS 求解在用 OpenBLAS 多线程时比单线程慢，矩阵是 5000x5000 带状矩阵，Eigen 和 SuiteSparse 该怎么选？"
+ },
+ {
+  "id": "cpp-numerics-20",
+  "expected": "cpp-numerics",
+  "query": "Factor graph with 50k variables is slow in iSAM2: relinearization every step. Which parameters do I tune and how to verify the speedup isn't hurting accuracy?"
+ },
+ {
+  "id": "python-01",
+  "expected": "python",
+  "query": "Add a `retry` decorator to our `services/client.py` that backs off exponentially, handles only `ConnectionError`, and keeps type hints working with ParamSpec."
+ },
+ {
+  "id": "python-02",
+  "expected": "python",
+  "query": "帮我 review 这段 Python：函数默认参数是 `[]`，还在函数里直接修改传进来的 dict，调用方后来发现数据被改了。"
+ },
+ {
+  "id": "python-03",
+  "expected": "python",
+  "query": "Design the dataclass hierarchy for a config object loaded from YAML. Should I use pydantic, attrs, or plain dataclasses, and how do I validate at the boundary?"
+ },
+ {
+  "id": "python-04",
+  "expected": "python",
+  "query": "I have a context manager that opens a database connection but the cursor sometimes outlives it. Help me restructure so resource lifetimes are clear."
+ },
+ {
+  "id": "python-05",
+  "expected": "python",
+  "query": "Write a CLI using argparse that reads a CSV path, validates each row against a schema, and exits non-zero with a clear message on any bad row. Include pytest tests."
+ },
+ {
+  "id": "python-06",
+  "expected": "python",
+  "query": "请重构这个 800 行的 utils.py：里面混着文件读写、日期处理和 HTTP 请求，我想拆成合理的模块，不改变对外接口。"
+ },
+ {
+  "id": "python-07",
+  "expected": "python",
+  "query": "What's the idiomatic way to return both a result and a failure reason from a function: exceptions, Result type, or tuple? We have 40 call sites today."
+ },
+ {
+  "id": "python-08",
+  "expected": "python",
+  "query": "Review this PR diff for a Python package: it adds `from x import *`, catches bare `except:`, and swallows the exception with `pass`. What should change?"
+ },
+ {
+  "id": "python-09",
+  "expected": "python",
+  "query": "Implement a small async HTTP client wrapper with timeouts and cancellation handling, and make sure the session is closed on every path."
+ },
+ {
+  "id": "python-10",
+  "expected": "python",
+  "query": "我想给项目加类型检查：mypy 现在有 300 个报错，应该怎么渐进式地迁移，优先改哪些地方？"
+ },
+ {
+  "id": "python-11",
+  "expected": "python",
+  "query": "Write unit tests for `parse_invoice()` which reads PDF text and returns a dataclass. Use pytest fixtures and parametrization, and mock the filesystem."
+ },
+ {
+  "id": "python-12",
+  "expected": "python",
+  "query": "Is it safe to share a `dict` cache between threads in CPython without locks for this simple memoization? Show the pattern you'd recommend."
+ },
+ {
+  "id": "python-13",
+  "expected": "python",
+  "query": "把这段 requests 同步代码改成 httpx 异步版本，保持函数签名和异常类型不变，并说明哪些行为会变。"
+ },
+ {
+  "id": "python-14",
+  "expected": "python",
+  "query": "Create a plugin registry in Python where modules register handlers via decorator; avoid import-time side effects that make tests order-dependent."
+ },
+ {
+  "id": "python-15",
+  "expected": "python",
+  "query": "Convert this class that mutates `self.items` in `__init__` from caller-provided list into one that copies defensively; list what contract it now promises."
+ },
+ {
+  "id": "python-16",
+  "expected": "python",
+  "query": "Please add logging to our batch job: structured JSON logs, a correlation id, and no secrets. Show how to configure it with the stdlib only."
+ },
+ {
+  "id": "python-17",
+  "expected": "python",
+  "query": "Review this function that reads a whole 5 GB file with `.read()` and then splits lines. Is that fine, or should it stream? It's called once nightly."
+ },
+ {
+  "id": "python-18",
+  "expected": "python",
+  "query": "What should `__eq__`, `__hash__` and `__repr__` look like for an immutable value object representing money? Include currency handling and rounding policy."
+ },
+ {
+  "id": "python-19",
+  "expected": "python",
+  "query": "写一个 Python 脚本，批量重命名目录中的文件，要求幂等、支持 dry-run、遇到冲突时不覆盖，并写好测试。"
+ },
+ {
+  "id": "python-20",
+  "expected": "python",
+  "query": "I inherit from `dict` to make a case-insensitive mapping and some methods bypass my override. What's the cleaner design?"
+ },
+ {
+  "id": "python-performance-01",
+  "expected": "python-performance",
+  "query": "Our FastAPI endpoint p95 is 1.8 s. cProfile shows most time inside `json.dumps` and a Pydantic validator. How do I confirm and cut this?"
+ },
+ {
+  "id": "python-performance-02",
+  "expected": "python-performance",
+  "query": "我的 asyncio 服务偶尔整体卡住 2 秒，怀疑有同步调用阻塞了事件循环，怎么定位是哪一行？"
+ },
+ {
+  "id": "python-performance-03",
+  "expected": "python-performance",
+  "query": "Memory of our Python worker grows from 400 MB to 6 GB over a day. tracemalloc shows lots of small dicts from a cache. How do I find the leak and bound it?"
+ },
+ {
+  "id": "python-performance-04",
+  "expected": "python-performance",
+  "query": "We use ThreadPoolExecutor with 64 threads for CPU-bound image resizing and see no speedup. Should we move to multiprocessing, and what about the GIL on 3.13 free-threaded?"
+ },
+ {
+  "id": "python-performance-05",
+  "expected": "python-performance",
+  "query": "py-spy shows 40% of time in a `for` loop that builds strings with `+=` in a data export service. Show the fix and how to verify with timeit."
+ },
+ {
+  "id": "python-performance-06",
+  "expected": "python-performance",
+  "query": "Gunicorn with 8 workers: throughput stops scaling above 4. CPU is idle but latency rises. What should I look at?"
+ },
+ {
+  "id": "python-performance-07",
+  "expected": "python-performance",
+  "query": "这个 Django 接口每次请求触发 300 条 SQL，响应要 4 秒。怎么用 profiler 找到 N+1 并优化？"
+ },
+ {
+  "id": "python-performance-08",
+  "expected": "python-performance",
+  "query": "Our batch job processes 10M records in pure Python in 3 hours. Walk me through profiling and choose between caching, `__slots__`, multiprocessing, or rewriting the hotspot."
+ },
+ {
+  "id": "python-performance-09",
+  "expected": "python-performance",
+  "query": "Python startup time for our CLI is 1.4 s because of heavy imports. Find which imports dominate and lazy-load them."
+ },
+ {
+  "id": "python-performance-10",
+  "expected": "python-performance",
+  "query": "Celery workers slowly consume more RSS and get OOM killed; we do image processing with Pillow. How do I diagnose fragmentation versus real leak?"
+ },
+ {
+  "id": "python-performance-11",
+  "expected": "python-performance",
+  "query": "Compare `asyncio.gather` over 10k coroutines vs a semaphore-bounded task group for a scraper; the first spikes memory and hits connection limits. What's best?"
+ },
+ {
+  "id": "python-performance-12",
+  "expected": "python-performance",
+  "query": "我的脚本里用 `pickle` 在进程间传递大对象，序列化占了总时间的 60%，有什么办法优化？"
+ },
+ {
+  "id": "python-performance-13",
+  "expected": "python-performance",
+  "query": "Why does my multi-threaded Python log writer slow everything down? py-spy dump shows threads waiting on the logging lock."
+ },
+ {
+  "id": "python-performance-14",
+  "expected": "python-performance",
+  "query": "Reduce latency of a Python gRPC service whose handlers call a blocking Redis client; profile says time is in socket recv, yet CPU is low."
+ },
+ {
+  "id": "python-performance-15",
+  "expected": "python-performance",
+  "query": "We need to scale a Flask app from 200 to 2000 rps. Where do I start measuring: workers, DB pool, serialization, or GC?"
+ },
+ {
+  "id": "python-performance-16",
+  "expected": "python-performance",
+  "query": "Using memray, I see a flame graph where `list(…)` copies in a pipeline account for 3 GB peak. How should I restructure to stream with generators?"
+ },
+ {
+  "id": "python-performance-17",
+  "expected": "python-performance",
+  "query": "Python 的 GC 在我们的服务里每隔一段时间引起 200ms 暂停，对象数量大概 5000 万。gc.freeze 或者调阈值有用吗？"
+ },
+ {
+  "id": "python-performance-18",
+  "expected": "python-performance",
+  "query": "Compare Python 3.11 vs 3.12 on our test suite — it got 15% slower. How can I find the regression among our code and dependencies?"
+ },
+ {
+  "id": "python-performance-19",
+  "expected": "python-performance",
+  "query": "Benchmark whether switching our JSON parsing from stdlib json to orjson is worthwhile for payloads of ~50KB at 2k req/s. How do I set up a fair measure?"
+ },
+ {
+  "id": "python-performance-20",
+  "expected": "python-performance",
+  "query": "An `async def` handler calls `requests.get` internally and our websocket pings are timing out under load. Fix and prove with a loop-lag measurement."
+ },
+ {
+  "id": "python-numerics-01",
+  "expected": "python-numerics",
+  "query": "My NumPy broadcasting gives shape (N,N) instead of (N,) when I subtract a column vector from a row; fix `pairwise_dist(a, b)` for a of shape (N,3) and b (M,3) without loops."
+ },
+ {
+  "id": "python-numerics-02",
+  "expected": "python-numerics",
+  "query": "在 float32 下用 `np.linalg.solve` 解 2000x2000 的病态矩阵结果误差很大，该用什么精度或求解方法？"
+ },
+ {
+  "id": "python-numerics-03",
+  "expected": "python-numerics",
+  "query": "Write a vectorized NumPy version of this triple nested loop computing a batched covariance for an array shaped (B, T, F), and explain the memory layout trade-offs."
+ },
+ {
+  "id": "python-numerics-04",
+  "expected": "python-numerics",
+  "query": "`scipy.sparse.linalg.spsolve` is slow for my 1e6 x 1e6 Laplacian. Which solver, preconditioner, or factorization should I use, and in what dtype?"
+ },
+ {
+  "id": "python-numerics-05",
+  "expected": "python-numerics",
+  "query": "Why does `np.einsum('ij,jk->ik', A, B)` run 5x slower than `A @ B` on my machine? Check BLAS threading and array order."
+ },
+ {
+  "id": "python-numerics-06",
+  "expected": "python-numerics",
+  "query": "我的 Numba @njit 函数第一次调用很慢，之后又比 NumPy 向量化版本更慢，数组是 Fortran 顺序。可能是什么原因？"
+ },
+ {
+  "id": "python-numerics-07",
+  "expected": "python-numerics",
+  "query": "I'm doing a cumulative sum over 1e8 float32 values and the result differs from float64 by 1e-2. Fix the accumulation, e.g. pairwise summation or Kahan."
+ },
+ {
+  "id": "python-numerics-08",
+  "expected": "python-numerics",
+  "query": "Implement a batched Cholesky-based solve in PyTorch for tensors shape (B, N, N), handling non-PD matrices gracefully, and keep dtype float64 where required."
+ },
+ {
+  "id": "python-numerics-09",
+  "expected": "python-numerics",
+  "query": "Convert a loop that updates a (1000, 1000) grid with a 5-point stencil into a SciPy `ndimage.convolve` or stride tricks, and make sure the boundaries are handled right."
+ },
+ {
+  "id": "python-numerics-10",
+  "expected": "python-numerics",
+  "query": "The result of `np.mean` on a float16 array is inf. How do dtype promotion rules apply here and what should I do?"
+ },
+ {
+  "id": "python-numerics-11",
+  "expected": "python-numerics",
+  "query": "JAX jit recompiles every call because my input shape changes. How do I structure the function so shapes are static, and avoid wasted compile time?"
+ },
+ {
+  "id": "python-numerics-12",
+  "expected": "python-numerics",
+  "query": "请解释 `np.dot`、`@`、`np.matmul` 在 3 维数组上的行为差异，并给出一个批量矩阵乘法例子，注意内存布局是否会触发拷贝。"
+ },
+ {
+  "id": "python-numerics-13",
+  "expected": "python-numerics",
+  "query": "Use `scipy.optimize.least_squares` for a curve fit with bounds; it ends with status 0 (max evaluations). How should I scale variables and provide a Jacobian?"
+ },
+ {
+  "id": "python-numerics-14",
+  "expected": "python-numerics",
+  "query": "SVD on a 10000x500 matrix is dominating runtime; compare `full_matrices=False`, randomized SVD and `scipy.linalg.svd` with `lapack_driver='gesdd'`."
+ },
+ {
+  "id": "python-numerics-15",
+  "expected": "python-numerics",
+  "query": "How to implement a custom CUDA-free kernel in Triton or Numba to fuse `exp`, `sum` and divide (softmax) on a (B, 4096) tensor, and check numerical stability?"
+ },
+ {
+  "id": "python-numerics-16",
+  "expected": "python-numerics",
+  "query": "np.linalg.eig gives complex eigenvalues for my symmetric matrix with tiny imaginary parts. Which routine should I call instead and why?"
+ },
+ {
+  "id": "python-numerics-17",
+  "expected": "python-numerics",
+  "query": "我想用 `np.memmap` 在 100GB 的 float64 数组上做块状矩阵乘法，如何选择 block size 才能让 BLAS 效率最高？"
+ },
+ {
+  "id": "python-numerics-18",
+  "expected": "python-numerics",
+  "query": "Why do two equivalent expressions `(a*b).sum()` and `np.dot(a, b)` give different last digits, and does it matter for my unit test tolerances?"
+ },
+ {
+  "id": "python-numerics-19",
+  "expected": "python-numerics",
+  "query": "Solve a large stiff ODE system with `solve_ivp`; BDF is taking 10^6 steps. Should I supply a sparse Jacobian or change the tolerances?"
+ },
+ {
+  "id": "python-numerics-20",
+  "expected": "python-numerics",
+  "query": "Transpose then reshape on a 4D tensor makes PyTorch complain about non-contiguous tensors, and fixing it with `.contiguous()` doubles memory. Is there a better way?"
+ },
+ {
+  "id": "python-environments-01",
+  "expected": "python-environments",
+  "query": "Migrate our project from `requirements.txt` plus pip to uv with a lockfile, keep Python 3.11 pinned, and make CI reproduce the exact versions."
+ },
+ {
+  "id": "python-environments-02",
+  "expected": "python-environments",
+  "query": "我在公司内网，pip 只能访问内部镜像。怎么配置 uv 或 pip 使用镜像，并且把所有依赖预下载成 wheelhouse 以离线安装？"
+ },
+ {
+  "id": "python-environments-03",
+  "expected": "python-environments",
+  "query": "After `pip install torch` my code says CUDA is not available, though `nvidia-smi` shows driver 535 and CUDA 12.2. Which wheel and index URL should I be using?"
+ },
+ {
+  "id": "python-environments-04",
+  "expected": "python-environments",
+  "query": "Set up a Pixi workspace with a conda-forge environment for GDAL and a PyPI-only package, and lock it for linux-64 and osx-arm64."
+ },
+ {
+  "id": "python-environments-05",
+  "expected": "python-environments",
+  "query": "Importing numpy raises 'numpy.core.multiarray failed to import' after installing opencv-python. How do I resolve the binary incompatibility between versions?"
+ },
+ {
+  "id": "python-environments-06",
+  "expected": "python-environments",
+  "query": "我的 conda 环境解析了 40 分钟还失败，里面有 pytorch、cudatoolkit 和 rapids。怎么换成 mamba/pixi 并解决冲突？"
+ },
+ {
+  "id": "python-environments-07",
+  "expected": "python-environments",
+  "query": "We need to ship an app to an air-gapped server with Python 3.10 and manylinux2014. How do I build a relocatable venv or bundle of wheels including compiled extensions?"
+ },
+ {
+  "id": "python-environments-08",
+  "expected": "python-environments",
+  "query": "`pip install` of our package builds from source and fails on Alpine with a missing `gcc` and `musl`. Is the fix in the container base image or in how we package wheels?"
+ },
+ {
+  "id": "python-environments-09",
+  "expected": "python-environments",
+  "query": "Explain the difference between `uv sync`, `uv pip install`, and `uv lock` and how I should use them in a monorepo with two packages sharing a dev group."
+ },
+ {
+  "id": "python-environments-10",
+  "expected": "python-environments",
+  "query": "Two of my dependencies need different versions of `protobuf` (3.20 vs 4.x). How can I resolve or isolate them so both services run?"
+ },
+ {
+  "id": "python-environments-11",
+  "expected": "python-environments",
+  "query": "Which combination of PyTorch 2.5, CUDA 12.4 and cuDNN is compatible with an A100 on driver 525? We use conda and the cluster has no root access."
+ },
+ {
+  "id": "python-environments-12",
+  "expected": "python-environments",
+  "query": "请帮我写 Dockerfile：基于 python:3.12-slim，用 uv 安装锁定的依赖，并且利用缓存层，镜像构建时不依赖外网（有私有 PyPI）。"
+ },
+ {
+  "id": "python-environments-13",
+  "expected": "python-environments",
+  "query": "`ImportError: libstdc++.so.6: version GLIBCXX_3.4.30 not found` when importing scipy inside a conda env on an old CentOS. Fix it."
+ },
+ {
+  "id": "python-environments-14",
+  "expected": "python-environments",
+  "query": "Why does `python -m venv` created on my laptop break when I copy the folder to another machine? How can I make a portable environment for the lab PCs?"
+ },
+ {
+  "id": "python-environments-15",
+  "expected": "python-environments",
+  "query": "How do I pin transitive dependencies with hashes (`--require-hashes`) and verify that nothing is fetched from PyPI at deploy time?"
+ },
+ {
+  "id": "python-environments-16",
+  "expected": "python-environments",
+  "query": "On Apple Silicon, `pip install tensorflow` pulls an x86 wheel through Rosetta and crashes. Help me fix the architecture mismatch."
+ },
+ {
+  "id": "python-environments-17",
+  "expected": "python-environments",
+  "query": "I have both pyenv and conda active and `which python` points somewhere unexpected inside VS Code. How do I untangle interpreter resolution?"
+ },
+ {
+  "id": "python-environments-18",
+  "expected": "python-environments",
+  "query": "Our monorepo's `poetry.lock` keeps conflicting. We want to switch to Pixi or uv; what are the trade-offs and the migration steps?"
+ },
+ {
+  "id": "python-environments-19",
+  "expected": "python-environments",
+  "query": "我想给 pip 设置 extra-index-url 同时又不被依赖混淆攻击，应该怎么配置 uv 的 index 优先级？"
+ },
+ {
+  "id": "python-environments-20",
+  "expected": "python-environments",
+  "query": "Install `cupy-cuda12x` and `jaxlib` in one env without breaking each other's CUDA library requirements. What's the package-level approach?"
+ },
+ {
+  "id": "python-ml-01",
+  "expected": "python-ml",
+  "query": "My validation accuracy is 99.7% but test accuracy is 71%. I normalized using the full dataset before the split and ran target encoding on all rows. Where's the leakage and how do I fix the pipeline?"
+ },
+ {
+  "id": "python-ml-02",
+  "expected": "python-ml",
+  "query": "训练 ResNet50 时在第 3 个 epoch 报 CUDA out of memory，batch size 是 64，图像 224x224，卡是 16GB。怎么在不改模型的情况下解决？"
+ },
+ {
+  "id": "python-ml-03",
+  "expected": "python-ml",
+  "query": "Write a PyTorch `Dataset`/`DataLoader` for 2M small parquet shards with num_workers=8 and make sure the GPU doesn't sit idle waiting on data."
+ },
+ {
+  "id": "python-ml-04",
+  "expected": "python-ml",
+  "query": "How should I split a patient dataset with multiple visits per patient so that train/val/test don't share any patients? We use scikit-learn."
+ },
+ {
+  "id": "python-ml-05",
+  "expected": "python-ml",
+  "query": "Resume training from a checkpoint: loss jumps after resuming. I saved only the model state_dict. What else should be in the checkpoint?"
+ },
+ {
+  "id": "python-ml-06",
+  "expected": "python-ml",
+  "query": "我在做时间序列预测，用 KFold 随机划分得到很好的 R²，上线后很差。应该怎么切分和做交叉验证？"
+ },
+ {
+  "id": "python-ml-07",
+  "expected": "python-ml",
+  "query": "Implement mixed-precision training with gradient accumulation and gradient clipping in plain PyTorch, and explain where the scaler goes relative to clipping."
+ },
+ {
+  "id": "python-ml-08",
+  "expected": "python-ml",
+  "query": "My XGBoost model overfits: train AUC 0.99, valid 0.78. I use early stopping on the same validation set that I use for hyperparameter search. What is wrong?"
+ },
+ {
+  "id": "python-ml-09",
+  "expected": "python-ml",
+  "query": "Class imbalance 1:200 in a fraud classifier. Compare class weights, resampling, and threshold tuning, and tell me how to evaluate properly with precision-recall."
+ },
+ {
+  "id": "python-ml-10",
+  "expected": "python-ml",
+  "query": "Fine-tuning a BERT model with a learning rate of 5e-5 yields NaN loss after 200 steps in fp16. Diagnose it."
+ },
+ {
+  "id": "python-ml-11",
+  "expected": "python-ml",
+  "query": "DataLoader with num_workers>0 hangs on our cluster at the first batch while num_workers=0 works fine. What could cause that?"
+ },
+ {
+  "id": "python-ml-12",
+  "expected": "python-ml",
+  "query": "请帮我设计一个 sklearn Pipeline：数值列标准化、类别列 one-hot、缺失值填充，并且保证所有变换只在训练折里 fit，避免数据泄漏。"
+ },
+ {
+  "id": "python-ml-13",
+  "expected": "python-ml",
+  "query": "How can I train on a 50 GB image dataset with only 32 GB RAM? Suggest a loading approach, caching and sharding for multi-GPU DDP."
+ },
+ {
+  "id": "python-ml-14",
+  "expected": "python-ml",
+  "query": "My DDP training on 4 GPUs gives different loss curves than on 1 GPU with the same effective batch size. What would explain it?"
+ },
+ {
+  "id": "python-ml-15",
+  "expected": "python-ml",
+  "query": "Review my evaluation script: I compute metrics on augmented validation images and select the best epoch by test accuracy."
+ },
+ {
+  "id": "python-ml-16",
+  "expected": "python-ml",
+  "query": "在 PyTorch 里保存 checkpoint 后，加载时报 'Unexpected key(s) in state_dict: module.xxx'。怎么处理 DataParallel 前缀？"
+ },
+ {
+  "id": "python-ml-17",
+  "expected": "python-ml",
+  "query": "Calibrate a gradient boosting classifier's probabilities and decide between isotonic and Platt scaling; the dataset has 5k rows."
+ },
+ {
+  "id": "python-ml-18",
+  "expected": "python-ml",
+  "query": "Design a train/val split and augmentation strategy for a small medical image dataset (800 scans) where scans come from 12 hospitals and we must generalize to new ones."
+ },
+ {
+  "id": "python-ml-19",
+  "expected": "python-ml",
+  "query": "Why does my model trained with `torch.compile` produce slightly different outputs after loading the checkpoint in eval mode, and does that matter?"
+ },
+ {
+  "id": "python-ml-20",
+  "expected": "python-ml",
+  "query": "GPU utilization sits at 30% during training of a transformer; nvidia-smi shows memory fine. Is this the dataloader, the tokenizer, or small kernels?"
+ },
+ {
+  "id": "python-data-analysis-01",
+  "expected": "python-data-analysis",
+  "query": "I have orders.csv and customers.csv. After a left join my total revenue went up by 8%. How do I find duplicated keys and fix the join?"
+ },
+ {
+  "id": "python-data-analysis-02",
+  "expected": "python-data-analysis",
+  "query": "帮我分析一份月度销售数据，缺失值占 12%，这些缺失是不是随机的？我应该删除、填补还是单独标记？"
+ },
+ {
+  "id": "python-data-analysis-03",
+  "expected": "python-data-analysis",
+  "query": "Compute month-over-month retention from an events table with user_id and event_date using pandas. What should the denominator be for each cohort?"
+ },
+ {
+  "id": "python-data-analysis-04",
+  "expected": "python-data-analysis",
+  "query": "My conversion rate by channel looks great, but the denominator I used was only sessions that reached the checkout page. Redo the metric with the proper denominator."
+ },
+ {
+  "id": "python-data-analysis-05",
+  "expected": "python-data-analysis",
+  "query": "Resample hourly sensor readings to daily means in pandas, but some hours are missing and timezone changes for daylight saving. How do I handle it?"
+ },
+ {
+  "id": "python-data-analysis-06",
+  "expected": "python-data-analysis",
+  "query": "请用 pandas 把一份宽表转成长表，然后按地区和季度做同比增长率的汇总，最后画一张折线图。"
+ },
+ {
+  "id": "python-data-analysis-07",
+  "expected": "python-data-analysis",
+  "query": "I need a chart that compares median salary by department with confidence intervals, from a 5k-row CSV. Which plot type and how to build it with matplotlib or seaborn?"
+ },
+ {
+  "id": "python-data-analysis-08",
+  "expected": "python-data-analysis",
+  "query": "What's the right way to aggregate average order value across regions: mean of region means or total revenue over total orders? Show me with a toy dataset."
+ },
+ {
+  "id": "python-data-analysis-09",
+  "expected": "python-data-analysis",
+  "query": "A time series of daily active users has a weird dip on 2024-03-10 that's in all segments. How do I tell whether it's a data outage or a real drop?"
+ },
+ {
+  "id": "python-data-analysis-10",
+  "expected": "python-data-analysis",
+  "query": "Clean this survey export: columns have mixed types, 'N/A', '-', blank, and 999 as missing codes. Build a reproducible pandas cleaning step."
+ },
+ {
+  "id": "python-data-analysis-11",
+  "expected": "python-data-analysis",
+  "query": "我有两张表，一张是日志、一张是用户属性，按 user_id 合并后行数从 100 万变成 130 万，怎么检查是一对多还是脏数据？"
+ },
+ {
+  "id": "python-data-analysis-12",
+  "expected": "python-data-analysis",
+  "query": "Use window functions in pandas to compute a 7-day rolling average of sales per store, with partial windows treated explicitly, and flag stores with declining trend."
+ },
+ {
+  "id": "python-data-analysis-13",
+  "expected": "python-data-analysis",
+  "query": "Detect outliers in a time series of prices without removing legitimate seasonal spikes. Compare z-score, IQR and STL residuals."
+ },
+ {
+  "id": "python-data-analysis-14",
+  "expected": "python-data-analysis",
+  "query": "Make a heatmap of correlation between 30 features, but half of the columns are heavily missing. How should I handle pairwise missingness before drawing it?"
+ },
+ {
+  "id": "python-data-analysis-15",
+  "expected": "python-data-analysis",
+  "query": "Is a difference of 2.1% in click-through between groups significant? 4,800 vs 5,200 impressions. Show the test and which table to put it in."
+ },
+ {
+  "id": "python-data-analysis-16",
+  "expected": "python-data-analysis",
+  "query": "I merged several Excel sheets into a pandas DataFrame and `groupby().sum()` is dropping rows with NaN keys. How do I keep them and report them?"
+ },
+ {
+  "id": "python-data-analysis-17",
+  "expected": "python-data-analysis",
+  "query": "帮我写一个函数，对每个客户按交易日期计算距离上次购买的天数，并且按 RFM 分组，要求处理同一天多笔交易。"
+ },
+ {
+  "id": "python-data-analysis-18",
+  "expected": "python-data-analysis",
+  "query": "Build a dashboard-style set of three charts (trend, breakdown, distribution) from a weekly KPI table, with clear axis labels and a consistent color scheme."
+ },
+ {
+  "id": "python-data-analysis-19",
+  "expected": "python-data-analysis",
+  "query": "Compare year-over-year growth when one year has a leap day and the 2020 quarter is missing half its data. How would you normalize?"
+ },
+ {
+  "id": "python-data-analysis-20",
+  "expected": "python-data-analysis",
+  "query": "Explain Simpson's paradox in my data: overall approval rate by gender favors men, but per department it favors women. Show the aggregation in pandas."
+ }
+]

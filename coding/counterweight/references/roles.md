@@ -5,13 +5,13 @@ one of the roles below. Each role is a separate read-only run with its own model
 so its value is independence, not extra effort. A role that sees the implementer's
 reasoning is not independent.
 
-How a host runs a role is in [hosts.md](hosts.md). With the `pi-counterweight`
+How a host runs a role is in `hosts.md`. With the `pi-counterweight`
 extension installed, the extension runs them; read its README, not this file,
 for configuration.
 
 | Role | Input | Returns | Never |
 | --- | --- | --- | --- |
-| explorer | one question | compact evidence; the format is in [subagents.md](subagents.md) | edits, design advice |
+| explorer | one question | compact evidence; the format is in `subagents.md` | edits, design advice |
 | review | the request and the diff | `WRONG` blocks for behavior errors and weakened real boundaries; `none` | missing tests, refactors, fixes |
 | over_review | the request, the diff, and the turn's commands | `CUT` blocks for what did not earn its place, in the diff or in a command; `none` | correctness, replacement designs |
 | research | one question the main model could not settle | conclusion first; unread parts marked `未核实` | implementation, a roadmap |
@@ -52,7 +52,7 @@ do not belong in that list. The `pi-counterweight` extension collects this
 itself; without it, the host has to. A command is a finding only when nothing in
 the request calls for it. A rerun that checks the change is not one.
 
-When one earns its cost is the material-risk test in [workflow.md](workflow.md)
+When one earns its cost is the material-risk test in `workflow.md`
 (Review). `none` ends a run; do not rerun on the same diff without new evidence.
 
 ## Historian
@@ -87,5 +87,5 @@ rescued 5.8%. It was not tested on a strong executor, so:
 
 A prompt that says "always run review" is a default the model can skip, not a
 force. Forcing needs something outside the model's own turn to trigger it: an
-extension, a host hook, or a wrapper script (see [hosts.md](hosts.md)), and each
+extension, a host hook, or a wrapper script (see `hosts.md`), and each
 forced run costs a model call.

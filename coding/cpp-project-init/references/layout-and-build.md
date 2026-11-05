@@ -93,7 +93,7 @@ target_link_libraries(actual_app PRIVATE actual_vendor_target)
 
 CMake 4.0 rejects a vendored `cmake_minimum_required` below policy version 3.5. Set `CMAKE_POLICY_VERSION_MINIMUM` before that `add_subdirectory` instead of editing vendor code, and record it as a local adaptation.
 
-Do not paste imaginary vendor option/target names into a project. Inspect the pinned source's CMake locally. If it is not offline-safe or carries unwanted integration, a small adapter outside upstream code can define a target from the retained headers/sources and required system libraries. Preserve the true language features/platform backends; avoid stripping files until the supported platform builds confirm the subset is complete. See [vendoring and offline acceptance](vendor-and-offline.md).
+Do not paste imaginary vendor option/target names into a project. Inspect the pinned source's CMake locally. If it is not offline-safe or carries unwanted integration, a small adapter outside upstream code can define a target from the retained headers/sources and required system libraries. Preserve the true language features/platform backends; avoid stripping files until the supported platform builds confirm the subset is complete. See vendoring and offline acceptance (`vendor-and-offline.md`).
 
 ## Origin of ideas
 

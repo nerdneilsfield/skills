@@ -85,4 +85,4 @@ When offline, the record, equations and fixtures above are sufficient to design 
 
 ## Local sample comparison tool
 
-When repeated measurements are already recorded, use [the local benchmark tool guide](local-benchmark-tool.md) for the complete JSON schema, interpreter commands, exit codes and synthetic fixtures. This stdlib-only tool does not execute workloads or make a statistical significance claim.
+When repeated measurements are already recorded, use the local benchmark tool guide (`local-benchmark-tool.md`) for the complete JSON schema, interpreter commands, exit codes and synthetic fixtures. This stdlib-only tool does not execute workloads or make a statistical significance claim.

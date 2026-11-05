@@ -302,7 +302,7 @@ for Deep; a Managed light plan or a Direct edit leaves nothing to sort.
 
 | Content | Fate |
 | --- | --- |
-| An acceptance item with a cheap, deterministic, independent oracle | Becomes a permanent check only if it earns one under [feedback.md](feedback.md); otherwise discard the line. Once the check exists the prose is redundant. |
+| An acceptance item with a cheap, deterministic, independent oracle | Becomes a permanent check only if it earns one under `feedback.md`; otherwise discard the line. Once the check exists the prose is redundant. |
 | The reason for an irreversible, surprising trade-off (a limit accepted, an alternative rejected) | Keep as prose in the narrowest existing guidance file, one or two lines. A test can say what happens; it cannot say why it was allowed to. |
 | The semantics of a published contract that code and types cannot express | Keep, linked from the type or schema that owns it. |
 | What the code now does, the file list, the task steps | Discard from anything you keep. The code and Git are the record. |

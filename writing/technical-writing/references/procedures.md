@@ -74,7 +74,7 @@ test-verification 还须定义测量方法、容差及 pass/fail criteria；见�
 - Warning/Caution 放在危险动作之前，不能放在动作后的结果段。
 - Note 只补充理解或效率信息，不承载必需条件、步骤或风险。
 - 不因视觉突出而重复正文；callout 必须有独立功能。
-- 安全写法详见 [warnings-safety.md](warnings-safety.md)。
+- 安全写法详见 `warnings-safety.md`。
 
 ## UI procedures
 

@@ -1,6 +1,10 @@
 ---
 name: python
 description: "Use when writing, reviewing, or maintaining Python code, including alongside a Python specialist: data contracts, mutation, resource lifetime, failure behavior, and verification."
+license: MIT
+compatibility: Requires Python 3.
+metadata:
+  author: DengQi
 ---
 
 # Python: make the work and its boundaries explicit

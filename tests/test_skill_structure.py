@@ -31,6 +31,27 @@ class SkillStructure(unittest.TestCase):
                 for target in LINK.findall(doc.read_text(encoding='utf-8')):
                     self.assertTrue((doc.parent / target).exists(), f'{doc}: {target}')
 
+    def test_references_are_one_level_deep(self):
+        for path in SKILLS:
+            body = path.read_text(encoding='utf-8')
+            for doc in path.parent.glob('references/*.md'):
+                self.assertIn(f'references/{doc.name}', body, f'{doc} is not reachable from SKILL.md')
+                for target in LINK.findall(doc.read_text(encoding='utf-8')):
+                    if target.endswith('.md'):
+                        self.assertIn('assets/', target, f'{doc} chains to {target}')
+
+    def test_frontmatter_metadata(self):
+        for path in SKILLS:
+            head = path.read_text(encoding='utf-8').split('---\n')[1]
+            self.assertIn('license: MIT', head, path)
+            self.assertIn('metadata:', head, path)
+            self.assertNotRegex(head, r'(?m)^version:', path)
+
+    def test_side_effect_skills_are_user_invoked(self):
+        for name in ('co-commit', 'counterweight-setup'):
+            head = (ROOT / 'coding' / name / 'SKILL.md').read_text(encoding='utf-8').split('---\n')[1]
+            self.assertIn('disable-model-invocation: true', head)
+
     def test_no_undefined_skill_dir(self):
         for path in SKILLS:
             self.assertNotIn('$SKILL_DIR', path.read_text(encoding='utf-8'), path)

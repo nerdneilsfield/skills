@@ -1,12 +1,12 @@
 # CPU parallelism and BLAS: one shared policy
 
-This is the single owner for application/solver/BLAS thread budgets, runtime-control selection and the outer-versus-inner experiment. Both `cpp-performance` and `cpp-numerics` link here; numerical modeling and quality acceptance stay in [sparse/BLAS numerical validation](../../cpp-numerics/references/sparse-blas-validation.md). Do not load every performance reference: read this when nested pools, solver/BLAS threading or parallel-work ownership is actually implicated.
+This is the single owner for application/solver/BLAS thread budgets, runtime-control selection and the outer-versus-inner experiment. Both `cpp-performance` and `cpp-numerics` link here; numerical modeling and quality acceptance stay in sparse/BLAS numerical validation (the `cpp-numerics` skill). Do not load every performance reference: read this when nested pools, solver/BLAS threading or parallel-work ownership is actually implicated.
 
 ## Establish the resource and ownership contract
 
 Record the application's workers, OpenMP teams, solver settings, BLAS implementation/build, active runtime and phase-specific behavior. A configured maximum or environment variable is not proof of effective runnable threads. Libraries may reuse, serialize or dynamically resize teams; `outer × inner` is potential demand, not an observed count.
 
-Use the actual allowed CPU masks/cpuset, visible ancestor quota, shared cgroup peers and memory budget. Host logical CPU count is not a guaranteed allocation, and physical cores are not a universal optimal worker count. When capacity is uncertain, use [scheduler/thread capacity](scheduler-thread-capacity.md) and the [proc sampler](proc-sampler-guide.md) for bounded evidence rather than inventing a precise budget.
+Use the actual allowed CPU masks/cpuset, visible ancestor quota, shared cgroup peers and memory budget. Host logical CPU count is not a guaranteed allocation, and physical cores are not a universal optimal worker count. When capacity is uncertain, use scheduler/thread capacity (`scheduler-thread-capacity.md`) and the proc sampler (`proc-sampler-guide.md`) for bounded evidence rather than inventing a precise budget.
 
 Choose one orchestration-level CPU-work budget. Pass it through the existing executor and inner library configuration, instead of letting each component independently choose host `hardware_concurrency()`. Keep CPU-heavy concurrency separate from outstanding I/O. Do not build a new scheduling framework for one setting.
 
@@ -58,7 +58,7 @@ The references below use versioned Linux 2025.1 documentation, not an assumption
 
 Fewer workers can change ordering, deadlines and progress behavior. A worker waiting on a task scheduled to the same exhausted pool can deadlock; reducing a pool does not repair that dependency. Library global state must be reentrant under the proposed call pattern. Floating reductions can change rounding/convergence; use the numerical skill's predeclared accuracy and geometry criteria.
 
-For many independent frames/tiles, test the outer-owner configuration. For one large solve, test the inner-owner configuration. Preserve the existing pool/library interfaces and revert a change that regresses quality, memory or required latency. If changing task granularity, cancellation or buffer ownership is necessary, continue into [thread/memory remedies](thread-and-memory-remedies.md), not a second independent thread-control policy.
+For many independent frames/tiles, test the outer-owner configuration. For one large solve, test the inner-owner configuration. Preserve the existing pool/library interfaces and revert a change that regresses quality, memory or required latency. If changing task granularity, cancellation or buffer ownership is necessary, continue into thread/memory remedies (`thread-and-memory-remedies.md`), not a second independent thread-control policy.
 
 Prevent recurrence by keeping one explicit inspectable budget and documenting which layer owns parallelism for each phase. Retain a representative nested-call workload and error/shutdown check when those behaviors changed. Stop when the requested target is met by a maintainable measured configuration; do not pursue a magic worker count, lock-free redesign or new framework without further evidence.
 
@@ -66,4 +66,4 @@ Prevent recurrence by keeping one explicit inspectable budget and documenting wh
 
 - [OpenBLAS runtime variables](https://www.openmathlib.org/OpenBLAS/docs/runtime_variables/): match the retained release and pthread/OpenMP build.
 - [oneMKL Linux 2025.1 threading](https://www.intel.com/content/www/us/en/docs/onemkl/developer-guide-linux/2025-1/improving-performance-with-threading.html): a versioned official reference, not the old Windows edition.
-- Resource/scheduler evidence and kernel sources are in [scheduler/thread capacity](scheduler-thread-capacity.md). Source links are provenance, not runtime downloads.
+- Resource/scheduler evidence and kernel sources are in scheduler/thread capacity (`scheduler-thread-capacity.md`). Source links are provenance, not runtime downloads.

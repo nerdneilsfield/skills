@@ -1,6 +1,10 @@
 ---
 name: python-environments
 description: "Use when creating, reproducing, or diagnosing a Python environment with uv, venv, Conda, or Pixi, including locks, mirrors, offline artifacts, native ABI, and CUDA package compatibility. Defer shared contracts to python. Not for CUDA kernel authoring, numerical algorithms (python-numerics), profiling code that already runs (python-performance), or model quality (python-ml)."
+license: MIT
+compatibility: Requires Python 3. uv, Conda, or Pixi as the project uses them.
+metadata:
+  author: DengQi
 ---
 
 # Reproducible Python environments

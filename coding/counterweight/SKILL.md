@@ -1,7 +1,10 @@
 ---
 name: counterweight
-version: 0.6.0
 description: "Run when the user asks to implement, fix, refactor, wire configuration, add a feature, or debug code, including when that request would otherwise grow a plan, framework, compatibility layer, retry, cache, fallback, or unearned test suite. Pick the lightest sufficient process and keep the change proportional to current evidence and risk. Not for questions about existing code, standalone review, prose, root AGENTS.md setup (counterweight-setup), or a post-implementation cut list (counterweight-cut)."
+license: MIT
+metadata:
+  author: DengQi
+  version: "0.6.0"
 ---
 
 # Counterweight

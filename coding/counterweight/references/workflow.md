@@ -64,7 +64,7 @@ unrelated suites.
 
 Use Deep only for a system-level decision or high-risk boundary. Initial
 inspection may still downgrade the task when an existing facility removes
-that boundary. Read [deep.md](deep.md) for the plan contract, readiness gate,
+that boundary. Read `deep.md` for the plan contract, readiness gate,
 task execution loop, and integration acceptance.
 
 Authorization follows `SKILL.md`. Deep determines analysis depth, not write
@@ -118,7 +118,7 @@ Finish when requested behavior, necessary consequences, and real safety
 constraints are satisfied. Stop extra searching, testing, and review when
 they no longer discriminate between plausible outcomes.
 
-Resolve local commits using [commits.md](commits.md) when grouping is
+Resolve local commits using `commits.md` when grouping is
 non-obvious, the index is dirty, or a hook fails; otherwise the four bullets
 in `SKILL.md` are enough. For Deep, retain only functional evidence and real
 limitations that help resumption. Record separate review results only if a

@@ -1,6 +1,6 @@
 # Fixing cache, cache-line and synchronization bottlenecks
 
-Use after evidence identifies a plausible locality, bandwidth, coherence or synchronization cost. [Cache lines and contention](cpu-cache-sharing-contention.md) explains collection and attribution; this reference supplies **what to change, what can break, how to verify it, and how to avoid recreating it**. No recipe is permission to rewrite unrelated code, change deployment settings, install tools or add a dependency. CPU only.
+Use after evidence identifies a plausible locality, bandwidth, coherence or synchronization cost. Cache lines and contention (`cpu-cache-sharing-contention.md`) explains collection and attribution; this reference supplies **what to change, what can break, how to verify it, and how to avoid recreating it**. No recipe is permission to rewrite unrelated code, change deployment settings, install tools or add a dependency. CPU only.
 
 All snippets below are original **scoped C++ examples**, not standalone programs or claimed measurements. Surrounding types, input contracts, error handling and worker ownership must be supplied by the project. They illustrate a change to test, not a promise that it is faster. A normal mutex, simple container or compact layout remains preferable when no meaningful bottleneck exists.
 
@@ -234,10 +234,10 @@ Good preventive rules describe a discovered boundary: “worker statistics stay 
 
 ## Local context and source pointers
 
-- [Cache evidence and c2c/lock attribution](cpu-cache-sharing-contention.md).
-- [Scheduler/usable CPU capacity](scheduler-thread-capacity.md) before interpreting spinning or active-worker demand.
-- [Memory pressure and NUMA](memory-pressure-numa.md) before trading compactness for padding/replication/large pages.
-- [Measurement and report](measurement-and-report.md) and [local repeated-run comparison](local-benchmark-tool.md).
+- Cache evidence and c2c/lock attribution (`cpu-cache-sharing-contention.md`).
+- Scheduler/usable CPU capacity (`scheduler-thread-capacity.md`) before interpreting spinning or active-worker demand.
+- Memory pressure and NUMA (`memory-pressure-numa.md`) before trading compactness for padding/replication/large pages.
+- Measurement and report (`measurement-and-report.md`) and local repeated-run comparison (`local-benchmark-tool.md`).
 - For matrix aliasing, precision, solver convergence and data interfaces, use `cpp-numerics` and its locally installed references; this document does not redefine those contracts.
 
 Original remedies and examples synthesized for this bundle. The collection reference links kernel false-sharing documentation, upstream perf manuals and target-specific sources; they establish terminology and measurement caveats, not universal optimization prescriptions. External links are not required to use the workflows above.

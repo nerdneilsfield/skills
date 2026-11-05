@@ -1,6 +1,10 @@
 ---
 name: cpp-performance
 description: "Use when the user asks to speed up or shrink C++ CPU code, or when latency, throughput, cache or lock contention, context switches, thread oversubscription, paging, or scaling is a measured problem. Defer shared conventions to cpp. Not for crashes or undefined behavior (cpp-debug), Eigen/solver/numerical-quality changes (cpp-numerics), or creating or vendoring a project (cpp-project-init)."
+license: MIT
+compatibility: Uses Linux perf and sysfs/procfs when available; python3 runs the bundled scripts.
+metadata:
+  author: DengQi
 ---
 
 # Measured C++ CPU optimization

@@ -1,6 +1,10 @@
 ---
 name: python-data-analysis
 description: "Use when the user asks to analyze or plot tabular, time-series, or missing data in Python: join cardinality, denominators, group-by meaning, larger-than-memory aggregation, or honest uncertainty in a chart. Defer shared contracts to python. Not for predictive training (python-ml), NumPy kernel numerics (python-numerics), process profiling (python-performance), or environment repair (python-environments)."
+license: MIT
+compatibility: Requires Python 3; pandas, Polars, or DuckDB as the project uses them.
+metadata:
+  author: DengQi
 ---
 
 # From a data question to a defensible figure

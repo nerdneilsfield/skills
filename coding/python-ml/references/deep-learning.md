@@ -2,7 +2,7 @@
 
 ## 1. Prove one batch before scaling
 
-Use the split/feature availability contract from [classical modeling](classical-ml.md), including training-only normalization. Keep stochastic augmentation in training; validation should use the declared deterministic evaluation transform or a separately specified test-time augmentation policy. Check a bounded batch for shape, dtype, units, label range and mask alignment. Cross-entropy commonly expects raw class logits and integer class indices, not an already-softmaxed tensor; binary losses have different shape/target contracts. Verify the chosen loss's reduction and how padding/ignored labels affect its denominator.
+Use the split/feature availability contract from classical modeling (`classical-ml.md`), including training-only normalization. Keep stochastic augmentation in training; validation should use the declared deterministic evaluation transform or a separately specified test-time augmentation policy. Check a bounded batch for shape, dtype, units, label range and mask alignment. Cross-entropy commonly expects raw class logits and integer class indices, not an already-softmaxed tensor; binary losses have different shape/target contracts. Verify the chosen loss's reduction and how padding/ignored labels affect its denominator.
 
 Start with one finite forward/backward/optimizer step. Inspect finite loss and gradients and prove at least one trainable parameter changes. If a tiny, clean subset cannot be overfit, investigate labels, masks, detached graphs, frozen parameters, learning rate and loss scaling before buying more compute. Overfitting this subset is a debugging test, not evidence of generalization.
 
@@ -56,4 +56,4 @@ A one-GPU pass does not validate multi-rank ordering, sampler uniqueness or chec
 
 ## 5. Resume and deploy deliberately
 
-Use [reproducibility and artifacts](reproducibility-artifacts.md) for checkpoint state, loading trust and interrupted-run tests. Use [training performance](training-performance.md) only after the loss/gradient/evaluation gates hold. Precision, compiler, export and quantization changes require representative task metrics in addition to tensor closeness; low arithmetic error on random inputs does not validate model decisions.
+Use reproducibility and artifacts (`reproducibility-artifacts.md`) for checkpoint state, loading trust and interrupted-run tests. Use training performance (`training-performance.md`) only after the loss/gradient/evaluation gates hold. Precision, compiler, export and quantization changes require representative task metrics in addition to tensor closeness; low arithmetic error on random inputs does not validate model decisions.

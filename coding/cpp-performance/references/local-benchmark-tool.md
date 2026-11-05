@@ -34,7 +34,7 @@ The bundled JSON files are synthetic interpretation fixtures, not measurements o
 ```
 
 - `metric` and `unit` are nonempty strings; direction is `lower` or `higher`. Use one metric per file. Throughput generally uses higher; latency/memory generally lower. Never compare milliseconds to seconds and assume automatic conversion.
-- Samples are at least three finite, nonnegative numeric repeats. This input floor is not a sampling-size recommendation. Use [measurement and report](measurement-and-report.md) to design the experiment and retain raw run order separately when paired analysis/drift matters.
+- Samples are at least three finite, nonnegative numeric repeats. This input floor is not a sampling-size recommendation. Use measurement and report (`measurement-and-report.md`) to design the experiment and retain raw run order separately when paired analysis/drift matters.
 - `correctness_passed` is a JSON boolean, not a string. `false` blocks comparability. It is the caller's assertion; the script does not run numerical or functional tests. Use false until actual quality checks pass.
 - Metadata is a nonempty object. Include all conditions that could change interpretation: workload identity, compiler/options, CPU/environment, dependency/backend versions, thread settings, cache/warmup, affinity/power when relevant. The tool cannot detect omitted confounders or validate hashes. A minimal fake metadata object can pass structural validation and still describe a bad experiment.
 - Metadata comparisons preserve JSON types recursively: `true`, `1` and `1.0` are not interchangeable. Keep recording formats consistent.

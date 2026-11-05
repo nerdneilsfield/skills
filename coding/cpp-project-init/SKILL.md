@@ -1,6 +1,10 @@
 ---
 name: cpp-project-init
 description: "Use when the user asks to create a C++ project or to restructure its CMake presets, vendored dependencies, offline build, or developer command entry points. Defer language and ownership conventions to cpp. Not for ordinary source fixes, crashes (cpp-debug), measured CPU tuning (cpp-performance), or Eigen/solver numerics (cpp-numerics)."
+license: MIT
+compatibility: Requires CMake and a C++20 compiler. Ninja, clang-format, clang-tidy, cppcheck, and python3 are optional.
+metadata:
+  author: DengQi
 ---
 
 # Lightweight C++ project initialization

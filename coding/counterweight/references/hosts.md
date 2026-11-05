@@ -1,7 +1,7 @@
 # Running the roles on other hosts
 
 Read this when the host is not pi, or pi has no `pi-counterweight` extension,
-and the user wants a role from [roles.md](roles.md). Everything below was checked
+and the user wants a role from `roles.md`. Everything below was checked
 on 2026-10-24 against the installed CLIs (codex, opencode 2.1.4, kimi 2.3.1,
 grok 1.0.70) and the vendors' own hook and agent documentation. Flags and hook
 formats change; run `--help` and check the doc for your version before relying
@@ -99,7 +99,7 @@ Notes that matter:
 2. Run the host's read-only child with the role prompt from `roles.md` (copy the
    rules into the host's profile format; do not paraphrase their limits) and a
    model other than the implementer's.
-3. Read the final message as [roles.md](roles.md) describes.
+3. Read the final message as `roles.md` describes.
 
 If both review and over_review were chosen, run them as two separate children.
 

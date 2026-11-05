@@ -1,6 +1,9 @@
 ---
 name: technical-writing
 description: "Use when the user asks to write, rewrite, or review software, hardware, or engineering documentation: READMEs, tutorials, how-tos, API or CLI references, troubleshooting, deployment guides, design specs, user manuals, or test procedures, in Chinese, English, or mixed text. Not for academic papers or scholarly manuscripts, Lu Xun voice (luxun-style), or a de-AI-only pass (deai)."
+license: MIT
+metadata:
+  author: DengQi
 ---
 
 # Technical writing
@@ -34,6 +37,7 @@ Then read only what the task needs:
 - README or repository front page: [references/readme.md](references/readme.md)
 - human, equipment, data, security, or environmental risk: [references/warnings-safety.md](references/warnings-safety.md)
 - `review` mode: [references/review.md](references/review.md)
+- provenance of these rules: [references/sources.md](references/sources.md)
 
 Use a matching file from [templates](templates/) only when creating a document whose structure is stable enough to benefit from one. Delete inapplicable sections. Never fill a placeholder with an invented fact.
 

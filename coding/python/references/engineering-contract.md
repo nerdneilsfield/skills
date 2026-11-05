@@ -81,7 +81,7 @@ This is a resource pattern, not permission to read arbitrary paths. Local files 
 
 ## 4. Choose concurrency after identifying where time goes
 
-A slow wall-clock operation may spend time in Python execution, native kernels, I/O, locks, child processes, accelerator execution or a queue. A single CPU percentage or a Python line with high elapsed time does not identify the cause. [Performance guidance](../../python-performance/SKILL.md) owns profiler choice and attribution.
+A slow wall-clock operation may spend time in Python execution, native kernels, I/O, locks, child processes, accelerator execution or a queue. A single CPU percentage or a Python line with high elapsed time does not identify the cause. Performance guidance (the `python-performance` skill) owns profiler choice and attribution.
 
 Keep these distinctions while designing a minimal repair:
 

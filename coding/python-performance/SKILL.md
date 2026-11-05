@@ -1,6 +1,10 @@
 ---
 name: python-performance
 description: "Use when measuring, fixing, or asking how to improve Python performance, even for a quick how or why question with no profile yet: latency, throughput, hotspots, memory growth, event-loop stalls, too many threads, paging, or poor application scaling. Defer shared contracts to python. Not for NumPy/SciPy numerical correctness (python-numerics), environment or CUDA/ABI repair (python-environments), training-loop or checkpoint work (python-ml), or joins and charts (python-data-analysis)."
+license: MIT
+compatibility: Requires Python 3. py-spy, Scalene, and memray are optional.
+metadata:
+  author: DengQi
 ---
 
 # Python performance: evidence to a verified remedy

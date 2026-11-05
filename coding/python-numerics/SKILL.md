@@ -1,6 +1,10 @@
 ---
 name: python-numerics
 description: "Use when Python array, matrix, or tensor code is numerically wrong or the kernel itself is memory-heavy or slow, or the user asks how such code behaves or which method fits, even with no code: shape, dtype, layout, broadcasting, precision, solvers, BLAS, or JIT and accelerator boundaries. Defer shared contracts to python and process-wide profiling to python-performance. Not for environment repair (python-environments), model training (python-ml), or dataframe analysis (python-data-analysis)."
+license: MIT
+compatibility: Requires Python 3; NumPy, SciPy, or JAX as the project uses them.
+metadata:
+  author: DengQi
 ---
 
 # Python numerical correctness and performance

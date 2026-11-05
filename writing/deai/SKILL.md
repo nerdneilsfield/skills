@@ -1,6 +1,10 @@
 ---
 name: deai
 description: "Use when the user asks to edit, review, or audit Chinese or English prose that sounds AI-generated: templated, promotional, chatbot-like, bureaucratic, paternalistic, defensively hedged, or written as a reviewer prebuttal (防御性写作), in LaTeX, Typst, Markdown, or plain text. Not for authoring engineering docs from scratch (technical-writing), Lu Xun voice (luxun-style), or explaining a paper (qi-read-paper)."
+license: MIT
+compatibility: python3 runs the bundled scripts; rewriting works without them.
+metadata:
+  author: DengQi
 ---
 
 # De-AI writing assistant
@@ -64,3 +68,5 @@ Use these action labels in change logs; they are an audit vocabulary, not mandat
 - Unsupported authority (“studies show”, “据研究”): never invent attribution. In technical, status, and academic text, flag it `audit-only` by default; in chat/public prose, remove the wrapper only when the remaining claim stands alone. Put `[PENDING]`/`[SOURCE NEEDED]` in notes, not final prose, unless explicitly requested.
 
 Detailed patterns and format safeguards live in `references/REWRITING_GUIDE.md`, `references/PATTERNS_ZH.md`, `references/PATTERNS_EN.md`, and `references/DEFENSIVE_WRITING.md`.
+
+Chinese house rules for rewriting, reviewing, and drafting live in `references/CHINESE_PROSE.md`.

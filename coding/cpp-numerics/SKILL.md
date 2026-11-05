@@ -1,6 +1,10 @@
 ---
 name: cpp-numerics
 description: "Use when creating or changing CPU C++ Eigen code, residuals, Jacobians, manifolds, factor graphs, sparse or BLAS solvers, or numerical data-boundary adapters for SLAM, reconstruction, calibration, or perception, including unstable, non-finite, numerically wrong, or slow results whose model, layout, or precision is the question. Defer shared conventions to cpp and thread-budget profiling to cpp-performance. Not for crashes or races (cpp-debug) or project/vendor setup (cpp-project-init)."
+license: MIT
+compatibility: For projects using Eigen, Ceres, GTSAM, or similar libraries.
+metadata:
+  author: DengQi
 ---
 
 # CPU numerical correctness and optimization

@@ -1,6 +1,9 @@
 ---
 name: counterweight-cut
 description: "Use when the user asks what can be deleted, whether this diff got fat, or to simplify the change just written. List unused abstractions, extra dependencies, and unearned tests; edit only after the user asks to apply the list. Not for implementing features (counterweight), correctness review, root AGENTS.md setup (counterweight-setup), or whole-repo cleanup."
+license: MIT
+metadata:
+  author: DengQi
 ---
 
 # Counterweight Cut

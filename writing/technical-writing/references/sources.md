@@ -24,7 +24,7 @@
 
 ## README writing references
 
-实际访问日期：2026-10-19。吸收进 [readme.md](readme.md)。
+实际访问日期：2026-10-19。吸收进 `readme.md`。
 
 - [banesullivan/README](https://github.com/banesullivan/README)：主要吸收：Highlights 段、四问测试（能解决我的问题吗/能用这个代码吗/谁做的/去哪里了解更多）、安装单行命令与最低要求、开发说明后置、截图和 GIF 优先、邀请反馈与贡献、按项目成熟度把 README 收缩为 pitch 加链接集。未采用其鼓励的 emoji 标题用法，见 readme.md 对 emoji 标题的限制。
 - [How to write a good README?（dev.to 讨论）](https://dev.to/jmfayard/how-to-write-a-good-readme-discuss-4hkl)：主要吸收：README 不是文档本体而是信息入口（README is not your documentation）、quickstart 最短成功路径、徽章只放真实信号且建立信任、结尾的 license/contributing/credits/致谢、README 是通往项目其余信息的 springboard、以陌生读者身份 onboarding 自测、README 与代码同步演进。徽章数量下限（3 至 6 个）为个人偏好，未采用。

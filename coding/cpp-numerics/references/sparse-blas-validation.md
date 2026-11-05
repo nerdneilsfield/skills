@@ -12,7 +12,7 @@ Inspect fill-in and peak memory as well as arithmetic time. Include format conve
 
 ## When thread ownership is implicated
 
-Use the single [CPU parallelism/BLAS policy](../../cpp-performance/references/parallelism-and-blas.md) for budgets, controlled outer/inner comparisons, startup/global/local controls and runtime verification. This file owns numerical acceptance, not a second thread-control recipe. Measure small fixed matrices separately from large kernels; preserve phase boundaries and the same quality budget when applying that experiment.
+Use the single CPU parallelism/BLAS policy (the `cpp-performance` skill) for budgets, controlled outer/inner comparisons, startup/global/local controls and runtime verification. This file owns numerical acceptance, not a second thread-control recipe. Measure small fixed matrices separately from large kernels; preserve phase boundaries and the same quality budget when applying that experiment.
 
 ## Numerical acceptance before timing acceptance
 
@@ -52,7 +52,7 @@ scaled residual / reference error / finite check:
 application quality / failed cases / peak memory:
 ```
 
-Store samples per repetition, not just the fastest time. Use the configurations selected by the [shared parallelism policy](../../cpp-performance/references/parallelism-and-blas.md), while retaining the phase/quality fields above. A setup phase moved outside only one timer invalidates the comparison; overlapping timings require uncertainty rather than an automatic speed claim.
+Store samples per repetition, not just the fastest time. Use the configurations selected by the shared parallelism policy (the `cpp-performance` skill), while retaining the phase/quality fields above. A setup phase moved outside only one timer invalidates the comparison; overlapping timings require uncertainty rather than an automatic speed claim.
 
 ## Small local numerical fixtures
 
@@ -77,7 +77,7 @@ For the singular example, a generic LU/Cholesky “success” flag is not enough
 2. Every relevant fixture passes finite/rank/error checks with the predeclared criteria.
 3. Representative application cases preserve the numerical quality budget, including failures and outliers, not only average cost.
 4. Timings use comparable complete phase boundaries and repeated samples; speed claims include spread and environment.
-5. New source/backend integration follows the sole [cpp-project-init vendor/offline policy](../../cpp-project-init/references/vendor-and-offline.md). A faster system-installed BLAS is an experiment result, not authorization to silently change distribution policy.
+5. New source/backend integration follows the sole cpp-project-init vendor/offline policy (the `cpp-project-init` skill). A faster system-installed BLAS is an experiment result, not authorization to silently change distribution policy.
 
 These checks require no external documentation at runtime. When the exact installed backend cannot be identified, report that uncertainty and stop short of selecting backend-specific thread/API settings.
 

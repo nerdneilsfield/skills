@@ -54,7 +54,7 @@ Virtual-package overrides are suitable for explicitly planned cross-target solvi
 
 If a PyPI torch is selected in Pixi, dependencies on that torch should follow the supported PyPI route rather than mixing in Conda packages that expect a Conda torch. Platform support and PyPI solve environments can constrain cross-platform resolution; a macOS machine is not guaranteed to solve a Linux CUDA mixed environment. Use an appropriate authorized target builder when necessary, not fake host capability as proof of success.
 
-For a conflict, obtain the named package, its parent constraints, selected feature/environment/platform and the earliest meaningful solver cause. First test whether removing an unintended feature or correcting Python bounds resolves the logical contradiction. Do not widen all pins or add unrelated channels at once. For source and dependency-graph troubleshooting read [sources and dependency chains](sources-and-dependencies.md).
+For a conflict, obtain the named package, its parent constraints, selected feature/environment/platform and the earliest meaningful solver cause. First test whether removing an unintended feature or correcting Python bounds resolves the logical contradiction. Do not widen all pins or add unrelated channels at once. For source and dependency-graph troubleshooting read sources and dependency chains (`sources-and-dependencies.md`).
 
 ## Validation and prevention
 

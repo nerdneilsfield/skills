@@ -1,6 +1,9 @@
 ---
 name: grill-me
 description: "Use when the user explicitly asks to be grilled, stress-tested, or challenged on a plan, design, or decision. Surface unresolved choices that can change behavior, constraints, or implementation, each with a recommended default. Not for implementing that plan (counterweight) or writing the design document."
+license: MIT
+metadata:
+  author: DengQi
 ---
 
 # Grill Me

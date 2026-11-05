@@ -74,10 +74,10 @@ A 200-thread service with 195 sleeping threads may be fine. A 32-worker compute 
 
 | Observation | Next targeted check |
 | --- | --- |
-| CPU busy, low runnable delay, bad scaling | [Cache/bandwidth/shared-line evidence](cpu-cache-sharing-contention.md), algorithm/layout work |
-| Many selected R states, rising runqueue wait/preemption/throttling | [Scheduler and thread capacity](scheduler-thread-capacity.md), controlled thread-count sweep |
+| CPU busy, low runnable delay, bad scaling | Cache/bandwidth/shared-line evidence (`cpu-cache-sharing-contention.md`), algorithm/layout work |
+| Many selected R states, rising runqueue wait/preemption/throttling | Scheduler and thread capacity (`scheduler-thread-capacity.md`), controlled thread-count sweep |
 | Mostly S/D, low CPU, throughput poor | Authorized bounded wait-stack/off-CPU evidence; distinguish mutex, I/O, condition waits and producer starvation |
-| Target faults rise with system reclaim/PSI/swap activity | [Memory pressure and NUMA](memory-pressure-numa.md), distinguish mapped-file faults from paging and other workloads |
+| Target faults rise with system reclaim/PSI/swap activity | Memory pressure and NUMA (`memory-pressure-numa.md`), distinguish mapped-file faults from paging and other workloads |
 | Cacheline contention suspected | Supported `perf c2c`/hardware event evidence plus address-to-object/field ownership; proc data cannot confirm it |
 | All optional files absent | Keep PID identity/basic CPU evidence and explicit coverage limits; do not invent zeros or install tools |
 

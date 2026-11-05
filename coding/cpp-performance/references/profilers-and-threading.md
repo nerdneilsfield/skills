@@ -72,7 +72,7 @@ Do not start with assembly when most time is allocation, a mutex, or an avoidabl
 
 ## Thread ownership experiment
 
-Use [parallelism/BLAS policy](parallelism-and-blas.md) for the canonical inventory, budget, experiment matrix and backend-control procedure. This profiler reference supplies observations, not a second configuration policy. A scaling plateau still needs mechanism evidence; it does not by itself prove false sharing or oversubscription.
+Use parallelism/BLAS policy (`parallelism-and-blas.md`) for the canonical inventory, budget, experiment matrix and backend-control procedure. This profiler reference supplies observations, not a second configuration policy. A scaling plateau still needs mechanism evidence; it does not by itself prove false sharing or oversubscription.
 
 ## Offline review fixtures
 
@@ -92,4 +92,4 @@ External pages are optional provenance. The workflow, interpretation rules, fall
 
 ## Deeper system evidence
 
-For actual shared-line/cache/lock investigation use [cache lines and contention](cpu-cache-sharing-contention.md); for scheduling and usable CPU capacity use [scheduler and thread capacity](scheduler-thread-capacity.md); for faults, swap, pressure and NUMA use [memory pressure and NUMA](memory-pressure-numa.md). The local [proc sampler](proc-sampler-guide.md) records interval evidence without requiring perf or changing permissions, but cannot replace hardware counters or wait stacks.
+For actual shared-line/cache/lock investigation use cache lines and contention (`cpu-cache-sharing-contention.md`); for scheduling and usable CPU capacity use scheduler and thread capacity (`scheduler-thread-capacity.md`); for faults, swap, pressure and NUMA use memory pressure and NUMA (`memory-pressure-numa.md`). The local proc sampler (`proc-sampler-guide.md`) records interval evidence without requiring perf or changing permissions, but cannot replace hardware counters or wait stacks.
