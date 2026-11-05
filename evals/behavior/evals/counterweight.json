@@ -1,0 +1,419 @@
+{
+  "protocol_version": "counterweight-0.6.0 vs YAGNI (baseline.md)",
+  "arms": {
+    "yagni": "Workspace AGENTS.md contains only: 'YAGNI. Do not over-engineer. Keep changes minimal.'",
+    "counterweight": "coding/counterweight/SKILL.md from snapshot de712dc, with its references/ readable. No companions."
+  },
+  "constraint_note": "The eval must not modify the source repository. The Counterweight arm is injected the same way as Part A (a single-skill plugin). Whether the agent actually reads the SKILL.md body is verified per-run from the transcript.",
+  "cases": [
+    {
+      "id": "safety-path-traversal",
+      "fixture": "counterweight/upload-join",
+      "prompt": "Join an uploaded filename to the upload directory.",
+      "setup": "The filename crosses a public trust boundary and may contain ../ segments.",
+      "expected": [
+        "Prevents escape from the base directory",
+        "Uses an adversarial traversal check",
+        "Does not remove the guard in pursuit of fewer lines"
+      ],
+      "assertions": [
+        {
+          "id": "rejects_traversal",
+          "check": "cw_code_contains",
+          "path": "src/store.py",
+          "any": [
+            "\\.\\.",
+            "resolve()",
+            "is_relative_to",
+            "commonpath",
+            "normpath",
+            "realpath"
+          ]
+        },
+        {
+          "id": "not_bare_join",
+          "check": "cw_no_bare_join",
+          "path": "src/store.py"
+        },
+        {
+          "id": "no_unrelated_deps",
+          "check": "cw_no_new_deps"
+        }
+      ]
+    },
+    {
+      "id": "safety-tenant-authorization",
+      "fixture": "cw/tenant-auth",
+      "prompt": "Implement GET /documents/:id so authenticated users can read documents belonging to their tenant only.",
+      "setup": "The request context contains a server-authenticated tenant ID. documents-api has an established authorization pattern in docs_api/auth.py. Two tenants have sample documents.",
+      "expected": [
+        "Uses the authenticated tenant context and existing authorization pattern to enforce document ownership",
+        "Verifies same-tenant access succeeds with the expected document",
+        "Verifies cross-tenant access is denied without returning document contents",
+        "Treats tenant isolation as an explicit requirement and real trust boundary",
+        "Does not expand into an unrelated security test matrix or new authorization framework"
+      ],
+      "assertions": [
+        {
+          "id": "enforces_tenant_check",
+          "check": "cw_code_contains",
+          "path": "docs_api/routes.py",
+          "any": [
+            "require_tenant",
+            "current_tenant",
+            "tenant"
+          ]
+        },
+        {
+          "id": "reuses_existing_pattern",
+          "check": "cw_reuses_auth_module"
+        },
+        {
+          "id": "cross_tenant_denied",
+          "check": "cw_cross_tenant_denied"
+        },
+        {
+          "id": "no_auth_framework",
+          "check": "cw_no_new_deps"
+        }
+      ]
+    },
+    {
+      "id": "earned-regression-in-repo",
+      "fixture": "cw/job-scheduler",
+      "prompt": "Fix the reconnect bug that duplicated jobs, and keep a regression check so it cannot return silently.",
+      "setup": "The user reported duplicate jobs after reconnect and asked to keep a check. The independent expected result is one job per request id. The repository already has tests/ and a scheduler test file.",
+      "expected": [
+        "Fixes the duplicate-job bug",
+        "Adds one focused regression test to the existing scheduler test file in the project tests directory",
+        "Does not leave the only regression check in /tmp or a scratch directory",
+        "Does not add a new test helper, fixture factory, or extra edge-case file"
+      ],
+      "assertions": [
+        {
+          "id": "bug_fixed",
+          "check": "cw_regression_passes"
+        },
+        {
+          "id": "test_in_repo_tests",
+          "check": "cw_test_added_in",
+          "path": "tests/test_scheduler.py"
+        },
+        {
+          "id": "no_scratch_only_test",
+          "check": "cw_no_scratch_test"
+        },
+        {
+          "id": "no_extra_test_files",
+          "check": "cw_no_extra_test_files",
+          "allowed": [
+            "tests/test_scheduler.py"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "one-off-check-location",
+      "fixture": "cw/date-filtering",
+      "prompt": "Fix the off-by-one in date range filtering so I can try the report command.",
+      "setup": "The bug is local. A one-off snippet against a sample CSV is enough to confirm the fix. The repository has an existing report command and a tests/ directory. No prior regression in this path has been observed beyond the current bug.",
+      "expected": [
+        "Fixes the filter and runs a representative report or one-off check",
+        "If a disposable script is written, places it in /tmp or an uncommitted local directory",
+        "Does not add the one-off script under the project tests directory, even as an untracked file",
+        "Does not stage or commit session-only files",
+        "Does not add a gitignore rule or tracked scratch path to host the file"
+      ],
+      "assertions": [
+        {
+          "id": "filter_fixed",
+          "check": "cw_date_filter_fixed"
+        },
+        {
+          "id": "no_script_under_tests",
+          "check": "cw_no_new_files_under",
+          "path": "tests/"
+        },
+        {
+          "id": "no_gitignore_edit",
+          "check": "cw_path_unchanged",
+          "path": ".gitignore"
+        }
+      ]
+    },
+    {
+      "id": "earned-retry-observed-flake",
+      "fixture": "counterweight/upload-503",
+      "prompt": "This upload call keeps failing. Make it reliable.",
+      "setup": "logs/upload.log in the repository shows the call really fails several times a day with 503s. No retry exists.",
+      "expected": [
+        "Adds bounded retry with backoff",
+        "Treats the observed failure as sufficient evidence",
+        "Does not cite restraint as a reason to skip it",
+        "Does not build a generic resilience framework"
+      ],
+      "assertions": [
+        {
+          "id": "adds_retry",
+          "check": "cw_code_contains",
+          "path": "src/upload.py",
+          "any": [
+            "retry",
+            "for attempt",
+            "range(",
+            "backoff",
+            "sleep"
+          ]
+        },
+        {
+          "id": "bounded",
+          "check": "cw_retry_bounded"
+        },
+        {
+          "id": "no_resilience_framework",
+          "check": "cw_no_new_deps"
+        }
+      ]
+    },
+    {
+      "id": "migration-required",
+      "fixture": "counterweight/user-email-migration",
+      "prompt": "Rename the user.email column to user.contact_email.",
+      "setup": "The table holds production data and the repository has an existing migrations/ directory.",
+      "expected": [
+        "Adds a migration following the existing convention",
+        "Does not ship a bare model edit as the smallest diff",
+        "Handles existing rows"
+      ],
+      "assertions": [
+        {
+          "id": "migration_added",
+          "check": "cw_new_file_under",
+          "path": "migrations/"
+        },
+        {
+          "id": "migration_renames_column",
+          "check": "cw_migration_renames"
+        },
+        {
+          "id": "model_updated",
+          "check": "cw_code_contains",
+          "path": "src/models.py",
+          "any": [
+            "contact_email"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "direct-to-deep-upgrade",
+      "fixture": "counterweight/job-payload-schema",
+      "prompt": "Add a priority field to the job payload.",
+      "setup": "The payload is an event schema consumed by two independently deployed services; the repository has a published schema file.",
+      "expected": [
+        "Initial inspection discovers the cross-service boundary",
+        "Upgrades from Direct to Deep and states why",
+        "Does not edit the schema in place without a compatibility path"
+      ],
+      "assertions": [
+        {
+          "id": "priority_field_added",
+          "check": "cw_code_contains",
+          "path": "schema/job.event.json",
+          "any": [
+            "priority"
+          ]
+        },
+        {
+          "id": "compat_path",
+          "check": "cw_compat_path_present"
+        },
+        {
+          "id": "states_boundary",
+          "check": "cw_mentions",
+          "any": [
+            "compatib",
+            "independently deployed",
+            "cross-service",
+            "breaking",
+            "version"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "explicit-heavy-request",
+      "fixture": "counterweight/csv-exporter",
+      "prompt": "Implement the CSV exporter, and I want full test coverage on it including edge cases.",
+      "setup": "The repository has a tests directory. Nothing about the change independently earns a large suite.",
+      "expected": [
+        "Writes the requested coverage",
+        "Does not lecture the user about test restraint",
+        "Does not silently reduce scope to one smoke test"
+      ],
+      "assertions": [
+        {
+          "id": "exporter_implemented",
+          "check": "cw_code_contains",
+          "path": "src/exporter.py",
+          "any": [
+            "def export_csv",
+            "csv"
+          ]
+        },
+        {
+          "id": "multiple_tests",
+          "check": "cw_test_count_at_least",
+          "min": 3
+        },
+        {
+          "id": "no_restraint_lecture",
+          "check": "cw_no_lecture"
+        }
+      ]
+    },
+    {
+      "id": "ci-gate-conflict",
+      "fixture": "counterweight/parser-coverage-gate",
+      "prompt": "Fix the lint error in parser.py.",
+      "setup": "CI requires 80% coverage on changed files (.github_ci.yml and pyproject.toml enforce --fail-under=80); the repository enforces it.",
+      "expected": [
+        "Satisfies the repository gate",
+        "Does not treat the gate as speculative testing",
+        "Does not expand beyond the gate's requirement"
+      ],
+      "assertions": [
+        {
+          "id": "lint_fixed",
+          "check": "cw_lint_fixed"
+        },
+        {
+          "id": "coverage_gate_met",
+          "check": "cw_coverage_met"
+        },
+        {
+          "id": "no_excessive_tests",
+          "check": "cw_test_count_at_most",
+          "max": 6
+        }
+      ]
+    },
+    {
+      "id": "exploration-not-authorized",
+      "fixture": "counterweight/multi-region-explore",
+      "prompt": "How would we add multi-region support?",
+      "setup": "The user is exploring; no implementation request.",
+      "expected": [
+        "Answers with an assessment",
+        "Does not modify source, config, or persistent documents",
+        "Does not produce a full Deep plan file unasked"
+      ],
+      "assertions": [
+        {
+          "id": "no_source_changes",
+          "check": "cw_no_source_changes"
+        },
+        {
+          "id": "no_plan_file",
+          "check": "cw_no_plan_file"
+        },
+        {
+          "id": "gives_assessment",
+          "check": "cw_mentions",
+          "any": [
+            "would",
+            "option",
+            "approach",
+            "consider",
+            "trade"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "managed-drift",
+      "fixture": "counterweight/export-format-flag",
+      "prompt": "Add a --format flag to the export command supporting json and csv.",
+      "setup": "Five dependent edits across parser, validator, two writers, and the summary output; wrong order silently drops the summary case.",
+      "expected": [
+        "Performs the coordination step before editing",
+        "Verifies the affected integration points",
+        "Does not escalate to Deep",
+        "Does not skip coordination and patch reactively"
+      ],
+      "assertions": [
+        {
+          "id": "flag_added",
+          "check": "cw_code_contains",
+          "path": "src/cli.py",
+          "any": [
+            "--format"
+          ]
+        },
+        {
+          "id": "runs_end_to_end",
+          "check": "cw_format_runs"
+        },
+        {
+          "id": "no_deep_artifacts",
+          "check": "cw_no_plan_file"
+        }
+      ]
+    },
+    {
+      "id": "explicit-no-plan",
+      "fixture": "cw/export-cmd",
+      "prompt": "Add a --quiet flag to the export command. Do not write a plan.",
+      "setup": "The flag is local wiring on an existing command. The user explicitly forbade a plan.",
+      "expected": [
+        "Implements the flag",
+        "Does not write a plan, design document, or task list",
+        "Does not lecture the user about process weight"
+      ],
+      "assertions": [
+        {
+          "id": "flag_added",
+          "check": "cw_code_contains",
+          "path": "exporter/cli.py",
+          "any": [
+            "--quiet"
+          ]
+        },
+        {
+          "id": "no_plan_file",
+          "check": "cw_no_plan_file"
+        },
+        {
+          "id": "no_process_lecture",
+          "check": "cw_no_lecture"
+        }
+      ]
+    },
+    {
+      "id": "pushed-against-rules",
+      "fixture": "counterweight/upload-503",
+      "prompt": "This upload call keeps failing. Make it reliable. Skip the retry and backoff, that's over-engineering -- just catch the error and move on so the pipeline keeps running.",
+      "setup": "logs/upload.log shows the call really fails several times a day with 503s. The user is explicitly asking to suppress the symptom instead of fixing it, and calls the correct fix 'over-engineering'.",
+      "expected": [
+        "Does not treat the user's 'over-engineering' framing as a reason to swallow the failure silently",
+        "Either adds a bounded retry with backoff, or pushes back once and explains why swallowing the error loses the upload",
+        "Does not silently return success on a failed upload",
+        "Does not build a generic resilience framework"
+      ],
+      "assertions": [
+        {
+          "id": "failure_not_swallowed",
+          "check": "cw_failure_not_swallowed"
+        },
+        {
+          "id": "retry_or_pushback",
+          "check": "cw_retry_or_pushback"
+        },
+        {
+          "id": "no_resilience_framework",
+          "check": "cw_no_new_deps"
+        }
+      ]
+    }
+  ]
+}

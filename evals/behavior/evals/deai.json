@@ -1,0 +1,155 @@
+{
+  "skill_name": "deai",
+  "skill_path": "skills/writing/deai",
+  "fixture_note": "All fixtures are original, authored for this eval.",
+  "evals": [
+    {
+      "id": "deai-rewrite-protected-spans",
+      "prompt": "Rewrite fixtures/deai/release-notes.md so it stops sounding like an AI wrote it. Keep every version number, flag name, command and error string exactly as they are.",
+      "expected_output": "Prose rewritten to remove template openings, empty praise and inflated significance. Every protected span present before the edit still exists after it: versions 2.4.0 and 2.3.x, --batch-size, 10000, 500, 250ms, 30s, TELEMETRY_INGEST_LEGACY_MODE, the ghcr.io image tag, the expected-output line and the fatal: error string. No new numbers invented. The result is written to a file, and the report states what changed.",
+      "files": [
+        "fixtures/deai/release-notes.md"
+      ],
+      "assertions": [
+        {
+          "id": "protected_span_survival",
+          "type": "scripted",
+          "check": "protected_span_survival"
+        },
+        {
+          "id": "span_count_preserved",
+          "type": "scripted",
+          "check": "span_count_preserved"
+        },
+        {
+          "id": "slop_markers_reduced",
+          "type": "scripted",
+          "check": "slop_reduced",
+          "markers": [
+            "in today's rapidly evolving landscape",
+            "pivotal milestone",
+            "unlock the full potential",
+            "game-changer",
+            "testament to",
+            "in conclusion",
+            "it is important to note that",
+            "look to the future"
+          ],
+          "max_remaining": 2
+        },
+        {
+          "id": "no_invented_numbers",
+          "type": "scripted",
+          "check": "no_new_numbers"
+        },
+        {
+          "id": "output_written_to_file",
+          "type": "scripted",
+          "check": "file_written"
+        }
+      ]
+    },
+    {
+      "id": "deai-check-mode-no-edit",
+      "prompt": "Review fixtures/deai/release-notes.md and tell me whether the writing reads as AI-generated. Don't change the file.",
+      "expected_output": "A diagnosis only: scene identification, findings organised by layer with quoted evidence, and a clean/isolated/cluster verdict. The file on disk is unmodified (byte-identical to the fixture). No rewritten document is produced. Crucially, the review must separate the generated marketing frame from the genuinely concrete technical core, i.e. it should not condemn the whole document or recommend rewriting the factual bullets.",
+      "files": [
+        "fixtures/deai/release-notes.md"
+      ],
+      "assertions": [
+        {
+          "id": "file_unmodified",
+          "type": "scripted",
+          "check": "file_unchanged",
+          "path": "fixtures/deai/release-notes.md"
+        },
+        {
+          "id": "diagnosis_not_rewrite",
+          "type": "scripted",
+          "check": "no_full_rewrite"
+        },
+        {
+          "id": "cites_specific_evidence",
+          "type": "scripted",
+          "check": "mentions_markers",
+          "markers": [
+            "landscape",
+            "pivotal",
+            "game-changer"
+          ],
+          "min_hits": 2
+        },
+        {
+          "id": "no_score_promise",
+          "type": "scripted",
+          "check": "no_human_verdict_promise"
+        },
+        {
+          "id": "spares_legitimate_technical_core",
+          "type": "scripted",
+          "check": "mentions_markers",
+          "markers": [
+            "human-written",
+            "human",
+            "legitimate",
+            "concrete",
+            "specific",
+            "factual"
+          ],
+          "min_hits": 1
+        },
+        {
+          "id": "structured_by_layer",
+          "type": "scripted",
+          "check": "mentions_markers",
+          "markers": [
+            "vocabulary",
+            "sentence",
+            "paragraph",
+            "architecture",
+            "词汇",
+            "句式",
+            "段落",
+            "篇章"
+          ],
+          "min_hits": 2
+        }
+      ]
+    },
+    {
+      "id": "deai-boundary-heavily-cited-academic",
+      "prompt": "Please de-AI this abstract from my systems paper - make it sound less robotic.\n\nWe present Window-Sketch, a fixed-size sketch that answers point-frequency queries over a recent telemetry window using 96 KB regardless of key cardinality. Window-Sketch replaces the per-key counters of a standard count-min sketch with a windowed decay schedule, so that evicted observations stop contributing to estimates. On a 12-hour trace of 1.4 billion events from a production API gateway, Window-Sketch reports a mean absolute relative error of 3.1% at the 99th percentile of heavy-hitter queries, versus 11.7% for a count-min sketch of the same memory.",
+      "expected_output": "Boundary case. This is a technical/academic scene with dense protected spans. Correct behaviour is minimal or no editing: the numbers (96 KB, 12-hour, 1.4 billion, 3.1%, 11.7%, 99th percentile), the term count-min sketch, and the claims keep their strength. Either the agent declines to make substantive changes and explains that the prose is already appropriate for an academic venue, or it makes only trivial edits. It must not add hedging, must not soften 3.1%/11.7%, must not invent context, and must not treat legitimate technical repetition as an AI signal requiring rewriting.",
+      "assertions": [
+        {
+          "id": "numbers_survive",
+          "type": "scripted",
+          "check": "protected_spans"
+        },
+        {
+          "id": "no_strength_softening",
+          "type": "scripted",
+          "check": "no_hedge_injection",
+          "hedges": [
+            "we believe",
+            "it may be the case",
+            "arguably",
+            "it could be argued",
+            "to some extent",
+            "it seems"
+          ]
+        },
+        {
+          "id": "no_invented_facts",
+          "type": "scripted",
+          "check": "no_new_numbers"
+        },
+        {
+          "id": "restraint_acknowledged",
+          "type": "scripted",
+          "check": "minimal_edit_posture"
+        }
+      ]
+    }
+  ]
+}

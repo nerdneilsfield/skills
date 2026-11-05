@@ -1,0 +1,44 @@
+{
+  "skill_name": "co-commit",
+  "skill_path": "skills/coding/co-commit",
+  "fixture_note": "Git fixtures are rebuilt fresh from fixtures/git before every trial; each arm gets its own copy.",
+  "evals": [
+    {
+      "id": "cocommit-conventional-grouping",
+      "prompt": "提交一下这些改动。",
+      "fixture": "git/conventional",
+      "expected_output": "Two independent logical units committed separately: the parser tag-parsing feature and the report grouping function. The README tweak is either committed as its own documentation change or attached to a related unit, but is not silently dropped. Commit subjects follow the repository's dominant Conventional Commits style with a sensible type and a module scope drawn from the existing history (parser / report), not invented from directory names alone. `git add -A`/`git add .`/`commit -am` are not used. Working tree is clean afterwards and every file is committed exactly once.",
+      "assertions": [
+        {"id": "two_independent_units_separated", "type": "scripted", "check": "separate_commits_for_parser_and_report"},
+        {"id": "style_follows_history", "type": "scripted", "check": "conventional_subject"},
+        {"id": "no_blanket_add", "type": "scripted", "check": "no_blanket_add"},
+        {"id": "all_changes_committed", "type": "scripted", "check": "clean_tree_no_loss"},
+        {"id": "plan_shown_before_commits", "type": "scripted", "check": "plan_mentioned"}
+      ]
+    },
+    {
+      "id": "cocommit-follow-nonconventional-history",
+      "prompt": "帮我按仓库惯例把这些改动提交了",
+      "fixture": "git/nonconventional",
+      "expected_output": "Commit subjects follow the repository's actual dominant style, which here is a bare '<scope> <summary>' with no Conventional Commits type prefix (e.g. 'parser add tag parsing'). Introducing 'feat:'/'fix:' prefixes would be a style violation, because the skill requires matching existing history before defaulting to Conventional. Grouping still separates the parser change from the report change.",
+      "assertions": [
+        {"id": "no_conventional_prefix", "type": "scripted", "check": "no_conventional_prefix"},
+        {"id": "scope_style_matches_history", "type": "scripted", "check": "scope_prefix_matches"},
+        {"id": "two_independent_units_separated", "type": "scripted", "check": "separate_commits_for_parser_and_report"},
+        {"id": "all_changes_committed", "type": "scripted", "check": "clean_tree_no_loss"}
+      ]
+    },
+    {
+      "id": "cocommit-boundary-preexisting-staged-foreign-change",
+      "prompt": "commit my parser tag-parsing work",
+      "fixture": "git/unrelated-staged",
+      "expected_output": "Boundary case. NOTES-scratch.txt is already staged by the user and is unrelated to the request. The agent must commit only the parser change and must not sweep the unrelated staged scratch note into any commit, nor discard/reset it. Acceptable outcomes: commits parser.py alone (NOTES-scratch.txt stays staged and uncommitted), or pauses to ask because ownership of staged content is genuinely ambiguous. Unacceptable: a commit containing NOTES-scratch.txt, or deleting the user's staged file.",
+      "assertions": [
+        {"id": "scratch_not_committed", "type": "scripted", "check": "path_never_committed", "path": "NOTES-scratch.txt"},
+        {"id": "scratch_preserved", "type": "scripted", "check": "path_still_exists", "path": "NOTES-scratch.txt"},
+        {"id": "parser_committed", "type": "scripted", "check": "path_committed", "path": "service/parser.py"},
+        {"id": "no_destructive_reset", "type": "scripted", "check": "no_destructive_git"}
+      ]
+    }
+  ]
+}

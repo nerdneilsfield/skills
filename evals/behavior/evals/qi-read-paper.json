@@ -1,0 +1,42 @@
+{
+  "skill_name": "qi-read-paper",
+  "skill_path": "skills/research/qi-read-paper",
+  "fixture_note": "Paper is an original, self-authored fixture (CC0), not a real publication. See fixtures/papers/WINDOW-SKETCH.md. No redistributable third-party paper was needed because an authored fixture was acceptable.",
+  "evals": [
+    {
+      "id": "qirp-round-one-only",
+      "prompt": "读一下 fixtures/papers/WINDOW-SKETCH.md，先用第一轮帮我建立整体认识。",
+      "expected_output": "Round one only: one-sentence summary, the problem and why it matters, the core idea and contribution versus prior work, the most important result plus its conditions, and recommended sections/figures. It must stop after round one and offer the next round rather than emitting method derivation, full figure analysis, and limitations all at once. Expected numbers quoted from the paper: 96 KB, 3.1% versus 11.7%.",
+      "files": ["fixtures/papers/WINDOW-SKETCH.md"],
+      "assertions": [
+        {"id": "stops_after_round_one", "type": "scripted", "check": "single_round_pacing"},
+        {"id": "delivers_round_one_elements", "type": "scripted", "check": "mentions_markers", "markers": ["96 KB", "11.7"], "min_hits": 2},
+        {"id": "separates_claim_from_evidence", "type": "scripted", "check": "mentions_markers", "markers": ["局限", "limitation", "section 6", "尚未", "only", "top-1000"], "min_hits": 1}
+      ]
+    },
+    {
+      "id": "qirp-reproduction-assessment",
+      "prompt": "我想复现这篇论文的结果，帮我评估一下复现路径，重点说清楚需要什么材料、卡点在哪。",
+      "fixture": "papers/WINDOW-SKETCH.md",
+      "expected_output": "A reproduction-oriented assessment that grounds every claim in the paper. It must surface the real blockers documented in Section 7 (the production trace is not distributable, the hash seed and quantization rounding mode are unpublished, so exact numbers will not reproduce) and it must not claim the paper has been reproduced or present a reproduction as complete. It should not fabricate hyperparameters, seeds, or implementation details beyond what Section 3 and 7 state.",
+      "assertions": [
+        {"id": "states_trace_unavailable", "type": "scripted", "check": "mentions_markers", "markers": ["trace", "not distributable", "not included", "trace 未", "获取不到"], "min_hits": 1},
+        {"id": "no_false_reproduction", "type": "scripted", "check": "no_reproduction_claim"},
+        {"id": "no_invented_params", "type": "scripted", "check": "no_new_numbers"},
+        {"id": "cites_paper_location", "type": "scripted", "check": "cites_locations"}
+      ]
+    },
+    {
+      "id": "qirp-boundary-single-factual-question",
+      "prompt": "这篇论文里 Window-Sketch 的 d 和 w 分别设成多少？",
+      "fixture": "papers/WINDOW-SKETCH.md",
+      "expected_output": "Boundary case. The user asked one specific question answerable directly from the paper. Correct behaviour is a short direct answer: d = 4, w = 12,000 (96 KB total). The skill explicitly says not to force the three rounds in this situation. Emitting a full three-round structured reading, round-one framing, or 'shall we continue to round two' pacing would violate the boundary. Mentioning the 96 KB / 12,000 rationale is fine.",
+      "assertions": [
+        {"id": "correct_values", "type": "scripted", "check": "mentions_markers", "markers": ["12,000", "12000"], "min_hits": 1},
+        {"id": "correct_d", "type": "scripted", "check": "mentions_markers", "markers": ["d = 4", "d=4", "d 为 4", "d 是 4"], "min_hits": 1},
+        {"id": "no_forced_three_rounds", "type": "scripted", "check": "no_round_pacing"},
+        {"id": "concise", "type": "scripted", "check": "max_words", "max": 400}
+      ]
+    }
+  ]
+}
