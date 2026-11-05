@@ -5,7 +5,8 @@ import json
 import sys
 from pathlib import Path
 
-TEMPLATE = Path(__file__).resolve().parents[1] / "assets" / "template.html"
+ASSETS = Path(__file__).resolve().parents[1] / "assets"
+TEMPLATE = ASSETS / "template.html"
 
 
 def location_error(repo, where, file, line):
@@ -52,7 +53,31 @@ def validate(data, repo):
                 errors.append(f"{where}: claimed verified without a file")
             if step.get("file"):
                 errors.append(location_error(repo, where, step["file"], step.get("line")))
+    graph = data.get("graph")
+    if graph:
+        graph_ids = [n["id"] for n in graph.get("nodes", [])]
+        errors += [f"duplicate graph node: {i}" for i in sorted({i for i in graph_ids if graph_ids.count(i) > 1})]
+        for edge in graph.get("edges", []):
+            for end in (edge["from"], edge["to"]):
+                if end not in graph_ids:
+                    errors.append(f"graph edge uses unknown node: {end}")
+        for node in graph.get("nodes", []):
+            if node.get("file"):
+                errors.append(location_error(repo, f"graph node {node['id']}", node["file"], node.get("line")))
     return [e for e in errors if e]
+
+
+def inline_libs(data, with_3d):
+    names = []
+    if data.get("graph"):
+        names.append("cytoscape.min.js")
+        if with_3d:
+            names.append("3d-force-graph.min.js")
+    tags = []
+    for name in names:
+        source = (ASSETS / "vendor" / name).read_text(encoding="utf-8")
+        tags.append("<script>" + source.replace("</script", "<\\/script") + "</script>")
+    return "\n".join(tags)
 
 
 def main():
@@ -60,6 +85,7 @@ def main():
     parser.add_argument("data", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--repo", type=Path, default=Path("."))
+    parser.add_argument("--with-3d", action="store_true", help="inline the 3D view, about 1.4 MB")
     args = parser.parse_args()
     data = json.loads(args.data.read_text(encoding="utf-8"))
     errors = validate(data, args.repo)
@@ -68,7 +94,8 @@ def main():
         return 1
     blob = json.dumps(data, ensure_ascii=False).replace("<", "\\u003c")
     title = data["title"].replace("&", "&amp;").replace("<", "&lt;")
-    html = TEMPLATE.read_text(encoding="utf-8").replace("__TITLE__", title).replace("__DATA__", blob)
+    html = TEMPLATE.read_text(encoding="utf-8").replace("__TITLE__", title)
+    html = html.replace("__LIBS__", inline_libs(data, args.with_3d)).replace("__DATA__", blob)
     args.output.write_text(html, encoding="utf-8")
     print(args.output)
     return 0

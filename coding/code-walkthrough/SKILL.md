@@ -2,7 +2,7 @@
 name: code-walkthrough
 description: "Use when the user wants to see how a codebase works as an interactive page: an animated, step-through call flow with a layered explanation from overview to code. Produces one offline HTML file whose steps cite file:line. Not for a written map of a repository (code-reading), an architecture change (codebase-design), or a paper-to-code comparison (paper-to-code)."
 license: MIT
-compatibility: python3 builds the page; a browser views it. No network or build tools.
+compatibility: python3 builds the page; a browser views it, with WebGL for the 3D view. No network or build tools.
 metadata:
   author: DengQi
 ---
@@ -27,6 +27,7 @@ Save a JSON file with these fields:
 | `edges[]` | `{from, to, verified}`. Set `verified: false` on anything you did not read |
 | `flows[]` | Level three: `{title, steps[]}`. Each step: `{from, to, title, explain, code, file, line, verified}`. `from` is `null` on the first step |
 | `terms[]` | Optional `{term, meaning}` |
+| `graph` | Optional level five, a knowledge graph: `{nodes: [{id, label, kind, summary, file, line}], edges: [{from, to, rel, verified}]}`. May be large; a code-graph tool can seed it |
 
 Each level assumes only the one above. `explain` says why this call happens, not what the line says. `code` is a short excerpt copied from the file, 12 lines at most. Write in the user's language.
 
@@ -38,6 +39,8 @@ Each level assumes only the one above. `explain` says why this call happens, not
 python3 scripts/build_walkthrough.py walkthrough.json walkthrough.html --repo /path/to/repo
 ```
 
+Add `--with-3d` when a graph is too dense for 2D and the page size can grow by about 1.4 MB. Libraries are vendored and inlined, so the page stays offline. Do not load a library from a CDN.
+
 Run it from this skill's directory. It refuses a missing file, a line out of range, an unknown node, a step without an edge, or a verified step with no file. Fix the data, not the check. Then open the page, or render it if you can, and step through every flow.
 
 ## Gotchas
@@ -46,6 +49,8 @@ Run it from this skill's directory. It refuses a missing file, a line out of ran
 - Dynamic dispatch, callbacks, and templates hide the real target from search. Confirm with a test, a debugger, or a trace, or mark it inferred.
 - The validator proves a location exists, not that it shows that claim. Reread each excerpt against its `line`.
 - Too many nodes turns the map into wiring. Merge helpers into their caller, and split a large system into several flows.
+- A knowledge graph answers "what relates to what", not "what runs next". Keep call order in `flows`, and do not replace them with the graph.
+- A 3D graph is good for exploring density and poor for reading exact paths. Offer it only with the 2D view.
 - Line numbers rot. Always record `commit`, and rebuild after a rebase.
 - The page holds code excerpts. Do not publish one from a private repository without asking.
 

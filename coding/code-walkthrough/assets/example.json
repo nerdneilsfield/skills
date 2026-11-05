@@ -102,5 +102,52 @@
    "term": "stub",
    "meaning": "只含描述的占位 skill"
   }
- ]
+ ],
+ "graph": {
+  "nodes": [
+   {
+    "id": "q",
+    "label": "问题集",
+    "kind": "数据",
+    "summary": "带期望 skill 的查询。"
+   },
+   {
+    "id": "stub",
+    "label": "占位 skill",
+    "kind": "概念",
+    "summary": "只含描述。"
+   },
+   {
+    "id": "run",
+    "label": "run_query",
+    "kind": "函数",
+    "summary": "运行一条问题。",
+    "file": "evals/trigger/run_trigger.py",
+    "line": 53
+   },
+   {
+    "id": "res",
+    "label": "结果文件",
+    "kind": "数据",
+    "summary": "每条问题加载到的 skill。"
+   }
+  ],
+  "edges": [
+   {
+    "from": "q",
+    "to": "run",
+    "rel": "输入"
+   },
+   {
+    "from": "stub",
+    "to": "run",
+    "rel": "被路由"
+   },
+   {
+    "from": "run",
+    "to": "res",
+    "rel": "写入"
+   }
+  ]
+ }
 }

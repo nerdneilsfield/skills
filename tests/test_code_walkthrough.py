@@ -30,8 +30,13 @@ class Walkthrough(unittest.TestCase):
         self.assertEqual(build(self.data, self.out).returncode, 0)
         html = (self.out / 'page.html').read_text(encoding='utf-8')
         self.assertNotIn('__DATA__', html)
-        self.assertEqual(html.count('</script>'), 2)
+        self.assertIn('cytoscape', html)
+        self.assertNotIn('__LIBS__', html)
         self.assertNotIn('src="http', html)
+
+    def test_rejects_unknown_graph_node(self):
+        self.data['graph']['edges'][0]['to'] = 'missing'
+        self.assertIn('unknown node', build(self.data, self.out).stderr)
 
     def test_rejects_line_out_of_range(self):
         self.data['flows'][0]['steps'][0]['line'] = 10 ** 6

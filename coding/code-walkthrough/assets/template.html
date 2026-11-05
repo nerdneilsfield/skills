@@ -63,6 +63,10 @@ button.on{border-color:var(--shu);color:var(--shu)}
 .legend{font-size:13px;color:var(--nezumi);margin-top:12px}
 dl.terms{display:grid;grid-template-columns:minmax(120px,max-content) 1fr;gap:10px 28px;max-width:46em;margin:0}
 dt{color:var(--ai)}dd{margin:0}
+.gtools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+input.q{font:14px var(--serif);color:var(--sumi);background:var(--gofun);border:1px solid var(--line);padding:6px 12px;min-width:220px;outline:none}
+input.q:focus{border-color:var(--ai)}
+#kg{height:560px;background:var(--gofun);border:1px solid var(--line)}
 footer{max-width:1120px;margin:0 auto;padding:40px 32px 80px;color:var(--nezumi);font-size:14px;border-top:1px solid var(--line)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -73,6 +77,7 @@ footer{max-width:1120px;margin:0 auto;padding:40px 32px 80px;color:var(--nezumi)
 <main id="main"></main>
 <footer id="foot"></footer>
 <script id="data" type="application/json">__DATA__</script>
+__LIBS__
 <script>
 "use strict";
 const D=JSON.parse(document.getElementById("data").textContent);
@@ -88,6 +93,7 @@ document.getElementById("foot").textContent="虚线和“推断”标记的内�
 const main=document.getElementById("main"),nav=document.getElementById("nav");
 const LEVELS=[["l1","一 全貌"],["l2","二 结构"],["l3","三 调用"]];
 if((D.terms||[]).length)LEVELS.push(["l4","四 术语"]);
+if(D.graph)LEVELS.push(["l5","五 图谱"]);
 LEVELS.forEach(([id,t])=>{const a=el("a",null,t);a.href="#"+id;nav.append(a)});
 function section(id,title,intro){const s=el("section");s.id=id;s.append(el("h2",null,title));if(intro)s.append(el("p","intro",intro));main.append(s);return s}
 function describe(box,o){box.replaceChildren();box.append(el("h3",null,o.title||o.label));
@@ -148,6 +154,38 @@ document.addEventListener("keydown",e=>{if(e.target.closest&&e.target.closest("b
 show();
 /* level four */
 if((D.terms||[]).length){const s4=section("l4","术语","代码里反复出现、读懂调用要先知道的词。");const d=el("dl","terms");D.terms.forEach(t=>d.append(el("dt",null,t.term),el("dd",null,t.meaning)));s4.append(d)}
+/* level five: knowledge graph */
+if(D.graph&&window.cytoscape){
+  const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const s5=section("l5","图谱","全部概念、模块和它们的关系。搜索或点击节点，只看它的邻居。");
+  const tools=el("div","gtools"),q=el("input","q");q.placeholder="搜索节点";q.setAttribute("aria-label","搜索节点");tools.append(q);
+  const kinds=[...new Set(D.graph.nodes.map(n=>n.kind||"其他"))],off=new Set();
+  const g5=el("div","grid"),host=el("div"),box5=el("aside");host.id="kg";g5.append(host,box5);s5.append(tools,g5);
+  const palette=[css("--ai"),css("--shu"),css("--koke"),css("--yamabuki"),css("--rikyu"),css("--koiai")];
+  const colour=k=>palette[kinds.indexOf(k)%palette.length];
+  const cy=cytoscape({container:host,minZoom:.25,maxZoom:3,
+    elements:[...D.graph.nodes.map(n=>({data:{...n,kind:n.kind||"其他",label:n.label,colour:colour(n.kind||"其他")}})),
+      ...D.graph.edges.map((e,i)=>({data:{id:"e"+i,source:e.from,target:e.to,rel:e.rel||"",dash:e.verified===false?"dashed":"solid"}}))],
+    style:[{selector:"node",style:{"background-color":"data(colour)",width:14,height:14,label:"data(label)",color:css("--sumi"),"font-size":12,"text-margin-y":-6,"font-family":"serif"}},
+      {selector:"edge",style:{width:1,"line-color":css("--line"),"line-style":"data(dash)","curve-style":"bezier","target-arrow-shape":"triangle","target-arrow-color":css("--line"),"arrow-scale":.7}},
+      {selector:".faded",style:{opacity:.12}},{selector:"edge.hot",style:{"line-color":css("--shu"),"target-arrow-color":css("--shu"),width:1.6,label:"data(rel)","font-size":10,color:css("--nezumi")}},{selector:"node:selected",style:{width:20,height:20}}],
+    layout:{name:"cose",animate:false,padding:30,nodeRepulsion:9000,idealEdgeLength:90}});
+  const focus=n=>{cy.elements().removeClass("faded hot");const near=n.closedNeighborhood();cy.elements().not(near).addClass("faded");near.edges().addClass("hot");describe(box5,n.data())};
+  cy.on("tap","node",e=>focus(e.target));
+  cy.on("tap",e=>{if(e.target===cy)cy.elements().removeClass("faded hot")});
+  const apply=()=>{cy.nodes().forEach(n=>n.style("display",off.has(n.data("kind"))?"none":"element"))};
+  kinds.forEach(k=>{const b=el("button","on",k);b.onclick=()=>{off.has(k)?off.delete(k):off.add(k);b.classList.toggle("on");apply()};tools.append(b)});
+  q.addEventListener("input",()=>{const v=q.value.trim().toLowerCase();cy.elements().removeClass("faded hot");if(!v)return;
+    const hit=cy.nodes().filter(n=>n.data("label").toLowerCase().includes(v));cy.elements().not(hit).addClass("faded");if(hit.length===1)focus(hit[0])});
+  if(window.ForceGraph3D){const b=el("button",null,"三维");let g3=null;tools.append(b);
+    const obs=new ResizeObserver(()=>g3&&g3.width(host.clientWidth).height(host.clientHeight));obs.observe(host);
+    b.onclick=()=>{const on=b.classList.toggle("on");if(!on){if(g3){g3._destructor();g3=null}host.replaceChildren();cy.mount(host);return}
+      cy.unmount();host.replaceChildren();
+      g3=ForceGraph3D()(host).width(host.clientWidth).height(host.clientHeight).backgroundColor(css("--gofun"))
+        .graphData({nodes:D.graph.nodes.map(n=>({...n})),links:D.graph.edges.map(e=>({source:e.from,target:e.to}))})
+        .nodeLabel("label").nodeColor(n=>colour(n.kind||"其他")).linkColor(()=>css("--rikyu")).linkOpacity(.5).onNodeClick(n=>describe(box5,n))}}
+  describe(box5,D.graph.nodes[0]);
+}
 const links=[...nav.children];const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle("on",a.hash==="#"+e.target.id))}),{rootMargin:"-40% 0px -55% 0px"});
 document.querySelectorAll("section").forEach(s=>io.observe(s));
 </script>
