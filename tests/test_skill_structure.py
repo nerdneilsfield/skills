@@ -9,7 +9,7 @@ LINK = re.compile(r'\]\((?!https?://|#|mailto:)([\w./-]+?\.\w+|[\w./-]+/)(?:#[^)
 
 class SkillStructure(unittest.TestCase):
     def test_finds_skills(self):
-        self.assertGreaterEqual(len(SKILLS), 31)
+        self.assertGreaterEqual(len(SKILLS), 43)
 
     def test_frontmatter_matches_folder(self):
         for path in SKILLS:
@@ -49,7 +49,8 @@ class SkillStructure(unittest.TestCase):
 
     def test_side_effect_skills_are_user_invoked(self):
         for name in ('coding/co-commit', 'coding/counterweight-setup', 'agents/orchestrate',
-                     'agents/steward-board', 'agents/steward-reports'):
+                     'agents/steward-board', 'agents/steward-reports', 'agents/spec',
+                     'agents/council'):
             head = (ROOT / name / 'SKILL.md').read_text(encoding='utf-8').split('---\n')[1]
             self.assertIn('disable-model-invocation: true', head)
 

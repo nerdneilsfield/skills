@@ -24,6 +24,9 @@ This hub is the shared contract for ordinary Python: what an operation means, wh
 | Interpreter, uv, venv, Conda, Pixi, mirrors, locks, offline artifacts, or CUDA/native ABI | [python-environments](../python-environments/SKILL.md) |
 | Classical ML or deep-learning splits, training, evaluation, checkpoints, or training-loop performance | [python-ml](../python-ml/SKILL.md) |
 | Tabular, time, or missing data, join and group meaning, statistical summaries, or charts | [python-data-analysis](../python-data-analysis/SKILL.md) |
+| Reading an unfamiliar repository or module and needing a map of it | [code-reading](../code-reading/SKILL.md) |
+| Choosing which search or inspection layer to use, or a search came back empty | [tool-compose](../tool-compose/SKILL.md) |
+| Reviewing a change against a baseline, or deciding where a module's seam goes | [code-review](../code-review/SKILL.md), [codebase-design](../codebase-design/SKILL.md) |
 
 When a specialist row matches, load that skill alongside this hub's contract rules. Start with one specialist. Load another only when the evidence crosses its boundary. An ordinary Python change loads this hub or one specialist, not every skill. If a required named skill is missing, tell the user that exact name to install from this bundle; do not globally search, fetch a substitute, auto-install or invent its content. Continue independent work only.
 

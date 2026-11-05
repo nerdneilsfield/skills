@@ -20,6 +20,20 @@ A test earns its place by failing when the behavior breaks and staying green whe
 - Reach for Hypothesis only for invariants over wide input, and only if the project already has it or the user agrees.
 - Compare floats with `pytest.approx`, choosing the tolerance from the error model rather than until it passes. Array shape, dtype, and tolerance questions belong to `python-numerics`.
 
+## Agree the interface first
+
+Before writing a suite, agree with the user on the seam the tests target: which public entry points, which layer, and what is out of scope. Tests written against the wrong seam have to be rewritten when the design settles, and they lock in internals the caller should not depend on.
+
+## Numerical tests
+
+Assert the property when the property is what matters: an invariant, symmetry, monotonicity, conservation, or the residual of the defining equation. Compare against golden data only when the pipeline is fixed and the data is versioned with the test. Take the tolerance from the error model, state it next to the assertion, and never widen it until the test passes.
+
+```python
+assert solver.residual(x) < 1e-9 * scale          # property
+assert result.shape == expected.shape              # shape, checked apart from values
+assert pytest.approx(total, rel=1e-6) == conserved # tolerance from the error model
+```
+
 ## Gotchas
 
 - `patch` where the name is looked up, not where it is defined: after `from a import f`, module `b` needs `patch("b.f")`. Patching `a.f` leaves `b` untouched and the test silently exercises the real function.
@@ -28,7 +42,7 @@ A test earns its place by failing when the behavior breaks and staying green whe
 - `pytest.raises(Exception)` also passes on an unrelated `TypeError` from a broken test. Name the specific type and add `match=`.
 - `async def` tests need a plugin such as pytest-asyncio or anyio, configured the way the project already does it. Without one they fail or skip; they do not quietly run.
 - Without `strict`, a misspelled `@pytest.mark.slwo` only warns, and an `xfail` test that now passes stays green. See the settings below.
-- 100% line coverage says each line ran, not that anything checked its result. Use coverage to find unexecuted branches, never as evidence of correctness.
+- 100% line coverage says each line ran, not that anything checked its result. Use coverage to find unexecuted branches, never as evidence of correctness, and do not add or raise a coverage target as part of a change.
 
 ## Flaky and order-dependent tests
 
@@ -52,7 +66,7 @@ testpaths = ["tests"]
 
 ## Report
 
-State the exact command, interpreter, pass, fail and skip counts, and any test you did not run. Report a skip as a skip. Report whether a new regression test was seen failing before the fix.
+State the exact command, interpreter, pass, fail and skip counts, and any test you did not run. Report a skip as a skip. Report whether a new regression test was seen failing before the fix, and the interface the tests were agreed to target.
 
 ## References
 

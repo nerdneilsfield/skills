@@ -18,6 +18,14 @@ Use the project's existing framework and presets. The `cpp` default is Catch2 wi
 - Prefer a real collaborator or a small hand-written fake. Add a mock framework only when the interaction itself is the contract.
 - Keep tests short enough to run in the normal build. Put slow suites behind a CTest label rather than an `#ifdef`.
 
+## Agree the interface first
+
+Before writing a suite, agree with the user on the seam the tests target: which public entry points, which layer, and what is out of scope. A test that needs `#define private public` is testing the wrong seam, and a suite written before the design settles has to be rewritten with it.
+
+## Numerical tests
+
+Assert the property when the property is what matters: an invariant, symmetry, monotonicity, conservation, or the residual of the defining equation. Compare against golden data only when the pipeline is fixed and the data is versioned with the test. Derive the tolerance from the error model, state it next to the assertion, and never widen it until the test passes.
+
 ## Wiring
 
 ```cmake
@@ -45,6 +53,7 @@ ctest --preset dev --schedule-random -j 8
 - Treat assertion macros as not thread-safe unless the project enables Catch2's thread-safe option. Collect results in workers, join, then assert on the main thread. An assertion that throws in a worker terminates the process.
 - `catch_discover_tests` runs the test binary after linking, so a sanitizer report or crash during startup fails the build rather than a test. `DISCOVERY_MODE PRE_TEST` moves this to test time.
 - Compare floats with `Catch::Matchers::WithinAbs` or `WithinRel`. `WithinRel` around an expected value of zero never matches, so use an absolute tolerance there. Derive the tolerance from the error model.
+- A coverage target is not a goal. Do not add or raise one as part of a change; line coverage says a line ran, not that anything checked its result.
 - ASan and TSan cannot share a build. Give each a separate preset and binary directory, and let a clean TSan run count only for the interleavings it actually executed.
 - A test that passes alone and fails in a shuffled run has shared state: a static, the working directory, the environment, or a fixed temp path. Fix the state rather than the order.
 
@@ -54,7 +63,7 @@ Synchronize on an observable event with a bounded wait, never a sleep. Log any r
 
 ## Report
 
-State the preset, compiler, and exact command, plus pass, fail, and skip counts and any sanitizer or platform not run. Report whether a new regression test was seen failing first.
+State the preset, compiler, and exact command, plus pass, fail, and skip counts and any sanitizer or platform not run. Report whether a new regression test was seen failing first, and the interface the tests were agreed to target.
 
 ## References
 

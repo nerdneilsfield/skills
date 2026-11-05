@@ -20,6 +20,9 @@ This hub is shared language, ownership, and interface policy for all C++ work, a
 | Crash, hang, race, memory corruption, nondeterminism, or a failure still unexplained after the first diagnostic and nearby diff | `cpp-debug` |
 | Measured CPU latency, throughput, cache or lock contention, scheduling, oversubscription, paging, allocation, or scaling | `cpp-performance` |
 | Eigen, residual, Jacobian, manifold, factor graph, sparse/BLAS solver, or numerical data-boundary work, including unstable or non-finite results | `cpp-numerics` |
+| Reading an unfamiliar repository or module and needing a map of it | `code-reading` |
+| Choosing which search or inspection layer to use, or a search came back empty | `tool-compose` |
+| Reviewing a change against a baseline, or deciding where a module's seam goes | `code-review`, `codebase-design` |
 
 When a row matches, load that specialist alongside this hub's language and interface rules. Start with one specialist. Load another only when the evidence crosses its boundary or the first one names it. If the named skill is unavailable, tell the user its exact name to install from this bundle (for example, `cpp-project-init` for build/vendor work or `cpp-debug` for deeper diagnosis). Do not perform a global skill search, fetch a substitute, install anything automatically or invent the missing skill. Continue only the independent work that does not require it. CUDA is separate and deferred; do not fold it into this CPU split.
 

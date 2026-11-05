@@ -36,7 +36,7 @@ report/
 
 ## 1. Source notes
 
-Write one short note per source, as a separate file, before planning anything. Record the citation and link, what the source actually claims, its evidence, its limits, and how much to trust it. Mark a source read only from its abstract or snippet. Search with varied terms, then follow references and citations from the best sources; stop when new sources stop adding claims. Note what you searched for, so gaps can be stated later. For a paper that needs deep reading, use `qi-read-paper`.
+Write one short note per source, as a separate file, before planning anything. Record the citation and link, what the source actually claims, its evidence, its limits, and how much to trust it. Mark a source read only from its abstract or snippet. For finding the sources, use `paper-search`: it owns the query log, the inclusion criteria, and the stopping rule. For a paper that needs deep reading, use `qi-read-paper`.
 
 ## 2. Outline
 

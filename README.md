@@ -4,7 +4,7 @@
 
 ## 中文
 
-本仓库收录可复用的 Agent Skills，涵盖编码工作流、Git 提交、论文精读、文本去 AI 化、技术写作和文学风格改写。每个 skill 都以 `SKILL.md` 为入口，可通过 [Skills CLI](https://github.com/vercel-labs/skills) 安装。
+本仓库收录可复用的 Agent Skills，涵盖编码工作流、Git 提交、论文精读、文本去 AI 化、技术写作和文学风格改写。每个 skill 都以 `SKILL.md` 为入口，可通过 [Skills CLI](https://github.com/vercel-labs/skills) 安装。工具选型见 [推荐工具](RECOMMENDED_TOOLS.md)。
 
 ### 可用 skills
 
@@ -12,9 +12,17 @@
 | --- | --- |
 | [`qi-read-paper`](research/qi-read-paper/) | 用户给出论文并要求精读、逐轮讲解或评估复现时使用；只问一个具体点时直接回答。不用于写技术文档或改文风。 |
 | [`research-report`](research/research-report/) | 用户要求基于多个来源写调研报告或综述时使用：来源简述、大纲、分章、配图、全文审阅与导出。 |
+| [`paper-search`](research/paper-search/) | 用户要求找论文、查相关工作或追引用时使用：扩展检索词、多来源交叉、按既定标准筛选、记录检索过程与停止条件。不用于精读单篇（qi-read-paper）或据此写综述（research-report）。 |
+| [`paper-compare`](research/paper-compare/) | 用户要求横向比较多篇方法或做对比表时使用：区分作者声称、实验证据与你的推断，标出不可比的指标和数据集。不用于找论文或精读单篇。 |
+| [`paper-to-code`](research/paper-to-code/) | 用户要求按论文写实现时使用：把公式、算法步骤和符号映射到代码，记录代码与论文的差异、未写明的超参和实现技巧。不用于读懂论文（qi-read-paper）或复现数字（paper-reproduce）。 |
+| [`paper-reproduce`](research/paper-reproduce/) | 用户要求复现论文报告的数字或验证某条主张时使用：先定目标值与容差，先跑作者代码或基线，再区分方法、环境与设置三类偏差。不用于从零实现（paper-to-code）或设计新实验（algorithm-experiment）。 |
+| [`algorithm-experiment`](research/algorithm-experiment/) | 用户要跑实验验证算法想法时使用：先定假设、基线与指标，每次只改一处做消融，按种子报告离散度，逐次记录运行，防数据泄漏与调参偏差。不用于设计方法（algorithm-design）或复现他人数字（paper-reproduce）。 |
+| [`algorithm-design`](research/algorithm-design/) | 用户要从问题出发设计新方法时使用：列候选、分析复杂度与失败模式、先建最简基线，并判断何时停止加组件。不用于跑对比实验（algorithm-experiment）。 |
 | [`orchestrate`](agents/orchestrate/) | 仅手动调用。不绑定工具地协调多个 agent：判断是否派发、任务状态与结果整合。 |
 | [`agent-brief`](agents/agent-brief/) | 把工作交给其他 agent 或新会话时使用。 |
 | [`agent-verify`](agents/agent-verify/) | agent 报告完成或疑似卡住时使用：按证据决定接受、重试或替换。 |
+| [`spec`](agents/spec/) | 仅手动调用。把已讨论清楚的内容整理成规格（目标、约束、不做什么、可验收检查），可选拆成票，写本地文件，只用于跨会话或派发的工作。不用于盘问未决问题（grill-me）或实现。 |
+| [`council`](agents/council/) | 仅手动调用。决策有多条可信路径时使用：怀疑者、务实者、批评者独立表态后汇总，防止锚定，先给证据不给结论。不用于代码审查、实现或答案明确的问题。 |
 | [`steward-board`](agents/steward-board/) | 仅手动调用。把一批 chronicle 事件和证据写成 `BOARD.md` 与项目日记录，保留批次、证据与缺口，最后推进消费水位；只读查询不改状态。不用于写日报周报或提炼项目经验。 |
 | [`steward-reports`](agents/steward-reports/) | 仅手动调用。从同一批证据生成 `daily/<date>.md` 和 `weekly/<year>-W<week>.md`，事实、结果、卡点与缺口分开写，下一步只作建议。不用于更新白板或提炼项目经验。 |
 | [`co-commit`](coding/co-commit/) | 用户要求按仓库惯例分组并逐次本地提交时使用。不用于 push、开 PR 或改写历史。 |
@@ -38,6 +46,10 @@
 | [`python-data-analysis`](coding/python-data-analysis/) | 表格、时间或缺失数据的连接、分组口径、大规模聚合与诚实可视化。预测训练交给 `python-ml`。 |
 | [`grill-me`](coding/grill-me/) | 用户明确要求拷问或压力测试计划、设计或决策时使用。不用于直接实现该计划。 |
 | [`project-learning`](coding/project-learning/) | 把用户纠正、重复失败或已核实的非显然事实放到真正起作用的位置，也用于写 `.cw/PRACTICES.md`、`.cw/BUGS.md`、复盘和清理过期指引；跨项目经验先进待批列表，用户确认后才写全局实践。不用于启用 Counterweight 或写用户文档。 |
+| [`code-reading`](coding/code-reading/) | 用户要读陌生仓库或大模块时使用：先建地图，沿数据流找到核心循环，结论带 文件:行号，区分读到的与推断的。不用于审查某个改动（code-review）或重设计模块（codebase-design）。 |
+| [`code-review`](coding/code-review/) | 用户要求审查某个改动时使用：先定基线 commit，沿仓库规范与需求两条线审查，只报能给出失败场景的问题。不用于评审自己刚写的 diff 或做模块设计批评（codebase-design）。 |
+| [`codebase-design`](coding/codebase-design/) | 用户要设计或改进模块接口、决定接缝位置、提高可测性时使用：深模块、接缝、测试边界，有证据才改结构，与 counterweight 配合。不用于实现改动或审查 diff。 |
+| [`tool-compose`](coding/tool-compose/) | 用户要决定用什么工具查代码或语料，或检索为空、噪声太大时使用：按问题类型分层路由，缺失工具时给退路，并核对结果。不用于审查改动、设计模块或通读仓库。 |
 | [`deai`](writing/deai/) | 用户要求审阅或改写中英文里的模板化、官僚化、说教式或防御性 AI 写作痕迹时使用。不用于从零写技术文档或鲁迅文风。 |
 | [`luxun-style`](writing/luxun-style/) | 用户要求用鲁迅的语气、用词、逻辑和修辞写作或改写时使用。不用于技术文档或论文精读。 |
 | [`technical-writing`](writing/technical-writing/) | 用户要求写作、改写或审阅软件、硬件和工程技术文档时使用。不用于学术论文或学术稿件、鲁迅文风或单纯去 AI 化。 |
@@ -88,7 +100,7 @@ Skills 按用途存放在 `coding/`、`writing/` 和 `research/` 中。每个 sk
 
 ## English
 
-This repository contains reusable Agent Skills for coding workflows, Git commits, paper reading, de-AI editing, technical writing, and literary-style rewriting. Each skill uses `SKILL.md` as its entry point and can be installed with the [Skills CLI](https://github.com/vercel-labs/skills).
+This repository contains reusable Agent Skills for coding workflows, Git commits, paper reading, de-AI editing, technical writing, and literary-style rewriting. Each skill uses `SKILL.md` as its entry point and can be installed with the [Skills CLI](https://github.com/vercel-labs/skills). Tool selection is covered in [Recommended tools](RECOMMENDED_TOOLS.md).
 
 ### Available skills
 
@@ -96,9 +108,17 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | --- | --- |
 | [`qi-read-paper`](research/qi-read-paper/) | Use when the user supplies a paper and asks for a close reading, round-by-round explanation, or reproduction assessment. Answer a single concrete question directly. Not for writing technical docs or changing literary voice. |
 | [`research-report`](research/research-report/) | Use for research reports or surveys from many sources: source notes, outline, chapters, figures, full review, and export. |
+| [`paper-search`](research/paper-search/) | Use when the user asks to find papers, gather related work, or track citations: expand the query, cross-check several sources, screen against stated criteria, and log the search and its stopping rule. Not for reading one paper (qi-read-paper) or writing the survey from the hits (research-report). |
+| [`paper-compare`](research/paper-compare/) | Use to compare several methods side by side or build a comparison table: separate the authors' claims from measured evidence and your inference, and flag metrics or datasets that are not comparable. Not for finding the papers or reading one closely. |
+| [`paper-to-code`](research/paper-to-code/) | Use when implementing a paper's method: map its equations, steps, and notation to code, and record where the code differs from the paper and which hyperparameters it never states. Not for reading the paper (qi-read-paper) or reproducing its numbers (paper-reproduce). |
+| [`paper-reproduce`](research/paper-reproduce/) | Use to reproduce a paper's reported numbers or test a claim: fix the target and tolerance first, run the authors' code or a baseline, then attribute a mismatch to the method, the environment, or the setup. Not for implementing from scratch (paper-to-code) or designing new experiments (algorithm-experiment). |
+| [`algorithm-experiment`](research/algorithm-experiment/) | Use to run experiments on an algorithmic idea: fix the hypothesis, baseline, and metric, ablate one thing at a time, report seed spread, log every run, and guard against leakage and tuning bias. Not for designing the method (algorithm-design) or reproducing a published number (paper-reproduce). |
+| [`algorithm-design`](research/algorithm-design/) | Use to design a method from a problem: enumerate candidates, analyze complexity and failure modes, build the simplest baseline first, and decide when to stop adding components. Not for running the comparison (algorithm-experiment). |
 | [`orchestrate`](agents/orchestrate/) | Manual only. Coordinate several agents toward one goal, independent of the runtime: delegation, task status, and integration. |
 | [`agent-brief`](agents/agent-brief/) | Use when handing work to another agent or a fresh session. |
 | [`agent-verify`](agents/agent-verify/) | Use when an agent reports done or looks stalled: check against evidence, then accept, retry, or replace. |
+| [`spec`](agents/spec/) | Manual only. Turn what was already discussed into a specification (goal, constraints, out of scope, checkable acceptance), optionally split into tickets, written to local files, only for work crossing a session or delegated. Not for interviewing about open choices (grill-me) or implementing. |
+| [`council`](agents/council/) | Manual only. Use when a decision has several credible paths: get independent positions from a skeptic, a pragmatist, and a critic, then surface the disagreement instead of hiding it. Not for code review, implementation, or a question with one answer. |
 | [`steward-board`](agents/steward-board/) | Manual only. Turn a batch of chronicle events and evidence into `BOARD.md` and the project day records, keeping batch, evidence, and gap ids, then advance the watermark; a read-only query changes nothing. Not for daily or weekly reports or distilling practices. |
 | [`steward-reports`](agents/steward-reports/) | Manual only. Write `daily/<date>.md` and `weekly/<year>-W<week>.md` from the same evidence, with facts, results, blockers, and gaps kept apart and next steps marked as suggestions. Not for refreshing the board or distilling practices. |
 | [`co-commit`](coding/co-commit/) | Use when the user asks to group uncommitted work by the repo's commit conventions and create the local commits. Not for push, opening a PR, or rewriting history. |
@@ -122,6 +142,10 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`python-data-analysis`](coding/python-data-analysis/) | Use for tabular, time, or missing-data joins, grouping, large aggregation, and honest charts. Hand predictive training to `python-ml`. |
 | [`grill-me`](coding/grill-me/) | Use when the user explicitly asks to grill or stress-test a plan, design, or decision. Not for implementing that plan. |
 | [`project-learning`](coding/project-learning/) | Use to put user corrections, repeated failures, and verified non-obvious facts where they change behavior; also to write `.cw/PRACTICES.md` and `.cw/BUGS.md`, run retros, and prune stale guidance. Cross-project lessons queue as candidates and become global practices only after the user confirms. Not for enabling Counterweight or user-facing docs. |
+| [`code-reading`](coding/code-reading/) | Use to read an unfamiliar repository or a large module: build a map, follow the data flow to the core loop, cite `file:line`, and keep what you read separate from what you inferred. Not for reviewing a change (code-review) or redesigning a module (codebase-design). |
+| [`code-review`](coding/code-review/) | Use to review a change against a fixed baseline: check the repository's standards and the spec as two separate lines, and report only problems you can state a failing scenario for. Not for reviewing your own fresh diff or a design critique (codebase-design). |
+| [`codebase-design`](coding/codebase-design/) | Use to design or improve a module's interface, place a seam, or make code testable: deep modules, real seams, the interface as the test surface, structure changed only with evidence. Not for implementing the change or reviewing a diff. |
+| [`tool-compose`](coding/tool-compose/) | Use to choose how to investigate a codebase or corpus, or when a search returns nothing or too much: route by question type, fall back when a tool is missing, and verify the result. Not for reviewing a change, designing a module, or reading a repository end to end. |
 | [`deai`](writing/deai/) | Use when the user asks to review or rewrite Chinese or English prose that sounds templated, bureaucratic, paternalistic, or defensively AI-written. Not for authoring technical docs from scratch or Lu Xun voice. |
 | [`luxun-style`](writing/luxun-style/) | Use when the user asks to write or rewrite in Lu Xun's tone, diction, reasoning, and rhetoric. Not for technical documentation or paper reading. |
 | [`technical-writing`](writing/technical-writing/) | Use when the user asks to write, rewrite, or review software, hardware, or engineering documentation. Not for academic papers or scholarly manuscripts, Lu Xun voice, or a de-AI-only pass. |
