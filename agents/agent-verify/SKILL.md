@@ -40,4 +40,5 @@ Allow one specific nudge that changes something. If it stalls again, replace it,
 - A passing grader proves little if the grader never ran its checks. Zero tokens, an empty transcript, or a check that cannot fail means the run does not count.
 - A skipped test is not a pass. Read skip and NA counts, since a missing dependency can quietly remove a check.
 - Your own earlier statements are also claims. Do not cite a result as verified because you repeated it.
+- With no independent evidence, mark the work `unverified`. Do not accept it because the report is detailed.
 - A real but unverified claim should be reported as unverified, not dropped and not upgraded.

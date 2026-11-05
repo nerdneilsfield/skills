@@ -30,4 +30,5 @@ Keep it as short as those allow. Redact secrets and personal data.
 - Long-running work inside a turn can stall the agent. Tell it to start the job detached, write a done-marker file, and end its turn, so a watcher can wake the next step.
 - Unstated prohibitions get crossed. A parallel agent will edit shared files unless told which ones are off limits.
 - Relative dates and "the file we discussed" mean nothing to the receiver. Use absolute dates and paths.
+- A receiver resuming after compaction should reread the goal, state, and done condition from the files you point to, not trust a summary. Say which files those are.
 - For a continuation, summarize decisions and open questions, not the conversation.

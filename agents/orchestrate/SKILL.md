@@ -43,6 +43,10 @@ Keep one row per task, with one owner at a time. Check the table before starting
 
 Only `agent-verify` moves a task to `accepted`; an agent's report moves it to `reported`. Retry a failed or stalled task at most twice. Then change something real, such as the approach, the agent, or the scope, or ask the user. Do not resend the same prompt.
 
+## Recover after compaction or a new session
+
+Before acting, reread the goal, the status table, each open task's done condition, and what is still unverified. Treat your summary of past work as a claim: confirm the state from files and commits. A task reported before the break stays `reported` until checked.
+
 ## Gotchas
 
 - Results are confident whether right or wrong. A fresh agent handed your hypothesis tends to return it confirmed, so give it the evidence, not your conclusion.

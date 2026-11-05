@@ -52,6 +52,15 @@ class SkillStructure(unittest.TestCase):
             head = (ROOT / name / 'SKILL.md').read_text(encoding='utf-8').split('---\n')[1]
             self.assertIn('disable-model-invocation: true', head)
 
+    def test_no_safety_bypass_instructions(self):
+        bypass = re.compile(r'--no-verify|--no-gpg-sign|--dangerously-skip|skip (the )?(approval|permission)', re.I)
+        negation = re.compile(r'\b(do not|don\'t|never|not)\b|不要|禁止|不得|不使用', re.I)
+        for path in SKILLS:
+            for doc in [path, *path.parent.glob('references/*.md')]:
+                for line in doc.read_text(encoding='utf-8').splitlines():
+                    if bypass.search(line):
+                        self.assertRegex(line, negation, f'{doc}: {line[:80]}')
+
     def test_no_undefined_skill_dir(self):
         for path in SKILLS:
             self.assertNotIn('$SKILL_DIR', path.read_text(encoding='utf-8'), path)
