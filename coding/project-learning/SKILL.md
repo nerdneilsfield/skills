@@ -1,6 +1,6 @@
 ---
 name: project-learning
-description: "Use when real work just exposed something later agents would otherwise repeat or rediscover: a verified non-obvious fact, a user correction, a repeated failure, or an agent mistake; also when the user asks to remember a lesson, run a retro on a session, or prune stale agent guidance. Chooses the user or project layer and puts each lesson where it will change behavior. Not for enabling Counterweight (counterweight-setup), routine recaps, or user-facing documentation (technical-writing)."
+description: "Use when real work just exposed something later agents would otherwise repeat or rediscover: a verified non-obvious fact, a user correction, a repeated failure, an agent mistake, a solved bug, or a route that did not work; also when the user asks to remember a lesson, run a retro on a session, or prune stale agent guidance. Chooses the user or project layer, writes project practices and bugs, and queues global candidates for approval. Not for enabling Counterweight (counterweight-setup), routine recaps, or user-facing documentation (technical-writing)."
 license: MIT
 metadata:
   author: DengQi
@@ -18,26 +18,22 @@ Look for these, and verify each before keeping it:
 - The same failure twice, or a long detour with a short explanation.
 - A fact that contradicts what the code or docs suggest.
 - An agent mistake: a false claim, a skipped check, or a wasted expensive call.
+- A solved bug, or a route that was tried and disproved.
 
 Do not record what the code, tests, or git history already show, or a one-off accident.
 
 ## Choose the layer first
 
-Every agent separates two layers. Ask who the lesson is about, not where it was found.
+Ask who the lesson is about, not where it was found.
 
 | Layer | Holds | Test |
 | --- | --- | --- |
 | **User (system)** | Your preferences, toolchain, working style, and lessons about tasks in general | Still true in an unrelated repository |
 | **Project** | Commands, paths, conventions, limits, and decisions of this repository | Useless or wrong elsewhere |
 
-Then split each layer by who maintains it:
+Then split each layer by who maintains it. **Instructions** are curated, always loaded, and must be followed. **Memory** is agent-written recall for background and preferences; it may be stale, may be absent, and is not enforced, so never make it the only home of a rule that must hold. [Memory locations](references/memory-locations.md) maps these onto each tool; read it before writing to one you have not used.
 
-- **Instructions** are curated, always loaded, and must be followed. Put rules here.
-- **Memory** is agent-written recall for background and preferences. It may be stale, may be absent, and is not enforced. Never make it the only home of a rule that must hold.
-
-[Memory locations](references/memory-locations.md) maps these onto each tool. Use the running agent's own files, and read that reference before writing to one you have not used.
-
-Start at project scope. Promote to user scope only when the same lesson proved true in a second project, or the user states it as a general preference; then delete the project copy. A shared project file must not hold personal paths or preferences; use the private project file or user layer. Ask before changing a user-level file, since it affects every project.
+Start at project scope. Promote to user scope only when the same lesson proved true in a second project, or the user states it as a general preference; then delete the project copy. A shared project file must not hold personal paths or preferences; use the private project file or the user layer. Ask before changing a user-level file, since it affects every project.
 
 ## Put it where it will fire
 
@@ -51,22 +47,34 @@ Within the layer, use the first place that fits. A check beats a sentence, becau
 | A rule or fact for this repository | Narrowest project instructions file |
 | A personal rule for every project | User instructions file |
 | A preference or context worth recalling | The agent's memory, if it has one |
+| A solved bug or a disproved route | `.cw/BUGS.md`, or a learning log |
 | Evidence that may matter later | Learning log |
 
 Propose code, CI, and shared-skill changes unless the user asked for them. Reference the skill by its source repository, not an installed copy.
+
+## Project experience
+
+A project keeps two working files under `.cw/`, alongside the instructions and memory:
+
+- `.cw/PRACTICES.md` — reusable approaches: a command, a convention, a route that worked. One entry per practice, with the evidence that it worked.
+- `.cw/BUGS.md` — a bug's symptom, its cause, and the verified fix; also a route that was tried and disproved.
+
+Write only when the work produced an experience: a solved bug, a repeated detour, a corrected assumption. No new experience, no write, and a candidate with no evidence stays a candidate. Serialize per project. Do not write the board from here, and do not edit `AGENTS.md` automatically: a practice every agent must follow still goes through the pending list below.
 
 ## Approve before it persists
 
 Write at once only what the user explicitly asked to remember. Everything you inferred yourself goes to a pending list, not to live guidance, and the user approves it.
 
-Keep the list in `pending.md` in the agent's project memory directory. Without one, use a gitignored `.agent-learnings/pending.md`. Never load it as guidance, and never list it in a memory index. Add one entry per lesson:
+Keep the list in `pending.md` in the agent's project memory directory; without one, use a gitignored `.agent-learnings/pending.md`. Never load it as guidance, and never list it in a memory index. Add one entry per lesson:
 
 ```markdown
 - 2026-11-05 | project | AGENTS.md | `make test` skips GPU tests without CUDA_VISIBLE_DEVICES
   Evidence: failed twice in this session; see tests/README.md
 ```
 
-Give the date, layer, proposed place, the lesson, and its evidence. At the end of the work, show new entries in one short batch, and ask once. On approval, write the entry to its place and remove it. On rejection, remove it. Offer to drop entries older than 90 days. Anything aimed at the user layer always waits here. Tools with their own review inbox, such as Gemini Auto Memory, keep using it.
+Give the date, layer, proposed place, the lesson, and its evidence. Show new entries in one short batch at the end of the work, and ask once. On approval, write the entry to its place and remove it; on rejection, remove it. Offer to drop entries older than 90 days. Anything aimed at the user layer always waits here. Tools with their own review inbox, such as Gemini Auto Memory, keep using it.
+
+A lesson true across projects is a global candidate, not a global practice: add it to the same list and write it only after the user confirms. Confirmed global practices live in the private chronicle at `memory/PRACTICES.md`, never in a public repository or a user-level instruction file. A repeat raises a candidate's priority; it is not a correctness gate.
 
 ## Project instructions
 
@@ -84,36 +92,17 @@ Classify an entry as `user`, `feedback`, `project`, or `reference`. Do not save 
 
 Normally write a learning log only for Deep work, or for a hidden recurring failure, a counterintuitive experiment, plausible routes disproved by evidence, special compiler or platform behavior, or a non-obvious compatibility or performance decision.
 
-Prefer an existing `docs/notes/`, `docs/incidents/`, `docs/decisions/`, or equivalent. Only when none fits, use `docs/agent-notes/`. A log entry is history: date it and name the commit it was true at. When it stops being true, add a new entry rather than rewriting it.
+Prefer an existing `docs/notes/`, `docs/incidents/`, `docs/decisions/`, or equivalent; only when none fits, use `docs/agent-notes/`. A log entry is history: date it and name the commit it was true at. When it stops being true, add a new entry rather than rewriting it. Record the finding, its evidence, and the resolution — not transcripts, reasoning dumps, command logs, or diff descriptions.
 
-```markdown
-# <Topic>
+Keep the entry small: finding, evidence, resolution. Do not store transcripts, reasoning dumps, command logs, or diff descriptions.
 
-Date and commit: ...
+`AGENTS.md` is the current manual, a learning log is important history, git is implementation history, and the source is the truth. If a note holds a fact every agent needs, distill one or two lines into `AGENTS.md`.
 
-## Finding
+## Retro and prune on request
 
-## Evidence
+Read the session's real record, not your memory of it. For a retro, list candidates by cost, each with its evidence and proposed place — detours, user corrections, repeated commands, missing checks, information the agent could not reach — and present them for choice rather than applying a batch unasked.
 
-## Resolution
-```
-
-Do not store transcripts, reasoning dumps, command logs, or diff descriptions. If a note holds a fact every agent needs, distill one or two lines into `AGENTS.md`.
-
-```text
-AGENTS.md = current manual
-Learning log = important history
-Git = implementation history
-Source = implementation truth
-```
-
-## Retro on request
-
-Read the session's real record, not your memory of it. List candidates by cost, each with its evidence and proposed place. Look for detours, user corrections, repeated commands, missing checks, and information the agent could not reach. Present them for choice; do not apply a batch unasked.
-
-## Prune on request
-
-Guidance decays. Check each instruction: does the command still run, does the path exist, is the rule enforced elsewhere now, would behavior change without it? Remove what fails, and tell the user what went. Do not expand the file during a prune.
+Guidance decays, so a prune checks each instruction: does the command still run, does the path exist, is the rule enforced elsewhere now, would behavior change without it? Remove what fails, tell the user what went, and do not expand the file during a prune.
 
 ## Gotchas
 
@@ -123,4 +112,6 @@ Guidance decays. Check each instruction: does the command still run, does the pa
 - A correction applies to its context. "Don't mock here" is not "never mock".
 - A fact held in two layers drifts. Keep one home and point to it.
 - Layers usually concatenate rather than override, so a conflict between user and project files may resolve arbitrarily. Remove one side.
-- Never store secrets, tokens, or private data in guidance or memory files.
+- A practice no evidence supports is a guess. Leave it out of `.cw/PRACTICES.md` until it is verified.
+- A global practice the user never confirmed is not a practice. It stays a candidate.
+- Never store secrets, tokens, or private data in guidance or memory files. The chronicle is private and never goes into a public repository.

@@ -15,6 +15,8 @@
 | [`orchestrate`](agents/orchestrate/) | 仅手动调用。不绑定工具地协调多个 agent：判断是否派发、任务状态与结果整合。 |
 | [`agent-brief`](agents/agent-brief/) | 把工作交给其他 agent 或新会话时使用。 |
 | [`agent-verify`](agents/agent-verify/) | agent 报告完成或疑似卡住时使用：按证据决定接受、重试或替换。 |
+| [`steward-board`](agents/steward-board/) | 仅手动调用。把一批 chronicle 事件和证据写成 `BOARD.md` 与项目日记录，保留批次、证据与缺口，最后推进消费水位；只读查询不改状态。不用于写日报周报或提炼项目经验。 |
+| [`steward-reports`](agents/steward-reports/) | 仅手动调用。从同一批证据生成 `daily/<date>.md` 和 `weekly/<year>-W<week>.md`，事实、结果、卡点与缺口分开写，下一步只作建议。不用于更新白板或提炼项目经验。 |
 | [`co-commit`](coding/co-commit/) | 用户要求按仓库惯例分组并逐次本地提交时使用。不用于 push、开 PR 或改写历史。 |
 | [`counterweight`](coding/counterweight/) | 用户要求实现、修复、重构或调试代码时使用，并按证据选择最轻流程。不用于答疑、独立评审、写文档、初始化 `AGENTS.md` 或事后删减清单。 |
 | [`counterweight-setup`](coding/counterweight-setup/) | 用户要求在仓库根 `AGENTS.md` 启用或修复 Counterweight 时使用。不用于实现功能或列删减清单。 |
@@ -35,7 +37,7 @@
 | [`python-ml`](coding/python-ml/) | 经典机器学习或深度学习的划分、训练、评估、checkpoint 与训练循环性能。描述性表格交给 `python-data-analysis`。 |
 | [`python-data-analysis`](coding/python-data-analysis/) | 表格、时间或缺失数据的连接、分组口径、大规模聚合与诚实可视化。预测训练交给 `python-ml`。 |
 | [`grill-me`](coding/grill-me/) | 用户明确要求拷问或压力测试计划、设计或决策时使用。不用于直接实现该计划。 |
-| [`project-learning`](coding/project-learning/) | 把用户纠正、重复失败或已核实的非显然事实放到真正起作用的位置，也用于复盘和清理过期指引。不用于启用 Counterweight 或写用户文档。 |
+| [`project-learning`](coding/project-learning/) | 把用户纠正、重复失败或已核实的非显然事实放到真正起作用的位置，也用于写 `.cw/PRACTICES.md`、`.cw/BUGS.md`、复盘和清理过期指引；跨项目经验先进待批列表，用户确认后才写全局实践。不用于启用 Counterweight 或写用户文档。 |
 | [`deai`](writing/deai/) | 用户要求审阅或改写中英文里的模板化、官僚化、说教式或防御性 AI 写作痕迹时使用。不用于从零写技术文档或鲁迅文风。 |
 | [`luxun-style`](writing/luxun-style/) | 用户要求用鲁迅的语气、用词、逻辑和修辞写作或改写时使用。不用于技术文档或论文精读。 |
 | [`technical-writing`](writing/technical-writing/) | 用户要求写作、改写或审阅软件、硬件和工程技术文档时使用。不用于学术论文或学术稿件、鲁迅文风或单纯去 AI 化。 |
@@ -97,6 +99,8 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`orchestrate`](agents/orchestrate/) | Manual only. Coordinate several agents toward one goal, independent of the runtime: delegation, task status, and integration. |
 | [`agent-brief`](agents/agent-brief/) | Use when handing work to another agent or a fresh session. |
 | [`agent-verify`](agents/agent-verify/) | Use when an agent reports done or looks stalled: check against evidence, then accept, retry, or replace. |
+| [`steward-board`](agents/steward-board/) | Manual only. Turn a batch of chronicle events and evidence into `BOARD.md` and the project day records, keeping batch, evidence, and gap ids, then advance the watermark; a read-only query changes nothing. Not for daily or weekly reports or distilling practices. |
+| [`steward-reports`](agents/steward-reports/) | Manual only. Write `daily/<date>.md` and `weekly/<year>-W<week>.md` from the same evidence, with facts, results, blockers, and gaps kept apart and next steps marked as suggestions. Not for refreshing the board or distilling practices. |
 | [`co-commit`](coding/co-commit/) | Use when the user asks to group uncommitted work by the repo's commit conventions and create the local commits. Not for push, opening a PR, or rewriting history. |
 | [`counterweight`](coding/counterweight/) | Use when the user asks to implement, fix, refactor, or debug code, and pick the lightest process the evidence supports. Not for Q&A, standalone review, prose, root `AGENTS.md` setup, or a post-diff cut list. |
 | [`counterweight-setup`](coding/counterweight-setup/) | Use when the user asks to enable or repair Counterweight in the repository root `AGENTS.md`. Not for implementing features or listing cuts. |
@@ -117,7 +121,7 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`python-ml`](coding/python-ml/) | Use for classical ML or deep-learning splits, training, evaluation, checkpoints, and training-loop performance. Hand descriptive tables to `python-data-analysis`. |
 | [`python-data-analysis`](coding/python-data-analysis/) | Use for tabular, time, or missing-data joins, grouping, large aggregation, and honest charts. Hand predictive training to `python-ml`. |
 | [`grill-me`](coding/grill-me/) | Use when the user explicitly asks to grill or stress-test a plan, design, or decision. Not for implementing that plan. |
-| [`project-learning`](coding/project-learning/) | Use to put user corrections, repeated failures, and verified non-obvious facts where they change behavior; also for retros and pruning stale guidance. Not for enabling Counterweight or user-facing docs. |
+| [`project-learning`](coding/project-learning/) | Use to put user corrections, repeated failures, and verified non-obvious facts where they change behavior; also to write `.cw/PRACTICES.md` and `.cw/BUGS.md`, run retros, and prune stale guidance. Cross-project lessons queue as candidates and become global practices only after the user confirms. Not for enabling Counterweight or user-facing docs. |
 | [`deai`](writing/deai/) | Use when the user asks to review or rewrite Chinese or English prose that sounds templated, bureaucratic, paternalistic, or defensively AI-written. Not for authoring technical docs from scratch or Lu Xun voice. |
 | [`luxun-style`](writing/luxun-style/) | Use when the user asks to write or rewrite in Lu Xun's tone, diction, reasoning, and rhetoric. Not for technical documentation or paper reading. |
 | [`technical-writing`](writing/technical-writing/) | Use when the user asks to write, rewrite, or review software, hardware, or engineering documentation. Not for academic papers or scholarly manuscripts, Lu Xun voice, or a de-AI-only pass. |
