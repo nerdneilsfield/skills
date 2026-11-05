@@ -36,7 +36,7 @@ report/
 
 ## 1. Source notes
 
-Write one short note per source, as a separate file, before planning anything. Record the citation and link, what the source actually claims, its evidence, its limits, and how much to trust it. Mark a source read only from its abstract or snippet. Note what you searched for, so gaps can be stated later. For a paper that needs deep reading, use `qi-read-paper`.
+Write one short note per source, as a separate file, before planning anything. Record the citation and link, what the source actually claims, its evidence, its limits, and how much to trust it. Mark a source read only from its abstract or snippet. Search with varied terms, then follow references and citations from the best sources; stop when new sources stop adding claims. Note what you searched for, so gaps can be stated later. For a paper that needs deep reading, use `qi-read-paper`.
 
 ## 2. Outline
 
@@ -44,7 +44,7 @@ Build `outline.md` from the notes. Keep it brief and accurate, at most two headi
 
 ## 3. Chapters
 
-Write each chapter as its own file from the outline and the notes it cites. Follow `technical-writing` for technical material, and run `deai` on each chapter when it is finished. Give each claim a citation back to its source. Chapters may go to parallel agents; give each one the outline, its notes, and the terminology decisions, and require the same citation format.
+Write each chapter as its own file from the outline and the notes it cites. Follow `technical-writing` for technical material, and run `deai` on each chapter when it is finished. Cite with the note slug, as `[@note-slug]`, and turn these into final numbers or links only during assembly, so parallel drafts cannot collide. Chapters may go to parallel agents; give each one the outline, its notes, and the terminology decisions, and require that citation form.
 
 ## 4. Figures
 
@@ -80,7 +80,7 @@ pandoc report.md -s --embed-resources --toc -o report.html
 pandoc report.md --pdf-engine=xelatex -V CJKmainfont="Noto Serif CJK SC" --toc -o report.pdf
 ```
 
-Run these from `report/`, so relative image paths resolve. Render Mermaid to SVG or PNG first; pandoc does not draw it. Open each output and check figures, footnotes, and the table of contents.
+Run these from `report/`, so relative image paths resolve. Render Mermaid to SVG or PNG first; pandoc does not draw it. Then check each output: read pandoc warnings, list the zip contents, confirm the HTML has no external image paths, and sample the PDF with `pdfinfo` and `pdftotext` for page count and missing text. If you can view images, look at a rendered page too.
 
 ## Gotchas
 

@@ -13,7 +13,7 @@ A report is a claim. Accept work on what you can observe.
 ## Accept or reject
 
 1. Re-read the brief's done condition.
-2. Inspect the artifacts: `git status`, the diff, the commit, and the output files, with their timestamps.
+2. Inspect the artifacts: `git status`, the diff, the commit, and the output files, with their timestamps. In a separate worktree, confirm the work is committed, since uncommitted changes are lost when it is cleaned up.
 3. Run the check yourself when it is cheap. Otherwise read the raw output, not the summary of it.
 4. Compare scope: did it touch files outside the brief? Did it weaken a test, an assertion, or a grader to get a pass?
 5. Spot-check the claims most likely to be wrong: numbers, external facts, and anything marked as done from memory.

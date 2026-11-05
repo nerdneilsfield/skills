@@ -26,7 +26,7 @@ Each agent costs tokens and review attention. Use the fewest that fit.
 4. Keep the status table below in one file, so the goal survives compaction and a new session.
 5. Wait for notifications instead of polling. Stay available to the user.
 6. Accept each result through `agent-verify` before anything builds on it.
-7. Integrate, run the whole-goal check yourself, then report.
+7. Merge accepted work one task at a time in dependency order, checking after each merge. Then run the whole-goal check yourself and report.
 
 ## Task status protocol
 
