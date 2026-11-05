@@ -4,6 +4,29 @@ This guide covers **how** to rewrite text so it reads naturally without changing
 
 ---
 
+## Contents
+
+- Core Insight / 核心认知
+- Guardrails before style / 先保真，再谈风格
+- Route by scene / 先看场景
+- Layered diagnosis / 分层诊断
+- Choose rewrite depth / 选择改写深度
+- Governance overreach and paternalistic tone / 治理越权与“爹味”
+- Strategy 1: Skeleton Diversification / 骨架多样化
+- Strategy 2: Implicit Causality / 隐式因果
+- Strategy 3: Concrete Over Vague / 具体化替代
+- Strategy 4: Vary Enumeration Structures / 列举结构差异化
+- Strategy 5: Break Mechanical Parallelism / 打破机械排比
+- Strategy 6: Delete Generic Endings / 删除万金油结尾
+- Strategy 7: Add Voice and Personality / 注入个性
+- Strategy 8: Natural rhythm / 自然节奏
+- Fidelity reread / 保真回读
+- Scene- and section-specific strategies / 场景与章节策略
+- Anti-Patterns: What NOT to Do / 不该做的事
+- Quick Reference Checklist / 快速检查清单
+- Style samples / 参考文风
+- Optional notes / 可选说明
+
 ## Core Insight / 核心认知
 
 AIGC detectors often react to **sentence-structure fingerprints** (skeleton repetition), not individual words. Repeated skeletons are a review cue; no fixed repetition count applies across genres.

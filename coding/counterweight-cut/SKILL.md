@@ -5,7 +5,7 @@ description: "Use when the user asks what can be deleted, whether this diff got 
 
 # Counterweight Cut
 
-Run this skill after implementation, when the user asks what can be deleted, whether this diff got fat, or to simplify the change just written. Ask whether already-written work earned the right to stay. This is not a correctness review, not a second implementation pass (`counterweight`), and not root `AGENTS.md` setup (`counterweight-setup`).
+Ask whether already-written work earned the right to stay. This is not a correctness review, not a second implementation pass (`counterweight`), and not root `AGENTS.md` setup (`counterweight-setup`).
 
 Default: report only. Do not edit unless the user says to apply the list.
 Analysis is not implementation.

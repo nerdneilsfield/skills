@@ -5,7 +5,7 @@ description: "Use when the user asks to enable Counterweight or repair its rules
 
 # Counterweight Setup
 
-Configure Counterweight in the current repository. Run this skill when the user asks to enable Counterweight or repair its rules in the root `AGENTS.md`. This skill edits project instructions; it is not the implementation workflow (`counterweight`) and not a cut list (`counterweight-cut`).
+Configure Counterweight in the current repository. md`. This skill edits project instructions; it is not the implementation workflow (`counterweight`) and not a cut list (`counterweight-cut`).
 
 ## Request scope
 

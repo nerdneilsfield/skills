@@ -5,6 +5,15 @@ its execution explicit. The harness is a concrete plan, runnable checkpoints,
 and recorded progress, not exhaustive testing or review ceremony. This
 contract is self-contained. Authorization follows `SKILL.md`.
 
+## Contents
+
+- Build a plan another session can execute
+- Plan template
+- Ready-plan sample
+- Readiness gate
+- Execute and resume
+- Integration acceptance and closeout
+
 ## Build a plan another session can execute
 
 Inspect the relevant source, callers, repository instructions, run/check

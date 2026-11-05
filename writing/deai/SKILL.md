@@ -5,7 +5,7 @@ description: "Use when the user asks to edit, review, or audit Chinese or Englis
 
 # De-AI writing assistant
 
-Make prose less templated while preserving meaning, facts, format, and the writer's voice. Run when the user asks to reduce AI-writing signals, defensive hedging (防御性写作 / 自我削弱 / 心虚表述), or reviewer-prebuttal tone in existing prose. Authoring or restructuring engineering documents is `technical-writing`. A requested Lu Xun voice is `luxun-style`. Explaining a paper is `qi-read-paper`. Detector scores vary by tool and genre; never promise a score, plagiarism result, or “human” verdict.
+Make prose less templated while preserving meaning, facts, format, and the writer's voice. Authoring or restructuring engineering documents is `technical-writing`. A requested Lu Xun voice is `luxun-style`. Explaining a paper is `qi-read-paper`. Detector scores vary by tool and genre; never promise a score, plagiarism result, or “human” verdict.
 
 ## Rules
 
@@ -36,7 +36,8 @@ Make prose less templated while preserving meaning, facts, format, and the write
 3. For `check` (default), stop after diagnosis. Report scene, quoted findings by layer, legitimate exceptions, and a `clean|isolated|cluster` editorial verdict. Do not edit.
 4. For `rewrite`, read the language reference (`PATTERNS_ZH.md` or `PATTERNS_EN.md`) after diagnosis; when the `defensive` category fires or the task is paper-level academic writing, also read `references/DEFENSIVE_WRITING.md` and run its claim audit on any LLM- or reviewer-shaped source text. Default to minimal in-place refactoring. Fix the deepest confirmed layer first and change only supported defects. Recreate the whole piece only when the user requests a full rewrite; first extract a fact/claim/intent ledger, then verify the result against it. Return one recommended version plus a compact change log with location, original, revision, action type, and reason.
 5. For `audit`, record the baseline, perform the requested rewrite, rerun the same scanner, then compare findings, meaning, protected spans, and requested counts. Report `PASS`/`FAIL`; tool scores are tool-specific heuristics, never proof of authorship.
-6. For `style-profile`, run `style_profile.py` and use its output as a constraint, never as permission to clone signature phrases or invent personal detail.
+6. For a multi-file document or directory, run `scripts/deai_batch.py` from this skill directory; see its `--help`.
+7. For `style-profile`, run `style_profile.py` and use its output as a constraint, never as permission to clone signature phrases or invent personal detail.
 
 ## Coverage contract
 

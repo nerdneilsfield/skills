@@ -5,7 +5,7 @@ description: "Use when the user asks to write, rewrite, or review software, hard
 
 # Technical writing
 
-Put technical correctness first. Then make the document precise, unambiguous, complete, consistent, scannable, and useful for the reader's task. Run this skill when the user asks to write, rewrite, or review an engineering document. Academic papers and scholarly manuscripts are outside this skill; explaining a paper the user supplied is `qi-read-paper`. A requested Lu Xun voice is `luxun-style`. A de-AI-only pass on prose that is not an engineering document is `deai`.
+Put technical correctness first. Then make the document precise, unambiguous, complete, consistent, scannable, and useful for the reader's task. Academic papers and scholarly manuscripts are outside this skill; explaining a paper the user supplied is `qi-read-paper`. A requested Lu Xun voice is `luxun-style`. A de-AI-only pass on prose that is not an engineering document is `deai`.
 
 ## Determine the task
 

@@ -5,7 +5,7 @@ description: "Use when the user asks to analyze or plot tabular, time-series, or
 
 # From a data question to a defensible figure
 
-Run this skill for tabular, time-series, or missing-data analysis and the chart that reports it. A fast query and an attractive chart can preserve the wrong answer. Keep one chain of evidence: **question → observation unit and schema → checked transformations → explicit estimate → visual encoding → inspected artifact**. Change the stage that failed, then verify that the meaning survived. Do not migrate a working pandas workflow merely because another engine exists. Defer shared data contracts to `python`. Defer predictive splits, training, and checkpoints to `python-ml`. Defer NumPy or SciPy kernel numerics to `python-numerics`. Defer process-wide profiling to `python-performance`. Defer interpreter and CUDA/ABI repair to `python-environments`.
+A fast query and an attractive chart can preserve the wrong answer. Keep one chain of evidence: **question → observation unit and schema → checked transformations → explicit estimate → visual encoding → inspected artifact**. Change the stage that failed, then verify that the meaning survived. Do not migrate a working pandas workflow merely because another engine exists. Defer shared data contracts to `python`. Defer predictive splits, training, and checkpoints to `python-ml`. Defer NumPy or SciPy kernel numerics to `python-numerics`. Defer process-wide profiling to `python-performance`. Defer interpreter and CUDA/ABI repair to `python-environments`.
 
 ## Read the matching reference, not the whole directory
 

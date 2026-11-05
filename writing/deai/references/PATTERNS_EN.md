@@ -6,6 +6,19 @@ Before editing, protect code fences, inline code, URLs, paths, commands, identif
 
 ---
 
+## Contents
+
+- 1. Tiered Vocabulary System
+- 2. Empty Phrases
+- 3. Over-Confident Language
+- 4. Vague Quantifiers
+- 5. Template Expressions
+- 6. Structural Patterns
+- 7. False Positive Rules
+- 8. Section-Specific Guidelines
+- 9. Common Replacements Table
+- 10. Defensive Writing
+
 ## 1. Tiered Vocabulary System
 
 ### Tier 1 -- Flag by default

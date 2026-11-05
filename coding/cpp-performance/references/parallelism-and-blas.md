@@ -42,9 +42,15 @@ OPENBLAS_NUM_THREADS=1 ./existing-app representative-input
 
 This changes only that launched process's environment and requires permission to run it. It is **not** a universal instruction for an OpenMP OpenBLAS build. Build/runtime controls differ, and an application may override them through an API. Verify local build type, precedence and active threads. Do not assume the same variable controls Eigen's own parallel paths, another BLAS, OpenMP application workers or Ceres.
 
+OpenMP-built OpenBLAS follows OpenMP controls, which also reach other OpenMP code. BLAS calls from inside OpenMP parallel regions need `USE_OPENMP=1`; a pthreads build can deadlock there and is safe only when calls come from the main thread. A `USE_THREAD=0` build with concurrent callers needs `USE_LOCKING=1` (OpenBLAS 0.3.7 or later).
+
+### Eigen
+
+Eigen threads only when compiled with OpenMP. Threaded paths are general dense products, `PartialPivLU`, row-major sparse times dense products, `ConjugateGradient` with `Lower|Upper`, `BiCGSTAB` with row-major sparse input, and `LeastSquaresConjugateGradient`. Controls are `OMP_NUM_THREADS`, `omp_set_num_threads`, `Eigen::setNbThreads` and compile-time `EIGEN_DONT_PARALLELIZE`. `Random()` and `setRandom()` are not thread-safe, including in seeded fixtures.
+
 ### oneMKL
 
-Identify the selected threading layer first: sequential, an OpenMP runtime, or oneTBB. OpenMP-oriented settings do not govern every TBB execution path. For a verified OpenMP-threaded oneMKL build, documented MKL-specific controls such as `MKL_NUM_THREADS` can select its team budget; they are not an application-wide promise. Do not infer oneTBB control from the presence of an MKL/OpenMP variable, mix incompatible runtimes casually, or copy an older platform's API name without checking the installed headers/build.
+Identify the selected threading layer first, using `MKL_THREADING_LAYER` or `mkl_set_threading_layer`: sequential, an OpenMP runtime, or oneTBB. OpenMP-oriented settings do not govern every TBB execution path. For a verified OpenMP-threaded oneMKL build, documented MKL-specific controls such as `MKL_NUM_THREADS` can select its team budget; they are not an application-wide promise. Do not infer oneTBB control from the presence of an MKL/OpenMP variable, mix incompatible runtimes casually, or copy an older platform's API name without checking the installed headers/build.
 
 The references below use versioned Linux 2025.1 documentation, not an assumption that every project uses that release or Linux. If the project's retained docs/headers describe a different supported runtime, follow that version. No internet is required to apply the experimental method above.
 

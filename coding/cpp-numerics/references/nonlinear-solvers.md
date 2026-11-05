@@ -12,7 +12,7 @@ If the model supplies covariance, check the whitening transform and its conventi
 
 1. Distinguish ambient parameter dimension from tangent dimension. For a quaternion, four stored coefficients do not imply four independent rotation directions.
 2. Record perturbation side (left/right), tangent ordering and frame. For SE(3), the same six numbers can mean different translation/rotation conventions in different codebases.
-3. Check derivatives using the same local update as the implementation: compare directional residual changes under `Plus(x, ±h*d)` with the appropriate tangent-space Jacobian action. Sweep a few sensible step sizes; one finite-difference step is not definitive near singularities or cancellation.
+3. Check derivatives using the same local update as the implementation: compare directional residual changes under `Plus(x, ±h*d)` with the appropriate tangent-space Jacobian action. Sweep a few sensible step sizes; one finite-difference step is not definitive near singularities or cancellation. Ceres has a built-in, expensive `check_gradients` option (default false; `gradient_check_relative_precision` default 1e-8) that fails the solve on a mismatch.
 4. Exercise identity, a small rotation and a nontrivial rotation/translation. Rotation equivalence must account for quaternion sign; coefficient equality is not the general geometric test.
 
 For Ceres, inspect parameter-buffer memory, not just constructor arguments: `QuaternionManifold` expects `[w,x,y,z]`, while `EigenQuaternionManifold` matches Eigen's `[x,y,z,w]` coefficient memory. Use the matching manifold or an explicit validated conversion. Ensure normalized input, correct block size and buffer lifetime. Confirm whether the installed release uses `Manifold` or an older interface before changing code.
@@ -29,13 +29,13 @@ Capture Ceres `Solver::Summary`/`FullReport()` or the corresponding installed-ve
 
 | Evidence | Candidate experiment | Recheck |
 | --- | --- | --- |
-| Residual evaluation dominates | Remove repeated invariant work, inspect copying and safe evaluation parallelism | Same residual/Jacobian and evaluation cost |
+| Residual evaluation dominates | Remove repeated invariant work, inspect copying and safe evaluation parallelism (Ceres `num_threads` defaults to 1) | Same residual/Jacobian and evaluation cost |
 | Small dense problem | Compare an appropriate dense solve against current choice | Total runtime, rank behavior, memory |
 | BA point/camera block structure | Evaluate an appropriate Schur solver and ordering | Fill-in, linear solve time and convergence |
 | Large sparse graph | Inspect sparsity/ordering/backend before more threads | Factorization memory and total solve time |
 | iSAM2 update unexpectedly costly | Inspect new factors, ordering, relinearization settings and affected variables | Per-update quality/latency and consistency |
 
-For GTSAM, elimination ordering can change fill-in and work without changing the intended model. Compare appropriate orderings on the same graph, not arbitrary graphs with different constraints. Incremental relinearization thresholds and skip policies trade work against approximation behavior; validate them over a sequence, not one update. Read the pinned release API before tuning.
+For GTSAM, elimination ordering can change fill-in and work without changing the intended model. Compare appropriate orderings on the same graph, not arbitrary graphs with different constraints. Incremental relinearization thresholds and skip policies trade work against approximation behavior; validate them over a sequence, not one update. Read the pinned release API before tuning. Before debugging an unexplained GTSAM crash, check that `GTSAM_BUILD_WITH_MARCH_NATIVE` and `_GLIBCXX_DEBUG` match across GTSAM and everything linking it; a mismatch can segfault.
 
 ## Acceptance record
 

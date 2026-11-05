@@ -2,6 +2,13 @@
 
 先遵从项目既有语言和术语约定。没有约定时，使用以下默认规则；同一文档保持一致。
 
+## Contents
+
+- Chinese technical writing
+- English technical writing
+- Mixed Chinese and English
+- Language check
+
 ## Chinese technical writing
 
 ### Grammar is a correctness requirement

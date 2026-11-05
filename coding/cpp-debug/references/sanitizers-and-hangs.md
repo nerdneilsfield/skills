@@ -8,7 +8,7 @@ Load when ordinary reproduction points to memory/UB/concurrency faults, or a pro
 | --- | --- | --- |
 | Out-of-bounds or use-after-free | ASan on the failing workload | Only exercised paths; allocation layout/timing changes |
 | Suspect arithmetic/alignment/type UB | Relevant UBSan checks | Not all language UB is diagnosed; unsigned wrap can be defined |
-| Unsynchronized conflicting access | TSan in a separate supported build | High overhead; runtime/platform support and instrumentation coverage matter |
+| Unsynchronized conflicting access | TSan in a separate supported build | High overhead; uninstrumented code such as a prebuilt BLAS or OpenMP runtime can hide races or report false ones. `FATAL: unexpected memory mapping` is a platform ASLR limit, not a program bug: report it, do not change the sysctl |
 | Missing initialization | Track first use and initialization path; consider supported MemorySanitizer only when dependency instrumentation is feasible | Do not add MSan blindly to mixed uninstrumented code |
 
 Use the project's target/preset structure. For a supported Clang toolchain, an example target-level ASan/UBSan configuration is:

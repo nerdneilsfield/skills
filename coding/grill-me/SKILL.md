@@ -5,7 +5,7 @@ description: "Use when the user explicitly asks to be grilled, stress-tested, or
 
 # Grill Me
 
-Run only when the user explicitly asks for a grill, stress test, or challenge. Surface unresolved choices; do not implement the plan (`counterweight`) and do not write the design document from this skill.
+Surface unresolved choices; do not implement the plan (`counterweight`) and do not write the design document from this skill.
 
 Find facts yourself from the repository, code, Git, tools, and documentation that names the decision. Ask the user only for decisions; do not turn missing confidence into questions.
 
