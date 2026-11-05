@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- The description names only the implementation trigger and sends root
+  `AGENTS.md` setup and post-diff cut lists to `counterweight-setup` and
+  `counterweight-cut`.
 - `over_review` also judges the turn's shell commands, edits, and writes, not
   only the diff. A command is a finding only when the request never called for
   it.

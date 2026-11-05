@@ -13,7 +13,7 @@ If a needed named skill is missing, tell the user to install that exact skill fr
 
 A routine failed test or obvious compiler error does not use this whole workflow. First read the first diagnostic and failing assertion, inspect the nearby diff, input, and expected behavior, reproduce with the existing focused command, and make a supported local correction with its regression check. Stop when that resolves the issue.
 
-Continue in this skill when reproduction is unstable, the binary or core identity is unclear, or the evidence is a crash, hang, race, or memory or undefined-behavior failure. Hand finite-but-wrong or non-finite numerical results to `cpp-numerics` instead of collecting a core. Do not install tools, enable every sanitizer, or run a full platform matrix because a test turned red.
+Continue in this skill when the cause remains uncertain, reproduction is unstable, the binary or core identity is unclear, or the evidence is a crash, hang, race, or memory or undefined-behavior failure. Hand wrong or non-finite numerical results to `cpp-numerics` when the model or data contract is the relevant question. Do not automatically collect a core, install tools, enable every sanitizer, or run a full platform matrix because a test turned red.
 
 ## Offline supporting materials
 

@@ -23,7 +23,7 @@ description: "用户要求用鲁迅的语气、用词、逻辑或修辞来写作
 1. 解析 `$ARGUMENTS`，确定：目标文件/文本、模式（`--mode write|rewrite|analyze`）、体裁（`--genre`）、时期风格（`--period`）、风格强度（`--intensity`）。
 2. 如未指定体裁，根据内容自动判断最适合的鲁迅文体（杂文/散文/书信/评论）。
 3. 如未指定时期，默认使用 `auto`（综合各期精华）。
-4. 写或改写时，打开当前步骤点名的参考；分析模式读取下面列出的全部参考：
+4. 加载参考文件（按需）：
    - `$SKILL_DIR/references/LEXICON.md` — 词汇系统（文白混融、仿词造词、外来词、方言、虚词）
    - `$SKILL_DIR/references/RHETORIC.md` — 修辞武器库（讽刺十三法、隐喻四系统、互文策略）
    - `$SKILL_DIR/references/SYNTAX.md` — 句法与节奏（长短交错、排比反诘、欧化句式、叠加重复）

@@ -176,11 +176,10 @@ If the task proved a durable, reusable, non-obvious project fact, add one or
 two lines to the narrowest existing `AGENTS.md`. Record current truth, not a
 task recap. The usual result is no change.
 
-Stay in this skill for the implementation. Hand off on an explicit request:
-`grill-me` when the user asks to grill the plan, `counterweight-cut` when the
-user asks what to delete or to simplify this diff, and `project-learning` when
-the user asks to record a project fact beyond the one or two `AGENTS.md` lines
-above. After Deep work that added an abstraction, dependency, test file, or
+Stay in this skill for the implementation. Hand off when the user or a finding
+calls for it: `grill-me` to grill the plan, `counterweight-cut` to delete or
+simplify this diff, and `project-learning` to record a project fact beyond the
+one or two `AGENTS.md` lines above. After Deep work that added an abstraction, dependency, test file, or
 compatibility layer, ask once whether to run `counterweight-cut`. Do not start
 it unasked. Direct and small Managed work do not mention cut. If the named
 skill is not installed, name it and continue this skill.

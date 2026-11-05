@@ -1,13 +1,13 @@
 ---
 name: cpp
-description: "Use when writing or reviewing ordinary C++ whose question is language, ownership, RAII, the error model, headers, or library preference, and no specialist owns it. Hand project creation or CMake/vendor restructuring to cpp-project-init, crashes and unexplained failures to cpp-debug, measured CPU/cache/thread/memory tuning to cpp-performance, and Eigen/solver/numerical-contract work to cpp-numerics. Not for those specialist tasks."
+description: "Use when writing, reviewing, or maintaining C++ code, including alongside a C++ specialist: language, ownership, RAII, the error model, headers, interfaces, library preference, and ordinary build or dependency edits. Creating a project or restructuring its build is cpp-project-init."
 ---
 
 # Shared C++ engineering conventions
 
-This hub is shared language, ownership, and interface policy for tasks no specialist owns. It is not a second planning workflow and not a second copy of build, diagnosis, performance, or numerics procedures. Inspect the project's build, tooling and nearby code before editing. Explicit current task requirements take precedence; historical templates are not requirements. A local fix does not authorize a build migration, library replacement or whole-repository cleanup.
+This hub is shared language, ownership, and interface policy for all C++ work, and specialists build on it. It is not a second planning workflow and not a second copy of build, diagnosis, performance, or numerics procedures. Inspect the project's build, tooling and nearby code before editing. Explicit current task requirements take precedence; historical templates are not requirements. A local fix does not authorize a build migration, library replacement or whole-repository cleanup.
 
-## Hand off to one specialist
+## Load only the relevant specialist
 
 | Task | Skill |
 | --- | --- |
@@ -16,7 +16,7 @@ This hub is shared language, ownership, and interface policy for tasks no specia
 | Measured CPU latency, throughput, cache or lock contention, scheduling, oversubscription, paging, allocation, or scaling | `cpp-performance` |
 | Eigen, residual, Jacobian, manifold, factor graph, sparse/BLAS solver, or numerical data-boundary work, including unstable or non-finite results | `cpp-numerics` |
 
-When a row matches, load that specialist and keep only this hub's language and interface rules. Do not load a second specialist for the same task. If the named skill is unavailable, tell the user its exact name to install from this bundle (for example, `cpp-project-init` for build/vendor work or `cpp-debug` for deeper diagnosis). Do not perform a global skill search, fetch a substitute, install anything automatically or invent the missing skill. Continue only the independent work that does not require it. CUDA is separate and deferred; do not fold it into this CPU split.
+When a row matches, load that specialist alongside this hub's language and interface rules. Start with one specialist. Load another only when the evidence crosses its boundary or the first one names it. If the named skill is unavailable, tell the user its exact name to install from this bundle (for example, `cpp-project-init` for build/vendor work or `cpp-debug` for deeper diagnosis). Do not perform a global skill search, fetch a substitute, install anything automatically or invent the missing skill. Continue only the independent work that does not require it. CUDA is separate and deferred; do not fold it into this CPU split.
 
 ## Language, ownership and interfaces
 

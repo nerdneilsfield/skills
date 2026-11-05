@@ -7,11 +7,9 @@ description: "Use when Python array, matrix, or tensor code is numerically wrong
 
 Optimize the computation that the application actually needs, not a mathematical
 lookalike with easier timing. This skill owns numerical correctness and the cost
-inside the array or tensor kernel. CPU NumPy/SciPy are the baseline here. Use Numba,
-NumExpr, JAX, PyTorch, or CuPy when the project already has that framework and the
-JIT/device reference names the boundary; do not install one for this skill.
+inside the array or tensor kernel. CPU NumPy/SciPy are the baseline here; Numba,
+NumExpr, JAX, PyTorch and CuPy are conditional options, not dependencies to install.
 Custom CUDA kernels and framework migrations are separate work.
-Defer shared data contracts to `python`. Defer process-wide profiling to `python-performance`.
 
 ## Follow the computation from contract to evidence
 

@@ -14,13 +14,13 @@
 | [`co-commit`](coding/co-commit/) | 用户要求按仓库惯例分组并逐次本地提交时使用。不用于 push、开 PR 或改写历史。 |
 | [`counterweight`](coding/counterweight/) | 用户要求实现、修复、重构或调试代码时使用，并按证据选择最轻流程。不用于答疑、独立评审、写文档、初始化 `AGENTS.md` 或事后删减清单。 |
 | [`counterweight-setup`](coding/counterweight-setup/) | 用户要求在仓库根 `AGENTS.md` 启用或修复 Counterweight 时使用。不用于实现功能或列删减清单。 |
-| [`counterweight-cut`](coding/counterweight-cut/) | 实现之后，用户询问这次 diff 里什么没挣到留下资格时使用。默认只出清单，用户点名才改。 |
-| [`cpp`](coding/cpp/) | 普通 C++ 的语言、所有权与接口约定，且没有专用技能对口时使用。项目初始化、排错、性能和数值计算分别交给 `cpp-project-init`、`cpp-debug`、`cpp-performance`、`cpp-numerics`。 |
+| [`counterweight-cut`](coding/counterweight-cut/) | 实现之后，用户询问这次 diff 里什么没挣到留下资格时使用。默认只出清单，用户点名才改。不用于实现功能或正确性审查。 |
+| [`cpp`](coding/cpp/) | 编写、审阅或维护 C++ 时使用，可与专科技能同时加载，提供语言、所有权与接口约定。新建项目或重构构建交给 `cpp-project-init`。 |
 | [`cpp-project-init`](coding/cpp-project-init/) | 用户要求新建 C++ 项目，或改 CMake presets、vendor 与命令入口时使用。不用于普通源码修复、排错、性能或数值内核。 |
 | [`cpp-debug`](coding/cpp-debug/) | 最小排查后仍未解释的崩溃、挂起、数据竞争、内存破坏或不确定失败。数值契约问题交给 `cpp-numerics`。 |
-| [`cpp-performance`](coding/cpp-performance/) | 已测量的 C++ CPU 延迟、吞吐、缓存、线程或内存问题。崩溃交给 `cpp-debug`，数值模型交给 `cpp-numerics`。 |
-| [`cpp-numerics`](coding/cpp-numerics/) | Eigen、残差、求解器、流形或数值数据边界的正确性与不稳定结果。进程级性能交给 `cpp-performance`。 |
-| [`python`](coding/python/) | 普通 Python 的数据契约、可变性、资源与失败约定，且没有专用技能对口时使用。热点、数值、环境、训练和表格分析分别交给对应技能。 |
+| [`cpp-performance`](coding/cpp-performance/) | 用户要求优化，或已测量到 C++ CPU 延迟、吞吐、缓存、线程或内存问题。崩溃交给 `cpp-debug`，数值模型交给 `cpp-numerics`。 |
+| [`cpp-numerics`](coding/cpp-numerics/) | Eigen、残差、求解器、流形或数值数据边界的正确性、不稳定结果，以及由模型、布局或精度导致的慢。进程级性能交给 `cpp-performance`。 |
+| [`python`](coding/python/) | 编写、审阅或维护 Python 时使用，可与专科技能同时加载，提供数据契约、可变性、资源与失败约定。 |
 | [`python-performance`](coding/python-performance/) | 测量并修复 Python 热点、等待、内存增长或扩展性。不用于数值内核、环境修复、训练循环或表格分析。 |
 | [`python-numerics`](coding/python-numerics/) | 数组形状、dtype、布局、精度、求解器、BLAS 或 JIT 边界。进程级剖析交给 `python-performance`。 |
 | [`python-environments`](coding/python-environments/) | 创建、复现或修复 uv、venv、Conda、Pixi、锁文件、离线制品与 CUDA/原生 ABI。不用于写 CUDA kernel 或改数值算法。 |
@@ -66,9 +66,9 @@ npx skills add nerdneilsfield/skills --skill technical-writing -g
 
 `counterweight` 覆盖实现、修复、重构和调试，供隐式选择。根 `AGENTS.md` 归 `counterweight-setup`；实现后的删减清单归 `counterweight-cut`。具体文本以各 skill 为准。
 
-C++ 技能可离线使用。`cpp` 只保留共享语言与接口约定。新建项目与 vendor 归 `cpp-project-init`，崩溃与未解释失败归 `cpp-debug`，已测量的 CPU 与线程预算归 `cpp-performance`，Eigen 与求解器数值契约归 `cpp-numerics`。一次任务只加载一个专用技能。验证方法见 [tests/README.md](tests/README.md)。
+C++ 技能可离线使用。`cpp` 只保留共享语言与接口约定。新建项目与 vendor 归 `cpp-project-init`，崩溃与未解释失败归 `cpp-debug`，已测量的 CPU 与线程预算归 `cpp-performance`，Eigen 与求解器数值契约归 `cpp-numerics`。先加载一个专用技能，证据跨界时再加载另一个。验证方法见 [tests/README.md](tests/README.md)。
 
-Python 同样按症状只加载一个专用技能：环境归 `python-environments`，热点归 `python-performance`，数组与求解器归 `python-numerics`，训练与评估归 `python-ml`，表格与图表归 `python-data-analysis`。`python` 只保留没有专用技能对口时的共享契约。技能正文离线自足，实际离线重建仍需预先准备兼容制品。各资产提供独立运行入口，完整仓库测试见 [tests/README.md](tests/README.md)。
+Python 同样按症状选择专用技能：环境归 `python-environments`，热点归 `python-performance`，数组与求解器归 `python-numerics`，训练与评估归 `python-ml`，表格与图表归 `python-data-analysis`。`python` 保留共享契约，可与专用技能同时加载。技能正文离线自足，实际离线重建仍需预先准备兼容制品。各资产提供独立运行入口，完整仓库测试见 [tests/README.md](tests/README.md)。
 
 ### 仓库结构
 
@@ -88,13 +88,13 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`co-commit`](coding/co-commit/) | Use when the user asks to group uncommitted work by the repo's commit conventions and create the local commits. Not for push, opening a PR, or rewriting history. |
 | [`counterweight`](coding/counterweight/) | Use when the user asks to implement, fix, refactor, or debug code, and pick the lightest process the evidence supports. Not for Q&A, standalone review, prose, root `AGENTS.md` setup, or a post-diff cut list. |
 | [`counterweight-setup`](coding/counterweight-setup/) | Use when the user asks to enable or repair Counterweight in the repository root `AGENTS.md`. Not for implementing features or listing cuts. |
-| [`counterweight-cut`](coding/counterweight-cut/) | After implementation, use when the user asks what in this diff did not earn the cost of staying. Default is a cut list; edit only when the user asks to apply it. |
-| [`cpp`](coding/cpp/) | Use for ordinary C++ language, ownership, and interface conventions when no specialist fits. Hand init, diagnosis, measured performance, and numerics to `cpp-project-init`, `cpp-debug`, `cpp-performance`, and `cpp-numerics`. |
+| [`counterweight-cut`](coding/counterweight-cut/) | After implementation, use when the user asks what in this diff did not earn the cost of staying. Default is a cut list; edit only when the user asks to apply it. Not for implementing features or correctness review. |
+| [`cpp`](coding/cpp/) | Use when writing, reviewing, or maintaining C++, including alongside a specialist, for language, ownership, and interface conventions. Hand project creation or build restructuring to `cpp-project-init`. |
 | [`cpp-project-init`](coding/cpp-project-init/) | Use when the user asks to create a C++ project or restructure CMake presets, vendored dependencies, or command entry points. Not for ordinary fixes, crashes, CPU tuning, or numerical kernels. |
 | [`cpp-debug`](coding/cpp-debug/) | Use for crashes, hangs, races, memory corruption, or failures still unexplained after the first diagnostic. Hand numerical-contract bugs to `cpp-numerics`. |
-| [`cpp-performance`](coding/cpp-performance/) | Use for measured C++ CPU latency, throughput, cache, threads, or memory. Hand crashes to `cpp-debug` and numerical models to `cpp-numerics`. |
-| [`cpp-numerics`](coding/cpp-numerics/) | Use for Eigen, residuals, solvers, manifolds, or numerical data-boundary correctness, including unstable results. Hand process-wide performance to `cpp-performance`. |
-| [`python`](coding/python/) | Use for ordinary Python data, mutation, resource, and failure contracts when no specialist fits. Hand hotspots, numerics, environments, training, and tabular analysis to the matching specialist. |
+| [`cpp-performance`](coding/cpp-performance/) | Use when the user asks to optimize C++ CPU code, or for measured latency, throughput, cache, thread, or memory problems. Hand crashes to `cpp-debug` and numerical models to `cpp-numerics`. |
+| [`cpp-numerics`](coding/cpp-numerics/) | Use for Eigen, residuals, solvers, manifolds, or numerical data-boundary correctness, including unstable results and slowness rooted in the model, layout, or precision. Hand process-wide performance to `cpp-performance`. |
+| [`python`](coding/python/) | Use when writing, reviewing, or maintaining Python, including alongside a specialist, for data, mutation, resource, and failure contracts. |
 | [`python-performance`](coding/python-performance/) | Use when measuring or fixing Python hotspots, waiting, memory growth, or scaling. Not for numerical kernels, environment repair, training loops, or tabular analysis. |
 | [`python-numerics`](coding/python-numerics/) | Use for array shape, dtype, layout, precision, solvers, BLAS, or JIT boundaries. Hand process-wide profiling to `python-performance`. |
 | [`python-environments`](coding/python-environments/) | Use when creating, reproducing, or repairing uv, venv, Conda, Pixi, lockfiles, offline artifacts, or CUDA/native ABI. Not for writing CUDA kernels or changing numerical algorithms. |
@@ -140,9 +140,9 @@ Use $technical-writing to rewrite this deployment guide.
 
 `counterweight` covers implementation, fixes, refactoring, and debugging for implicit selection. Root `AGENTS.md` belongs to `counterweight-setup`. A cut list after the diff belongs to `counterweight-cut`. The exact text lives in each skill.
 
-C++ skills work offline. `cpp` keeps shared language and interface conventions. Project creation and vendoring belong to `cpp-project-init`, crashes and unexplained failures to `cpp-debug`, measured CPU and thread budgets to `cpp-performance`, and Eigen or solver numerical contracts to `cpp-numerics`. Load one specialist for a task. See [tests/README.md](tests/README.md) for validation.
+C++ skills work offline. `cpp` keeps shared language and interface conventions. Project creation and vendoring belong to `cpp-project-init`, crashes and unexplained failures to `cpp-debug`, measured CPU and thread budgets to `cpp-performance`, and Eigen or solver numerical contracts to `cpp-numerics`. Start with one specialist and load another only when the evidence crosses its boundary. See [tests/README.md](tests/README.md) for validation.
 
-Python follows the same split: environments to `python-environments`, hotspots to `python-performance`, arrays and solvers to `python-numerics`, training and evaluation to `python-ml`, and tables and charts to `python-data-analysis`. `python` keeps the shared contract when no specialist fits. Guidance is self-contained offline; actual offline reconstruction still requires compatible artifacts. Assets have standalone entrypoints; repository validation is documented in [tests/README.md](tests/README.md).
+Python follows the same split: environments to `python-environments`, hotspots to `python-performance`, arrays and solvers to `python-numerics`, training and evaluation to `python-ml`, and tables and charts to `python-data-analysis`. `python` keeps the shared contract and can load alongside a specialist. Guidance is self-contained offline; actual offline reconstruction still requires compatible artifacts. Assets have standalone entrypoints; repository validation is documented in [tests/README.md](tests/README.md).
 
 ### Repository layout
 

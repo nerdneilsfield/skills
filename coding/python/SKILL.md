@@ -1,24 +1,24 @@
 ---
 name: python
-description: "Use when writing or reviewing ordinary Python whose question is a data contract, mutation, resource lifetime, failure behavior, or verification, and no specialist owns it. Hand hotspots to python-performance, array/solver numerics to python-numerics, uv/Conda/Pixi or CUDA/ABI packaging to python-environments, model training or evaluation to python-ml, and tabular analysis or charts to python-data-analysis. Not for those specialist tasks."
+description: "Use when writing, reviewing, or maintaining Python code, including alongside a Python specialist: data contracts, mutation, resource lifetime, failure behavior, and verification."
 ---
 
 # Python: make the work and its boundaries explicit
 
-This hub is the shared contract for ordinary Python: what an operation means, what it may mutate, what success or failure publishes, and which interpreter executes it. Measure that same work before changing how it runs. Use this hub when no specialist owns the task. It is not a second copy of performance, numerics, environment, ML, or analysis procedures, and it is not permission to replace an existing environment.
+This hub is the shared contract for ordinary Python: what an operation means, what it may mutate, what success or failure publishes, and which interpreter executes it. Measure that same work before changing how it runs. Specialists build on this hub. It is not a second copy of performance, numerics, environment, ML, or analysis procedures, and it is not permission to replace an existing environment.
 
-## Hand the task to one specialist
+## Choose the question, not a tool inventory
 
 | Current task | Skill or reference |
 | --- | --- |
-| Data contract, mutation, resource lifetime, expected failure, or verification, and none of the rows below | [Engineering contract](references/engineering-contract.md) |
+| Data contract, mutation, resource lifetime, expected failure, or verification | [Engineering contract](references/engineering-contract.md) |
 | Hotspots, Python versus native CPU, waiting, memory growth, event-loop stalls, or application scaling | [python-performance](../python-performance/SKILL.md) |
 | Array or tensor shape, dtype, layout, broadcasting, numerical accuracy, solvers, BLAS, or JIT/device boundaries | [python-numerics](../python-numerics/SKILL.md) |
 | Interpreter, uv, venv, Conda, Pixi, mirrors, locks, offline artifacts, or CUDA/native ABI | [python-environments](../python-environments/SKILL.md) |
 | Classical ML or deep-learning splits, training, evaluation, checkpoints, or training-loop performance | [python-ml](../python-ml/SKILL.md) |
 | Tabular, time, or missing data, join and group meaning, statistical summaries, or charts | [python-data-analysis](../python-data-analysis/SKILL.md) |
 
-When a specialist row matches, load that skill and keep only this hub's contract rules. Do not load a second specialist for the same task. A second skill is a different row: a slow training loop loads `python-ml`; a broken lockfile loads `python-environments`. An ordinary Python change loads this hub or one specialist, not every skill. If a required named skill is missing, tell the user that exact name to install from this bundle; do not globally search, fetch a substitute, auto-install or invent its content. Continue independent work only.
+When a specialist row matches, load that skill alongside this hub's contract rules. Start with one specialist. Load another only when the evidence crosses its boundary. An ordinary Python change loads this hub or one specialist, not every skill. If a required named skill is missing, tell the user that exact name to install from this bundle; do not globally search, fetch a substitute, auto-install or invent its content. Continue independent work only.
 
 ## One connected operation
 

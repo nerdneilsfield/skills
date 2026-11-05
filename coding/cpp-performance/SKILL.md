@@ -11,9 +11,9 @@ If a needed named skill is missing, ask the user to install that exact skill fro
 
 ## Start with the matching symptom, not all references
 
-Read the matching row first. These are routes, not a requirement to open every file. Read the paired reference for that same symptom when the first one does not name the mechanism (for example runnable pressure plus memory stalls). Do not preload the entire directory.
+Read the matching row first. These are routes, not a requirement to open every file. Follow a related reference when evidence crosses layers (for example runnable pressure plus memory stalls). Do not enforce an artificial one-reference limit or preload the entire directory.
 
-| Present question / evidence | First local reference | Paired reference for this symptom |
+| Present question / evidence | First local reference | Continue only if needed |
 | --- | --- | --- |
 | No trustworthy baseline, noisy timing, unclear acceptance | [Measurement/report](references/measurement-and-report.md) | [Existing sample JSON tool](references/local-benchmark-tool.md) |
 | Need the platform's CPU/stack profiler | [Profiler selection](references/profilers-and-threading.md) | Cache, scheduler, or memory reference matching the profile |

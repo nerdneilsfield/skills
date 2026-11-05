@@ -49,7 +49,7 @@ For `write` and `rewrite`, define a short language contract from this skill's [l
 - excessive paragraph breaks, unnecessary bullets, decorative dashes, and sentence fragments to avoid;
 - structures required by the document type, such as parallel actions in a procedure or repeated field order in a reference.
 
-Draft against that contract. This skill still owns the engineering document. Only after the final draft exists, invoke `$deai --mode check` as a prose check, not as a handoff of the task. Let it detect the language, or pass `--lang zh|en|mixed` and `--profile generic`. Act on findings that change comprehension or remove a confirmed AI-writing signal. Change flagged prose only; do not optimize mechanically for a detector score.
+Draft against that contract. This skill still owns the engineering document. Only after the final draft exists, invoke `$deai --mode check` as a prose check, not as a handoff of the task. Let it detect the language, or pass `--lang zh|en|mixed` and `--profile generic`. Act only on meaningful findings. If a rewrite is needed, change flagged prose only; do not optimize mechanically for a detector score.
 
 Technical correctness, formal grammar, stable terminology, semantic parallelism, and protected spans override de-AI variation. Do not break procedures, parameter tables, register tables, test criteria, or other meaningful repetition merely to vary sentence structure. After the de-AI pass, recheck immutable facts and grammar. If the rules conflict, keep the technically correct, grammatically unambiguous version.
 

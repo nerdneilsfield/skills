@@ -1,6 +1,6 @@
 ---
 name: cpp-numerics
-description: "Use when creating or changing CPU C++ Eigen code, residuals, Jacobians, manifolds, factor graphs, sparse or BLAS solvers, or numerical data-boundary adapters, including unstable, non-finite, or numerically wrong results. Defer shared conventions to cpp and thread-budget profiling to cpp-performance. Not for crashes or races (cpp-debug) or project/vendor setup (cpp-project-init)."
+description: "Use when creating or changing CPU C++ Eigen code, residuals, Jacobians, manifolds, factor graphs, sparse or BLAS solvers, or numerical data-boundary adapters for SLAM, reconstruction, calibration, or perception, including unstable, non-finite, numerically wrong, or slow results whose model, layout, or precision is the question. Defer shared conventions to cpp and thread-budget profiling to cpp-performance. Not for crashes or races (cpp-debug) or project/vendor setup (cpp-project-init)."
 ---
 
 # CPU numerical correctness and optimization

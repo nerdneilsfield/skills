@@ -5,7 +5,7 @@ description: "Use when creating, reproducing, or diagnosing a Python environment
 
 # Reproducible Python environments
 
-Make the intended workload run in an identifiable environment, without replacing a working workflow merely to standardize tools. Run this skill for interpreter, uv, venv, Conda, Pixi, lock, mirror, offline-artifact, native ABI, or CUDA package failures. This skill owns that packaging policy. Defer shared data contracts to `python`. Defer numerical algorithms to `python-numerics`, profiling of code that already imports to `python-performance`, model quality to `python-ml`, and tabular analysis to `python-data-analysis`. C++ vendoring restrictions do not prohibit Python package managers. CUDA kernel authoring is outside this skill.
+Make the intended workload run in an identifiable environment, without replacing a working workflow merely to standardize tools. Run this skill for interpreter, uv, venv, Conda, Pixi, lock, mirror, offline-artifact, native ABI, or CUDA package failures. This skill owns that packaging policy. C++ vendoring restrictions do not prohibit Python package managers. CUDA kernel authoring is outside this skill.
 
 ## Select only the relevant reference
 
