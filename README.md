@@ -58,6 +58,9 @@
 | [`deai`](writing/deai/) | 用户要求审阅或改写中英文里的模板化、官僚化、说教式或防御性 AI 写作痕迹时使用。不用于从零写技术文档或鲁迅文风。 |
 | [`luxun-style`](writing/luxun-style/) | 用户要求用鲁迅的语气、用词、逻辑和修辞写作或改写时使用。不用于技术文档或论文精读。 |
 | [`technical-writing`](writing/technical-writing/) | 用户要求写作、改写或审阅软件、硬件和工程技术文档时使用。不用于学术论文或学术稿件、鲁迅文风或单纯去 AI 化。 |
+| [`academic-writing`](writing/academic-writing/) | 算法、硬件和软硬件协同论文的写作、修改、审计与回复审稿。 |
+| [`typst-slides`](writing/typst-slides/) | 用 Typst 投影做研究汇报、项目评审、答辩和客户演示，可复现现有模板。 |
+| [`podcast`](writing/podcast/) | 把资料写成多人播客逐字稿，并用可配置的 TTS 合成音频。 |
 
 ### 安装
 
@@ -159,6 +162,9 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`deai`](writing/deai/) | Use when the user asks to review or rewrite Chinese or English prose that sounds templated, bureaucratic, paternalistic, or defensively AI-written. Not for authoring technical docs from scratch or Lu Xun voice. |
 | [`luxun-style`](writing/luxun-style/) | Use when the user asks to write or rewrite in Lu Xun's tone, diction, reasoning, and rhetoric. Not for technical documentation or paper reading. |
 | [`technical-writing`](writing/technical-writing/) | Use when the user asks to write, rewrite, or review software, hardware, or engineering documentation. Not for academic papers or scholarly manuscripts, Lu Xun voice, or a de-AI-only pass. |
+| [`academic-writing`](writing/academic-writing/) | Write, revise, audit, and answer reviewers for algorithm, hardware, and co-design papers. |
+| [`typst-slides`](writing/typst-slides/) | Build talks, reviews, defences, and client demos as Typst slides, and replicate existing templates. |
+| [`podcast`](writing/podcast/) | Turn material into a multi-host podcast script and synthesize it with a configurable TTS backend. |
 
 ### Install
 

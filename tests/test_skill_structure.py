@@ -9,7 +9,7 @@ LINK = re.compile(r'\]\((?!https?://|#|mailto:)([\w./-]+?\.\w+|[\w./-]+/)(?:#[^)
 
 class SkillStructure(unittest.TestCase):
     def test_finds_skills(self):
-        self.assertGreaterEqual(len(SKILLS), 48)
+        self.assertGreaterEqual(len(SKILLS), 51)
 
     def test_frontmatter_matches_folder(self):
         for path in SKILLS:
