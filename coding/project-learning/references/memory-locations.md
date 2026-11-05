@@ -18,6 +18,7 @@ Checked 2026-11-05 against vendor docs unless marked. Products change quickly: c
 | Qwen Code | `~/.qwen/QWEN.md` | `QWEN.md`, or `AGENTS.md` | Managed memory is private | Managed auto memory on by default: `~/.qwen/memories/` for user, `~/.qwen/projects/<project>/memory/` for project, optional team directory |
 | Antigravity (secondhand sources) | `~/.gemini/GEMINI.md` | `.agents/rules/*.md` | Not confirmed | Knowledge Items |
 | Grok Build (secondhand sources) | Not confirmed | `AGENTS.md` | Not confirmed | Opt-in, `/remember` and `/memory` |
+| Muse Code (secondhand sources) | `~/.config/muse/settings.json` for settings | `AGENTS.md`, falling back to `CLAUDE.md`; shared memory in `.agents/memory/` | Personal project memory outside the repository | Observer agents handle memory and skill recall |
 | Cursor | User rules in settings | `.cursor/rules/*.mdc`, `AGENTS.md` | Not confirmed | Not confirmed |
 | Copilot | User-level preferences | Custom instructions | None documented | Repository facts with citations, shared with repository users |
 
@@ -39,4 +40,5 @@ The Gemini CLI docs state it was replaced by Antigravity CLI on 2026-06-18. Chec
 - Copilot expires memories after 90 days unless validated, and checks citations against the branch. Retrieval alone does not renew them.
 - Gemini Auto Memory never writes shared project `GEMINI.md` files, and considers only sessions idle for three hours with 10 or more user messages.
 - Qwen Code keeps `QWEN.md` and managed memory separate. A background extractor writes after each turn, and a consolidation pass called Dream deduplicates and merges (by default at most daily, after five new sessions). `MEMORY.md` is a generated index: edit topic files, not the index. Team memory must never hold secrets. Checked against the repository design docs, 2026-11-05.
+- Muse Code commits shared memory under `.agents/memory/`, so treat it like code: review it, and keep secrets and untrusted text out, since it reaches every teammate's agent.
 - `~/.gemini/GEMINI.md` is reportedly shared by Gemini CLI and Antigravity, so a change affects both.
