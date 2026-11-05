@@ -6,7 +6,7 @@ A guide is `{title, summary, repo, commit, pages[]}`. A page is `{id, title, lev
 | --- | --- | --- |
 | `text` | `md` | Markdown prose |
 | `callout` | `md`, `title`, `kind` (`warn`, `check`, or empty) | The one thing to remember, or a trap |
-| `code` | `code`, `file`, `line` | A short excerpt with its location |
+| `code` | `code`, `file`, `line`, `lang` | A short excerpt with its location. Language comes from `lang`, else the file extension, else detection |
 | `figure` | `src`, `alt`, `caption`, `source`, `origin` (`paper`, `explain`), `ref` | A local image, always inlined as base64. `origin` shows whose figure it is |
 | `figuretour` | `src`, `alt`, `caption`, `origin`, `ref`, `stops[{x, y, w, h, title, md}]` | Step through regions of one figure. Coordinates are percentages of the image |
 | `papercode` | `items[{paper, where, file, line, code, status, note}]`, `status` is `match`, `differs`, or `unstated` | Paper-to-code comparison, with a filter by status |

@@ -9,7 +9,7 @@ const KATEX_CSS = `https://cdn.jsdelivr.net/npm/katex@${pkg.dependencies.katex}/
 // Default: small file, libraries from a pinned CDN URL. Offline: bundle everything.
 export default defineConfig(({ mode }) => {
   const offline = mode === "offline";
-  const libs = Object.keys(pkg.dependencies).filter((n) => n !== "marked");
+  const libs = Object.keys(pkg.dependencies).filter((n) => !["marked", "highlight.js"].includes(n));
   return {
     plugins: [
       viteSingleFile(),

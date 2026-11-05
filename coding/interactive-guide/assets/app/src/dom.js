@@ -1,3 +1,5 @@
+import { codeBlock } from "./code.js";
+
 export const NS = "http://www.w3.org/2000/svg";
 export const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 export const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
@@ -12,5 +14,5 @@ export function describe(box, o) {
   }
   const b = o.explain || o.summary;
   if (b) box.append(el("p", null, b));
-  if (o.code) box.append(el("pre", null, o.code));
+  if (o.code) box.append(codeBlock(o.code, o.lang, o.file));
 }

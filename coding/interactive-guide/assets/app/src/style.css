@@ -113,3 +113,13 @@ mark.sakura{background:color-mix(in srgb,var(--shu) 22%,transparent)}
 .hl-item{display:block;color:var(--sumi);text-decoration:none;font-size:15px;line-height:1.6;padding:6px 10px;margin:6px 0;border-left:3px solid var(--yamabuki)}
 .hl-item.wakatake{border-color:var(--koke)}.hl-item.sakura{border-color:var(--shu)}
 @media print{.hl-open,.hl-bar,.hl-panel{display:none}}
+pre code.hljs{background:none;padding:0;font:inherit}
+.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-selector-tag{color:var(--ai)}
+.hljs-string,.hljs-regexp,.hljs-addition{color:var(--koke)}
+.hljs-number,.hljs-literal,.hljs-symbol{color:var(--shu)}
+.hljs-title,.hljs-title.function_,.hljs-title.class_{color:var(--koiai);font-weight:600}
+.hljs-type,.hljs-built_in,.hljs-attr,.hljs-attribute{color:#8a6d1f}
+.hljs-comment,.hljs-quote{color:var(--nezumi);font-style:italic}
+.hljs-meta,.hljs-deletion{color:var(--shu)}
+.hljs-variable,.hljs-params,.hljs-property{color:var(--sumi)}
+@media (prefers-color-scheme:dark){.hljs-type,.hljs-built_in,.hljs-attr,.hljs-attribute{color:var(--yamabuki)}}

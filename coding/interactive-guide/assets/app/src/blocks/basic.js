@@ -1,22 +1,23 @@
 import { marked } from "marked";
 import { el } from "../dom.js";
-export function text(b) { const d = el("div", "prose"); d.innerHTML = marked.parse(b.md); return d; }
+import { codeBlock, highlightProse } from "../code.js";
+export function text(b) { const d = el("div", "prose"); d.innerHTML = marked.parse(b.md); highlightProse(d); return d; }
 export function callout(b) {
   const d = el("div", "callout " + (b.kind || ""));
   if (b.title) d.append(el("b", null, b.title));
-  const body = el("div"); body.innerHTML = marked.parse(b.md); d.append(body); return d;
+  const body = el("div"); body.innerHTML = marked.parse(b.md); highlightProse(body); d.append(body); return d;
 }
 export function code(b) {
   const d = el("div");
   if (b.file) d.append(el("div", "loc", b.file + (b.line ? ":" + b.line : "")));
-  d.append(el("pre", null, b.code)); return d;
+  d.append(codeBlock(b.code, b.lang, b.file)); return d;
 }
 const ORIGIN = { paper: "论文原图", explain: "补充解释图" };
 export const originTag = (b) => el("span", "origin " + b.origin, (ORIGIN[b.origin] || b.origin) + (b.ref ? " · " + b.ref : ""));
 const CLAIM = { author: "作者主张", evidence: "论文证据", inference: "分析推断", unknown: "未报告" };
 export function claim(b) {
   const d = el("div", "claim " + b.kind); d.append(el("b", null, CLAIM[b.kind]));
-  const body = el("div"); body.innerHTML = marked.parse(b.md); d.append(body);
+  const body = el("div"); body.innerHTML = marked.parse(b.md); highlightProse(body); d.append(body);
   if (b.where) d.append(el("div", "where", b.where)); return d;
 }
 export function figuretour(b) {
@@ -26,7 +27,7 @@ export function figuretour(b) {
   if (b.caption || b.origin) { const c = el("p", "legend"); if (b.origin) c.append(originTag(b)); if (b.caption) c.append(b.caption); root.append(c); }
   let k = 0;
   const show = () => { const s = b.stops[k]; spot.style.cssText = `left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%`;
-    box.replaceChildren(el("h3", null, s.title)); const p = el("div", "prose"); p.innerHTML = marked.parse(s.md); box.append(p); n.textContent = `${k + 1} / ${b.stops.length}`; };
+    box.replaceChildren(el("h3", null, s.title)); const p = el("div", "prose"); p.innerHTML = marked.parse(s.md); highlightProse(p); box.append(p); n.textContent = `${k + 1} / ${b.stops.length}`; };
   prev.onclick = () => { k = Math.max(0, k - 1); show(); }; next.onclick = () => { k = Math.min(b.stops.length - 1, k + 1); show(); }; show(); return root;
 }
 const PC = { match: "一致", differs: "有差异", unstated: "论文未写" };
@@ -35,8 +36,8 @@ export function papercode(b) {
   const render = (only) => { rows.replaceChildren(...b.items.filter((x) => !only || x.status === only).map((x) => {
     const r = el("div", "pc"), grid = el("div", "pc-row"), left = el("div", "prose"), right = el("div");
     r.append(el("div", "pc-state " + x.status, PC[x.status]));
-    left.innerHTML = marked.parse(x.paper); if (x.where) left.append(el("div", "loc", x.where));
-    right.append(el("div", "loc", x.file + (x.line ? ":" + x.line : ""))); if (x.code) right.append(el("pre", null, x.code));
+    left.innerHTML = marked.parse(x.paper); highlightProse(left); if (x.where) left.append(el("div", "loc", x.where));
+    right.append(el("div", "loc", x.file + (x.line ? ":" + x.line : ""))); if (x.code) right.append(codeBlock(x.code, x.lang, x.file));
     grid.append(left, right); r.append(grid); if (x.note) r.append(el("p", "pc-note", x.note)); return r; })); };
   [[null, "全部"], ...Object.entries(PC)].forEach(([k, t], i) => { const n = k ? b.items.filter((x) => x.status === k).length : b.items.length;
     const x = el("button", i ? null : "on", `${t} ${n}`); x.onclick = () => { [...bar.children].forEach((c) => c.classList.remove("on")); x.classList.add("on"); render(k); }; bar.append(x); });
