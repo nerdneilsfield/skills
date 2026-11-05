@@ -58,8 +58,7 @@ A CPU clock around a GPU call may measure submission, not completion. Separate:
 
 For JAX, call `.block_until_ready()` on the output when timing a simple array;
 for a result tree, wait on all relevant leaves or use the installed API's tree
-synchronization helper. Match NumPy and JAX dtypes explicitly: JAX defaults often
-use 32-bit where NumPy code uses 64-bit. Recompilation caused by shape/control-flow
+synchronization helper. Recompilation caused by shape/control-flow
 changes belongs to the production result if the workload really varies that way.
 
 For PyTorch on CUDA, synchronized wall-clock timing brackets the measured region

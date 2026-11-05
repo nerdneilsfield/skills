@@ -38,7 +38,7 @@ Streaming can execute supported work in batches; fallback or blocking operators 
 
 For joins/aggregations over local Parquet or CSV, a SQL query can avoid creating full Python dataframes. Select columns and filter before fetching, inspect `EXPLAIN`/profiling when appropriate, and return only the final small summary. Calling `.df()` on the full result brings memory pressure back into Python. Parameterize values and validate/quote identifiers rather than formatting untrusted strings into SQL. Do not enable remote extensions or external access just to analyze a local file.
 
-Large sorts, joins and aggregates can spill to disk, but not every operator combination is guaranteed to fit. `memory_limit` is not a strict whole-process RSS cap; some allocations occur outside the buffer manager. Budget threads, application memory, other processes, disk capacity and temporary-directory permissions together. Set the temporary location deliberately on approved storage; spilling may place sensitive data there. Test under the real deployment quota, not only a workstation with spare RAM. Concurrent jobs need coordinated budgets rather than each assuming it owns the machine.
+Large sorts, joins and aggregates can spill to disk, but not every operator combination is guaranteed to fit. Budget threads, application memory, other processes, disk capacity and temporary-directory permissions together. Set the temporary location deliberately on approved storage; spilling may place sensitive data there. Test under the real deployment quota, not only a workstation with spare RAM. Concurrent jobs need coordinated budgets rather than each assuming it owns the machine.
 
 ## Arrow: schema and batches, not a universal speed switch
 

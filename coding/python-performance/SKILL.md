@@ -44,6 +44,15 @@ no automatic attach to unrelated processes, privilege escalation, system tuning,
 network installation, cloud AI optimization or uploading profiles. Missing counters or
 dependencies are unavailable evidence, not zero cost or passed validation.
 
+## Gotchas
+
+- `timeit` disables garbage collection by default. If collection is part of the real cost, enable it in the setup and describe that scope.
+- `time.process_time()` does not sum child workers. Include worker-group accounting before claiming parallel efficiency.
+- py-spy's GIL-only view omits native work that releases the GIL. Compare an unfiltered view before declaring GIL contention.
+- `async def` or `to_thread` alone does not promise CPU parallelism, and cancelling an await on worker work does not generally stop the underlying thread.
+- Free-threaded CPython is a distinct build, and an unsupported extension can re-enable the GIL. Record GIL state after imports.
+- `del` and `gc.collect()` do not guarantee memory returns to the OS, so an RSS plateau after freeing is not by itself a leak.
+
 ## Verify and stop
 
 After the change, rerun correctness and the same representative workload **without the

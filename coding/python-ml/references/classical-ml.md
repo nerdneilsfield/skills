@@ -6,7 +6,7 @@ Suppose each row is an observation used to predict an event in the following wee
 
 - Independent, exchangeable rows: random splitting may be appropriate; stratification preserves class proportions but does not fix dependence.
 - New entities: hold out whole groups. Entity/session identifiers must not straddle the boundary. Group folds must contain enough distinct groups and classes to evaluate the selected metric.
-- Future prediction: train on earlier observations and evaluate later ones. A gap must cover the actual label/feature window overlap, not an arbitrary number of rows. `TimeSeriesSplit` follows row order, not a time-column sort; unequal time intervals require explicit fold construction if elapsed-time horizons matter.
+- Future prediction: train on earlier observations and evaluate later ones. A gap must cover the actual label/feature window overlap, not an arbitrary number of rows. Unequal time intervals require explicit fold construction if elapsed-time horizons matter.
 - Both constraints: construct folds satisfying group and temporal rules together. Passing `groups` into a random split or checking chronology alone does not establish this.
 
 Reserve the test set before model choices. Audit exact duplicate IDs and known group/time boundaries using the bundled manifest helper; then inspect content duplicates, near duplicates and feature generation separately. The helper cannot detect a target-derived column, duplicated images with different names or a future-computed statistic.
@@ -15,7 +15,7 @@ Reserve the test set before model choices. Audit exact duplicate IDs and known g
 
 ## 2. Make every learned transformation part of fitting
 
-Imputation values, normalization statistics, categorical vocabularies, target encoding, feature selection and dimensionality reduction are learned state. Their `fit` belongs inside the training fold, even if a transformation does not consume labels. A scikit-learn `Pipeline` passed into CV is cloned and fitted per fold; fitting a scaler first on all development rows silently bypasses this protection. Target encoding additionally needs an appropriate out-of-fold training scheme: scikit-learn's `TargetEncoder.fit_transform(X, y)` cross-fits, while `fit(X, y).transform(X)` does not, so use `fit_transform` on training data; a pipeline alone cannot make a leaky custom transformer safe.
+Imputation values, normalization statistics, categorical vocabularies, target encoding, feature selection and dimensionality reduction are learned state. Their `fit` belongs inside the training fold, even if a transformation does not consume labels. A scikit-learn `Pipeline` passed into CV is cloned and fitted per fold; fitting a scaler first on all development rows silently bypasses this protection. Target encoding additionally needs an appropriate out-of-fold training scheme: a pipeline alone cannot make a leaky custom transformer safe.
 
 Use a `ColumnTransformer` when columns need distinct treatment; make unknown-category and missing-column behavior explicit. Preserve training feature names, order, dtype and units at inference. A model accepting an array of the right width may still receive swapped columns. Never include a feature merely because it is present in the offline table: availability at decision time is the contract.
 

@@ -47,7 +47,6 @@ Good:
 - 温度写作 `25 °C`；Kelvin 写作 `298 K`。
 - 区间两端均写单位：`-40 °C to 85 °C`；中文可写 `-40 °C～85 °C`，但整个文档只选一种范围格式。
 - unit symbol 不加复数，不随语言翻译；大小写有意义：`mW` 与 `MW` 不同。
-- 区分 decimal 与 binary byte units：`MB`（10^6 bytes）和 `MiB`（2^20 bytes）。按被记录技术的真实计量体系写，不互换。
 - rate 明确分母：`100 requests/s`、`1 Gbit/s`。`MB/s` 与 `Mbit/s` 不同。
 - 首次出现不常见单位时定义测量基准或换算关系。
 

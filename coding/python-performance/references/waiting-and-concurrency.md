@@ -21,9 +21,8 @@ and set `loop.slow_callback_duration` to a workload-relevant diagnostic threshol
 is not the production timing baseline. Inspect lag and task backlog, not only function totals.
 
 Move blocking I/O to an existing bounded executor or use a compatible async API. Pure Python
-CPU work may need a process/native implementation; `async def` or `to_thread` alone does not
-promise CPU parallelism. Preserve cancellation, exception propagation and shutdown behavior;
-cancelling an await on worker work does not generally stop the underlying thread operation.
+CPU work may need a process/native implementation. Preserve cancellation, exception propagation and
+shutdown behavior.
 
 With Pyinstrument async-aware modes, waiting is attributed to the awaiting context. That
 wall time is not CPU consumed by the coroutine. Cross-context work requires careful mode
@@ -32,7 +31,6 @@ selection; capture a representative whole operation if request-local views are m
 ## Threads, GIL and nested teams
 
 Record both build capability and actual GIL state after relevant application imports.
-Free-threaded CPython is a distinct build; an unsupported extension can re-enable the GIL.
 Normal GIL builds can still execute native routines concurrently when those release the GIL.
 Do not infer either behavior from the Python version number alone. Shared-state operations
 still need logical synchronization: changing interpreter mode does not make compound updates

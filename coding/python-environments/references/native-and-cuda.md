@@ -6,7 +6,7 @@ Use this when a package resolves yet cannot import, link, compile or run on the 
 
 The OS, CPU architecture/instruction support, kernel, GPU model and installed driver constrain execution. A container or environment can supply user-space libraries, not automatically a compatible host driver or device access. NVIDIA compatibility models have supported platform/GPU/version boundaries; neither minor compatibility nor forward-compatibility packages are universal escape hatches.
 
-A targeted `nvidia-smi` invocation, if installed and authorized, helps observe driver/device visibility. Its CUDA version display describes driver support, not proof that nvcc or a toolkit of that version is installed. Driver changes require a separate administrative operation; do not perform one as an environment repair.
+A targeted `nvidia-smi` invocation, if installed and authorized, helps observe driver/device visibility. Driver changes require a separate administrative operation; do not perform one as an environment repair.
 
 ## Layer 2: framework runtime build
 

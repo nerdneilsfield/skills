@@ -66,6 +66,15 @@ an RSS cap. Its scalar finite-input validation is deliberately conservative;
 include that cost when adapting it. See arrays reference for the derivation,
 limitations and acceptance experiments.
 
+## Gotchas
+
+- `np.vectorize` wraps repeated Python calls for convenience; replacing a loop with it is not a performance fix.
+- Since NumPy 2 (NEP 50), `np.float32(3) + 3.` stays float32 and a float32 array plus `np.float64(3)` becomes float64. Check promotion after upgrading.
+- `*` and `**` are elementwise on `sparray` but matrix operations on `spmatrix`. Use `@` and identify the type before migrating.
+- `threadpool_limits` is process-global despite context-manager syntax, so concurrent Python tasks can interfere. It is neither thread-local isolation nor a CPU quota.
+- Default `allclose` can be too permissive near zero and its broadcasting can conceal a wrong shape. Assert shape and dtype separately first.
+- JAX defaults often use 32-bit where NumPy code uses 64-bit. Match dtypes explicitly.
+
 ## Hand off evidence, not a tool recommendation
 
 Report: original contract → measured limiting stage → isolated change → numerical

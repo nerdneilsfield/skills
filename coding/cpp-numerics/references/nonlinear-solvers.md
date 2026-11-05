@@ -29,13 +29,13 @@ Capture Ceres `Solver::Summary`/`FullReport()` or the corresponding installed-ve
 
 | Evidence | Candidate experiment | Recheck |
 | --- | --- | --- |
-| Residual evaluation dominates | Remove repeated invariant work, inspect copying and safe evaluation parallelism (Ceres `num_threads` defaults to 1) | Same residual/Jacobian and evaluation cost |
+| Residual evaluation dominates | Remove repeated invariant work, inspect copying and safe evaluation parallelism | Same residual/Jacobian and evaluation cost |
 | Small dense problem | Compare an appropriate dense solve against current choice | Total runtime, rank behavior, memory |
 | BA point/camera block structure | Evaluate an appropriate Schur solver and ordering | Fill-in, linear solve time and convergence |
 | Large sparse graph | Inspect sparsity/ordering/backend before more threads | Factorization memory and total solve time |
 | iSAM2 update unexpectedly costly | Inspect new factors, ordering, relinearization settings and affected variables | Per-update quality/latency and consistency |
 
-For GTSAM, elimination ordering can change fill-in and work without changing the intended model. Compare appropriate orderings on the same graph, not arbitrary graphs with different constraints. Incremental relinearization thresholds and skip policies trade work against approximation behavior; validate them over a sequence, not one update. Read the pinned release API before tuning. Before debugging an unexplained GTSAM crash, check that `GTSAM_BUILD_WITH_MARCH_NATIVE` and `_GLIBCXX_DEBUG` match across GTSAM and everything linking it; a mismatch can segfault.
+For GTSAM, elimination ordering can change fill-in and work without changing the intended model. Compare appropriate orderings on the same graph, not arbitrary graphs with different constraints. Incremental relinearization thresholds and skip policies trade work against approximation behavior; validate them over a sequence, not one update. Read the pinned release API before tuning.
 
 ## Acceptance record
 

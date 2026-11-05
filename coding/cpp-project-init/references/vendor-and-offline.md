@@ -6,7 +6,7 @@ Use this when adding/updating a dependency or checking whether a copied template
 
 1. Identify the required capability and inspect whether the project already has a suitable dependency. Do not add the default library list wholesale.
 2. Record the exact upstream release/commit and upstream URL; distinguish a fetched archive identity/checksum from a local folder label. Do not call `main` a fixed revision. If offline source provenance is missing, record that unresolved fact rather than invent a commit.
-3. Inspect retained files locally: public headers, implementation, generated configuration/input files, platform backends, build target definitions and transitive bundled dependencies. A header-only package can still include other packages or configure-time generation.
+3. Inspect retained files locally: public headers, implementation, generated configuration/input files, platform backends, build target definitions and transitive bundled dependencies.
 4. Inspect CMake and auxiliary scripts for network acquisition and optional features that enable it. Check `FetchContent`, `ExternalProject`, CPM, package-manager hooks, `file(DOWNLOAD)`, `execute_process`, custom build commands and shell scripts. A text search is a lead: indirect wrappers, generated scripts and scripts invoked by scripts still need reading.
 5. Turn off unnecessary vendor examples/tests/docs using actual version-matched options, or integrate the necessary subset through a local adapter. Do not silently trim an existing vendor tree for an unrelated task.
 6. Record complete applicable license and notice texts, names, revisions and paths in `THIRD_PARTY_LICENSES.txt` or the established equivalent. Preserve separately required upstream files and copyright headers. Include retained bundled dependencies; a single root license does not cover unrelated components automatically.
@@ -46,7 +46,7 @@ python3 scripts/check_vendor_manifest.py assets/minimal-project/vendor-manifest.
 
 Expected fixture result: `status: structurally_valid`, exit 0. Exit 1 means findings; exit 2 means an unreadable/malformed/oversized input. JSON input is limited to 1 MiB with a bounded read. The script only inspects provided records and local paths; it does not execute CMake, download source, hash huge trees, alter files or read license text contents.
 
-**What this cannot prove:** correct upstream identity, complete source subset, complete/correct license text, legal compatibility, approved patches or offline operation. A nonempty LICENSE file containing nonsense passes the structural file check; human review remains necessary. Do not describe the script result as “license audit passed” or “offline build passed”.
+**What this cannot prove:** correct upstream identity, complete source subset, complete/correct license text, legal compatibility, approved patches or offline operation. Do not describe the script result as “license audit passed” or “offline build passed”.
 
 ## Offline validation with actual evidence
 

@@ -8,7 +8,7 @@ Suppose a notebook imports an older SciPy even though the lock changed. First as
 
 ## Identify without executing the project
 
-Inspect only the supplied project root and explicitly identified manifests: `pyproject.toml`, `uv.lock`, `pixi.toml`, `pixi.lock`, `environment.yml`, pinned requirements, `.python-version`, and relevant CI commands. A `pyproject.toml` alone does not prove uv owns the environment. Several lock files may represent different subprojects or migration history; inspect callers before choosing. Do not recursively search the home directory or print credential-bearing manager configuration.
+Inspect only the supplied project root and explicitly identified manifests: `pyproject.toml`, `uv.lock`, `pixi.toml`, `pixi.lock`, `environment.yml`, pinned requirements, `.python-version`, and relevant CI commands. Several lock files may represent different subprojects or migration history; inspect callers before choosing. Do not recursively search the home directory or print credential-bearing manager configuration.
 
 The bundled snapshot is intended to run with the trusted interpreter under investigation, not whichever `python` happens to be first on PATH. `-I -B` avoids bytecode writes and current-directory and user-site import injection; it deliberately does not reproduce all normal startup settings. It is an identity probe, not the final application test. Even Python startup may run trusted environment site customization: do not execute an untrusted interpreter/prefix merely because its path is known.
 

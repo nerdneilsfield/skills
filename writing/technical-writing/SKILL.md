@@ -55,7 +55,7 @@ For `write` and `rewrite`, define a short language contract from this skill's [l
 
 Draft against that contract. This skill still owns the engineering document. Only after the final draft exists, invoke `$deai --mode check` as a prose check, not as a handoff of the task. Let it detect the language, or pass `--lang zh|en|mixed` and `--profile generic`. Act only on meaningful findings. If a rewrite is needed, change flagged prose only; do not optimize mechanically for a detector score.
 
-Technical correctness, formal grammar, stable terminology, semantic parallelism, and protected spans override de-AI variation. Do not break procedures, parameter tables, register tables, test criteria, or other meaningful repetition merely to vary sentence structure. After the de-AI pass, recheck immutable facts and grammar. If the rules conflict, keep the technically correct, grammatically unambiguous version.
+Technical correctness, formal grammar, stable terminology, semantic parallelism, and protected spans override de-AI variation. After the de-AI pass, recheck immutable facts and grammar. If the rules conflict, keep the technically correct, grammatically unambiguous version.
 
 ## Mode: write
 
@@ -78,6 +78,15 @@ If the source is contradictory, incomplete, or apparently wrong, preserve the fa
 ## Mode: review
 
 Report only issues that affect correct use, reproducibility, comprehension, or consistency. Give a correction direction; do not rewrite the full document by default. Use `Critical`, `Major`, and `Minor` as defined in [references/review.md](references/review.md). If no reportable issue exists, say so. Do not invent findings to fill a quota.
+
+## Gotchas
+
+- Do not break procedures, parameter tables, register tables, test criteria, or other meaningful repetition merely to vary sentence structure.
+- Data loss, exceeded ratings, credential exposure, and personnel hazards cannot be written as only a Note.
+- Absolute maximum ratings are not a sustained operating point.
+- An opening safety chapter does not replace a message next to the hazardous step.
+- `MB` (10^6 bytes) and `MiB` (2^20 bytes) are not interchangeable. Write what the documented technology really counts.
+- `未检测到所有节点` is ambiguous. Write `并非所有节点都已检测到` or `未检测到任何节点`, whichever is true.
 
 ## Final check
 

@@ -16,9 +16,9 @@ Commands below are examples for an authorized project environment operation, not
 uv sync --locked --offline
 ```
 
-`--locked` requires the lock to agree with project intent. `--frozen` instead uses the lock without checking that agreement; it is not a stronger consistency check. Plain `uv run` may synchronize before running, so a diagnostic executed through it can change the environment. To examine an existing prefix without syncing, use its explicit trusted Python executable. To execute application code, choose that operation separately.
+`--locked` requires the lock to agree with project intent. To execute application code, choose that operation separately.
 
-Synchronizing may remove packages outside the selected dependency set. Do not synchronize a shared or unidentified prefix. Make dev/test groups and optional CPU/GPU extras explicit in the command record, because two valid sync invocations can produce different environments. Commit application lock files under the team's existing policy; do not turn a reusable library's supported dependency range into one universal downstream pin.
+Make dev/test groups and optional CPU/GPU extras explicit in the command record, because two valid sync invocations can produce different environments. Commit application lock files under the team's existing policy; do not turn a reusable library's supported dependency range into one universal downstream pin.
 
 ## CPU/GPU package sources
 

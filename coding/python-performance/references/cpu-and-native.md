@@ -36,8 +36,7 @@ conversion/copy costs and library thread settings. Then use native stacks with s
 an appropriate native profiler; missing symbols mean incomplete attribution, not zero cost.
 Numerical precision/model changes require `python-numerics`-style accuracy checks.
 
-py-spy's GIL-only view omits native work that releases the GIL. Compare an unfiltered view
-before declaring GIL contention. Scalene's Python/native breakdown can discriminate layers,
+Scalene's Python/native breakdown can discriminate layers,
 but its percentages are observations under a selected mode, not a universal diagnosis.
 
 A Python call stack does not expose cache-line bouncing, TLB misses, NUMA placement or

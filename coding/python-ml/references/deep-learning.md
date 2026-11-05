@@ -10,7 +10,7 @@ Start with one finite forward/backward/optimizer step. Inspect finite loss and g
 
 ## 2. Training and evaluation are different states
 
-`model.train()` and `model.eval()` change module behavior such as dropout and batch normalization. They do not switch autograd on/off. For ordinary validation, call `eval()` and disable gradient recording with `no_grad()`, then restore training mode before subsequent optimization. For pure inference, `inference_mode()` can remove additional tracking, but tensors created there have restrictions if later reused by autograd. Gradient-based explanations or input optimization still require gradients even when module behavior is `eval()`.
+`model.train()` and `model.eval()` change module behavior such as dropout and batch normalization. For ordinary validation, call `eval()` and disable gradient recording with `no_grad()`, then restore training mode before subsequent optimization. For pure inference, `inference_mode()` can remove additional tracking, but tensors created there have restrictions if later reused by autograd. Gradient-based explanations or input optimization still require gradients even when module behavior is `eval()`.
 
 Keep inputs, masks, labels, model parameters and relevant buffers on compatible devices. A hidden `.cpu()`, `.numpy()` or `.item()` in the step may force transfer/synchronization; do not remove it if it is required for correctness, but move logging/aggregation to a deliberate boundary. Accumulate metric numerators and denominators rather than averaging unequal-size batch means. Exclude masked tokens consistently in both loss and metrics.
 
@@ -48,7 +48,7 @@ The clipping threshold is an example hyperparameter, not a universal recommendat
 
 ## 4. Distributed training introduces data and collective contracts
 
-Begin with a working single-device run. In DDP, every rank needs its intended device and compatible collective order. Shard data explicitly; map-style `DistributedSampler` needs `set_epoch(epoch)` before each epoch's iterator to vary shuffle order. Its padding can repeat examples when sample counts are not divisible by world size. Training may tolerate a documented padding policy; evaluation must remove duplicates or use an exact non-padding partition and an appropriate evaluation strategy. Uneven forward/backward schedules can hang if ranks enter different collectives, including implicit buffer synchronization.
+Begin with a working single-device run. In DDP, every rank needs its intended device and compatible collective order. Shard data explicitly. Training may tolerate a documented sampler padding policy; evaluation must remove duplicates or use an exact non-padding partition and an appropriate evaluation strategy. Uneven forward/backward schedules can hang if ranks enter different collectives, including implicit buffer synchronization.
 
 Reduce metric sums and counts globally; averaging rank-level means is wrong for unequal counts. Iterable datasets need sharding across both ranks and loader workers. DDP's gradient averaging and local loss reduction interact with unequal local sample/token counts; derive the normalization rather than assuming the usual equal-batch recipe. Gradient accumulation with `no_sync` must enclose the relevant forward and backward passes and synchronize at the intended final microbatch.
 

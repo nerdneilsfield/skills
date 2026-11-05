@@ -9,7 +9,6 @@ Use this reference when a concrete failure or requested change needs more than t
 | Invalid memory access, use-after-free, ownership changes | AddressSanitizer on the affected workload |
 | Suspected undefined arithmetic, alignment, or related UB | UndefinedBehaviorSanitizer on the relevant path |
 | Shared mutable state or suspected races | ThreadSanitizer where supported, with a workload that exercises the interaction |
-| Public header depends on include order | Compile a translation unit that includes it first |
 | Claimed performance improvement | Comparable before/after measurements and a behavior check |
 
 Check compiler, runtime, and platform support before adding flags. ASan and UBSan can share a configuration where supported; keep TSan in a separate build from ASan. Apply required instrumentation to both compilation and linking, and to the relevant code under test. Reuse CMake target settings and presets instead of inventing shell-only builds. A clean run only covers the paths exercised; do not present it as proof of all memory or concurrency safety.
@@ -29,7 +28,7 @@ Measure what motivated the task: throughput, latency, peak memory, or allocation
 
 ## Stable asynchronous tests
 
-Suppose a Catch2 test starts a worker and checks its result. Sleeping for 100 ms before checking does not establish that the worker finished. Signal completion through the operation's existing future, condition variable, or equivalent event, then use a bounded wait. Ensure the worker is stopped and joined on assertion failure as well as success; a timed wait alone does not prevent teardown from hanging.
+Suppose a Catch2 test starts a worker and checks its result. Sleeping for 100 ms before checking does not establish that the worker finished. Signal completion through the operation's existing future, condition variable, or equivalent event, then use a bounded wait.
 
 Use a controllable clock when time itself is the behavior being tested and the design already permits it. Keep random seeds reproducible, isolate temporary paths, and reset task-owned state. Do not create a generic clock abstraction, dependency-injection framework, or mock hierarchy solely to satisfy these examples. Real filesystem or network interaction belongs in an appropriately scoped integration check when that interaction is the behavior under test.
 

@@ -31,7 +31,7 @@ Continue in this skill when the cause remains uncertain, reproduction is unstabl
 
 Record expected versus observed behavior, exact invocation/input or seed, failing revision, platform, compiler, build preset/options, relevant logs and frequency. Separate observed facts from hypotheses. Inspect the actual compilation database/build commands before trusting editor diagnostics; stale generated headers or a different macro set can create a false problem.
 
-For a crash, retain the matching executable, shared libraries, debug symbols and core/minidump where available. Verify build IDs or equivalent identity: symbols from another build are not evidence for the failing binary. Respect sensitive input/core contents; do not upload them without authorization.
+For a crash, retain the matching executable, shared libraries, debug symbols and core/minidump where available. Respect sensitive input/core contents; do not upload them without authorization.
 
 If there is no reproduction, ask for the smallest missing artifact and improve bounded capture/logging around the suspect boundary. Reduce input or repeat the recorded seed when possible. Do not call a speculative change a fix; state what observation would discriminate the hypotheses.
 
@@ -57,11 +57,11 @@ gdb -nx -iex 'set auto-load off' -iex 'set debuginfod enabled off' ./matching-pr
 # thread apply all bt full
 ```
 
-Paths are illustrative; select the retained artifacts, not the latest rebuilt executable. Optimized code can reorder/eliminate variables. Reproducing in a symbol-rich release-like build may be necessary; Debug-only success does not explain a Release crash.
+Paths are illustrative; select the retained artifacts, not the latest rebuilt executable. Optimized code can reorder/eliminate variables. Reproducing in a symbol-rich release-like build may be necessary.
 
 ## Isolate and repair
 
-1. Trace from the earliest bad state through ownership, bounds, lifetime, initialization and synchronization. A crash in a library does not establish that the library caused the corruption.
+1. Trace from the earliest bad state through ownership, bounds, lifetime, initialization and synchronization.
 2. Choose one falsifiable hypothesis and the cheapest informative experiment. Preserve failure evidence before editing; do not batch speculative fixes.
 3. Minimize the reproducer while retaining the failure. If a recent regression is known, a controlled revision comparison or bisect may be more useful than adding logs everywhere.
 4. Fix the responsible contract with the smallest scoped change. Adding sleeps, swallowing errors or disabling checks does not establish causality.
@@ -74,6 +74,14 @@ Use separate diagnostic presets/build directories. Check toolchain/runtime suppo
 If a tool or artifact is missing, report exactly what cannot be checked and continue with available evidence. Never mark a skipped check passed. Do not install every tool or introduce an entire platform matrix for one bug.
 
 For flaky asynchronous tests, synchronize on observable completion with bounded waits, preserve seeds and isolate temporary files. Ensure workers stop/join even after failed assertions; a timeout alone does not guarantee teardown finishes. Prefer existing concurrency primitives over test-only architecture.
+
+## Gotchas
+
+- UBSan recovers by default, so a run with reports can still exit 0. `-fno-sanitize-recover=undefined` makes the first report fail the run.
+- TSan `FATAL: unexpected memory mapping` is a platform ASLR limit, not a program bug. Report it; do not change the sysctl.
+- A crash in a library does not establish that the library caused the corruption. Trace back to the earliest bad state.
+- Symbols from another build are not evidence for the failing binary, even when paths and function names look right. Verify build IDs or equivalent identity.
+- Debug-only success does not explain a Release crash.
 
 ## Handoff
 

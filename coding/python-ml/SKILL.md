@@ -34,6 +34,15 @@ Record prediction unit and horizon, target availability, repeated entities, spli
 
 For an optimization, capture a baseline with the same data IDs, preprocessing, shapes, batch size or stated changed batch semantics, precision, device, quality gate and measurement boundary. Fix correctness first, then change one bottleneck. Report cold start separately from steady state and include end-to-end latency/throughput rather than only operator time.
 
+## Gotchas
+
+- `torch.load` `weights_only=True` is the default since torch 2.6.0; on 2.5.1 and earlier it still allowed remote code execution (CVE-2025-32434). Do not fix a loader error by setting `weights_only=False` or allowlisting unknown globals.
+- `TimeSeriesSplit` follows row order, not a time-column sort.
+- `TargetEncoder.fit_transform(X, y)` cross-fits, while `fit(X, y).transform(X)` does not. Use `fit_transform` on training data.
+- `model.eval()` does not switch autograd off; validation also needs `no_grad()`.
+- Map-style `DistributedSampler` needs `set_epoch(epoch)` before each epoch to vary shuffle order, and its padding can repeat examples when counts do not divide by world size. Evaluation must remove those duplicates.
+- `empty_cache()` does not free live tensor storage and is not a per-step leak fix.
+
 ## Required handoff
 
 Deliver the actual split/feature contract; observed failure or bottleneck; a minimal change with rationale and tradeoffs; before/after quality and resource evidence; and remaining untested configurations. State whether a result is a CPU smoke test, actual GPU measurement or distributed execution. Never convert an absent optional dependency into a passing framework test. Do not install packages, download datasets/models or load untrusted serialized objects as a side effect of diagnosis.

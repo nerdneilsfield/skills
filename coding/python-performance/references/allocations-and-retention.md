@@ -50,7 +50,7 @@ units are platform-dependent; don't silently compare raw maximum-RSS numbers acr
 | Unbounded keys or pending work grow each cycle | Bound cache/queue, evict by policy, drain results | Hit-rate/latency or loss of required work; test sustained load and shutdown; explicit capacity contract |
 | A small view keeps a huge base array alive | Copy only the needed slice when lifetime saving pays | Adds copy CPU/peak bytes; measure both; document view ownership |
 | Excess parallel workers duplicate dataset | Reduce worker count, stream/chunk, consider explicit shared storage | Serialization/coordination; verify aggregate memory and throughput, not parent RSS only |
-| RSS plateau remains after objects freed | Investigate allocator reuse/fragmentation before intervention | `del`/`gc.collect()` do not guarantee OS return; do not add collection to every request |
+| RSS plateau remains after objects freed | Investigate allocator reuse/fragmentation before intervention | Do not add collection to every request |
 
 Do not use forced GC as a generic performance fix. It can diagnose a hypothesis in an
 isolated test but changes timing and cannot free reachable objects. Stop when memory is

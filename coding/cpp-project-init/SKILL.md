@@ -38,7 +38,7 @@ Build the smallest usable project, not a framework for hypothetical projects. Th
 
 Choose a CMake minimum and preset schema compatible with supported machines. Use preset inheritance for common settings and toolchain files when needed. Start with actual local Debug and Release needs, not every OS/compiler combination. Keep incompatible configurations in separate binary directories. Diagnostic configurations are opt-in, not hidden inside the test switch.
 
-Prefer Ninja; set `CMAKE_EXPORT_COMPILE_COMMANDS=ON` for Ninja/Makefile generators and verify the file exists. Visual Studio/Xcode generators do not promise this database. Select a supported tooling configuration if one is needed there.
+Prefer Ninja; set `CMAKE_EXPORT_COMPILE_COMMANDS=ON` for Ninja/Makefile generators and verify the file exists.
 
 Support optional ccache/sccache via compiler launchers on supported generators/languages, keeping the real compiler as the compiler: deterministic selection, explicit disable/selection, no implicit remote cache services or credentials. Optional absence is harmless; explicitly requesting a missing tool is an actionable error.
 
@@ -50,7 +50,7 @@ No CPM, FetchContent, Conan or vcpkg. Do not substitute ExternalProject download
 2. Retain the smallest **complete** subset: implementations, headers, generated inputs, platform backends and transitive dependencies. Inspect upstream CMake for indirect downloads and default tests/examples that pull extra dependencies.
 3. Integrate retained source with local `add_subdirectory` or a small target adapter outside upstream code. Explicitly disable unwanted upstream features. Do not globally impose first-party warning flags on vendors.
 4. Record URL, revision, subset, local patches and update procedure. Maintain complete applicable licenses/notices in the root consolidated record, preserving required upstream files and headers too; URLs alone are insufficient.
-5. Verify configure/build/test from fresh build directories with dependencies already present and network acquisition unavailable. A warm cache or successful online build is not offline evidence.
+5. Verify configure/build/test from fresh build directories with dependencies already present and network acquisition unavailable.
 
 Choose only needed capabilities using the [cpp library preferences](../cpp/SKILL.md#libraries-only-for-a-needed-capability); that skill owns the preference list and progress/GUI conventions.
 
@@ -73,6 +73,15 @@ Tests, sanitizers, coverage, fuzzing and analyzers are separate choices. Enablin
 ## Acceptance evidence
 
 Report the tree and chosen dependencies; exercised configure/build/test presets and thin command entry points; compilation database location; format/analyzer results; offline-verification method; untested platforms and unavailable tools. If network isolation is unavailable, report offline behavior as unverified rather than infer it from a text scan. Do not require a full matrix for an unrelated existing-project edit.
+
+## Gotchas
+
+- CMake 4.0 rejects a vendored `cmake_minimum_required` below policy version 3.5. Set `CMAKE_POLICY_VERSION_MINIMUM` before that `add_subdirectory` instead of editing vendor code, and record it as a local adaptation.
+- Preset schema 4 needs CMake 3.23. To support an older CMake, choose a compatible schema and features, not just a lower declared minimum.
+- Visual Studio and Xcode generators do not promise `compile_commands.json`. Select a supported tooling configuration if one is needed there.
+- A warm cache or successful online build is not offline evidence.
+- A header-only package can still include other packages or use configure-time generation.
+- `check_vendor_manifest.py` passes a nonempty LICENSE file containing nonsense; human review remains necessary.
 
 ## References
 

@@ -42,7 +42,7 @@ For headless Matplotlib, render with the installed backend and save at the actua
 
 For Plotly HTML, `include_plotlyjs=True` embeds the plotting library, whereas `include_plotlyjs='cdn'` requires network access. Inlining JavaScript is not a blanket offline guarantee: remote image URLs, map tiles, fonts, MathJax or other resources may still be external. Inspect the generated document and open it with networking disabled. Treat the HTML as an active document; share only trusted generated code and approved data.
 
-Plotly static export with Kaleido v1 depends on a compatible Chrome/Chromium already installed; a successful interactive display does not prove this path works. Do not auto-download a browser in an offline workflow. If absent, report the specific missing dependency, provide an available static alternative or keep the requested export pending. For Altair standalone delivery, verify the installed version's save/inline options and any required converter package, then test the resulting artifact disconnected. A referenced local JSON file must accompany the HTML and may face browser file-origin restrictions; bundled data or a supported local serving arrangement may be needed.
+If the browser Kaleido needs is absent, report the specific missing dependency, provide an available static alternative or keep the requested export pending. For Altair standalone delivery, verify the installed version's save/inline options and any required converter package, then test the resulting artifact disconnected. A referenced local JSON file must accompany the HTML and may face browser file-origin restrictions; bundled data or a supported local serving arrangement may be needed.
 
 ## Privacy and artifact verification
 

@@ -42,11 +42,11 @@ OPENBLAS_NUM_THREADS=1 ./existing-app representative-input
 
 This changes only that launched process's environment and requires permission to run it. It is **not** a universal instruction for an OpenMP OpenBLAS build. Build/runtime controls differ, and an application may override them through an API. Verify local build type, precedence and active threads. Do not assume the same variable controls Eigen's own parallel paths, another BLAS, OpenMP application workers or Ceres.
 
-OpenMP-built OpenBLAS follows OpenMP controls, which also reach other OpenMP code. BLAS calls from inside OpenMP parallel regions need `USE_OPENMP=1`; a pthreads build can deadlock there and is safe only when calls come from the main thread. A `USE_THREAD=0` build with concurrent callers needs `USE_LOCKING=1` (OpenBLAS 0.3.7 or later).
+OpenMP-built OpenBLAS follows OpenMP controls, which also reach other OpenMP code. A `USE_THREAD=0` build with concurrent callers needs `USE_LOCKING=1` (OpenBLAS 0.3.7 or later).
 
 ### Eigen
 
-Eigen threads only when compiled with OpenMP. Threaded paths are general dense products, `PartialPivLU`, row-major sparse times dense products, `ConjugateGradient` with `Lower|Upper`, `BiCGSTAB` with row-major sparse input, and `LeastSquaresConjugateGradient`. Controls are `OMP_NUM_THREADS`, `omp_set_num_threads`, `Eigen::setNbThreads` and compile-time `EIGEN_DONT_PARALLELIZE`. `Random()` and `setRandom()` are not thread-safe, including in seeded fixtures.
+With OpenMP, Eigen's threaded paths are general dense products, `PartialPivLU`, row-major sparse times dense products, `ConjugateGradient` with `Lower|Upper`, `BiCGSTAB` with row-major sparse input, and `LeastSquaresConjugateGradient`. Controls are `OMP_NUM_THREADS`, `omp_set_num_threads`, `Eigen::setNbThreads` and compile-time `EIGEN_DONT_PARALLELIZE`.
 
 ### oneMKL
 

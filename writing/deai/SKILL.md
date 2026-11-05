@@ -39,7 +39,7 @@ Make prose less templated while preserving meaning, facts, format, and the write
    The script finds lexical and measurable structural candidates; it does not assess authorship or replace document-level review. Inspect four layers in order: document architecture, paragraph/discourse flow, sentence structure, then vocabulary/punctuation. Quote the shortest evidence for each finding. Treat isolated low-signal hits as normal variation; act on unsupported high-signal defects or clusters.
 3. For `check` (default), stop after diagnosis. Report scene, quoted findings by layer, legitimate exceptions, and a `clean|isolated|cluster` editorial verdict. Do not edit.
 4. For `rewrite`, read the language reference (`PATTERNS_ZH.md` or `PATTERNS_EN.md`) after diagnosis; when the `defensive` category fires or the task is paper-level academic writing, also read `references/DEFENSIVE_WRITING.md` and run its claim audit on any LLM- or reviewer-shaped source text. Default to minimal in-place refactoring. Fix the deepest confirmed layer first and change only supported defects. Recreate the whole piece only when the user requests a full rewrite; first extract a fact/claim/intent ledger, then verify the result against it. Return one recommended version plus a compact change log with location, original, revision, action type, and reason.
-5. For `audit`, record the baseline, perform the requested rewrite, rerun the same scanner, then compare findings, meaning, protected spans, and requested counts. Report `PASS`/`FAIL`; tool scores are tool-specific heuristics, never proof of authorship.
+5. For `audit`, record the baseline, perform the requested rewrite, rerun the same scanner, then compare findings, meaning, protected spans, and requested counts. Report `PASS`/`FAIL`.
 6. For a multi-file document or directory, run `scripts/deai_batch.py` from this skill directory; see its `--help`.
 7. For `style-profile`, run `style_profile.py` and use its output as a constraint, never as permission to clone signature phrases or invent personal detail.
 
@@ -56,10 +56,17 @@ Use these action labels in change logs; they are an audit vocabulary, not mandat
 - `downgrade_claim`: narrow certainty to what the evidence supports, without changing a sourced claim.
 - `delete_hedge`: remove an ungrounded qualification, apology wrapper, or prebuttal sentence; keep any factual core.
 - `restore_claim`: return a weakened, scoped, or retracted claim to the strength the source supports; audit against evidence, never automatic.
-- `restate_scope`: convert "we do not claim X" and generic-scope hedges into one positive scope or limitation statement. (Scanner signal: `negative_scope`; not to be confused with `scope_restore`, which strips governance machinery from a document that never owned it.)
+- `restate_scope`: convert "we do not claim X" and generic-scope hedges into one positive scope or limitation statement.
 - `split_sentence`: split an overloaded sentence only when scope and logic remain intact.
 - `merge_fragments`: join choppy fragments only when emphasis, order, and meaning remain intact.
 - `scope_restore`: remove or relocate unrequested governance machinery and restate the underlying technical invariant once.
+
+## Gotchas
+
+- Scanner signal `negative_scope` maps to action `restate_scope`. It is not `scope_restore`, which strips governance machinery from a document that never owned it.
+- Defensive qualifications are triggered by anticipated review, not evidence: pure polish prompts produce almost none, and "hold up under review" framing raises them.
+- Check a suspected retraction against the full paper before reversing it. The retracted claim may itself be the overclaim.
+- Tool scores are tool-specific heuristics, never proof of authorship, so an `audit` `PASS` is not a human verdict.
 
 ## User constraints
 

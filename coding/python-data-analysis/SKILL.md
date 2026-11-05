@@ -35,6 +35,15 @@ For an unexpected result, reproduce on a bounded representative subset, identify
 
 The bundled [example](assets/analysis_example.py) checks event identity, rejects null/duplicate dimension keys, validates a many-to-one join, reports observed and eligible denominators separately, and renders an optional headless PNG. It is synthetic and descriptive, not a statistical or library benchmark.
 
+## Gotchas
+
+- pandas matches null keys on both sides of a merge, unlike SQL. Reject or separate unknown keys first. `validate='many_to_many'` permits expansion; it is not a uniqueness check.
+- pandas 3.0+: parsed datetimes are `datetime64[us]`, so `astype('int64')` is 1000x smaller than `ns` code expects (use `as_unit()`); `str` columns fail `dtype == object`; chained assignment never writes.
+- `to_datetime(..., utc=True)` normalizes offset-bearing timestamps but assumes naive ones are UTC. It does not infer their provenance.
+- An all-missing group's reduction may produce a numeric zero. Gate its interpretation on the known count.
+- Plotly static export with Kaleido v1 needs a compatible Chrome/Chromium already installed; interactive display does not prove this path. Do not auto-download a browser offline.
+- DuckDB `memory_limit` is not a strict process RSS cap; some allocations occur outside the buffer manager.
+
 ## Delivery contract
 
 Deliver the answer plus its population/window/unit, estimator and denominator, exclusions/missingness, uncertainty meaning, data/code/dependency identity, and the plotted summary table when a chart was produced. Report which renderer/export was actually run and which offline/browser/font checks remain. A PNG signature test is not visual inspection; a successful notebook display is not proof that a standalone HTML file works without the notebook server.

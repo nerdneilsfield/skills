@@ -34,7 +34,7 @@ Tool invocation, schemas, permissions, examples and limitations live with the ma
 
 Record the required metric and acceptance budget: throughput, median/tail latency, peak memory, allocations or scaling. Select realistic input identities, sizes, seeds and output correctness checks. For SLAM/reconstruction, distinguish tracking, feature/point processing, correspondence, residual evaluation, linear solve and data conversion before choosing a kernel benchmark.
 
-Measure a release-like optimized build with symbols suitable for profiling. Record revision, compiler/flags, CPU/ISA, OS, dependency versions, thread counts and relevant affinity/power settings. Sanitizer Debug runs diagnose behavior; they are not the baseline for a production speedup.
+Measure a release-like optimized build with symbols suitable for profiling. Record revision, compiler/flags, CPU/ISA, OS, dependency versions, thread counts and relevant affinity/power settings.
 
 Control warmup, cache state and competing load according to the workload. Repeat enough to expose variation and record the measurement spread; alternate before/after runs when drift matters. Use the same inputs and machine conditions. Treat a difference inside noise as inconclusive, not a win.
 
@@ -59,7 +59,7 @@ perf record -g -- ./app representative-input
 perf report
 ```
 
-Choose events and stack-unwinding options for the actual CPU/build. The repetition count is illustrative, not statistical certification. Counter availability, multiplexing and sampling overhead affect interpretation. IPC, cache misses and HITM are clues, not architecture-independent pass/fail thresholds. Profiles of a microbenchmark must be checked against end-to-end behavior.
+Choose events and stack-unwinding options for the actual CPU/build. The repetition count is illustrative, not statistical certification. Counter availability, multiplexing and sampling overhead affect interpretation. Profiles of a microbenchmark must be checked against end-to-end behavior.
 
 ## Change one supported cause
 
@@ -93,6 +93,14 @@ Report a compact comparison:
 | Limits | Unmeasured platforms, unsupported counters, noise or untested input regimes |
 
 Without comparable measurements, report a proposed experiment rather than an established speedup. If timing improves without profile evidence, distinguish the measured change from its unverified causal explanation. Do not build a benchmarking framework or run all diagnostics for an unrelated source edit.
+
+## Gotchas
+
+- Sanitizer Debug runs diagnose behavior; they are not the baseline for a production speedup.
+- IPC, cache misses and HITM are clues, not architecture-independent pass/fail thresholds.
+- Eigen threads only when compiled with OpenMP, so its thread controls do nothing in a build without it.
+- Eigen `Random()` and `setRandom()` are not thread-safe, including in seeded fixtures.
+- BLAS calls from inside OpenMP parallel regions need an OpenBLAS built with `USE_OPENMP=1`; a pthreads build can deadlock there and is safe only when calls come from the main thread.
 
 ## References
 

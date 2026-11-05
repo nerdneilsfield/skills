@@ -4,9 +4,8 @@
 
 A Python loop over scalar objects repeatedly pays dispatch and object handling.
 A NumPy ufunc moves iteration into native code, but this alone says nothing about
-SIMD, multiple cores, or the number of memory passes. `np.vectorize` wraps repeated
-Python calls for convenience; replacing a loop with it is not a performance fix.
-`dtype=object` is also not a packed numeric buffer. Establish intended numeric
+SIMD, multiple cores, or the number of memory passes.
+`dtype=object` is not a packed numeric buffer. Establish intended numeric
 semantics before converting it; silently converting missing strings or arbitrary
 precision integers can change results.
 

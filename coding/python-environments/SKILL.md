@@ -35,6 +35,15 @@ References explain procedures locally; web links are provenance, not required re
 
 After the environment runs the intended workload, stop. Defer numerical correctness to `python-numerics`, process profiling to `python-performance`, model quality to `python-ml`, and tabular analysis to `python-data-analysis`. Defer shared data contracts to `python`. If a needed named specialist is absent, tell the user that exact skill name to install; do not globally search, fetch a substitute or auto-install it. This environment workflow remains independently usable.
 
+## Gotchas
+
+- uv `--frozen` uses the lock without checking it against project intent; it is not stronger than `--locked`.
+- Plain `uv run` may synchronize first, so a diagnostic run through it can change the environment. Use the prefix's explicit trusted Python to inspect without syncing.
+- Synchronizing may remove packages outside the selected dependency set. Do not sync a shared or unidentified prefix.
+- Pixi `--no-config` skips user/system config but still merges project `.pixi/config.toml`; `--config-file` replaces only the global layer. Check local help first; these are current-version behaviors.
+- The CUDA version in `nvidia-smi` describes driver support, not an installed nvcc or toolkit.
+- A `pyproject.toml` alone does not prove uv owns the environment.
+
 ## Completion evidence
 
 Use [environment record](assets/environment-record.md) to record exact commands, manager/interpreter identity, lock and target, observed result, rollback and unverified boundaries. A successful solver does not prove imports; a successful import does not prove GPU execution; a warm environment does not prove offline restoration. Missing tools/artifacts are actionable gaps, not permission to install them implicitly.

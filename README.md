@@ -17,10 +17,14 @@
 | [`counterweight-cut`](coding/counterweight-cut/) | 实现之后，用户询问这次 diff 里什么没挣到留下资格时使用。默认只出清单，用户点名才改。不用于实现功能或正确性审查。 |
 | [`cpp`](coding/cpp/) | 编写、审阅或维护 C++ 时使用，可与专科技能同时加载，提供语言、所有权与接口约定。新建项目或重构构建交给 `cpp-project-init`。 |
 | [`cpp-project-init`](coding/cpp-project-init/) | 用户要求新建 C++ 项目，或改 CMake presets、vendor 与命令入口时使用。不用于普通源码修复、排错、性能或数值内核。 |
+| [`cpp-testing`](coding/cpp-testing/) | 编写、修复或整理 C++ 测试、CTest 接线与不稳定测试。崩溃原因未明时交给 `cpp-debug`。 |
 | [`cpp-debug`](coding/cpp-debug/) | 最小排查后仍未解释的崩溃、挂起、数据竞争、内存破坏或不确定失败。数值契约问题交给 `cpp-numerics`。 |
 | [`cpp-performance`](coding/cpp-performance/) | 用户要求优化，或已测量到 C++ CPU 延迟、吞吐、缓存、线程或内存问题。崩溃交给 `cpp-debug`，数值模型交给 `cpp-numerics`。 |
 | [`cpp-numerics`](coding/cpp-numerics/) | Eigen、残差、求解器、流形或数值数据边界的正确性、不稳定结果，以及由模型、布局或精度导致的慢。进程级性能交给 `cpp-performance`。 |
 | [`python`](coding/python/) | 编写、审阅或维护 Python 时使用，可与专科技能同时加载，提供数据契约、可变性、资源与失败约定。 |
+| [`python-testing`](coding/python-testing/) | 编写、修复或整理 Python 测试、夹具、mock 与不稳定测试。未解释的故障交给 `python-debug`。 |
+| [`python-debug`](coding/python-debug/) | 崩溃、挂起、卡住的异步任务，或看完首个 traceback 仍未解释的失败。 |
+| [`python-project-init`](coding/python-project-init/) | 用户要求新建 Python 项目，或添加 pyproject、Ruff、ty、pytest 配置时使用。不用于普通修复。 |
 | [`python-performance`](coding/python-performance/) | 测量并修复 Python 热点、等待、内存增长或扩展性。不用于数值内核、环境修复、训练循环或表格分析。 |
 | [`python-numerics`](coding/python-numerics/) | 数组形状、dtype、布局、精度、求解器、BLAS 或 JIT 边界。进程级剖析交给 `python-performance`。 |
 | [`python-environments`](coding/python-environments/) | 创建、复现或修复 uv、venv、Conda、Pixi、锁文件、离线制品与 CUDA/原生 ABI。不用于写 CUDA kernel 或改数值算法。 |
@@ -68,7 +72,7 @@ npx skills add nerdneilsfield/skills --skill technical-writing -g
 
 C++ 技能可离线使用。`cpp` 只保留共享语言与接口约定。新建项目与 vendor 归 `cpp-project-init`，崩溃与未解释失败归 `cpp-debug`，已测量的 CPU 与线程预算归 `cpp-performance`，Eigen 与求解器数值契约归 `cpp-numerics`。先加载一个专用技能，证据跨界时再加载另一个。验证方法见 [tests/README.md](tests/README.md)。
 
-Python 同样按症状选择专用技能：环境归 `python-environments`，热点归 `python-performance`，数组与求解器归 `python-numerics`，训练与评估归 `python-ml`，表格与图表归 `python-data-analysis`。`python` 保留共享契约，可与专用技能同时加载。技能正文离线自足，实际离线重建仍需预先准备兼容制品。各资产提供独立运行入口，完整仓库测试见 [tests/README.md](tests/README.md)。
+Python 同样按症状选择专用技能：新建项目归 `python-project-init`，测试归 `python-testing`，排错归 `python-debug`，环境归 `python-environments`，热点归 `python-performance`，数组与求解器归 `python-numerics`，训练与评估归 `python-ml`，表格与图表归 `python-data-analysis`。`python` 保留共享契约，可与专用技能同时加载。技能正文离线自足，实际离线重建仍需预先准备兼容制品。各资产提供独立运行入口，完整仓库测试见 [tests/README.md](tests/README.md)。
 
 ### 仓库结构
 
@@ -91,10 +95,14 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`counterweight-cut`](coding/counterweight-cut/) | After implementation, use when the user asks what in this diff did not earn the cost of staying. Default is a cut list; edit only when the user asks to apply it. Not for implementing features or correctness review. |
 | [`cpp`](coding/cpp/) | Use when writing, reviewing, or maintaining C++, including alongside a specialist, for language, ownership, and interface conventions. Hand project creation or build restructuring to `cpp-project-init`. |
 | [`cpp-project-init`](coding/cpp-project-init/) | Use when the user asks to create a C++ project or restructure CMake presets, vendored dependencies, or command entry points. Not for ordinary fixes, crashes, CPU tuning, or numerical kernels. |
+| [`cpp-testing`](coding/cpp-testing/) | Use to write, fix, or organize C++ tests, CTest wiring, and flaky tests. Hand unexplained crashes to `cpp-debug`. |
 | [`cpp-debug`](coding/cpp-debug/) | Use for crashes, hangs, races, memory corruption, or failures still unexplained after the first diagnostic. Hand numerical-contract bugs to `cpp-numerics`. |
 | [`cpp-performance`](coding/cpp-performance/) | Use when the user asks to optimize C++ CPU code, or for measured latency, throughput, cache, thread, or memory problems. Hand crashes to `cpp-debug` and numerical models to `cpp-numerics`. |
 | [`cpp-numerics`](coding/cpp-numerics/) | Use for Eigen, residuals, solvers, manifolds, or numerical data-boundary correctness, including unstable results and slowness rooted in the model, layout, or precision. Hand process-wide performance to `cpp-performance`. |
 | [`python`](coding/python/) | Use when writing, reviewing, or maintaining Python, including alongside a specialist, for data, mutation, resource, and failure contracts. |
+| [`python-testing`](coding/python-testing/) | Use to write, fix, or organize Python tests, fixtures, mocks, and flaky tests. Hand unexplained failures to `python-debug`. |
+| [`python-debug`](coding/python-debug/) | Use for crashes, hangs, stuck tasks, and failures still unexplained after the first traceback. |
+| [`python-project-init`](coding/python-project-init/) | Use when asked to create a Python project or add pyproject, Ruff, ty, or pytest configuration. Not for ordinary fixes. |
 | [`python-performance`](coding/python-performance/) | Use when measuring or fixing Python hotspots, waiting, memory growth, or scaling. Not for numerical kernels, environment repair, training loops, or tabular analysis. |
 | [`python-numerics`](coding/python-numerics/) | Use for array shape, dtype, layout, precision, solvers, BLAS, or JIT boundaries. Hand process-wide profiling to `python-performance`. |
 | [`python-environments`](coding/python-environments/) | Use when creating, reproducing, or repairing uv, venv, Conda, Pixi, lockfiles, offline artifacts, or CUDA/native ABI. Not for writing CUDA kernels or changing numerical algorithms. |
@@ -142,7 +150,7 @@ Use $technical-writing to rewrite this deployment guide.
 
 C++ skills work offline. `cpp` keeps shared language and interface conventions. Project creation and vendoring belong to `cpp-project-init`, crashes and unexplained failures to `cpp-debug`, measured CPU and thread budgets to `cpp-performance`, and Eigen or solver numerical contracts to `cpp-numerics`. Start with one specialist and load another only when the evidence crosses its boundary. See [tests/README.md](tests/README.md) for validation.
 
-Python follows the same split: environments to `python-environments`, hotspots to `python-performance`, arrays and solvers to `python-numerics`, training and evaluation to `python-ml`, and tables and charts to `python-data-analysis`. `python` keeps the shared contract and can load alongside a specialist. Guidance is self-contained offline; actual offline reconstruction still requires compatible artifacts. Assets have standalone entrypoints; repository validation is documented in [tests/README.md](tests/README.md).
+Python follows the same split: new projects to `python-project-init`, tests to `python-testing`, diagnosis to `python-debug`, environments to `python-environments`, hotspots to `python-performance`, arrays and solvers to `python-numerics`, training and evaluation to `python-ml`, and tables and charts to `python-data-analysis`. `python` keeps the shared contract and can load alongside a specialist. Guidance is self-contained offline; actual offline reconstruction still requires compatible artifacts. Assets have standalone entrypoints; repository validation is documented in [tests/README.md](tests/README.md).
 
 ### Repository layout
 

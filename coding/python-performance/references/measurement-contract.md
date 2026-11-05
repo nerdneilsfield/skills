@@ -10,7 +10,7 @@ For a service record offered load, completed work and error rate: rejecting work
 successful requests look faster without improving the service.
 
 Use `time.perf_counter()` for elapsed wall time and `time.process_time()` for current-process
-CPU. Wall includes waiting; process CPU excludes sleeping and does not sum all child workers.
+CPU. Wall includes waiting; process CPU excludes sleeping.
 Across native threads process CPU can exceed wall. Their ratio is a clue, not a lock/GIL
 classifier. Include worker-group accounting before claiming parallel efficiency.
 
@@ -33,8 +33,7 @@ calls disproportionately affects call-heavy Python; allocation tracing changes m
 CPU; high sampling rates also have cost. Compare capture-on and capture-off overhead on the
 same workload if operational impact matters. Never treat an advertised overhead as a budget.
 
-For small snippets `timeit` is available offline, but its default disables garbage collection.
-If collection is part of the real cost, enable it in the setup and describe that scope.
+For small snippets `timeit` is available offline.
 `pyperf` is an optional stronger repeated-run harness; missing installation is not a reason
 to fetch it or tune host settings. Do not run `pyperf system tune` automatically.
 

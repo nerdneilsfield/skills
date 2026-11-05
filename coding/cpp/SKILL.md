@@ -16,6 +16,7 @@ This hub is shared language, ownership, and interface policy for all C++ work, a
 | Task | Skill |
 | --- | --- |
 | User asks to create a C++ project or to restructure CMake presets, vendored dependencies, offline builds, or developer command entry points | `cpp-project-init` |
+| Writing, fixing, or organizing tests, CTest wiring, sanitizer test builds, or flaky tests | `cpp-testing` |
 | Crash, hang, race, memory corruption, nondeterminism, or a failure still unexplained after the first diagnostic and nearby diff | `cpp-debug` |
 | Measured CPU latency, throughput, cache or lock contention, scheduling, oversubscription, paging, allocation, or scaling | `cpp-performance` |
 | Eigen, residual, Jacobian, manifold, factor graph, sparse/BLAS solver, or numerical data-boundary work, including unstable or non-finite results | `cpp-numerics` |
@@ -26,9 +27,9 @@ When a row matches, load that specialist alongside this hub's language and inter
 
 - Default new first-party code to C++20 unless compiler, platform, dependency or explicit requirements dictate otherwise. Preserve established project constraints. Require the selected standard and disable compiler language extensions; avoid novelty-driven abstractions.
 - Prefer value semantics, RAII and the Rule of Zero. Use exclusive ownership by default; `shared_ptr` requires actual shared lifetime. A direct resource owner deliberately defines or deletes relevant copy/move/destructor operations.
-- References, observer pointers, `string_view` and `span` are borrows: establish owner, lifetime and invalidation. Stored views, callbacks and async work do not extend underlying lifetime. Transfer/retain ownership when work outlives the caller.
+- References, observer pointers, `string_view` and `span` are borrows: establish owner, lifetime and invalidation. Transfer/retain ownership when work outlives the caller.
 - Keep public headers self-contained with guards and direct includes, no global `using namespace`. Expose necessary contracts, keep implementation/vendor types internal where practical, and do not automatically add PImpl or wrapper layers.
-- Follow the existing error model at explicit boundaries, including post-failure object state. Use `[[nodiscard]]` where ignoring a result risks a bug. Do not upgrade a C++20 project or add a result library merely for `std::expected`.
+- Follow the existing error model at explicit boundaries, including post-failure object state. Use `[[nodiscard]]` where ignoring a result risks a bug.
 
 Read [ownership/interface examples](references/code-examples.md) for an ownership or interface question. They are examples, not mandatory class shapes or plan content.
 
@@ -59,6 +60,13 @@ Keep concise repository instructions for prerequisites, preset/command selection
 Verify changed behavior with relevant checks. For build/dependency changes use the acceptance rules owned by `cpp-project-init`. Report untested platforms and unavailable tools; no unrelated full-matrix requirement or tests added merely because this skill exists.
 
 Use targeted diagnostic configurations for memory, undefined-behavior, or concurrency risks that the change can exercise, separate from ordinary Release. Performance claims need comparable before/after measurements and correctness checks. Reproducible tests preserve seeds, isolate temporary state and wait on bounded observable conditions; avoid guessed sleeps and internal call choreography. Do not create interfaces/mocks merely to satisfy test templates. See [targeted diagnostics](references/diagnostics.md). When the symptom matches a row in the handoff table, load that specialist for the rest of the work.
+
+## Gotchas
+
+- Stored views, callbacks and async work do not extend underlying lifetime.
+- `std::expected` is C++23. Do not upgrade a C++20 project or add a result library merely for it.
+- A public header that depends on include order passes until some file includes it first. Compile a translation unit that includes it first.
+- In a threaded test, a timed wait does not prevent teardown from hanging. Stop and join the worker on assertion failure as well as success.
 
 ## Reading pointers
 

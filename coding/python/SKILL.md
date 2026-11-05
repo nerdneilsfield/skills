@@ -18,6 +18,9 @@ This hub is the shared contract for ordinary Python: what an operation means, wh
 | Data contract, mutation, resource lifetime, expected failure, or verification | [Engineering contract](references/engineering-contract.md) |
 | Hotspots, Python versus native CPU, waiting, memory growth, event-loop stalls, or application scaling | [python-performance](../python-performance/SKILL.md) |
 | Array or tensor shape, dtype, layout, broadcasting, numerical accuracy, solvers, BLAS, or JIT/device boundaries | [python-numerics](../python-numerics/SKILL.md) |
+| Writing, fixing, or organizing tests, including fixtures, mocks, and flaky tests | [python-testing](../python-testing/SKILL.md) |
+| Crash, hang, stuck task, or a failure still unexplained after the first traceback and nearby diff | [python-debug](../python-debug/SKILL.md) |
+| User asks to create a project or package, or to add pyproject, Ruff, ty, or pytest configuration | [python-project-init](../python-project-init/SKILL.md) |
 | Interpreter, uv, venv, Conda, Pixi, mirrors, locks, offline artifacts, or CUDA/native ABI | [python-environments](../python-environments/SKILL.md) |
 | Classical ML or deep-learning splits, training, evaluation, checkpoints, or training-loop performance | [python-ml](../python-ml/SKILL.md) |
 | Tabular, time, or missing data, join and group meaning, statistical summaries, or charts | [python-data-analysis](../python-data-analysis/SKILL.md) |
@@ -36,8 +39,17 @@ The running idea is a finite batch of records: establish units/IDs/missingness â
 
 See the [original record example](assets/record-contract/README.md) for a self-contained, bounded illustration. Its Python-only checks do not validate NumPy, models, GPU execution or a production data schema.
 
+## Gotchas
+
+- `bool` is an `int` subclass, so `True` passes a numeric check. IDs with leading zeros must not become numbers.
+- Frozen containers and dataclasses do not freeze objects nested inside them.
+- A tiny array view can keep an enormous base allocation alive.
+- `asyncio.CancelledError` is a `BaseException` since Python 3.8: `except Exception` lets it through, `except BaseException` swallows it. Cancellation does not guarantee interrupting blocking native code.
+- A long CPU loop inside a coroutine still blocks its event loop.
+- Do not assume fork or inherited globals: Python 3.14 defaults to `forkserver` on Linux, so workers need an import-safe entrypoint.
+
 ## Verification and honest handoff
 
-Reuse the project's existing test/lint/type tools when available; missing tools are not permission to install them. Tests preserve dataset identity, expected behavior and relevant numerical tolerances. Separate functional correctness from speed, memory and statistical claims. Profile only authorized programs/processes; keep private data out of shared traces and reports.
+Reuse the project's existing test/lint/type tools when available; missing tools are not permission to install them. New projects default to uv, Ruff, and ty. Tests preserve dataset identity, expected behavior and relevant numerical tolerances. Separate functional correctness from speed, memory and statistical claims. Profile only authorized programs/processes; keep private data out of shared traces and reports.
 
 State the actual interpreter, checked behavior, measurement boundary, changed assumption, tradeoff and remaining uncertainty. Runtime guides and fixtures are readable offline; rebuilding an environment offline still needs compatible artifacts already present. Environment acquisition and source trust belong to `python-environments`, not duplicated installer commands here. CUDA kernels are outside this bundle's implementation scope; environment/device/measurement boundaries remain explicit.

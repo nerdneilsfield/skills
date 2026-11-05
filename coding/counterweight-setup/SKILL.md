@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 # Counterweight Setup
 
-Configure Counterweight in the current repository. md`. This skill edits project instructions; it is not the implementation workflow (`counterweight`) and not a cut list (`counterweight-cut`).
+Configure Counterweight in the current repository. This skill edits project instructions; it is not the implementation workflow (`counterweight`) and not a cut list (`counterweight-cut`).
 
 ## Request scope
 
@@ -57,16 +57,11 @@ framework skills may be combined with them freely. Do not enable a general
 planning or orchestration workflow by default.
 ```
 
-Replace an older Counterweight setup block instead of appending a duplicate.
-Remove duplicate copies of the required section. Do not rewrite or delete
-unrelated project guidance.
+Do not rewrite or delete unrelated project guidance.
 
 When the user authorizes this setup, replace instructions in the target file
 that directly require a competing default planning or orchestration workflow,
-including its mandatory routing pipeline. Do not replace language or framework
-skills, or independent project constraints such as safety boundaries,
-validation commands, coding conventions, and collaboration rules, even when
-they share a section with the conflicting workflow instructions. This is part
+including its mandatory routing pipeline. This is part
 of the authorized setup; do not ask for the same approval again.
 
 If the request leaves replacement authority unclear, identify the exact
@@ -87,9 +82,7 @@ choice below is the user's: model names, which roles, and whether any is forced.
   extension). Add one short section to `AGENTS.md` naming only the roles the
   user chose, the model for each, and a line saying to follow
   `counterweight/references/roles.md` and `hosts.md`. Do not copy those files
-  in. State plainly that these roles are run by the main model, which may skip
-  them, unless the user has also set up a host hook; do not describe a role as
-  automatic that nothing triggers.
+  in.
 - Do not invent model names or host config paths. Take models from the user.
   Leave out any host detail that `hosts.md` marks unverified.
 
@@ -116,6 +109,12 @@ supporting evidence, preserving real safety and validation requirements.
 Ordinary enablement authorizes the workflow conflict handling above and
 verified navigation, not a rewrite of all project rules; report other concerns
 without changing them.
+
+## Gotchas
+
+- Rerunning setup must not stack blocks: replace an older Counterweight block and remove duplicate copies of the required section.
+- Language and framework skills and independent constraints (safety boundaries, validation commands, coding conventions, collaboration rules) stay, even when they share a section with the competing workflow text being replaced.
+- Roles written to `AGENTS.md` are run by the main model, which may skip them unless the user also set up a host hook. Say so plainly; do not call a role automatic when nothing triggers it.
 
 ## Verify
 

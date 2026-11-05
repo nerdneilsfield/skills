@@ -32,7 +32,6 @@ Before tuning, reproduce incorrect results and check finite inputs, degenerate g
 | Situation | Check / decision |
 | --- | --- |
 | Overlapping destination/source | Determine aliasing; use a necessary evaluated temporary or documented in-place operation |
-| `noalias()` suggestion | Use only after proving destination does not overlap operands; it is a promise, not a safety check |
 | Stored `auto` expression | Check referenced operand/temporary lifetimes; materialize an owning result when it must survive |
 | External `Map` or block | Validate scalar type, alignment, row/column-major interpretation, stride, dimensions and buffer lifetime |
 | Fixed 3×3/6×6 blocks | Measure local expression/layout choices; a large BLAS backend does not automatically accelerate tiny kernels |
@@ -46,8 +45,8 @@ Check alignment rules against the project's Eigen/compiler/C++ versions and allo
 
 1. Check residual units, measurement covariance/whitening, robust-loss scale and initialization. Validate Jacobians using a suitable analytic/autodiff comparison or finite-difference check with scale-aware steps; a finite-difference discrepancy alone may reflect step size or a singularity.
 2. Confirm manifold dimensions, local perturbation side and frame convention. Preserve the project's SO(3)/SE(3) representation; do not silently switch libraries or conventions.
-3. Match quaternion **memory layout**, not just constructor syntax. Ceres `QuaternionManifold` uses `[w,x,y,z]`; `EigenQuaternionManifold` matches Eigen quaternion coefficient memory `[x,y,z,w]`. Confirm normalization and parameter-block lifetime. Never copy bytes across representations without proving layout.
-4. Resolve gauge freedoms and unobservable/degenerate directions with justified anchoring, priors or appropriate formulation. Monocular scale can remain free after fixing one pose. Do not conceal rank deficiency with arbitrary damping or “fix” observable states without considering bias.
+3. Match quaternion **memory layout**, not just constructor syntax (see Gotchas). Confirm normalization and parameter-block lifetime.
+4. Resolve gauge freedoms and unobservable/degenerate directions with justified anchoring, priors or appropriate formulation. Do not conceal rank deficiency with arbitrary damping or “fix” observable states without considering bias.
 5. Profile residual/Jacobian evaluation separately from factorization/linear solve. Use a Schur strategy for appropriate BA block structure; choose dense/sparse/iterative methods from size, sparsity, conditioning, memory and measured convergence, not a universal solver preset.
 6. For GTSAM, inspect variable ordering, elimination fill-in, factor construction and incremental relinearization behavior. Verify iSAM2 parameters against the installed version; do not copy old defaults blindly.
 
@@ -77,6 +76,14 @@ Use a trusted reference or known invariants with absolute/relative tolerances ap
 Report before/after time and memory **alongside** residual/error, convergence/iteration counts, failed cases and application quality (for example reprojection error, pose error with stated alignment/gauge, or reconstruction consistency). Lower precision, changed reduction order, fast-math or backend replacement must meet the accuracy budget; do not promise bitwise equality across backends or thread counts without testing it.
 
 Hand off: model/data contract → observed error or bottleneck → isolated change → comparable numerical/performance results → unresolved regimes. If no project workload is available, provide the next experiment, not fabricated solver results.
+
+## Gotchas
+
+- Ceres `QuaternionManifold` uses `[w,x,y,z]`; `EigenQuaternionManifold` matches Eigen quaternion coefficient memory `[x,y,z,w]`. Never copy bytes across representations without proving layout.
+- `noalias()` is a promise, not a safety check. Use it only after proving the destination does not overlap the operands.
+- Monocular scale can remain free after fixing one pose.
+- Ceres `num_threads` defaults to 1, so a slow residual evaluation may simply be serial.
+- Before debugging an unexplained GTSAM crash, check that `GTSAM_BUILD_WITH_MARCH_NATIVE` and `_GLIBCXX_DEBUG` match across GTSAM and everything linking it; a mismatch can segfault.
 
 ## Version-matched references
 

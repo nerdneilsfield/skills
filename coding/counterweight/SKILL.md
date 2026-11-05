@@ -21,12 +21,6 @@ Workflow track, reasoning effort, authorization, and review are separate.
 Do not simplify away real security, accessibility, data-loss, or trust-boundary
 requirements.
 
-Existing code is not by itself a compatibility commitment. Change task-local or
-unreleased interfaces with their local callers unless evidence identifies a
-published contract, independently deployed consumers, data that must be
-preserved, or an explicit user requirement. Preserve those obligations even for
-unreleased code.
-
 Ask only when an unresolved choice materially changes the result. Discover facts
 from code, project files, Git, and relevant documentation.
 
@@ -84,7 +78,7 @@ Obligations:
   acceptance; not function bodies.
 
 Before editing, name the observable result that means done and the smallest
-check that can establish it. Build success alone does not prove a runtime fix.
+check that can establish it.
 
 ## Authorization
 
@@ -111,12 +105,10 @@ Start with the smallest check that can support the claim:
 - Text/config: inspect the diff or run the relevant parser/config check.
 
 Add a second check only for a separate explicit requirement, a real safety
-boundary, or a mandatory repository gate. Fresh evidence must match the claim:
-a parser check cannot prove runtime behavior.
+boundary, or a mandatory repository gate.
 
 Write a test into the repository only when it earns future maintenance, and then
-with extreme restraint. Put session-only scripts, fixtures, and reproducers in
-`/tmp` or one uncommitted local directory, never under `tests/`.
+with extreme restraint.
 
 Read [references/feedback.md](references/feedback.md) when considering a
 permanent test, or when diagnosing a failure whose cause is unclear.
@@ -168,6 +160,13 @@ config asks for a review, over-review, historian, or planner run.
 | Commit subjects, or the concrete reason nothing was committed | Repeated plans |
 | Real blockers and limits | Invented follow-up work |
 | A non-obvious omission and its one-clause reason | Unverified success claims |
+
+## Gotchas
+
+- Existing code is not a compatibility commitment. Change task-local or unreleased interfaces with their callers unless evidence shows a published contract, independently deployed consumers, data to preserve, or an explicit requirement; those bind even unreleased code.
+- Build success or a parser check does not prove a runtime fix. Fresh evidence must match the claim.
+- A green check on the whole working tree says nothing about a commit whose staged subset omits code it needs. Include the dependency set or verify that subset separately.
+- Keep session-only scripts, fixtures, and reproducers in `/tmp` or one uncommitted local directory, never under `tests/`, even untracked: runners collect test-named files and later sessions treat the test tree as committable.
 
 ## Finish
 
