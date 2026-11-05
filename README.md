@@ -35,7 +35,7 @@
 | [`python-ml`](coding/python-ml/) | 经典机器学习或深度学习的划分、训练、评估、checkpoint 与训练循环性能。描述性表格交给 `python-data-analysis`。 |
 | [`python-data-analysis`](coding/python-data-analysis/) | 表格、时间或缺失数据的连接、分组口径、大规模聚合与诚实可视化。预测训练交给 `python-ml`。 |
 | [`grill-me`](coding/grill-me/) | 用户明确要求拷问或压力测试计划、设计或决策时使用。不用于直接实现该计划。 |
-| [`project-learning`](coding/project-learning/) | 真实开发中刚核实、以后会反复付出代价的项目事实要写入现有指引时使用。不用于启用 Counterweight 或写用户文档。 |
+| [`project-learning`](coding/project-learning/) | 把用户纠正、重复失败或已核实的非显然事实放到真正起作用的位置，也用于复盘和清理过期指引。不用于启用 Counterweight 或写用户文档。 |
 | [`deai`](writing/deai/) | 用户要求审阅或改写中英文里的模板化、官僚化、说教式或防御性 AI 写作痕迹时使用。不用于从零写技术文档或鲁迅文风。 |
 | [`luxun-style`](writing/luxun-style/) | 用户要求用鲁迅的语气、用词、逻辑和修辞写作或改写时使用。不用于技术文档或论文精读。 |
 | [`technical-writing`](writing/technical-writing/) | 用户要求写作、改写或审阅软件、硬件和工程技术文档时使用。不用于学术论文或学术稿件、鲁迅文风或单纯去 AI 化。 |
@@ -117,7 +117,7 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`python-ml`](coding/python-ml/) | Use for classical ML or deep-learning splits, training, evaluation, checkpoints, and training-loop performance. Hand descriptive tables to `python-data-analysis`. |
 | [`python-data-analysis`](coding/python-data-analysis/) | Use for tabular, time, or missing-data joins, grouping, large aggregation, and honest charts. Hand predictive training to `python-ml`. |
 | [`grill-me`](coding/grill-me/) | Use when the user explicitly asks to grill or stress-test a plan, design, or decision. Not for implementing that plan. |
-| [`project-learning`](coding/project-learning/) | Use when real work just verified a durable project fact that later agents would otherwise rediscover. Not for enabling Counterweight or writing user-facing docs. |
+| [`project-learning`](coding/project-learning/) | Use to put user corrections, repeated failures, and verified non-obvious facts where they change behavior; also for retros and pruning stale guidance. Not for enabling Counterweight or user-facing docs. |
 | [`deai`](writing/deai/) | Use when the user asks to review or rewrite Chinese or English prose that sounds templated, bureaucratic, paternalistic, or defensively AI-written. Not for authoring technical docs from scratch or Lu Xun voice. |
 | [`luxun-style`](writing/luxun-style/) | Use when the user asks to write or rewrite in Lu Xun's tone, diction, reasoning, and rhetoric. Not for technical documentation or paper reading. |
 | [`technical-writing`](writing/technical-writing/) | Use when the user asks to write, rewrite, or review software, hardware, or engineering documentation. Not for academic papers or scholarly manuscripts, Lu Xun voice, or a de-AI-only pass. |
