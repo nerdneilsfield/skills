@@ -1,0 +1,16 @@
+export const NS = "http://www.w3.org/2000/svg";
+export const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+export const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+export const sv = (t, a = {}) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); return e; };
+export const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+export function describe(box, o) {
+  box.replaceChildren(el("h3", null, o.title || o.label));
+  if (o.file) {
+    const l = el("div", "loc", o.file + (o.line ? ":" + o.line : ""));
+    l.append(el("span", "tag" + (o.verified === false ? " inferred" : ""), o.verified === false ? "推断" : "已核对"));
+    box.append(l);
+  }
+  const b = o.explain || o.summary;
+  if (b) box.append(el("p", null, b));
+  if (o.code) box.append(el("pre", null, o.code));
+}

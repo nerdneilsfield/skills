@@ -47,7 +47,7 @@
 | [`grill-me`](coding/grill-me/) | 用户明确要求拷问或压力测试计划、设计或决策时使用。不用于直接实现该计划。 |
 | [`project-learning`](coding/project-learning/) | 把用户纠正、重复失败或已核实的非显然事实放到真正起作用的位置，也用于写 `.cw/PRACTICES.md`、`.cw/BUGS.md`、复盘和清理过期指引；跨项目经验先进待批列表，用户确认后才写全局实践。不用于启用 Counterweight 或写用户文档。 |
 | [`code-reading`](coding/code-reading/) | 用户要读陌生仓库或大模块时使用：先建地图，沿数据流找到核心循环，结论带 文件:行号，区分读到的与推断的。不用于审查某个改动（code-review）或重设计模块（codebase-design）。 |
-| [`code-walkthrough`](coding/code-walkthrough/) | 生成离线交互网页：调用链动画，由浅入深，`文件:行号` 经校验。 |
+| [`interactive-guide`](coding/interactive-guide/) | 用组件模板生成交互网页：代码调用动画，或从小白到专家的多 Tab 学习路径。图片内联，库默认走 CDN。 |
 | [`code-review`](coding/code-review/) | 用户要求审查某个改动时使用：先定基线 commit，沿仓库规范与需求两条线审查，只报能给出失败场景的问题。不用于评审自己刚写的 diff 或做模块设计批评（codebase-design）。 |
 | [`codebase-design`](coding/codebase-design/) | 用户要设计或改进模块接口、决定接缝位置、提高可测性时使用：深模块、接缝、测试边界，有证据才改结构，与 counterweight 配合。不用于实现改动或审查 diff。 |
 | [`tool-compose`](coding/tool-compose/) | 用户要决定用什么工具查代码或语料，或检索为空、噪声太大时使用：按问题类型分层路由，缺失工具时给退路，并核对结果。不用于审查改动、设计模块或通读仓库。 |
@@ -144,7 +144,7 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`grill-me`](coding/grill-me/) | Use when the user explicitly asks to grill or stress-test a plan, design, or decision. Not for implementing that plan. |
 | [`project-learning`](coding/project-learning/) | Use to put user corrections, repeated failures, and verified non-obvious facts where they change behavior; also to write `.cw/PRACTICES.md` and `.cw/BUGS.md`, run retros, and prune stale guidance. Cross-project lessons queue as candidates and become global practices only after the user confirms. Not for enabling Counterweight or user-facing docs. |
 | [`code-reading`](coding/code-reading/) | Use to read an unfamiliar repository or a large module: build a map, follow the data flow to the core loop, cite `file:line`, and keep what you read separate from what you inferred. Not for reviewing a change (code-review) or redesigning a module (codebase-design). |
-| [`code-walkthrough`](coding/code-walkthrough/) | Build an offline interactive page: an animated call flow, layered from overview to code, with checked file:line. |
+| [`interactive-guide`](coding/interactive-guide/) | Build an interactive page from a component template: animated code flows, or a many-tab path from beginner to expert. Images are inlined; libraries use a CDN by default. |
 | [`code-review`](coding/code-review/) | Use to review a change against a fixed baseline: check the repository's standards and the spec as two separate lines, and report only problems you can state a failing scenario for. Not for reviewing your own fresh diff or a design critique (codebase-design). |
 | [`codebase-design`](coding/codebase-design/) | Use to design or improve a module's interface, place a seam, or make code testable: deep modules, real seams, the interface as the test surface, structure changed only with evidence. Not for implementing the change or reviewing a diff. |
 | [`tool-compose`](coding/tool-compose/) | Use to choose how to investigate a codebase or corpus, or when a search returns nothing or too much: route by question type, fall back when a tool is missing, and verify the result. Not for reviewing a change, designing a module, or reading a repository end to end. |

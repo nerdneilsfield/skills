@@ -1,0 +1,234 @@
+{
+ "title": "触发评测如何判定一次 skill 调用",
+ "summary": "这段脚本把某个版本的 skill 描述放进临时项目，逐条提问，再看模型调用了哪个 skill。",
+ "repo": "nerdneilsfield/skills",
+ "commit": "6d9dd3d",
+ "pages": [
+  {
+   "id": "overview",
+   "title": "全貌",
+   "level": "入门",
+   "intro": "它不读 skill 正文，只测描述能否把问题路由到正确的 skill。",
+   "blocks": [
+    {
+     "type": "figure",
+     "src": "example-figure.svg",
+     "alt": "从问题到判定的三段流程",
+     "caption": "图 1：触发评测的整体流程。"
+    },
+    {
+     "type": "steps",
+     "items": [
+      "准备：把描述写成只有一句话的占位 skill。",
+      "提问：每个问题独立运行一次。",
+      "判定：从事件流里找工具调用。"
+     ]
+    },
+    {
+     "type": "callout",
+     "title": "记住这一点",
+     "md": "它只测**路由**，不测 skill 写得好不好。"
+    },
+    {
+     "type": "quiz",
+     "question": "触发评测测的是什么？",
+     "options": [
+      "skill 正文的质量",
+      "描述能否路由到正确的 skill"
+     ],
+     "answer": 1,
+     "explain": "占位 skill 没有正文。"
+    }
+   ]
+  },
+  {
+   "id": "flow",
+   "title": "调用",
+   "level": "进阶",
+   "intro": "看一次运行怎样走过代码。",
+   "blocks": [
+    {
+     "type": "flow",
+     "nodes": [
+      {
+       "id": "main",
+       "label": "main",
+       "layer": 0,
+       "summary": "解析参数并调度全流程。",
+       "file": "evals/trigger/run_trigger.py",
+       "line": 75
+      },
+      {
+       "id": "build",
+       "label": "build",
+       "layer": 1,
+       "summary": "生成占位 skill。",
+       "file": "evals/trigger/run_trigger.py",
+       "line": 35
+      },
+      {
+       "id": "run",
+       "label": "run_query",
+       "layer": 1,
+       "summary": "运行一条问题。",
+       "file": "evals/trigger/run_trigger.py",
+       "line": 53
+      },
+      {
+       "id": "text",
+       "label": "skill_text",
+       "layer": 2,
+       "summary": "读取指定版本的 SKILL.md。",
+       "file": "evals/trigger/run_trigger.py",
+       "line": 26
+      }
+     ],
+     "edges": [
+      {
+       "from": "main",
+       "to": "build"
+      },
+      {
+       "from": "main",
+       "to": "run"
+      },
+      {
+       "from": "build",
+       "to": "text"
+      }
+     ],
+     "flows": [
+      {
+       "title": "一次运行怎样走",
+       "steps": [
+        {
+         "from": null,
+         "to": "main",
+         "title": "读入问题",
+         "explain": "问题集决定需要哪些 skill。",
+         "file": "evals/trigger/run_trigger.py",
+         "line": 75
+        },
+        {
+         "from": "main",
+         "to": "build",
+         "title": "搭临时项目",
+         "explain": "隔离用户配置，保证只比较描述。",
+         "file": "evals/trigger/run_trigger.py",
+         "line": 35
+        },
+        {
+         "from": "build",
+         "to": "text",
+         "title": "取描述",
+         "explain": "支持比较任意 git 版本。",
+         "file": "evals/trigger/run_trigger.py",
+         "line": 26
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "graph",
+   "title": "图谱",
+   "level": "深入",
+   "blocks": [
+    {
+     "type": "graph",
+     "nodes": [
+      {
+       "id": "q",
+       "label": "问题集",
+       "kind": "数据",
+       "summary": "带期望 skill 的查询。"
+      },
+      {
+       "id": "stub",
+       "label": "占位 skill",
+       "kind": "概念",
+       "summary": "只含描述。"
+      },
+      {
+       "id": "run",
+       "label": "run_query",
+       "kind": "函数",
+       "summary": "运行一条问题。",
+       "file": "evals/trigger/run_trigger.py",
+       "line": 53
+      },
+      {
+       "id": "res",
+       "label": "结果文件",
+       "kind": "数据",
+       "summary": "每条问题加载到的 skill。"
+      }
+     ],
+     "edges": [
+      {
+       "from": "q",
+       "to": "run",
+       "rel": "输入"
+      },
+      {
+       "from": "stub",
+       "to": "run",
+       "rel": "被路由"
+      },
+      {
+       "from": "run",
+       "to": "res",
+       "rel": "写入"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "math",
+   "title": "度量",
+   "level": "深入",
+   "blocks": [
+    {
+     "type": "formula",
+     "tex": "\\text{hit rate}=\\frac{\\text{hits}}{N}"
+    },
+    {
+     "type": "mermaid",
+     "code": "graph LR\n  A[问题] --> B[路由]\n  B --> C[判定]"
+    },
+    {
+     "type": "compare",
+     "headers": [
+      "对比",
+      "优点",
+      "代价"
+     ],
+     "rows": [
+      [
+       "触发评测",
+       "快",
+       "不测内容"
+      ],
+      [
+       "行为评测",
+       "测效果",
+       "贵"
+      ]
+     ]
+    },
+    {
+     "type": "terms",
+     "items": [
+      {
+       "term": "stub",
+       "meaning": "只含描述的占位 skill"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
