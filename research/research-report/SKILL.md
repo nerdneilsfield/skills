@@ -44,7 +44,7 @@ Build `outline.md` from the notes. Keep it brief and accurate, at most two headi
 
 ## 3. Chapters
 
-Write each chapter as its own file from the outline and the notes it cites. Follow `technical-writing` for technical material, and run `deai` on each chapter when it is finished. Cite with the note slug, as `[@note-slug]`, and turn these into final numbers or links only during assembly, so parallel drafts cannot collide. Chapters may go to parallel agents; give each one the outline, its notes, and the terminology decisions, and require that citation form.
+Write each chapter as its own file from the outline and the notes it cites. Follow `technical-writing` for technical material. Cite with the note slug, as `[@note-slug]`, and turn these into final numbers or links only during assembly, so parallel drafts cannot collide. Chapters may go to parallel agents; give each one the outline, its notes, and the terminology decisions, and require that citation form.
 
 ## 4. Figures
 
@@ -68,7 +68,7 @@ Fix these in `report.md`, or in the chapter and reassemble, but keep one source 
 
 ## 6. Full-document deai
 
-Run `deai` on the assembled text. Per-chapter passes miss patterns that only show across chapters: repeated skeletons, identical openings, and uniform rhythm. Citations, numbers, and quotations must survive unchanged.
+Run `deai` on the assembled text. Run it once, here, not per chapter, so it can catch patterns that only show across chapters: repeated skeletons, identical openings, and uniform rhythm. Citations, numbers, and quotations must survive unchanged.
 
 ## 7. Export
 
