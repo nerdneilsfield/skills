@@ -1,6 +1,6 @@
 ---
 name: project-learning
-description: "Use when real work just exposed something later agents would otherwise repeat or rediscover: a verified non-obvious fact, a user correction, a repeated failure, or an agent mistake; also when the user asks to remember a lesson, run a retro on a session, or prune stale agent guidance. Puts each lesson where it will actually change behavior. Not for enabling Counterweight (counterweight-setup), routine recaps, or user-facing documentation (technical-writing)."
+description: "Use when real work just exposed something later agents would otherwise repeat or rediscover: a verified non-obvious fact, a user correction, a repeated failure, or an agent mistake; also when the user asks to remember a lesson, run a retro on a session, or prune stale agent guidance. Chooses the user or project layer and puts each lesson where it will change behavior. Not for enabling Counterweight (counterweight-setup), routine recaps, or user-facing documentation (technical-writing)."
 license: MIT
 metadata:
   author: DengQi
@@ -21,26 +21,49 @@ Look for these, and verify each before keeping it:
 
 Do not record what the code, tests, or git history already show, or a one-off accident.
 
+## Choose the layer first
+
+Every agent separates two layers. Ask who the lesson is about, not where it was found.
+
+| Layer | Holds | Test |
+| --- | --- | --- |
+| **User (system)** | Your preferences, toolchain, working style, and lessons about tasks in general | Still true in an unrelated repository |
+| **Project** | Commands, paths, conventions, limits, and decisions of this repository | Useless or wrong elsewhere |
+
+Then split each layer by who maintains it:
+
+- **Instructions** are curated, always loaded, and must be followed. Put rules here.
+- **Memory** is agent-written recall for background and preferences. It may be stale, may be absent, and is not enforced. Never make it the only home of a rule that must hold.
+
+[Memory locations](references/memory-locations.md) maps these onto each tool. Use the running agent's own files, and read that reference before writing to one you have not used.
+
+Start at project scope. Promote to user scope only when the same lesson proved true in a second project, or the user states it as a general preference; then delete the project copy. A shared project file must not hold personal paths or preferences; use the private project file or user layer. Ask before changing a user-level file, since it affects every project.
+
 ## Put it where it will fire
 
-Use the first place that fits. A check beats a sentence, because a sentence can be ignored.
+Within the layer, use the first place that fits. A check beats a sentence, because a sentence can be ignored.
 
 | Lesson | Place |
 | --- | --- |
-| Can be detected mechanically | Test, lint rule, CI, or type |
+| Can be detected mechanically | Test, lint rule, CI, type, or hook |
 | Can be designed away | Code or API change, if in scope; otherwise propose it |
 | Applies to a task type across projects | That skill's Gotchas section |
-| Current fact for this repository | Narrowest applicable `AGENTS.md` or `CLAUDE.md` |
-| About the user, across projects | The agent's memory, if it has one |
+| A rule or fact for this repository | Narrowest project instructions file |
+| A personal rule for every project | User instructions file |
+| A preference or context worth recalling | The agent's memory, if it has one |
 | Evidence that may matter later | Learning log |
 
 Propose code, CI, and shared-skill changes unless the user asked for them. Reference the skill by its source repository, not an installed copy.
 
-## Current project truth
+## Project instructions
 
-Keep `AGENTS.md` for correct build or test commands, source-of-truth and generated directories, required environment variables, fixtures, conventions, long-lived limitations, recurring gotchas, and durable user decisions about dependencies, language versions, or forbidden behavior.
+Keep `AGENTS.md` for correct build or test commands, source-of-truth and generated directories, required environment variables, fixtures, conventions, long-lived limitations, recurring gotchas, and durable user decisions about dependencies, language versions, or forbidden behavior. Use `CLAUDE.md` or `GEMINI.md` when that is what the repository already has.
 
 Keep it short, since every agent pays for it on every run. Merge or replace stale statements instead of appending chronology. If none applies and the knowledge earns persistence, create a root `AGENTS.md`. Create nested files only when narrower scope is needed.
+
+## Memory files
+
+One fact per file, with an index of one-line pointers, where the tool allows it. Check for an existing entry and update it rather than adding a duplicate. Write absolute dates, and give the reason with the fact so a later agent can judge edge cases. Delete what proved wrong. A memory that names a file, flag, or command is a claim from the past: verify it before acting on it.
 
 ## Important history
 
@@ -83,4 +106,6 @@ Guidance decays. Check each instruction: does the command still run, does the pa
 - A long rules file gets skimmed. Adding a rule can weaken the others, so remove one when you can.
 - Verify a recalled command by running it. Stale instructions cost more than none.
 - A correction applies to its context. "Don't mock here" is not "never mock".
-- Never store secrets, tokens, or private data in guidance files.
+- A fact held in two layers drifts. Keep one home and point to it.
+- Layers usually concatenate rather than override, so a conflict between user and project files may resolve arbitrarily. Remove one side.
+- Never store secrets, tokens, or private data in guidance or memory files.
