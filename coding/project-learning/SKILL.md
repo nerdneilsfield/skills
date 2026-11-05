@@ -55,6 +55,19 @@ Within the layer, use the first place that fits. A check beats a sentence, becau
 
 Propose code, CI, and shared-skill changes unless the user asked for them. Reference the skill by its source repository, not an installed copy.
 
+## Approve before it persists
+
+Write at once only what the user explicitly asked to remember. Everything you inferred yourself goes to a pending list, not to live guidance, and the user approves it.
+
+Keep the list in `pending.md` in the agent's project memory directory. Without one, use a gitignored `.agent-learnings/pending.md`. Never load it as guidance, and never list it in a memory index. Add one entry per lesson:
+
+```markdown
+- 2026-11-05 | project | AGENTS.md | `make test` skips GPU tests without CUDA_VISIBLE_DEVICES
+  Evidence: failed twice in this session; see tests/README.md
+```
+
+Give the date, layer, proposed place, the lesson, and its evidence. At the end of the work, show new entries in one short batch, and ask once. On approval, write the entry to its place and remove it. On rejection, remove it. Offer to drop entries older than 90 days. Anything aimed at the user layer always waits here. Tools with their own review inbox, such as Gemini Auto Memory, keep using it.
+
 ## Project instructions
 
 Keep `AGENTS.md` for correct build or test commands, source-of-truth and generated directories, required environment variables, fixtures, conventions, long-lived limitations, recurring gotchas, and durable user decisions about dependencies, language versions, or forbidden behavior. Use `CLAUDE.md` or `GEMINI.md` when that is what the repository already has.

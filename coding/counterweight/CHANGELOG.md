@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Read relevant project memory before choosing a track, and treat it as a
+  lead to verify against the repository.
 - The description names only the implementation trigger and sends root
   `AGENTS.md` setup and post-diff cut lists to `counterweight-setup` and
   `counterweight-cut`.

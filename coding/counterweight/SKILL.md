@@ -24,6 +24,10 @@ requirements.
 Ask only when an unresolved choice materially changes the result. Discover facts
 from code, project files, Git, and relevant documentation.
 
+## Memory first
+
+Before choosing a track, read the project memory index if this agent keeps one and it was not already injected, then open only entries that bear on the task. A user decision or known failure there can change the answer. Memory is a lead, not evidence: it records the past, so check any named file, flag, or command against the repository, and when they disagree, the current code wins. An explicit instruction in this conversation outranks memory. No memory means continue; do not search for one.
+
 ## Implementation ladder
 
 Before writing new code, walk this in order and stop at the first level that
