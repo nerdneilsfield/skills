@@ -30,7 +30,7 @@ List three to five distinct approaches, each in one or two sentences, and for ea
 - The failure modes: degenerate inputs, scale, non-finite values, ties, empty input.
 - The evidence that would distinguish it from the baseline.
 
-Prefer candidates that differ in mechanism, not in tuning.
+Prefer candidates that differ in mechanism, not in tuning. Before building one, use `research-hypothesis` to write what it predicts that the baseline does not, so that the measurement can tell them apart.
 
 ## 4. Complexity and failure analysis
 

@@ -1,0 +1,20 @@
+{
+ "mode": "answer",
+ "title": "为什么触发评测不读 skill 正文？",
+ "summary": "因为它只测描述能否把问题路由到正确的 skill：模型决定调用之前，看到的只有描述。",
+ "assumptions": [
+  "读者已经知道 skill 由描述和正文组成。"
+ ],
+ "blocks": [
+  {
+   "type": "mermaid",
+   "code": "flowchart LR\n  Q[用户问题] --> D[只看描述]\n  D --> C{调用哪个 skill}\n  C --> B[读取正文]"
+  },
+  {
+   "type": "callout",
+   "kind": "warn",
+   "title": "别混淆",
+   "md": "评测通过只说明路由正确，不说明正文写得好。"
+  }
+ ]
+}

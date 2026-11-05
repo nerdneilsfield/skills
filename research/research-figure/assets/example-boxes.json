@@ -1,0 +1,17 @@
+{
+  "direction": "LR",
+  "nodes": [
+    {"id": "input", "label": "RGB frames", "group": "neutral"},
+    {"id": "encoder", "label": "Encoder", "group": "primary"},
+    {"id": "memory", "label": "特征记忆", "group": "tertiary", "shape": "ellipse"},
+    {"id": "gate", "label": "Confident?", "group": "accent", "shape": "diamond"},
+    {"id": "output", "label": "Depth map", "group": "secondary"}
+  ],
+  "edges": [
+    {"from": "input", "to": "encoder"},
+    {"from": "encoder", "to": "memory", "label": "write"},
+    {"from": "memory", "to": "gate", "label": "read"},
+    {"from": "gate", "to": "output", "label": "yes"},
+    {"from": "gate", "to": "encoder", "label": "no", "dashed": true}
+  ]
+}

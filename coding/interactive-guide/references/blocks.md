@@ -1,6 +1,16 @@
 # Blocks
 
-A guide is `{title, summary, repo, commit, pages[]}`. A page is `{id, title, level, intro, blocks[]}`, and each page becomes a tab. Set `type` on each block.
+A guide is `{title, summary, repo, commit, assumptions[], pages[]}`. A page is `{id, title, level, intro, blocks[]}`, and each page becomes a tab; a single page shows no tabs. Set `type` on each block.
+
+In `guide.json`, an entry of `pages` may be a path such as `"pages/01-overview.json"`, whose file holds one page object. Paths and inline pages can mix. Image paths are relative to `guide.json`, even inside a page file.
+
+A quick answer is `{mode: "answer", title, summary, assumptions[], blocks[]}`, with 2 to 4 blocks and no `pages`.
+
+## Missing facts
+
+A field that gives the page its structure, such as `code`, `src`, `options`, or `nodes`, stops the build when missing. A field that states a fact for the reader may stay empty: the page shows `⚠ 未指定` in its place and the builder prints a warning. These are the guide `title` and `summary`, `commit` when `repo` is set, the page `title`, `md`, `alt`, a quiz `question`, table cells, step and term text, tour stops, the paper side of `papercode`, and node labels and step titles in `flow` and `graph`. Leave a field empty rather than invent it.
+
+## Types
 
 | type | Fields | Use for |
 | --- | --- | --- |

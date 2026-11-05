@@ -1,6 +1,6 @@
 ---
 name: python-performance
-description: "Use when measuring, fixing, or asking how to improve Python performance, even for a quick how or why question with no profile yet: latency, throughput, hotspots, memory growth, event-loop stalls, too many threads, paging, or poor application scaling. Defer shared contracts to python. Not for NumPy/SciPy numerical correctness (python-numerics), environment or CUDA/ABI repair (python-environments), training-loop or checkpoint work (python-ml), or joins and charts (python-data-analysis)."
+description: "Use when measuring, fixing, or asking how to improve Python performance, even for a quick how or why question with no profile yet: latency, throughput, hotspots, memory growth, event-loop stalls, too many threads, paging, poor application scaling, or whether and how to port to a GPU. Defer shared contracts to python. Not for NumPy/SciPy numerical correctness (python-numerics), environment or CUDA/ABI repair (python-environments), training-loop or checkpoint work (python-ml), or joins and charts (python-data-analysis)."
 license: MIT
 compatibility: Requires Python 3. py-spy, Scalene, and memray are optional.
 metadata:
@@ -24,6 +24,7 @@ Read the matching reference, not every document. Read a second reference after t
 | Need a command, version gate, permission boundary or offline fallback? | [Tool recipes](references/tool-recipes.md) |
 | Need a complete diagnosis → fix → prevention example? | [Batch pipeline](references/worked-pipeline.md) |
 | Need to compare existing JSON samples? | [Bounded sample comparison](references/sample-comparison.md) |
+| Moving array code to a GPU, or implementing a paper's speed claim? | [GPU porting](references/gpu-porting.md) |
 
 ## Establish the problem and choose one discriminating experiment
 
@@ -51,6 +52,7 @@ dependencies are unavailable evidence, not zero cost or passed validation.
 - py-spy's GIL-only view omits native work that releases the GIL. Compare an unfiltered view before declaring GIL contention.
 - `async def` or `to_thread` alone does not promise CPU parallelism, and cancelling an await on worker work does not generally stop the underlying thread.
 - Free-threaded CPython is a distinct build, and an unsupported extension can re-enable the GIL. Record GIL state after imports.
+- A GPU timer around an unsynchronized call measures enqueue time, not the work. A port that wins only this way has not won.
 - `del` and `gc.collect()` do not guarantee memory returns to the OS, so an RSS plateau after freeing is not by itself a leak.
 
 ## Verify and stop
@@ -60,6 +62,8 @@ profiler**. Check the relevant latency distribution, throughput, peak/retained m
 scaling together. A faster average that violates tail latency or memory is not accepted.
 Keep the old implementation as a comparison when useful; do not stack unmeasured tweaks.
 Stop when the agreed target is met or the next necessary measurement is unavailable.
+When the target comes from a paper, match its hardware, shapes, batch, precision and timed
+scope, or say the numbers are not comparable; `paper-reproduce` owns that verdict.
 
 Return the workload/scope, evidence and uncertainty, concrete change, comparable before/
 after observations, correctness result, tradeoffs and what remains untested. Label an

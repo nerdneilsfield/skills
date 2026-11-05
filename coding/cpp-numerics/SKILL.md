@@ -69,6 +69,16 @@ Before zero-copy mapping, establish ownership and lifetime, layout, dtype, strid
 
 An explicit validated copy can be safer and faster overall than a fragile “zero-copy” adapter. State why a mapping is valid and what invalidates it.
 
+## Units and uncertainty
+
+- Name the unit, frame, and direction at every interface (`t_world_cam_m`, `gyro_rad_s`), or use a strong type at the boundary. Keep degrees, pixels versus normalized coordinates, and timestamps explicit: an `Eigen::Vector3d` carries no units, and the compiler accepts every mix.
+- Keep residuals dimensionless by whitening with real measurement uncertainty. Mixed-unit parameter blocks need scaling, since condition numbers and step norms otherwise depend on the unit chosen.
+- A covariance from a solver means a measurement uncertainty only if the residuals were whitened with real sigmas. Covariance scale is otherwise arbitrary, and robust loss changes it further.
+- Covariance on a gauge-free problem depends on the gauge. Report it for gauge-invariant quantities, or state the anchoring. A rank-deficient problem has no unique covariance, so do not read one from arbitrary damping.
+- A rotation covariance lives in a tangent space. State left or right perturbation and the frame before composing or comparing.
+- First-order propagation `J Σ Jᵀ` needs near-linearity across the uncertainty. Check it with sampling for large rotations, small parallax, or depth from inverse depth.
+- State what `±` means: spread across seeds or sequences, or an estimated covariance. They answer different questions.
+
 ## Acceptance evidence
 
 Use a trusted reference or known invariants with absolute/relative tolerances appropriate near zero and across scales. Include nominal, noisy, degenerate, ill-conditioned and non-finite inputs relevant to the change; record seeds and failure handling. Validate derivatives/manifold updates when modified.

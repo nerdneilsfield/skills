@@ -55,6 +55,21 @@ contracts to `python`. This skill remains usable alone for the numerical work;
 if another named skill is needed but missing, identify it to the user rather
 than globally searching for replacements. Do not duplicate those skills' rules.
 
+## Units and uncertainty
+
+When values carry physical units or a result is reported with `±`, check these, as the code runs without error and gives a plausible number otherwise:
+
+- Attach units at input and strip them only at output, naming the unit at extraction: `q.m_as("m")`, not `q.magnitude`, which returns whatever scale it holds.
+- Write the measurement model first, including corrections estimated as zero, as an omitted term drops out of the budget.
+- Convert a stated uncertainty to a standard one: divide an expanded value by its `k`, rectangular limits by `sqrt(3)`.
+- Find shared sources before combining: a common calibration correlates inputs. Rebuild correlated values from the covariance, not from nominal values and standard deviations.
+- Pass `absolute_sigma=True` to `curve_fit` when `sigma` holds real standard uncertainties. The default rescales `pcov` by the reduced chi-square.
+- Linear propagation fails when the model curves across the uncertainty. Compare it with Monte Carlo when the relative uncertainty is large, near a boundary, or for a squared or reciprocal quantity.
+- Round the uncertainty first, then the value to the same place, and say what `±` means: standard deviation across seeds, standard error, or an interval with its coverage.
+- Check the magnitude against a known scale. Dimensionally correct results can still be impossible.
+
+`pint` and `uncertainties` are optional; the checks hold without them.
+
 ## Runnable worked example
 
 Run `python assets/blocked_distances.py` from this skill directory with an
@@ -73,6 +88,9 @@ limitations and acceptance experiments.
 - `*` and `**` are elementwise on `sparray` but matrix operations on `spmatrix`. Use `@` and identify the type before migrating.
 - `threadpool_limits` is process-global despite context-manager syntax, so concurrent Python tasks can interfere. It is neither thread-local isolation nor a CPU quota.
 - Default `allclose` can be too permissive near zero and its broadcasting can conceal a wrong shape. Assert shape and dtype separately first.
+- `pint` converts `1 Hz` to `1 rad/s`, silently losing 2π, and `Q(10,'dBm') + Q(10,'dBm')` multiplies. Convert angular frequency by hand and logarithmic units to linear before arithmetic.
+- `x - ufloat(x.n, x.s)` is not zero uncertainty: the rebuilt value is independent of `x`. Serializing through a pair of floats loses correlation the same way.
+- `np.std` defaults to `ddof=0`. For an uncertainty from a few seeds use `ddof=1`, and say so.
 - JAX defaults often use 32-bit where NumPy code uses 64-bit. Match dtypes explicitly.
 
 ## Hand off evidence, not a tool recommendation

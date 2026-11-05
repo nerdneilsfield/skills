@@ -40,7 +40,7 @@ python3 scripts/extract_figures.py paper.pdf --crop 3 8 12 84 40 work/fig3.png
 
 ## 3. 补充解释图
 
-原图讲不清时才补。按 `interactive-guide` 的插图顺序：自带生图工具，其他能生图的 agent，用户的画图 MCP，最后 SVG 或 Mermaid。
+原图讲不清时才补。用 `research-figure` 选后端并制作。
 
 解释图用来帮助理解，不能冒充实验结果：不画论文没有的数据，图注写明它是示意。
 

@@ -1,11 +1,12 @@
 import { marked } from "marked";
-import { el } from "../dom.js";
+import { el, put, gap, blank } from "../dom.js";
 import { codeBlock, highlightProse } from "../code.js";
-export function text(b) { const d = el("div", "prose"); d.innerHTML = marked.parse(b.md); highlightProse(d); return d; }
+const md = (host, src, what) => { if (blank(src)) { host.append(gap(what)); return host; } host.innerHTML = marked.parse(src); highlightProse(host); return host; };
+export function text(b) { return md(el("div", "prose"), b.md, "正文"); }
 export function callout(b) {
   const d = el("div", "callout " + (b.kind || ""));
   if (b.title) d.append(el("b", null, b.title));
-  const body = el("div"); body.innerHTML = marked.parse(b.md); highlightProse(body); d.append(body); return d;
+  d.append(md(el("div"), b.md, "正文")); return d;
 }
 export function code(b) {
   const d = el("div");
@@ -17,17 +18,17 @@ export const originTag = (b) => el("span", "origin " + b.origin, (ORIGIN[b.origi
 const CLAIM = { author: "作者主张", evidence: "论文证据", inference: "分析推断", unknown: "未报告" };
 export function claim(b) {
   const d = el("div", "claim " + b.kind); d.append(el("b", null, CLAIM[b.kind]));
-  const body = el("div"); body.innerHTML = marked.parse(b.md); highlightProse(body); d.append(body);
+  d.append(md(el("div"), b.md, "正文"));
   if (b.where) d.append(el("div", "where", b.where)); return d;
 }
 export function figuretour(b) {
   const root = el("div", "ftour"), g = el("div", "grid"), stage = el("div", "stage"), i = el("img"), clip = el("div", "clip"), spot = el("div", "spot"), box = el("aside");
-  i.src = b.src; i.alt = b.alt; clip.append(spot); stage.append(i, clip); g.append(stage, box); root.append(g);
+  i.src = b.src; i.alt = b.alt || ""; clip.append(spot); stage.append(i, clip); g.append(stage, box); root.append(g);
   const ctl = el("div", "ctl"), prev = el("button", null, "上一处"), next = el("button", null, "下一处"), n = el("span", "count"); ctl.append(prev, next, n); root.append(ctl);
-  if (b.caption || b.origin) { const c = el("p", "legend"); if (b.origin) c.append(originTag(b)); if (b.caption) c.append(b.caption); root.append(c); }
+  if (b.caption || b.origin || blank(b.alt)) { const c = el("p", "legend"); if (b.origin) c.append(originTag(b)); if (b.caption) c.append(b.caption); if (blank(b.alt)) c.append(gap("图片说明")); root.append(c); }
   let k = 0;
   const show = () => { const s = b.stops[k]; spot.style.cssText = `left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%`;
-    box.replaceChildren(el("h3", null, s.title)); const p = el("div", "prose"); p.innerHTML = marked.parse(s.md); highlightProse(p); box.append(p); n.textContent = `${k + 1} / ${b.stops.length}`; };
+    box.replaceChildren(put(el("h3"), s.title, "标题"), md(el("div", "prose"), s.md, "说明")); n.textContent = `${k + 1} / ${b.stops.length}`; };
   prev.onclick = () => { k = Math.max(0, k - 1); show(); }; next.onclick = () => { k = Math.min(b.stops.length - 1, k + 1); show(); }; show(); return root;
 }
 const PC = { match: "一致", differs: "有差异", unstated: "论文未写" };
@@ -36,7 +37,7 @@ export function papercode(b) {
   const render = (only) => { rows.replaceChildren(...b.items.filter((x) => !only || x.status === only).map((x) => {
     const r = el("div", "pc"), grid = el("div", "pc-row"), left = el("div", "prose"), right = el("div");
     r.append(el("div", "pc-state " + x.status, PC[x.status]));
-    left.innerHTML = marked.parse(x.paper); highlightProse(left); if (x.where) left.append(el("div", "loc", x.where));
+    md(left, x.paper, "论文内容"); if (x.where) left.append(el("div", "loc", x.where));
     right.append(el("div", "loc", x.file + (x.line ? ":" + x.line : ""))); if (x.code) right.append(codeBlock(x.code, x.lang, x.file));
     grid.append(left, right); r.append(grid); if (x.note) r.append(el("p", "pc-note", x.note)); return r; })); };
   [[null, "全部"], ...Object.entries(PC)].forEach(([k, t], i) => { const n = k ? b.items.filter((x) => x.status === k).length : b.items.length;
@@ -44,20 +45,20 @@ export function papercode(b) {
   render(null); return root;
 }
 export function figure(b) {
-  const f = el("figure"), i = el("img"); i.src = b.src; i.alt = b.alt; i.loading = "lazy"; f.append(i);
-  if (b.caption || b.origin) { const c = el("figcaption"); if (b.origin) c.append(originTag(b)); if (b.caption) c.append(b.caption); f.append(c); }
+  const f = el("figure"), i = el("img"); i.src = b.src; i.alt = b.alt || ""; i.loading = "lazy"; f.append(i);
+  if (b.caption || b.origin || blank(b.alt)) { const c = el("figcaption"); if (b.origin) c.append(originTag(b)); if (b.caption) c.append(b.caption); if (blank(b.alt)) c.append(gap("图片说明")); f.append(c); }
   return f;
 }
 export function compare(b) {
   const t = el("table", "cmp"), h = el("tr");
   b.headers.forEach((x) => h.append(el("th", null, x))); t.append(h);
-  b.rows.forEach((r) => { const tr = el("tr"); r.forEach((x) => tr.append(el("td", null, x))); t.append(tr); });
+  b.rows.forEach((r) => { const tr = el("tr"); for (let i = 0; i < Math.max(r.length, b.headers.length); i++) tr.append(put(el("td"), r[i], "内容")); t.append(tr); });
   return t;
 }
-export function steps(b) { const o = el("ol", "stepsb"); b.items.forEach((x) => o.append(el("li", null, x))); return o; }
-export function terms(b) { const d = el("dl", "terms"); b.items.forEach((t) => d.append(el("dt", null, t.term), el("dd", null, t.meaning))); return d; }
+export function steps(b) { const o = el("ol", "stepsb"); b.items.forEach((x) => o.append(put(el("li"), x, "步骤"))); return o; }
+export function terms(b) { const d = el("dl", "terms"); b.items.forEach((t) => d.append(put(el("dt"), t.term, "术语"), put(el("dd"), t.meaning, "含义"))); return d; }
 export function quiz(b) {
-  const d = el("div", "quiz"); d.append(el("p", null, b.question));
+  const d = el("div", "quiz"); d.append(put(el("p"), b.question, "问题"));
   const why = el("div", "why");
   b.options.forEach((o, i) => {
     const x = el("button", null, o);

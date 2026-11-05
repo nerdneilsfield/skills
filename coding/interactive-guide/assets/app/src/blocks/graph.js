@@ -1,5 +1,6 @@
-import { el, css, describe } from "../dom.js";
+import { el, css, describe, GAP } from "../dom.js";
 export async function graph(b) {
+  b.nodes.forEach((n) => { n.label ||= GAP; });
   const { default: cytoscape } = await import("cytoscape");
   const root = el("div"), tools = el("div", "gtools"), q = el("input", "q"), g = el("div", "grid"), host = el("div", "kg"), box = el("aside");
   q.placeholder = "搜索节点"; q.setAttribute("aria-label", "搜索节点"); tools.append(q); g.append(host, box); root.append(tools, g);

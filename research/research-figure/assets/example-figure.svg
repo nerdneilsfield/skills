@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" width="960" height="400" role="img" aria-labelledby="t">
+  <title id="t">Example hybrid figure: a schematic of the idea beside the architecture that implements it</title>
+  <style>
+    :root { --placeholder: replaced-by-figure-tool; }
+    text { font-family: var(--font-sans); font-size: 14px; }
+    .panel { font-size: 15px; font-weight: 600; }
+    .muted { fill: var(--text-muted); font-size: 12px; }
+    .wire { stroke: var(--arrow); stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+    .ray { stroke: var(--color-accent-stroke); stroke-width: 1.5; stroke-dasharray: 5 4; fill: none; }
+    .primary { fill: var(--color-primary-fill); stroke: var(--color-primary-stroke); stroke-width: 1.5; }
+    .secondary { fill: var(--color-secondary-fill); stroke: var(--color-secondary-stroke); stroke-width: 1.5; }
+    .accent { fill: var(--color-accent-fill); stroke: var(--color-accent-stroke); stroke-width: 1.5; }
+    .divider { stroke: var(--bg-grid); stroke-width: 1; }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="var(--arrow)"/>
+    </marker>
+  </defs>
+  <rect width="960" height="400" fill="var(--bg)"/>
+  <g fill="var(--text)">
+
+  <!-- Panel (a): the intuition -->
+  <text class="panel" x="32" y="40">(a) Intuition</text>
+  <circle class="accent" cx="110" cy="210" r="16"/>
+  <text x="110" y="250" text-anchor="middle">camera</text>
+  <path class="ray" d="M124 202 L320 120"/>
+  <path class="ray" d="M126 210 L320 210"/>
+  <path class="ray" d="M124 218 L320 300"/>
+  <rect class="secondary" x="320" y="100" width="28" height="220" rx="3"/>
+  <text x="334" y="346" text-anchor="middle">scene</text>
+  <text class="muted" x="210" y="130" text-anchor="middle">sparse rays</text>
+
+  <line class="divider" x1="400" y1="28" x2="400" y2="372"/>
+
+  <!-- Panel (b): the components -->
+  <text class="panel" x="432" y="40">(b) Architecture</text>
+  <rect class="primary" x="432" y="170" width="120" height="60" rx="6"/>
+  <text x="492" y="205" text-anchor="middle">Encoder</text>
+  <rect class="primary" x="610" y="170" width="120" height="60" rx="6"/>
+  <text x="670" y="205" text-anchor="middle">Decoder</text>
+  <rect class="secondary" x="788" y="170" width="140" height="60" rx="6"/>
+  <text x="858" y="205" text-anchor="middle">Radiance field</text>
+  <path class="wire" d="M552 200 L608 200"/>
+  <path class="wire" d="M730 200 L786 200"/>
+  <path class="wire" d="M858 230 L858 300 L492 300 L492 232"/>
+  <text class="muted" x="675" y="290" text-anchor="middle">render loss</text>
+  </g>
+</svg>

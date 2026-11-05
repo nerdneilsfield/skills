@@ -17,6 +17,8 @@ Write the hypothesis as a falsifiable statement with a direction, and name the b
 
 If no baseline exists, build the simplest one that works and say so. A comparison against nothing is not an experiment.
 
+When the hypothesis came from a surprising result, or several explanations are live, write the rivals and the predictions that separate them with `research-hypothesis` before the first run. An experiment on which every explanation predicts the same result decides nothing.
+
 ## 2. Decide the metric and the split before running
 
 Choose the metric definition, the evaluation split, and the number of seeds first, and write them down. Changing any of them after seeing results turns the experiment into a search over metrics.

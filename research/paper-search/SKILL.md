@@ -19,7 +19,7 @@ Search from the specific to the general. Start with the exact phrasing, then the
 
 ## 2. Search several sources
 
-Check the user's private library first when the environment has it (an MCP tool that searches a personal paper collection). It is smaller and already filtered to their field, so a hit there is the cheapest good result. Search it with a semantic query and, if it exposes one, a keyword query; then use its outline and content-window calls to read the actual text of a hit. Do not conclude from a stored abstract. If the environment has no such tool, skip this step, say so in the log, and go straight to the public sources.
+If the user keeps papers in a local folder, search it through `paper-library`, which navigates by index and never reads a whole PDF. Then check the user's private library when the environment has it (an MCP tool that searches a personal paper collection). It is smaller and already filtered to their field, so a hit there is the cheapest good result. Search it with a semantic query and, if it exposes one, a keyword query; then use its outline and content-window calls to read the actual text of a hit. Do not conclude from a stored abstract. If the environment has no such tool, skip this step, say so in the log, and go straight to the public sources.
 
 Then search at least two public sources, and record the exact query and the date for each.
 

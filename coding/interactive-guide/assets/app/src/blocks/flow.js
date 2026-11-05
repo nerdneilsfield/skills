@@ -1,4 +1,4 @@
-import { el, sv, describe, reduce } from "../dom.js";
+import { el, sv, describe, reduce, GAP } from "../dom.js";
 const W = 760, NW = 150, NH = 46, GAPY = 96, TOP = 40;
 function layout(nodes) {
   const layers = [...new Set(nodes.map((n) => n.layer))].sort((a, b) => a - b), pos = {};
@@ -20,6 +20,7 @@ function draw(b, host, onPick) {
   host.append(s); return { svg: s, nodes, edges };
 }
 export function flow(b) {
+  b.nodes.forEach((n) => { n.label ||= GAP; });
   const root = el("div"), pick = el("div", "flows"), g = el("div", "grid"), left = el("div"), box = el("aside");
   root.append(pick, g); g.append(left, box);
   const map = draw(b, left, (n) => describe(box, n));

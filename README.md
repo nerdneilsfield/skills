@@ -11,6 +11,9 @@
 | Skill | 用途 |
 | --- | --- |
 | [`qi-read-paper`](research/qi-read-paper/) | 用户给出论文要求精读、评估复现，或论文和代码对照着读时使用，可选对话或生成网页；只问一个具体点时直接回答。不用于写技术文档或改文风。 |
+| [`research-hypothesis`](research/research-hypothesis/) | 把观察、假设、机制、预测和证据分开，运行前定好能区分假设的预测。 |
+| [`paper-library`](research/paper-library/) | 用分层索引管理本地文献目录，按索引导航，不整篇读大文件。 |
+| [`research-figure`](research/research-figure/) | 不绑定生图工具，制作学术图和技术图，含可编辑源文件。 |
 | [`research-report`](research/research-report/) | 用户要求基于多个来源写调研报告或综述时使用：来源简述、大纲、分章、配图、全文审阅与导出。 |
 | [`paper-search`](research/paper-search/) | 用户要求找论文、查相关工作或追引用时使用：扩展检索词、多来源交叉、按既定标准筛选、记录检索过程与停止条件。不用于精读单篇（qi-read-paper）或据此写综述（research-report）。 |
 | [`paper-compare`](research/paper-compare/) | 用户要求横向比较多篇方法或做对比表时使用：区分作者声称、实验证据与你的推断，标出不可比的指标和数据集。不用于找论文或精读单篇。 |
@@ -19,6 +22,7 @@
 | [`algorithm-experiment`](research/algorithm-experiment/) | 用户要跑实验验证算法想法时使用：先定假设、基线与指标，每次只改一处做消融，按种子报告离散度，逐次记录运行，防数据泄漏与调参偏差。不用于设计方法（algorithm-design）或复现他人数字（paper-reproduce）。 |
 | [`algorithm-design`](research/algorithm-design/) | 用户要从问题出发设计新方法时使用：列候选、分析复杂度与失败模式、先建最简基线，并判断何时停止加组件。不用于跑对比实验（algorithm-experiment）。 |
 | [`orchestrate`](agents/orchestrate/) | 仅手动调用。不绑定工具地协调多个 agent：判断是否派发、任务状态与结果整合。 |
+| [`eval-plan`](agents/eval-plan/) | 仅手动调用。预注册模型评测，先干跑和小样本试跑，批准后全量运行。 |
 | [`agent-brief`](agents/agent-brief/) | 把工作交给其他 agent 或新会话时使用。 |
 | [`agent-verify`](agents/agent-verify/) | agent 报告完成或疑似卡住时使用：按证据决定接受、重试或替换。 |
 | [`spec`](agents/spec/) | 仅手动调用。把已讨论清楚的内容整理成规格（目标、约束、不做什么、可验收检查），可选拆成票，写本地文件，只用于跨会话或派发的工作。不用于盘问未决问题（grill-me）或实现。 |
@@ -47,7 +51,7 @@
 | [`grill-me`](coding/grill-me/) | 用户明确要求拷问或压力测试计划、设计或决策时使用。不用于直接实现该计划。 |
 | [`project-learning`](coding/project-learning/) | 把用户纠正、重复失败或已核实的非显然事实放到真正起作用的位置，也用于写 `.cw/PRACTICES.md`、`.cw/BUGS.md`、复盘和清理过期指引；跨项目经验先进待批列表，用户确认后才写全局实践。不用于启用 Counterweight 或写用户文档。 |
 | [`code-reading`](coding/code-reading/) | 用户要读陌生仓库或大模块时使用：先建地图，沿数据流找到核心循环，结论带 文件:行号，区分读到的与推断的。不用于审查某个改动（code-review）或重设计模块（codebase-design）。 |
-| [`interactive-guide`](coding/interactive-guide/) | 用组件模板生成交互网页：代码调用动画，或从小白到专家的多 Tab 学习路径。图片内联，库默认走 CDN。 |
+| [`interactive-guide`](coding/interactive-guide/) | 用组件模板生成交互网页：调用动画、从小白到专家的学习路径、单页回答和演示模式。图片内联，库默认走 CDN。 |
 | [`code-review`](coding/code-review/) | 用户要求审查某个改动时使用：先定基线 commit，沿仓库规范与需求两条线审查，只报能给出失败场景的问题。不用于评审自己刚写的 diff 或做模块设计批评（codebase-design）。 |
 | [`codebase-design`](coding/codebase-design/) | 用户要设计或改进模块接口、决定接缝位置、提高可测性时使用：深模块、接缝、测试边界，有证据才改结构，与 counterweight 配合。不用于实现改动或审查 diff。 |
 | [`tool-compose`](coding/tool-compose/) | 用户要决定用什么工具查代码或语料，或检索为空、噪声太大时使用：按问题类型分层路由，缺失工具时给退路，并核对结果。不用于审查改动、设计模块或通读仓库。 |
@@ -108,6 +112,9 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | Skill | Purpose |
 | --- | --- |
 | [`qi-read-paper`](research/qi-read-paper/) | Use when the user supplies a paper and asks for a close reading, round-by-round explanation, or reproduction assessment. Answer a single concrete question directly. Not for writing technical docs or changing literary voice. Optional web page and paper-to-code round. |
+| [`research-hypothesis`](research/research-hypothesis/) | Keep observation, hypothesis, mechanism, prediction, and evidence apart, and fix discriminating predictions before running. |
+| [`paper-library`](research/paper-library/) | Manage a local paper folder through layered indexes, without reading large files whole. |
+| [`research-figure`](research/research-figure/) | Make academic and technical figures with any image backend, with editable sources. |
 | [`research-report`](research/research-report/) | Use for research reports or surveys from many sources: source notes, outline, chapters, figures, full review, and export. |
 | [`paper-search`](research/paper-search/) | Use when the user asks to find papers, gather related work, or track citations: expand the query, cross-check several sources, screen against stated criteria, and log the search and its stopping rule. Not for reading one paper (qi-read-paper) or writing the survey from the hits (research-report). |
 | [`paper-compare`](research/paper-compare/) | Use to compare several methods side by side or build a comparison table: separate the authors' claims from measured evidence and your inference, and flag metrics or datasets that are not comparable. Not for finding the papers or reading one closely. |
@@ -116,6 +123,7 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`algorithm-experiment`](research/algorithm-experiment/) | Use to run experiments on an algorithmic idea: fix the hypothesis, baseline, and metric, ablate one thing at a time, report seed spread, log every run, and guard against leakage and tuning bias. Not for designing the method (algorithm-design) or reproducing a published number (paper-reproduce). |
 | [`algorithm-design`](research/algorithm-design/) | Use to design a method from a problem: enumerate candidates, analyze complexity and failure modes, build the simplest baseline first, and decide when to stop adding components. Not for running the comparison (algorithm-experiment). |
 | [`orchestrate`](agents/orchestrate/) | Manual only. Coordinate several agents toward one goal, independent of the runtime: delegation, task status, and integration. |
+| [`eval-plan`](agents/eval-plan/) | Manual only. Preregister a model-backed eval, dry-run and pilot it, then approve the full run. |
 | [`agent-brief`](agents/agent-brief/) | Use when handing work to another agent or a fresh session. |
 | [`agent-verify`](agents/agent-verify/) | Use when an agent reports done or looks stalled: check against evidence, then accept, retry, or replace. |
 | [`spec`](agents/spec/) | Manual only. Turn what was already discussed into a specification (goal, constraints, out of scope, checkable acceptance), optionally split into tickets, written to local files, only for work crossing a session or delegated. Not for interviewing about open choices (grill-me) or implementing. |
@@ -144,7 +152,7 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`grill-me`](coding/grill-me/) | Use when the user explicitly asks to grill or stress-test a plan, design, or decision. Not for implementing that plan. |
 | [`project-learning`](coding/project-learning/) | Use to put user corrections, repeated failures, and verified non-obvious facts where they change behavior; also to write `.cw/PRACTICES.md` and `.cw/BUGS.md`, run retros, and prune stale guidance. Cross-project lessons queue as candidates and become global practices only after the user confirms. Not for enabling Counterweight or user-facing docs. |
 | [`code-reading`](coding/code-reading/) | Use to read an unfamiliar repository or a large module: build a map, follow the data flow to the core loop, cite `file:line`, and keep what you read separate from what you inferred. Not for reviewing a change (code-review) or redesigning a module (codebase-design). |
-| [`interactive-guide`](coding/interactive-guide/) | Build an interactive page from a component template: animated code flows, or a many-tab path from beginner to expert. Images are inlined; libraries use a CDN by default. |
+| [`interactive-guide`](coding/interactive-guide/) | Build an interactive page from a component template: animated flows, beginner-to-expert paths, one-page answers, and slides. Images are inlined; libraries use a CDN by default. |
 | [`code-review`](coding/code-review/) | Use to review a change against a fixed baseline: check the repository's standards and the spec as two separate lines, and report only problems you can state a failing scenario for. Not for reviewing your own fresh diff or a design critique (codebase-design). |
 | [`codebase-design`](coding/codebase-design/) | Use to design or improve a module's interface, place a seam, or make code testable: deep modules, real seams, the interface as the test surface, structure changed only with evidence. Not for implementing the change or reviewing a diff. |
 | [`tool-compose`](coding/tool-compose/) | Use to choose how to investigate a codebase or corpus, or when a search returns nothing or too much: route by question type, fall back when a tool is missing, and verify the result. Not for reviewing a change, designing a module, or reading a repository end to end. |

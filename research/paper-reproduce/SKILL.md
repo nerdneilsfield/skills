@@ -27,7 +27,21 @@ If code exists, run it unchanged on the reported configuration. A faithful run o
 
 Record the exact commit, the environment, and the seed. Then run the baseline the paper compared against.
 
-## 3. Attribute the mismatch
+## 3. Measure speed claims under the paper's conditions
+
+A speed or memory claim is a claim like any other, with its conditions as part of the target. Before running, record what the paper states, marking the rest `not reported`:
+
+```markdown
+| Claim | Value | Hardware | Input shape, batch | Precision | Threads | Scope | Warmup |
+```
+
+`Scope` says what the timer covers, such as inference only or the whole pipeline with loading and decoding. Then measure the same scope on the same shapes, batch, and precision, and record your own CPU and GPU models, library versions, and thread counts next to the result. Use `lscpu` for the CPU; repeat in fresh processes with `hyperfine --warmup 3 --runs 10 --export-json time.json '<cmd>'`, and report the median and spread.
+
+On GPU code, wait for the device to finish inside the timed region, because a CPU timer otherwise measures submission (`torch.cuda.synchronize()` for PyTorch, and see `python-numerics` for others). Keep first-call compile and warmup apart from steady state.
+
+On different hardware the absolute number cannot confirm or refute the claim. Run the paper's baseline on your machine, and compare the speedup ratio and how time grows with input size. Label the verdict `not comparable` when even that is unavailable. A speed claim also needs its accuracy: a faster run on a smaller input or at lower precision has not reproduced anything.
+
+## 4. Attribute the mismatch
 
 When a number does not match, classify before concluding:
 
@@ -41,7 +55,7 @@ When a number does not match, classify before concluding:
 
 Do not report "the paper is wrong" until the environment and the metric definition have been ruled out.
 
-## 4. Report per claim
+## 5. Report per claim
 
 State each claim separately. A method can reproduce one claim and fail another, and the failure is the useful part.
 
@@ -56,7 +70,8 @@ Never tune parameters until the number matches. That is fitting to the target, a
 - Reimplementation success does not validate the paper's claim; it validates your mapping. Keep the two verdicts separate.
 - An unreleased dataset or a missing split makes a claim unreproducible, not false. Say which.
 - A "failed" reproduction that traces to your environment is not a result about the paper. Report it as an environment gap.
-- Timing and memory claims depend on hardware. Reproduce them only on comparable hardware, and say so when you cannot.
+- Timing and memory claims depend on hardware. Without comparable hardware, compare ratios to a baseline on one machine, and say so.
+- "Real-time" and FPS claims often time one stage at one resolution with batching. Find what was timed before matching the number.
 
 ## Report
 

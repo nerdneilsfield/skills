@@ -48,11 +48,7 @@ Write each chapter as its own file from the outline and the notes it cites. Foll
 
 ## 4. Figures
 
-Add a figure only where it explains something prose does poorly. Choose in this order:
-
-1. The current agent's own image generation tool, or another available agent that has one. Use it for illustrations, not for data or precise architecture, because generated text and numbers can be wrong.
-2. The drawing MCP the user provides.
-3. SVG or Mermaid otherwise, and always for data and structure.
+Add a figure only where it explains something prose does poorly. Use `research-figure` to choose the backend; data and exact structure always go through code, SVG, or Mermaid.
 
 Save figures in `figures/` with descriptive names, give each a caption, and record the prompt or source. Check every generated image by looking at it.
 

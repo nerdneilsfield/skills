@@ -57,6 +57,12 @@ One file, one row per deviation, written as you make it:
 
 Walk the paper's steps once against the code and once in reverse: for every branch in the code, name the paper line that justifies it. An unjustified branch is either a trick the paper omitted or a bug. Record it either way.
 
+## 6. Make it fast without losing the faithful version
+
+Speed work starts after step 5, on a profile of the faithful version with the paper's shapes and precision. A number from the paper's runtime claim is a target only with the conditions from `paper-reproduce`.
+
+Keep the faithful CPU path runnable and tested, and treat it as the reference for every faster version. Compare outputs on fixed inputs with a stated tolerance, derived from the metric's noise and the precision in use, and check non-finite cases. For a GPU port, follow the order in `python-performance`, starting from the least invasive option. Every change that can move results, such as `float32`, mixed precision, an approximate search, or another reduction order, goes in the deviation record.
+
 ## Gotchas
 
 - Symbols are reused across sections of a paper. Resolve each occurrence against its local definition, not the first definition you read.
@@ -70,4 +76,4 @@ Walk the paper's steps once against the code and once in reverse: for every bran
 
 ## Report
 
-State the paper version, the equations implemented, every deviation with its reason, the hyperparameters the paper left unstated and how they were chosen, and what is not yet verified against the paper.
+State the paper version, the equations implemented, the tolerance and hardware of any speed work, every deviation with its reason, the hyperparameters the paper left unstated and how they were chosen, and what is not yet verified against the paper.
