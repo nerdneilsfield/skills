@@ -59,6 +59,7 @@ Open the page, or render it if you can. Walk every tab and flow, and check the c
 - A knowledge graph shows what relates, not what runs next. Keep call order in `flow` blocks.
 - A beginner page full of jargon has failed. Introduce each term before using it, and test it in a quiz.
 - Quizzes that restate the previous sentence teach nothing. Ask the reader to apply the idea.
+- Reader highlights live in that browser's local storage, keyed by the guide title. Keep the title stable when rebuilding, and tell the reader to use the export button to keep them.
 - Default pages need network for graphs, formulas, and Mermaid. Say so when handing one over.
 - Line numbers rot. Always record `commit`, and rebuild after a rebase.
 - A page holds code excerpts. Do not publish one from a private repository without asking.

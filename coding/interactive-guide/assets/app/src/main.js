@@ -2,6 +2,7 @@ import D from "./data.json";
 import "./style.css";
 import { el } from "./dom.js";
 import { blocks } from "./blocks/index.js";
+import { createHighlights } from "./highlight.js";
 
 document.title = D.title;
 document.getElementById("title").textContent = D.title;
@@ -11,6 +12,7 @@ const main = document.getElementById("main"), tabs = document.getElementById("ta
 const load = () => { try { return JSON.parse(localStorage.getItem(key)) || []; } catch { return []; } };
 let done = new Set(load());
 const links = D.pages.map((p) => { const a = el("a", done.has(p.id) ? "done" : null, p.title); a.href = "#" + p.id; tabs.append(a); return a; });
+const hl = createHighlights(key, D.pages, tabs);
 const built = {};
 async function page(p, i) {
   const s = el("section", "page"); if (p.level) s.append(el("div", "level", p.level));
@@ -26,6 +28,7 @@ async function route() {
   done.add(p.id); links[i].classList.add("done"); try { localStorage.setItem(key, JSON.stringify([...done])); } catch { /* private mode */ }
   built[p.id] ||= await page(p, i); main.replaceChildren(built[p.id]);
   built[p.id].querySelectorAll('[data-type="graph"]>*').forEach((g) => g.mount && g.mount());
+  hl.attach(built[p.id], p.id);
   scrollTo(0, 0);
 }
 addEventListener("hashchange", route); route();

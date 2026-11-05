@@ -22,4 +22,6 @@ A guide is `{title, summary, repo, commit, pages[]}`. A page is `{id, title, lev
 
 To add a component, use `--keep`, write `render(block)` returning an element in `src/blocks/`, register it in `src/blocks/index.js`, and rebuild. Unknown types fail validation, so add reusable ones to this skill's template and to `BLOCKS` in the builder.
 
+Every page also lets the reader select text to highlight it in three colours, add a note, and export all of it as Markdown. No data field is needed.
+
 `assets/example.json` uses every block type.
