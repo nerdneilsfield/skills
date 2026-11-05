@@ -1,0 +1,64 @@
+/* 色名取自日本の伝統色; hex 为常见数字近似值，不是历史定值。 */
+:root{
+  --kinari:#f7f4ec; --gofun:#fffdf8; --sumi:#2b2b2b; --nezumi:#7b7c7d; --rikyu:#888e7e;
+  --ai:#165e83; --koiai:#0f2350; --shu:#c8553d; --koke:#69821b; --yamabuki:#c9a227;
+  --line:#d9d4c7; --wash:#ebe6d9;
+  --serif:"Hiragino Mincho ProN","Yu Mincho","Noto Serif CJK SC","Noto Serif CJK JP","Songti SC",serif;
+  --mono:"JetBrains Mono","SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --kinari:#1b1d22; --gofun:#23262c; --sumi:#e8e4d8; --nezumi:#9a9a94; --rikyu:#9aa08e;
+  --ai:#6fa8c7; --koiai:#a9c4dc; --shu:#e08a70; --koke:#a3b866; --yamabuki:#d8b95a;
+  --line:#3a3d44; --wash:#2c2f36;
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--kinari);color:var(--sumi);font:17px/1.9 var(--serif);-webkit-font-smoothing:antialiased}
+header.top{max-width:1120px;margin:0 auto;padding:12vh 32px 8vh}
+h1{font-size:clamp(34px,5vw,56px);font-weight:500;line-height:1.3;letter-spacing:.04em;margin:0 0 28px}
+.lede{max-width:38em;margin:0}
+.meta{margin-top:28px;font:13px/1.6 var(--mono);color:var(--nezumi)}
+nav.steps{position:sticky;top:0;z-index:5;background:var(--kinari);border-bottom:1px solid var(--line)}
+nav.steps div{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;gap:32px;overflow-x:auto}
+nav.steps a{padding:14px 0;color:var(--nezumi);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;font-size:15px}
+nav.steps a.on{color:var(--sumi);border-color:var(--shu)}
+section{max-width:1120px;margin:0 auto;padding:88px 32px;scroll-margin-top:52px}
+h2{font-size:28px;font-weight:500;letter-spacing:.04em;margin:0 0 12px}
+.intro{max-width:38em;color:var(--nezumi);margin:0 0 40px}
+.grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+svg.map{width:100%;height:auto;display:block;background:var(--gofun);border:1px solid var(--line)}
+.node rect{fill:var(--gofun);stroke:var(--line);stroke-width:1.2;transition:stroke .25s,fill .25s}
+.node text{font:14px var(--serif);fill:var(--sumi);pointer-events:none}
+.node{cursor:pointer;outline:none}
+.node:hover rect,.node:focus rect{stroke:var(--ai)}
+.node.sel rect{stroke:var(--ai);stroke-width:2}
+.node.act rect{fill:var(--wash);stroke:var(--shu);stroke-width:2}
+.node.dim{opacity:.35}
+.edge{fill:none;stroke:var(--line);stroke-width:1.3}
+.edge.inferred{stroke-dasharray:5 5}
+.edge.act{stroke:var(--shu);stroke-width:2}
+.pulse{fill:var(--shu)}
+.band{font:12px var(--mono);fill:var(--nezumi)}
+aside{min-height:280px}
+aside h3{font-size:21px;font-weight:500;margin:0 0 8px}
+.loc{font:13px var(--mono);color:var(--ai);word-break:break-all}
+.tag{font:12px var(--mono);margin-left:10px;color:var(--koke)}
+.tag.inferred{color:var(--shu)}
+pre{background:var(--gofun);border:1px solid var(--line);border-left:3px solid var(--ai);padding:14px 16px;margin:16px 0 0;overflow:auto;font:13px/1.7 var(--mono)}
+.flows{display:flex;flex-wrap:wrap;gap:8px 12px;margin-bottom:24px}
+button{font:14px var(--serif);color:var(--sumi);background:none;border:1px solid var(--line);padding:6px 16px;cursor:pointer;transition:border-color .2s,color .2s}
+button:hover,button:focus-visible{border-color:var(--ai);color:var(--ai);outline:none}
+button.on{border-color:var(--shu);color:var(--shu)}
+.ctl{display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+.count{font:13px var(--mono);color:var(--nezumi)}
+.bar{height:2px;background:var(--line);margin-top:14px}.bar i{display:block;height:100%;width:0;background:var(--shu);transition:width .3s}
+.legend{font-size:13px;color:var(--nezumi);margin-top:12px}
+dl.terms{display:grid;grid-template-columns:minmax(120px,max-content) 1fr;gap:10px 28px;max-width:46em;margin:0}
+dt{color:var(--ai)}dd{margin:0}
+.gtools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+input.q{font:14px var(--serif);color:var(--sumi);background:var(--gofun);border:1px solid var(--line);padding:6px 12px;min-width:220px;outline:none}
+input.q:focus{border-color:var(--ai)}
+#kg{height:560px;background:var(--gofun);border:1px solid var(--line)}
+footer{max-width:1120px;margin:0 auto;padding:40px 32px 80px;color:var(--nezumi);font-size:14px;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}

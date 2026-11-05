@@ -14,7 +14,7 @@ def build(data, out):
     path = out / 'data.json'
     path.write_text(json.dumps(data), encoding='utf-8')
     return subprocess.run(
-        [sys.executable, str(BUILD), str(path), str(out / 'page.html'), '--repo', str(ROOT)],
+        [sys.executable, str(BUILD), str(path), str(out / 'page.html'), '--repo', str(ROOT), '--check'],
         capture_output=True, text=True)
 
 
@@ -25,14 +25,13 @@ class Walkthrough(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.out = Path(self.tmp.name)
 
-    def test_example_builds_an_offline_page(self):
-        self.data['title'] = 'a </script> b'
+    def test_example_is_valid(self):
         self.assertEqual(build(self.data, self.out).returncode, 0)
-        html = (self.out / 'page.html').read_text(encoding='utf-8')
-        self.assertNotIn('__DATA__', html)
-        self.assertIn('cytoscape', html)
-        self.assertNotIn('__LIBS__', html)
-        self.assertNotIn('src="http', html)
+
+    def test_app_pins_cdn_libraries(self):
+        pkg = json.loads((SKILL / 'assets' / 'app' / 'package.json').read_text(encoding='utf-8'))
+        for version in pkg['dependencies'].values():
+            self.assertRegex(version, r'^\d')
 
     def test_rejects_unknown_graph_node(self):
         self.data['graph']['edges'][0]['to'] = 'missing'

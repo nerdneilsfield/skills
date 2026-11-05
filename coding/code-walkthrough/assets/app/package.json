@@ -1,0 +1,17 @@
+{
+  "name": "code-walkthrough-page",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "build:offline": "vite build --mode offline"
+  },
+  "dependencies": {
+    "3d-force-graph": "1.80.2",
+    "cytoscape": "3.34.4"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0",
+    "vite-plugin-singlefile": "^2.3.0"
+  }
+}

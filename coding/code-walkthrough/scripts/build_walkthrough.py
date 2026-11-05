@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""Validate a walkthrough JSON against a repository and write one offline HTML file."""
+"""Validate walkthrough data against a repository, then build one HTML page from the app template."""
 import argparse
+import html
 import json
+import shutil
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
-ASSETS = Path(__file__).resolve().parents[1] / "assets"
-TEMPLATE = ASSETS / "template.html"
+APP = Path(__file__).resolve().parents[1] / "assets" / "app"
 
 
 def location_error(repo, where, file, line):
@@ -67,17 +70,23 @@ def validate(data, repo):
     return [e for e in errors if e]
 
 
-def inline_libs(data, with_3d):
-    names = []
-    if data.get("graph"):
-        names.append("cytoscape.min.js")
-        if with_3d:
-            names.append("3d-force-graph.min.js")
-    tags = []
-    for name in names:
-        source = (ASSETS / "vendor" / name).read_text(encoding="utf-8")
-        tags.append("<script>" + source.replace("</script", "<\\/script") + "</script>")
-    return "\n".join(tags)
+def build_page(data, output, offline, keep):
+    workdir = Path(tempfile.mkdtemp(prefix="walkthrough-"))
+    project = workdir / "app"
+    try:
+        shutil.copytree(APP, project)
+        (project / "src" / "data.json").write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+        subprocess.run(["npm", "install", "--silent", "--no-audit", "--no-fund"], cwd=project, check=True)
+        script = "build:offline" if offline else "build"
+        subprocess.run(["npm", "run", "--silent", script], cwd=project, check=True)
+        page = (project / "dist" / "index.html").read_text(encoding="utf-8")
+        title = html.escape(data["title"])
+        output.write_text(page.replace("<title>Code walkthrough</title>", f"<title>{title}</title>"), encoding="utf-8")
+    finally:
+        if keep:
+            print(f"project kept at {project}")
+        else:
+            shutil.rmtree(workdir)
 
 
 def main():
@@ -85,18 +94,18 @@ def main():
     parser.add_argument("data", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--repo", type=Path, default=Path("."))
-    parser.add_argument("--with-3d", action="store_true", help="inline the 3D view, about 1.4 MB")
+    parser.add_argument("--offline", action="store_true", help="bundle libraries into the page instead of using a CDN")
+    parser.add_argument("--check", action="store_true", help="validate only, do not build")
+    parser.add_argument("--keep", action="store_true", help="keep the temporary project for further edits")
     args = parser.parse_args()
     data = json.loads(args.data.read_text(encoding="utf-8"))
     errors = validate(data, args.repo)
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    blob = json.dumps(data, ensure_ascii=False).replace("<", "\\u003c")
-    title = data["title"].replace("&", "&amp;").replace("<", "&lt;")
-    html = TEMPLATE.read_text(encoding="utf-8").replace("__TITLE__", title)
-    html = html.replace("__LIBS__", inline_libs(data, args.with_3d)).replace("__DATA__", blob)
-    args.output.write_text(html, encoding="utf-8")
+    if args.check:
+        return 0
+    build_page(data, args.output.resolve(), args.offline, args.keep)
     print(args.output)
     return 0
 

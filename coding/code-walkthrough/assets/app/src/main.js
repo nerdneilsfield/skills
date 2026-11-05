@@ -1,86 +1,6 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>__TITLE__</title>
-<style>
-/* 色名取自日本の伝統色; hex 为常见数字近似值，不是历史定值。 */
-:root{
-  --kinari:#f7f4ec; --gofun:#fffdf8; --sumi:#2b2b2b; --nezumi:#7b7c7d; --rikyu:#888e7e;
-  --ai:#165e83; --koiai:#0f2350; --shu:#c8553d; --koke:#69821b; --yamabuki:#c9a227;
-  --line:#d9d4c7; --wash:#ebe6d9;
-  --serif:"Hiragino Mincho ProN","Yu Mincho","Noto Serif CJK SC","Noto Serif CJK JP","Songti SC",serif;
-  --mono:"JetBrains Mono","SFMono-Regular",Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme:dark){:root{
-  --kinari:#1b1d22; --gofun:#23262c; --sumi:#e8e4d8; --nezumi:#9a9a94; --rikyu:#9aa08e;
-  --ai:#6fa8c7; --koiai:#a9c4dc; --shu:#e08a70; --koke:#a3b866; --yamabuki:#d8b95a;
-  --line:#3a3d44; --wash:#2c2f36;
-}}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--kinari);color:var(--sumi);font:17px/1.9 var(--serif);-webkit-font-smoothing:antialiased}
-header.top{max-width:1120px;margin:0 auto;padding:12vh 32px 8vh}
-h1{font-size:clamp(34px,5vw,56px);font-weight:500;line-height:1.3;letter-spacing:.04em;margin:0 0 28px}
-.lede{max-width:38em;margin:0}
-.meta{margin-top:28px;font:13px/1.6 var(--mono);color:var(--nezumi)}
-nav.steps{position:sticky;top:0;z-index:5;background:var(--kinari);border-bottom:1px solid var(--line)}
-nav.steps div{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;gap:32px;overflow-x:auto}
-nav.steps a{padding:14px 0;color:var(--nezumi);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;font-size:15px}
-nav.steps a.on{color:var(--sumi);border-color:var(--shu)}
-section{max-width:1120px;margin:0 auto;padding:88px 32px;scroll-margin-top:52px}
-h2{font-size:28px;font-weight:500;letter-spacing:.04em;margin:0 0 12px}
-.intro{max-width:38em;color:var(--nezumi);margin:0 0 40px}
-.grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:start}
-@media (max-width:860px){.grid{grid-template-columns:1fr}}
-svg.map{width:100%;height:auto;display:block;background:var(--gofun);border:1px solid var(--line)}
-.node rect{fill:var(--gofun);stroke:var(--line);stroke-width:1.2;transition:stroke .25s,fill .25s}
-.node text{font:14px var(--serif);fill:var(--sumi);pointer-events:none}
-.node{cursor:pointer;outline:none}
-.node:hover rect,.node:focus rect{stroke:var(--ai)}
-.node.sel rect{stroke:var(--ai);stroke-width:2}
-.node.act rect{fill:var(--wash);stroke:var(--shu);stroke-width:2}
-.node.dim{opacity:.35}
-.edge{fill:none;stroke:var(--line);stroke-width:1.3}
-.edge.inferred{stroke-dasharray:5 5}
-.edge.act{stroke:var(--shu);stroke-width:2}
-.pulse{fill:var(--shu)}
-.band{font:12px var(--mono);fill:var(--nezumi)}
-aside{min-height:280px}
-aside h3{font-size:21px;font-weight:500;margin:0 0 8px}
-.loc{font:13px var(--mono);color:var(--ai);word-break:break-all}
-.tag{font:12px var(--mono);margin-left:10px;color:var(--koke)}
-.tag.inferred{color:var(--shu)}
-pre{background:var(--gofun);border:1px solid var(--line);border-left:3px solid var(--ai);padding:14px 16px;margin:16px 0 0;overflow:auto;font:13px/1.7 var(--mono)}
-.flows{display:flex;flex-wrap:wrap;gap:8px 12px;margin-bottom:24px}
-button{font:14px var(--serif);color:var(--sumi);background:none;border:1px solid var(--line);padding:6px 16px;cursor:pointer;transition:border-color .2s,color .2s}
-button:hover,button:focus-visible{border-color:var(--ai);color:var(--ai);outline:none}
-button.on{border-color:var(--shu);color:var(--shu)}
-.ctl{display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
-.count{font:13px var(--mono);color:var(--nezumi)}
-.bar{height:2px;background:var(--line);margin-top:14px}.bar i{display:block;height:100%;width:0;background:var(--shu);transition:width .3s}
-.legend{font-size:13px;color:var(--nezumi);margin-top:12px}
-dl.terms{display:grid;grid-template-columns:minmax(120px,max-content) 1fr;gap:10px 28px;max-width:46em;margin:0}
-dt{color:var(--ai)}dd{margin:0}
-.gtools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
-input.q{font:14px var(--serif);color:var(--sumi);background:var(--gofun);border:1px solid var(--line);padding:6px 12px;min-width:220px;outline:none}
-input.q:focus{border-color:var(--ai)}
-#kg{height:560px;background:var(--gofun);border:1px solid var(--line)}
-footer{max-width:1120px;margin:0 auto;padding:40px 32px 80px;color:var(--nezumi);font-size:14px;border-top:1px solid var(--line)}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-</style>
-</head>
-<body>
-<header class="top"><h1 id="title"></h1><p class="lede" id="summary"></p><div class="meta" id="meta"></div></header>
-<nav class="steps"><div id="nav"></div></nav>
-<main id="main"></main>
-<footer id="foot"></footer>
-<script id="data" type="application/json">__DATA__</script>
-__LIBS__
-<script>
-"use strict";
-const D=JSON.parse(document.getElementById("data").textContent);
+import D from "./data.json";
+import "./style.css";
+
 const NS="http://www.w3.org/2000/svg";
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
@@ -155,7 +75,8 @@ show();
 /* level four */
 if((D.terms||[]).length){const s4=section("l4","术语","代码里反复出现、读懂调用要先知道的词。");const d=el("dl","terms");D.terms.forEach(t=>d.append(el("dt",null,t.term),el("dd",null,t.meaning)));s4.append(d)}
 /* level five: knowledge graph */
-if(D.graph&&window.cytoscape){
+if(D.graph){
+  const {default:cytoscape}=await import("cytoscape");
   const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   const s5=section("l5","图谱","全部概念、模块和它们的关系。搜索或点击节点，只看它的邻居。");
   const tools=el("div","gtools"),q=el("input","q");q.placeholder="搜索节点";q.setAttribute("aria-label","搜索节点");tools.append(q);
@@ -177,9 +98,9 @@ if(D.graph&&window.cytoscape){
   kinds.forEach(k=>{const b=el("button","on",k);b.onclick=()=>{off.has(k)?off.delete(k):off.add(k);b.classList.toggle("on");apply()};tools.append(b)});
   q.addEventListener("input",()=>{const v=q.value.trim().toLowerCase();cy.elements().removeClass("faded hot");if(!v)return;
     const hit=cy.nodes().filter(n=>n.data("label").toLowerCase().includes(v));cy.elements().not(hit).addClass("faded");if(hit.length===1)focus(hit[0])});
-  if(window.ForceGraph3D){const b=el("button",null,"三维");let g3=null;tools.append(b);
+  {const b=el("button",null,"三维");let g3=null;let ForceGraph3D=null;tools.append(b);
     const obs=new ResizeObserver(()=>g3&&g3.width(host.clientWidth).height(host.clientHeight));obs.observe(host);
-    b.onclick=()=>{const on=b.classList.toggle("on");if(!on){if(g3){g3._destructor();g3=null}host.replaceChildren();cy.mount(host);return}
+    b.onclick=async()=>{if(!ForceGraph3D)({default:ForceGraph3D}=await import("3d-force-graph"));const on=b.classList.toggle("on");if(!on){if(g3){g3._destructor();g3=null}host.replaceChildren();cy.mount(host);return}
       cy.unmount();host.replaceChildren();
       g3=ForceGraph3D()(host).width(host.clientWidth).height(host.clientHeight).backgroundColor(css("--gofun"))
         .graphData({nodes:D.graph.nodes.map(n=>({...n})),links:D.graph.edges.map(e=>({source:e.from,target:e.to}))})
@@ -188,6 +109,3 @@ if(D.graph&&window.cytoscape){
 }
 const links=[...nav.children];const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle("on",a.hash==="#"+e.target.id))}),{rootMargin:"-40% 0px -55% 0px"});
 document.querySelectorAll("section").forEach(s=>io.observe(s));
-</script>
-</body>
-</html>
