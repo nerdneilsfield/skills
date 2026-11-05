@@ -1,6 +1,6 @@
 ---
 name: code-reading
-description: "Use when reading an unfamiliar repository or a large module: build a map from the entry point through the data flow to the core loop, using a code graph or index when one is available and literal search otherwise, and report conclusions with file:line while keeping what you read separate from what you inferred. Not for reviewing a specific change (code-review) or redesigning a module (codebase-design)."
+description: "Use when reading an unfamiliar repository or a large module: build a map from the entry point through the data flow to the core loop, using a code graph or index when one is available and literal search otherwise, and report conclusions with file:line while keeping what you read separate from what you inferred. Not for reviewing a specific change (code-review) or redesigning a module (codebase-design). Not for checking an implementation against a paper (paper-to-code) or for making a requested change."
 license: MIT
 compatibility: Uses tokei, rg, fd, git, and gh; ast-grep, rga, and any semantic or graph index are optional and detected at runtime.
 metadata:
