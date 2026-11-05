@@ -1,12 +1,11 @@
 ---
 name: counterweight-setup
-description: Enable Counterweight or repair its setup in a repository's root AGENTS.md.
+description: "Use when the user asks to enable Counterweight or repair its rules in the repository root AGENTS.md. Not for implementing or modifying product code (counterweight) or for listing what to delete from a diff (counterweight-cut)."
 ---
 
 # Counterweight Setup
 
-Configure Counterweight in the current repository. This Skill edits project
-instructions; it is not a task workflow.
+Configure Counterweight in the current repository. Run this skill when the user asks to enable Counterweight or repair its rules in the root `AGENTS.md`. This skill edits project instructions; it is not the implementation workflow (`counterweight`) and not a cut list (`counterweight-cut`).
 
 ## Request scope
 

@@ -1,11 +1,11 @@
 ---
 name: technical-writing
-description: Write, rewrite, and review software, hardware, and engineering documentation. Use for READMEs, tutorials, how-to guides, concepts, references, API/CLI documentation, troubleshooting, deployment guides, design/interface specifications, hardware references, user manuals, and test/verification documents in Chinese, English, or mixed-language text. Do not use for academic papers or scholarly manuscripts.
+description: "Use when the user asks to write, rewrite, or review software, hardware, or engineering documentation: READMEs, tutorials, how-tos, API or CLI references, troubleshooting, deployment guides, design specs, user manuals, or test procedures, in Chinese, English, or mixed text. Not for academic papers or scholarly manuscripts, Lu Xun voice (luxun-style), or a de-AI-only pass (deai)."
 ---
 
 # Technical writing
 
-Put technical correctness first. Then make the document precise, unambiguous, complete, consistent, scannable, and useful for the reader's task.
+Put technical correctness first. Then make the document precise, unambiguous, complete, consistent, scannable, and useful for the reader's task. Run this skill when the user asks to write, rewrite, or review an engineering document. Academic papers and scholarly manuscripts are outside this skill; explaining a paper the user supplied is `qi-read-paper`. A requested Lu Xun voice is `luxun-style`. A de-AI-only pass on prose that is not an engineering document is `deai`.
 
 ## Determine the task
 
@@ -49,7 +49,7 @@ For `write` and `rewrite`, define a short language contract from this skill's [l
 - excessive paragraph breaks, unnecessary bullets, decorative dashes, and sentence fragments to avoid;
 - structures required by the document type, such as parallel actions in a procedure or repeated field order in a reference.
 
-Draft against that contract. Only after the final draft exists, invoke `$deai --mode check`. Let it detect the language, or pass `--lang zh|en|mixed` and `--profile generic`. Act only on meaningful findings. If a rewrite is needed, change flagged prose only; do not optimize mechanically for a detector score.
+Draft against that contract. This skill still owns the engineering document. Only after the final draft exists, invoke `$deai --mode check` as a prose check, not as a handoff of the task. Let it detect the language, or pass `--lang zh|en|mixed` and `--profile generic`. Act on findings that change comprehension or remove a confirmed AI-writing signal. Change flagged prose only; do not optimize mechanically for a detector score.
 
 Technical correctness, formal grammar, stable terminology, semantic parallelism, and protected spans override de-AI variation. Do not break procedures, parameter tables, register tables, test criteria, or other meaningful repetition merely to vary sentence structure. After the de-AI pass, recheck immutable facts and grammar. If the rules conflict, keep the technically correct, grammatically unambiguous version.
 

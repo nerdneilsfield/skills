@@ -1,6 +1,6 @@
 ---
 name: co-commit
-description: 分析 Git 变更，按任务意图和仓库既有惯例分组并逐次提交；调用即授权执行本地 commit，无真实抉择时不等待确认
+description: "用户要求提交、commit，或按仓库既有惯例整理未提交变更时使用：分析 diff，按任务分组并逐次执行本地 commit；调用即授权提交，没有真实抉择时不要等待确认。不用于 push、开 PR、merge、rebase、改写历史，或只审代码不提交。"
 ---
 
 # 当前上下文

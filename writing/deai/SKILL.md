@@ -1,11 +1,11 @@
 ---
 name: deai
-description: Use when editing, reviewing, or rewriting Chinese or English prose that feels AI-generated, templated, overly promotional, repetitive, vague, chatbot-like, bureaucratic, paternalistic, or governance-heavy; also when auditing AI-writing signals, defensive writing (ungrounded hedging, self-undermining, claim retraction, 防御性写作/自我削弱/心虚表述), or reviewer-prebuttal tone in LaTeX, Typst, Markdown, or plain text.
+description: "Use when the user asks to edit, review, or audit Chinese or English prose that sounds AI-generated: templated, promotional, chatbot-like, bureaucratic, paternalistic, defensively hedged, or written as a reviewer prebuttal (防御性写作), in LaTeX, Typst, Markdown, or plain text. Not for authoring engineering docs from scratch (technical-writing), Lu Xun voice (luxun-style), or explaining a paper (qi-read-paper)."
 ---
 
 # De-AI writing assistant
 
-Make prose less templated while preserving meaning, facts, format, and the writer's voice. Detector scores vary by tool and genre; never promise a score, plagiarism result, or “human” verdict.
+Make prose less templated while preserving meaning, facts, format, and the writer's voice. Run when the user asks to reduce AI-writing signals, defensive hedging (防御性写作 / 自我削弱 / 心虚表述), or reviewer-prebuttal tone in existing prose. Authoring or restructuring engineering documents is `technical-writing`. A requested Lu Xun voice is `luxun-style`. Explaining a paper is `qi-read-paper`. Detector scores vary by tool and genre; never promise a score, plagiarism result, or “human” verdict.
 
 ## Rules
 

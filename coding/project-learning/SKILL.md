@@ -1,11 +1,11 @@
 ---
 name: project-learning
-description: Persist verified, durable, reusable, non-obvious knowledge discovered during real repository work into the narrowest existing project guidance or, rarely, a concise historical learning log.
+description: "Use when real repository work just uncovered a verified, durable, reusable, non-obvious fact that later agents would otherwise rediscover. Put it in the narrowest existing project guidance, or rarely in a short learning log. Not for enabling Counterweight (counterweight-setup), routine recaps, or user-facing documentation (technical-writing)."
 ---
 
 # Project Learning
 
-Persist knowledge only when rediscovering it later would impose real cost. The usual result is no change.
+Run when a fact discovered in the current repository work is verified, durable, reusable, and non-obvious, and rediscovering it later would impose real cost. Enabling Counterweight is `counterweight-setup`. User-facing documentation is `technical-writing`. The usual result is no file change.
 
 ## Current project truth
 

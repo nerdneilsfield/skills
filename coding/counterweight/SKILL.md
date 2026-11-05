@@ -1,20 +1,12 @@
 ---
 name: counterweight
 version: 0.6.0
-description: >
-  Default workflow for coding implementation and modification: writing new code,
-  fixing bugs, refactoring, wiring config, adding features, and debugging. Picks
-  the lightest sufficient process (Direct / Managed / Deep) and keeps
-  abstractions, dependencies, tests, docs, and commits proportional to current
-  evidence and risk. Use when a request would otherwise produce a plan, a
-  framework, a compatibility layer, a retry/cache/fallback, or a test suite that
-  nothing in the repository asks for. Not for answering questions about existing
-  code, standalone code review, or writing prose documents.
+description: "Run when the user asks to implement, fix, refactor, wire configuration, add a feature, or debug code, including when that request would otherwise grow a plan, framework, compatibility layer, retry, cache, fallback, or unearned test suite. Pick the lightest sufficient process and keep the change proportional to current evidence and risk. Not for questions about existing code, standalone review, prose, root AGENTS.md setup (counterweight-setup), or a post-implementation cut list (counterweight-cut)."
 ---
 
 # Counterweight
 
-Deliver the requested behavior as useful, runnable software.
+Deliver the requested behavior as useful, runnable software. This is the implementation workflow. Writing or repairing the root `AGENTS.md` is `counterweight-setup`. A cut list after the diff exists is `counterweight-cut`. Questions about existing code, standalone review, and prose stay outside this skill.
 
 Workflow track, reasoning effort, authorization, and review are separate.
 
@@ -184,8 +176,11 @@ If the task proved a durable, reusable, non-obvious project fact, add one or
 two lines to the narrowest existing `AGENTS.md`. Record current truth, not a
 task recap. The usual result is no change.
 
-Companions are optional. Defer to `$project-learning`, `$grill-me`, or
-`$counterweight-cut` only when installed and the user or finding calls for
-them. After Deep work that added an abstraction, dependency, test file, or
-compatibility layer, ask once whether to run cut. Do not start it unasked.
-Direct and small Managed work do not mention cut.
+Stay in this skill for the implementation. Hand off on an explicit request:
+`grill-me` when the user asks to grill the plan, `counterweight-cut` when the
+user asks what to delete or to simplify this diff, and `project-learning` when
+the user asks to record a project fact beyond the one or two `AGENTS.md` lines
+above. After Deep work that added an abstraction, dependency, test file, or
+compatibility layer, ask once whether to run `counterweight-cut`. Do not start
+it unasked. Direct and small Managed work do not mention cut. If the named
+skill is not installed, name it and continue this skill.

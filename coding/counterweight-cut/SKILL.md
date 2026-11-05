@@ -1,18 +1,11 @@
 ---
 name: counterweight-cut
-description: >
-  After implementation, list what in this diff did not earn the cost of
-  staying: unused abstractions, extra dependencies, config knobs,
-  compatibility layers, unearned tests, and process artifacts. Use when the
-  user asks what can be deleted, whether the diff got fat, or to simplify
-  this change. Default is a cut list, not a new diff. Not for implementing
-  features, correctness review, product decisions, or whole-repo cleanup.
+description: "Use when the user asks what can be deleted, whether this diff got fat, or to simplify the change just written. List unused abstractions, extra dependencies, and unearned tests; edit only after the user asks to apply the list. Not for implementing features (counterweight), correctness review, root AGENTS.md setup (counterweight-setup), or whole-repo cleanup."
 ---
 
 # Counterweight Cut
 
-Ask whether already-written work earned the right to stay. This is not a
-correctness review and not a second implementation pass.
+Run this skill after implementation, when the user asks what can be deleted, whether this diff got fat, or to simplify the change just written. Ask whether already-written work earned the right to stay. This is not a correctness review, not a second implementation pass (`counterweight`), and not root `AGENTS.md` setup (`counterweight-setup`).
 
 Default: report only. Do not edit unless the user says to apply the list.
 Analysis is not implementation.

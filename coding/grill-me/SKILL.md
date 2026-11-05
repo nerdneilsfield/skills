@@ -1,11 +1,13 @@
 ---
 name: grill-me
-description: Stress-test a plan, design, or decision by surfacing unresolved choices that can materially change behavior, constraints, or implementation. Use when the user explicitly asks to be grilled or wants a plan pressure-tested.
+description: "Use when the user explicitly asks to be grilled, stress-tested, or challenged on a plan, design, or decision. Surface unresolved choices that can change behavior, constraints, or implementation, each with a recommended default. Not for implementing that plan (counterweight) or writing the design document."
 ---
 
 # Grill Me
 
-Find facts yourself from the repository, code, Git, tools, and relevant documentation. Ask the user only for decisions; do not turn missing confidence into questions.
+Run only when the user explicitly asks for a grill, stress test, or challenge. Surface unresolved choices; do not implement the plan (`counterweight`) and do not write the design document from this skill.
+
+Find facts yourself from the repository, code, Git, tools, and documentation that names the decision. Ask the user only for decisions; do not turn missing confidence into questions.
 
 Work in rounds. By default, ask one to three independent material questions whose prerequisites are already settled. Defer a question when its meaning depends on an earlier answer. For each question, give a recommended default and the reason, so the user can answer by correcting only what differs.
 
