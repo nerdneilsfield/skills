@@ -1,11 +1,11 @@
 ---
 name: cpp-project-init
-description: Use when creating a C++ project or explicitly restructuring its CMake presets, vendored dependencies, or developer command entry points.
+description: "Use when the user asks to create a C++ project or to restructure its CMake presets, vendored dependencies, offline build, or developer command entry points. Defer language and ownership conventions to cpp. Not for ordinary source fixes, crashes (cpp-debug), measured CPU tuning (cpp-performance), or Eigen/solver numerics (cpp-numerics)."
 ---
 
 # Lightweight C++ project initialization
 
-Build the smallest usable project, not a framework for hypothetical projects. This skill is the single owner of toolchain/build, vendor/legal-record and offline-build policy. Apply [cpp](../cpp/SKILL.md) for language, ownership and preferred capability libraries. If `cpp` is unavailable, tell the user to install **`cpp`** from this bundle; do not globally search, fetch a substitute or automatically install it. Current requirements override historical templates.
+Build the smallest usable project, not a framework for hypothetical projects. Run this skill when the user asks to create a C++ project or to restructure CMake presets, vendored dependencies, offline builds, or developer command entry points. This skill is the single owner of toolchain/build, vendor/legal-record and offline-build policy. Defer language, ownership, and library-preference rules to [cpp](../cpp/SKILL.md). Defer crashes and unexplained failures to `cpp-debug`, measured CPU and thread tuning to `cpp-performance`, and Eigen or solver numerics to `cpp-numerics`. A bug fix in an existing tree does not use this skill. If `cpp` is unavailable, tell the user to install **`cpp`** from this bundle; do not globally search, fetch a substitute or automatically install it. Current requirements override historical templates.
 
 ## Offline supporting materials
 

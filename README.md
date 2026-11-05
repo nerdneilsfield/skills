@@ -4,33 +4,33 @@
 
 ## 中文
 
-本仓库收录可复用的 Agent Skills，涵盖编码工作流、Git 提交、文本去 AI 化、技术写作和文学风格改写。每个 skill 都以 `SKILL.md` 为入口，可通过 [Skills CLI](https://github.com/vercel-labs/skills) 安装。
+本仓库收录可复用的 Agent Skills，涵盖编码工作流、Git 提交、论文精读、文本去 AI 化、技术写作和文学风格改写。每个 skill 都以 `SKILL.md` 为入口，可通过 [Skills CLI](https://github.com/vercel-labs/skills) 安装。
 
 ### 可用 skills
 
 | Skill | 用途 |
 | --- | --- |
-| [`qi-read-paper`](research/qi-read-paper/) | 分三轮精读算法与工程论文，理解问题、方法与图表证据，评估局限和复现路径。 |
-| [`co-commit`](coding/co-commit/) | 分析 Git 变更，按仓库既有提交惯例分组并逐次提交。 |
-| [`counterweight`](coding/counterweight/) | 让编码工作的流程、实现复杂度、测试和知识沉淀与当前证据及风险相称。 |
-| [`counterweight-setup`](coding/counterweight-setup/) | 初始化或修订项目根 `AGENTS.md`，写入 Counterweight 的编码克制规则。 |
-| [`counterweight-cut`](coding/counterweight-cut/) | 实现之后列出本次 diff 里没挣到留下资格的东西；默认只出清单，用户点名才改。 |
-| [`cpp`](coding/cpp/) | 共享 C++ 工程原则、接口与所有权约定，按问题路由到专用技能。 |
-| [`cpp-project-init`](coding/cpp-project-init/) | 项目初始化、工具链与固定版本 vendor 源码、离线构建的统一规则及完整样例。 |
-| [`cpp-debug`](coding/cpp-debug/) | 最小排查后仍未解释的错误、崩溃、挂起、数据竞争与内存问题。 |
-| [`cpp-performance`](coding/cpp-performance/) | CPU 性能测量、缓存与竞争、线程调度、内存压力及有证据的修复与预防。 |
-| [`cpp-numerics`](coding/cpp-numerics/) | Eigen、求解器、稀疏与数值计算的正确性、数据边界及优化。 |
-| [`python`](coding/python/) | Python 共享数据契约、可变性、资源、失败与验证主线。 |
-| [`python-performance`](coding/python-performance/) | 抓热点，区分 Python/native CPU、等待、内存和并行瓶颈，给出修复与复测。 |
-| [`python-numerics`](coding/python-numerics/) | 数值计算的形状、dtype、布局、精度、分块、求解器与设备边界。 |
-| [`python-environments`](coding/python-environments/) | uv/Conda/Pixi、镜像与依赖链、环境/内核切换、离线制品及 CUDA ABI。 |
-| [`python-ml`](coding/python-ml/) | 经典机器学习与深度学习的数据划分、训练、评估、性能及模型制品。 |
-| [`python-data-analysis`](coding/python-data-analysis/) | 数据质量、连接/分组口径、大数据执行、统计与诚实可视化。 |
-| [`grill-me`](coding/grill-me/) | 应用户要求，对计划、设计或决策做克制的压力测试。 |
-| [`project-learning`](coding/project-learning/) | 将真实开发中发现的少量、持久且可复用的项目知识沉淀到现有项目指引。 |
-| [`deai`](writing/deai/) | 审阅或改写中英文文本，减少模板化、官僚化、说教式和其他明显的 AI 写作痕迹，同时保留事实与技术含义。 |
-| [`luxun-style`](writing/luxun-style/) | 以鲁迅的语气、用词、逻辑和修辞写作或改写杂文、散文和评论。 |
-| [`technical-writing`](writing/technical-writing/) | 写作、改写和审阅软件、硬件及工程技术文档，不用于论文或学术稿件。 |
+| [`qi-read-paper`](research/qi-read-paper/) | 用户给出论文并要求精读、逐轮讲解或评估复现时使用；只问一个具体点时直接回答。不用于写技术文档或改文风。 |
+| [`co-commit`](coding/co-commit/) | 用户要求按仓库惯例分组并逐次本地提交时使用。不用于 push、开 PR 或改写历史。 |
+| [`counterweight`](coding/counterweight/) | 用户要求实现、修复、重构或调试代码时使用，并按证据选择最轻流程。不用于答疑、独立评审、写文档、初始化 `AGENTS.md` 或事后删减清单。 |
+| [`counterweight-setup`](coding/counterweight-setup/) | 用户要求在仓库根 `AGENTS.md` 启用或修复 Counterweight 时使用。不用于实现功能或列删减清单。 |
+| [`counterweight-cut`](coding/counterweight-cut/) | 实现之后，用户询问这次 diff 里什么没挣到留下资格时使用。默认只出清单，用户点名才改。 |
+| [`cpp`](coding/cpp/) | 普通 C++ 的语言、所有权与接口约定，且没有专用技能对口时使用。项目初始化、排错、性能和数值计算分别交给 `cpp-project-init`、`cpp-debug`、`cpp-performance`、`cpp-numerics`。 |
+| [`cpp-project-init`](coding/cpp-project-init/) | 用户要求新建 C++ 项目，或改 CMake presets、vendor 与命令入口时使用。不用于普通源码修复、排错、性能或数值内核。 |
+| [`cpp-debug`](coding/cpp-debug/) | 最小排查后仍未解释的崩溃、挂起、数据竞争、内存破坏或不确定失败。数值契约问题交给 `cpp-numerics`。 |
+| [`cpp-performance`](coding/cpp-performance/) | 已测量的 C++ CPU 延迟、吞吐、缓存、线程或内存问题。崩溃交给 `cpp-debug`，数值模型交给 `cpp-numerics`。 |
+| [`cpp-numerics`](coding/cpp-numerics/) | Eigen、残差、求解器、流形或数值数据边界的正确性与不稳定结果。进程级性能交给 `cpp-performance`。 |
+| [`python`](coding/python/) | 普通 Python 的数据契约、可变性、资源与失败约定，且没有专用技能对口时使用。热点、数值、环境、训练和表格分析分别交给对应技能。 |
+| [`python-performance`](coding/python-performance/) | 测量并修复 Python 热点、等待、内存增长或扩展性。不用于数值内核、环境修复、训练循环或表格分析。 |
+| [`python-numerics`](coding/python-numerics/) | 数组形状、dtype、布局、精度、求解器、BLAS 或 JIT 边界。进程级剖析交给 `python-performance`。 |
+| [`python-environments`](coding/python-environments/) | 创建、复现或修复 uv、venv、Conda、Pixi、锁文件、离线制品与 CUDA/原生 ABI。不用于写 CUDA kernel 或改数值算法。 |
+| [`python-ml`](coding/python-ml/) | 经典机器学习或深度学习的划分、训练、评估、checkpoint 与训练循环性能。描述性表格交给 `python-data-analysis`。 |
+| [`python-data-analysis`](coding/python-data-analysis/) | 表格、时间或缺失数据的连接、分组口径、大规模聚合与诚实可视化。预测训练交给 `python-ml`。 |
+| [`grill-me`](coding/grill-me/) | 用户明确要求拷问或压力测试计划、设计或决策时使用。不用于直接实现该计划。 |
+| [`project-learning`](coding/project-learning/) | 真实开发中刚核实、以后会反复付出代价的项目事实要写入现有指引时使用。不用于启用 Counterweight 或写用户文档。 |
+| [`deai`](writing/deai/) | 用户要求审阅或改写中英文里的模板化、官僚化、说教式或防御性 AI 写作痕迹时使用。不用于从零写技术文档或鲁迅文风。 |
+| [`luxun-style`](writing/luxun-style/) | 用户要求用鲁迅的语气、用词、逻辑和修辞写作或改写时使用。不用于技术文档或论文精读。 |
+| [`technical-writing`](writing/technical-writing/) | 用户要求写作、改写或审阅软件、硬件和工程技术文档时使用。不用于学术论文或学术稿件、鲁迅文风或单纯去 AI 化。 |
 
 ### 安装
 
@@ -64,47 +64,47 @@ npx skills add nerdneilsfield/skills --skill technical-writing -g
 使用 $technical-writing 改写这份部署指南。
 ```
 
-`counterweight` 的描述覆盖 coding implementation / modification，支持隐式 Skill 选择。运行 `$counterweight-setup` 写入项目根 `AGENTS.md`；具体文本以该 skill 为准。
+`counterweight` 覆盖实现、修复、重构和调试，供隐式选择。根 `AGENTS.md` 归 `counterweight-setup`；实现后的删减清单归 `counterweight-cut`。具体文本以各 skill 为准。
 
-C++ 技能可离线使用：构建/vendor/工具链规则归 `cpp-project-init`，线程与 BLAS 并行预算归 `cpp-performance`；按症状先读对应参考，需要时跨层查阅。验证方法见 [tests/README.md](tests/README.md)。
+C++ 技能可离线使用。`cpp` 只保留共享语言与接口约定。新建项目与 vendor 归 `cpp-project-init`，崩溃与未解释失败归 `cpp-debug`，已测量的 CPU 与线程预算归 `cpp-performance`，Eigen 与求解器数值契约归 `cpp-numerics`。一次任务只加载一个专用技能。验证方法见 [tests/README.md](tests/README.md)。
 
-Python 技能按任务选择资料，不把所有工具混为一个教程；技能正文离线自足，实际离线重建仍需预先准备兼容制品。各资产提供独立运行入口，完整仓库测试见 [tests/README.md](tests/README.md)。
+Python 同样按症状只加载一个专用技能：环境归 `python-environments`，热点归 `python-performance`，数组与求解器归 `python-numerics`，训练与评估归 `python-ml`，表格与图表归 `python-data-analysis`。`python` 只保留没有专用技能对口时的共享契约。技能正文离线自足，实际离线重建仍需预先准备兼容制品。各资产提供独立运行入口，完整仓库测试见 [tests/README.md](tests/README.md)。
 
 ### 仓库结构
 
-Skills 按用途存放在 `coding/` 和 `writing/` 等目录中。每个 skill 的规则位于该目录的 `SKILL.md`，详细规范、脚本和测试仅在实际需要时提供。
+Skills 按用途存放在 `coding/`、`writing/` 和 `research/` 中。每个 skill 的规则位于该目录的 `SKILL.md`，详细规范、脚本和测试放在同一 skill 目录内。
 
 本项目采用 [MIT License](LICENSE)。
 
 ## English
 
-This repository contains reusable Agent Skills for coding workflows, Git commits, de-AI editing, technical writing, and literary-style rewriting. Each skill uses `SKILL.md` as its entry point and can be installed with the [Skills CLI](https://github.com/vercel-labs/skills).
+This repository contains reusable Agent Skills for coding workflows, Git commits, paper reading, de-AI editing, technical writing, and literary-style rewriting. Each skill uses `SKILL.md` as its entry point and can be installed with the [Skills CLI](https://github.com/vercel-labs/skills).
 
 ### Available skills
 
 | Skill | Purpose |
 | --- | --- |
-| [`qi-read-paper`](research/qi-read-paper/) | Reads algorithm and engineering papers in three rounds, covering the problem, methods and visual evidence, limitations, and reproduction steps. |
-| [`co-commit`](coding/co-commit/) | Analyzes Git changes, groups them according to the repository's existing commit conventions, and creates the commits in sequence. |
-| [`counterweight`](coding/counterweight/) | Keeps coding process, implementation complexity, tests, and retained knowledge proportional to current evidence and risk. |
-| [`counterweight-setup`](coding/counterweight-setup/) | Initializes or updates the root `AGENTS.md` with Counterweight's coding-restraint rules. |
-| [`counterweight-cut`](coding/counterweight-cut/) | After implementation, lists what in this diff did not earn the cost of staying. Default is a cut list; edit only when asked. |
-| [`cpp`](coding/cpp/) | Shared C++ engineering, ownership and interface guidance with specialist routing. |
-| [`cpp-project-init`](coding/cpp-project-init/) | Project setup, toolchain and pinned-vendor/offline build policy with complete local examples. |
-| [`cpp-debug`](coding/cpp-debug/) | Unexplained failures after minimal triage, crashes, hangs, races and memory errors. |
-| [`cpp-performance`](coding/cpp-performance/) | CPU measurement, cache/contention, scheduling, memory pressure, evidence-based remedies and prevention. |
-| [`cpp-numerics`](coding/cpp-numerics/) | Eigen, solvers, sparse computation, numerical correctness and data-boundary optimization. |
-| [`python`](coding/python/) | Shared Python data, mutation, resource, failure and verification contracts. |
-| [`python-performance`](coding/python-performance/) | Locate hotspots and distinguish Python/native CPU, waiting, memory and scaling problems, then repair and remeasure. |
-| [`python-numerics`](coding/python-numerics/) | Numerical shapes, dtype, layout, accuracy, blocking, solvers and device boundaries. |
-| [`python-environments`](coding/python-environments/) | uv/Conda/Pixi, sources and dependency chains, interpreter/kernel switching, offline artifacts and CUDA ABI. |
-| [`python-ml`](coding/python-ml/) | Classical ML and deep-learning splits, training, evaluation, performance and trusted artifacts. |
-| [`python-data-analysis`](coding/python-data-analysis/) | Data quality, joins/groups, larger-than-memory execution, statistical meaning and honest visualization. |
-| [`grill-me`](coding/grill-me/) | Pressure-tests a plan, design, or decision when the user explicitly requests it. |
-| [`project-learning`](coding/project-learning/) | Persists small amounts of durable, reusable project knowledge discovered during real work. |
-| [`deai`](writing/deai/) | Reviews or rewrites Chinese and English prose to reduce templated, bureaucratic, paternalistic, and other conspicuous AI-writing patterns while preserving facts and technical meaning. |
-| [`luxun-style`](writing/luxun-style/) | Writes or rewrites essays, prose, and commentary in Lu Xun's tone, diction, reasoning, and rhetoric. |
-| [`technical-writing`](writing/technical-writing/) | Writes, rewrites, and reviews software, hardware, and engineering documentation. It does not cover academic papers or scholarly manuscripts. |
+| [`qi-read-paper`](research/qi-read-paper/) | Use when the user supplies a paper and asks for a close reading, round-by-round explanation, or reproduction assessment. Answer a single concrete question directly. Not for writing technical docs or changing literary voice. |
+| [`co-commit`](coding/co-commit/) | Use when the user asks to group uncommitted work by the repo's commit conventions and create the local commits. Not for push, opening a PR, or rewriting history. |
+| [`counterweight`](coding/counterweight/) | Use when the user asks to implement, fix, refactor, or debug code, and pick the lightest process the evidence supports. Not for Q&A, standalone review, prose, root `AGENTS.md` setup, or a post-diff cut list. |
+| [`counterweight-setup`](coding/counterweight-setup/) | Use when the user asks to enable or repair Counterweight in the repository root `AGENTS.md`. Not for implementing features or listing cuts. |
+| [`counterweight-cut`](coding/counterweight-cut/) | After implementation, use when the user asks what in this diff did not earn the cost of staying. Default is a cut list; edit only when the user asks to apply it. |
+| [`cpp`](coding/cpp/) | Use for ordinary C++ language, ownership, and interface conventions when no specialist fits. Hand init, diagnosis, measured performance, and numerics to `cpp-project-init`, `cpp-debug`, `cpp-performance`, and `cpp-numerics`. |
+| [`cpp-project-init`](coding/cpp-project-init/) | Use when the user asks to create a C++ project or restructure CMake presets, vendored dependencies, or command entry points. Not for ordinary fixes, crashes, CPU tuning, or numerical kernels. |
+| [`cpp-debug`](coding/cpp-debug/) | Use for crashes, hangs, races, memory corruption, or failures still unexplained after the first diagnostic. Hand numerical-contract bugs to `cpp-numerics`. |
+| [`cpp-performance`](coding/cpp-performance/) | Use for measured C++ CPU latency, throughput, cache, threads, or memory. Hand crashes to `cpp-debug` and numerical models to `cpp-numerics`. |
+| [`cpp-numerics`](coding/cpp-numerics/) | Use for Eigen, residuals, solvers, manifolds, or numerical data-boundary correctness, including unstable results. Hand process-wide performance to `cpp-performance`. |
+| [`python`](coding/python/) | Use for ordinary Python data, mutation, resource, and failure contracts when no specialist fits. Hand hotspots, numerics, environments, training, and tabular analysis to the matching specialist. |
+| [`python-performance`](coding/python-performance/) | Use when measuring or fixing Python hotspots, waiting, memory growth, or scaling. Not for numerical kernels, environment repair, training loops, or tabular analysis. |
+| [`python-numerics`](coding/python-numerics/) | Use for array shape, dtype, layout, precision, solvers, BLAS, or JIT boundaries. Hand process-wide profiling to `python-performance`. |
+| [`python-environments`](coding/python-environments/) | Use when creating, reproducing, or repairing uv, venv, Conda, Pixi, lockfiles, offline artifacts, or CUDA/native ABI. Not for writing CUDA kernels or changing numerical algorithms. |
+| [`python-ml`](coding/python-ml/) | Use for classical ML or deep-learning splits, training, evaluation, checkpoints, and training-loop performance. Hand descriptive tables to `python-data-analysis`. |
+| [`python-data-analysis`](coding/python-data-analysis/) | Use for tabular, time, or missing-data joins, grouping, large aggregation, and honest charts. Hand predictive training to `python-ml`. |
+| [`grill-me`](coding/grill-me/) | Use when the user explicitly asks to grill or stress-test a plan, design, or decision. Not for implementing that plan. |
+| [`project-learning`](coding/project-learning/) | Use when real work just verified a durable project fact that later agents would otherwise rediscover. Not for enabling Counterweight or writing user-facing docs. |
+| [`deai`](writing/deai/) | Use when the user asks to review or rewrite Chinese or English prose that sounds templated, bureaucratic, paternalistic, or defensively AI-written. Not for authoring technical docs from scratch or Lu Xun voice. |
+| [`luxun-style`](writing/luxun-style/) | Use when the user asks to write or rewrite in Lu Xun's tone, diction, reasoning, and rhetoric. Not for technical documentation or paper reading. |
+| [`technical-writing`](writing/technical-writing/) | Use when the user asks to write, rewrite, or review software, hardware, or engineering documentation. Not for academic papers or scholarly manuscripts, Lu Xun voice, or a de-AI-only pass. |
 
 ### Install
 
@@ -138,14 +138,14 @@ After installation, invoke a skill by name in an agent that supports Agent Skill
 Use $technical-writing to rewrite this deployment guide.
 ```
 
-The `counterweight` description covers coding implementation and modification for implicit Skill selection. Run `$counterweight-setup` to write the project's root `AGENTS.md`; the exact text lives in that skill.
+`counterweight` covers implementation, fixes, refactoring, and debugging for implicit selection. Root `AGENTS.md` belongs to `counterweight-setup`. A cut list after the diff belongs to `counterweight-cut`. The exact text lives in each skill.
 
-C++ skills work offline: `cpp-project-init` owns build/vendor/toolchain policy and `cpp-performance` owns thread/BLAS budgets. Start with the matching symptom reference and follow cross-layer evidence as needed. See [tests/README.md](tests/README.md) for validation.
+C++ skills work offline. `cpp` keeps shared language and interface conventions. Project creation and vendoring belong to `cpp-project-init`, crashes and unexplained failures to `cpp-debug`, measured CPU and thread budgets to `cpp-performance`, and Eigen or solver numerical contracts to `cpp-numerics`. Load one specialist for a task. See [tests/README.md](tests/README.md) for validation.
 
-Python skills select references by the current question rather than preload every tool. Guidance is self-contained offline; actual offline reconstruction still requires compatible artifacts. Assets have standalone entrypoints; repository validation is documented in [tests/README.md](tests/README.md).
+Python follows the same split: environments to `python-environments`, hotspots to `python-performance`, arrays and solvers to `python-numerics`, training and evaluation to `python-ml`, and tables and charts to `python-data-analysis`. `python` keeps the shared contract when no specialist fits. Guidance is self-contained offline; actual offline reconstruction still requires compatible artifacts. Assets have standalone entrypoints; repository validation is documented in [tests/README.md](tests/README.md).
 
 ### Repository layout
 
-Skills are grouped by purpose under directories such as `coding/` and `writing/`. Each skill keeps its rules in `SKILL.md` and includes detailed references, scripts, or tests only when they are needed.
+Skills are grouped by purpose under `coding/`, `writing/`, and `research/`. Each skill keeps its rules in `SKILL.md`, with detailed references, scripts, and tests in that same skill directory.
 
 This project is available under the [MIT License](LICENSE).

@@ -1,22 +1,22 @@
 ---
 name: cpp
-description: Use when writing, reviewing or maintaining C++ code and its shared language, ownership, build, dependency or interface conventions.
+description: "Use when writing or reviewing ordinary C++ whose question is language, ownership, RAII, the error model, headers, or library preference, and no specialist owns it. Hand project creation or CMake/vendor restructuring to cpp-project-init, crashes and unexplained failures to cpp-debug, measured CPU/cache/thread/memory tuning to cpp-performance, and Eigen/solver/numerical-contract work to cpp-numerics. Not for those specialist tasks."
 ---
 
 # Shared C++ engineering conventions
 
-This is shared policy and routing, not another planning/approval workflow. Inspect the project's build, tooling and nearby code before editing. Explicit current task requirements take precedence; historical templates are not requirements. A local fix does not authorize a build migration, library replacement or whole-repository cleanup.
+This hub is shared language, ownership, and interface policy for tasks no specialist owns. It is not a second planning workflow and not a second copy of build, diagnosis, performance, or numerics procedures. Inspect the project's build, tooling and nearby code before editing. Explicit current task requirements take precedence; historical templates are not requirements. A local fix does not authorize a build migration, library replacement or whole-repository cleanup.
 
-## Load only the relevant specialist
+## Hand off to one specialist
 
 | Task | Skill |
 | --- | --- |
-| New project or explicitly requested build/tooling restructuring | `cpp-project-init` |
-| Unexplained/wrong results after minimal triage; crash, hang, race, corruption or unresolved build failure | `cpp-debug` |
-| CPU latency, throughput, cacheline/lock contention, scheduling/oversubscription, paging, allocation or scaling problem | `cpp-performance` |
-| Creating/modifying Eigen, Ceres/GTSAM, manifold, sparse/BLAS or numerical data-boundary code; numerical failures or slowness | `cpp-numerics` |
+| User asks to create a C++ project or to restructure CMake presets, vendored dependencies, offline builds, or developer command entry points | `cpp-project-init` |
+| Crash, hang, race, memory corruption, nondeterminism, or a failure still unexplained after the first diagnostic and nearby diff | `cpp-debug` |
+| Measured CPU latency, throughput, cache or lock contention, scheduling, oversubscription, paging, allocation, or scaling | `cpp-performance` |
+| Eigen, residual, Jacobian, manifold, factor graph, sparse/BLAS solver, or numerical data-boundary work, including unstable or non-finite results | `cpp-numerics` |
 
-Use only the relevant specialist alongside this language/interface policy. If a named skill is unavailable, tell the user its exact name to install from this bundle (for example, `cpp-project-init` for build/vendor work or `cpp-debug` for deeper diagnosis). Do not perform a global skill search, fetch a substitute, install anything automatically or invent the missing skill. Continue only the independent work that does not require it. CUDA is separate and deferred; do not fold it into this CPU split.
+When a row matches, load that specialist and keep only this hub's language and interface rules. Do not load a second specialist for the same task. If the named skill is unavailable, tell the user its exact name to install from this bundle (for example, `cpp-project-init` for build/vendor work or `cpp-debug` for deeper diagnosis). Do not perform a global skill search, fetch a substitute, install anything automatically or invent the missing skill. Continue only the independent work that does not require it. CUDA is separate and deferred; do not fold it into this CPU split.
 
 ## Language, ownership and interfaces
 
@@ -26,7 +26,7 @@ Use only the relevant specialist alongside this language/interface policy. If a 
 - Keep public headers self-contained with guards and direct includes, no global `using namespace`. Expose necessary contracts, keep implementation/vendor types internal where practical, and do not automatically add PImpl or wrapper layers.
 - Follow the existing error model at explicit boundaries, including post-failure object state. Use `[[nodiscard]]` where ignoring a result risks a bug. Do not upgrade a C++20 project or add a result library merely for `std::expected`.
 
-Read [ownership/interface examples](references/code-examples.md) when relevant. They are examples, not mandatory class shapes or plan content.
+Read [ownership/interface examples](references/code-examples.md) for an ownership or interface question. They are examples, not mandatory class shapes or plan content.
 
 ## Build, vendor and offline policy: one owner
 
@@ -54,7 +54,7 @@ Keep concise repository instructions for prerequisites, preset/command selection
 
 Verify changed behavior with relevant checks. For build/dependency changes use the acceptance rules owned by `cpp-project-init`. Report untested platforms and unavailable tools; no unrelated full-matrix requirement or tests added merely because this skill exists.
 
-Use targeted diagnostic configurations for relevant memory/UB/concurrency risks, separate from ordinary Release. Performance claims need comparable before/after measurements and correctness checks. Reproducible tests preserve seeds, isolate temporary state and wait on bounded observable conditions; avoid guessed sleeps and internal call choreography. Do not create interfaces/mocks merely to satisfy test templates. See [targeted diagnostics](references/diagnostics.md), then load the specialist for deeper work.
+Use targeted diagnostic configurations for memory, undefined-behavior, or concurrency risks that the change can exercise, separate from ordinary Release. Performance claims need comparable before/after measurements and correctness checks. Reproducible tests preserve seeds, isolate temporary state and wait on bounded observable conditions; avoid guessed sleeps and internal call choreography. Do not create interfaces/mocks merely to satisfy test templates. See [targeted diagnostics](references/diagnostics.md). When the symptom matches a row in the handoff table, load that specialist for the rest of the work.
 
 ## Reading pointers
 

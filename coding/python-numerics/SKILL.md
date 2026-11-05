@@ -1,14 +1,17 @@
 ---
 name: python-numerics
-description: Use when Python array, matrix, scientific-computing or tensor code is numerically incorrect, memory-heavy or slow, including NumPy/SciPy layout, broadcasting, solvers, BLAS, JIT and existing accelerator-framework boundaries.
+description: "Use when Python array, matrix, or tensor code is numerically wrong or the kernel itself is memory-heavy or slow: shape, dtype, layout, broadcasting, precision, solvers, BLAS, or JIT and accelerator boundaries. Defer shared contracts to python and process-wide profiling to python-performance. Not for environment repair (python-environments), model training (python-ml), or dataframe analysis (python-data-analysis)."
 ---
 
 # Python numerical correctness and performance
 
 Optimize the computation that the application actually needs, not a mathematical
-lookalike with easier timing. CPU NumPy/SciPy are the baseline here; Numba,
-NumExpr, JAX, PyTorch and CuPy are conditional options, not dependencies to install.
+lookalike with easier timing. This skill owns numerical correctness and the cost
+inside the array or tensor kernel. CPU NumPy/SciPy are the baseline here. Use Numba,
+NumExpr, JAX, PyTorch, or CuPy when the project already has that framework and the
+JIT/device reference names the boundary; do not install one for this skill.
 Custom CUDA kernels and framework migrations are separate work.
+Defer shared data contracts to `python`. Defer process-wide profiling to `python-performance`.
 
 ## Follow the computation from contract to evidence
 
@@ -42,9 +45,11 @@ behavior, inspect the installed version's signatures/docstrings and local docs;
 latest online docs do not authorize an upgrade. Missing optional tools mean
 reporting the unavailable experiment, not installing them automatically.
 
-Process-wide profiling and worker budgets belong to `python-performance` if
-available; environment selection and package/CUDA compatibility belong to
-`python-environments`. This skill remains usable alone for the numerical work;
+Defer process-wide profiling, event-loop stalls, and application worker budgets
+to `python-performance`. Defer interpreter, lock, and CUDA package selection to
+`python-environments`. Defer model splits, training, and checkpoints to `python-ml`.
+Defer dataframe joins and charts to `python-data-analysis`. Defer shared data
+contracts to `python`. This skill remains usable alone for the numerical work;
 if another named skill is needed but missing, identify it to the user rather
 than globally searching for replacements. Do not duplicate those skills' rules.
 

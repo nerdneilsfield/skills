@@ -1,20 +1,19 @@
 ---
 name: cpp-debug
-description: Use when C++ crashes, hangs, races, corrupts memory, behaves nondeterministically, or has unexplained wrong results or build/test failures that remain unresolved after minimal triage.
+description: "Use when C++ crashes, hangs, races, corrupts memory, or fails nondeterministically, or when a wrong result or build/test failure is still unexplained after the first diagnostic and nearby diff. Defer shared conventions to cpp. Not for project setup (cpp-project-init), measured speed work (cpp-performance), or Eigen/solver/numerical-contract failures (cpp-numerics)."
 ---
 
 # C++ diagnosis from evidence
 
-Find the first violated contract, not a patch that merely hides the symptom. Apply shared `cpp` engineering conventions; preserve existing build/dependency choices during a local fix. CUDA is outside this skill.
+Find the first violated contract, not a patch that merely hides the symptom. This skill owns crashes, hangs, races, memory corruption, nondeterminism, and failures that stay unexplained after the first diagnostic and a local check. Defer shared language and ownership rules to `cpp`. Defer project creation, CMake presets, and vendoring to `cpp-project-init`. Defer measured CPU, cache, thread, and memory tuning to `cpp-performance`. Defer Eigen, solver, manifold, and numerical-contract failures (non-finite values, divergence, wrong residual or Jacobian) to `cpp-numerics`. Preserve existing build and dependency choices during a local fix. CUDA is outside this skill.
 
-
-Required shared policy: `cpp`. For build/vendor changes the policy owner is `cpp-project-init`; numerical diagnosis may require `cpp-numerics`. If a needed named skill is missing, tell the user to install that exact skill from this bundle. Do not globally search, fetch a substitute, automatically install, or invent its contents; continue only independent minimal triage.
+If a needed named skill is missing, tell the user to install that exact skill from this bundle. Do not globally search, fetch a substitute, automatically install, or invent its contents; continue only independent minimal triage.
 
 ## Minimal triage before deeper diagnosis
 
-A routine failed test or obvious compiler error does not require this whole workflow. First read the first relevant diagnostic and failing assertion, inspect the nearby diff/input/expected behavior, reproduce with the existing focused command, and make a supported local correction with its regression check. Stop if that resolves the issue.
+A routine failed test or obvious compiler error does not use this whole workflow. First read the first diagnostic and failing assertion, inspect the nearby diff, input, and expected behavior, reproduce with the existing focused command, and make a supported local correction with its regression check. Stop when that resolves the issue.
 
-Escalate into the matching reference only when the cause remains uncertain, reproduction is unstable, artifact identity is unclear, or there is crash/hang/race/UB evidence. Do not automatically collect a core, install tools, enable every sanitizer or run a full platform matrix because a test turned red. Wrong numerical results can instead route directly to `cpp-numerics` when the model/data contract is the relevant question.
+Continue in this skill when reproduction is unstable, the binary or core identity is unclear, or the evidence is a crash, hang, race, or memory or undefined-behavior failure. Hand finite-but-wrong or non-finite numerical results to `cpp-numerics` instead of collecting a core. Do not install tools, enable every sanitizer, or run a full platform matrix because a test turned red.
 
 ## Offline supporting materials
 

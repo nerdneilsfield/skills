@@ -1,21 +1,15 @@
 ---
 name: python-performance
-description: Use when Python latency, throughput, hotspots, memory growth, event-loop stalls, excessive threads, paging, or poor scaling require measurement and optimization.
+description: "Use when measuring or fixing Python latency, throughput, hotspots, memory growth, event-loop stalls, too many threads, paging, or poor scaling of the application. Defer shared contracts to python. Not for NumPy/SciPy numerical correctness (python-numerics), environment or CUDA/ABI repair (python-environments), training-loop or checkpoint work (python-ml), or joins and charts (python-data-analysis)."
 ---
 
 # Python performance: evidence to a verified remedy
 
-Improve useful work, not profiler rankings. Separate Python execution, native execution,
-waiting and memory pressure before choosing a change. This skill covers hotspot capture
-and runtime performance together. Numerical algorithms and precision changes belong to
-`python-numerics`; environment changes belong to `python-environments`. The shared `python`
-skill owns general correctness/lifecycle conventions. If an owner is absent, name the
-missing skill; do not globally search or install a replacement. The references here
-remain useful offline without those owners.
+Improve useful work, not profiler rankings. This skill owns measurement and repair of application latency, throughput, hotspots, memory growth, event-loop stalls, thread counts, paging, and scaling. Separate Python execution, native execution, waiting, and memory pressure before choosing a change. Defer data contracts and resource lifetime to `python`. Defer shape, dtype, solver, BLAS, and precision changes to `python-numerics`. Defer interpreter, lock, and CUDA/ABI repair to `python-environments`. Defer training, evaluation, and checkpoints to `python-ml`. Defer joins, group-by meaning, and charts to `python-data-analysis`. If an owner is absent, name the missing skill; do not globally search or install a replacement. The references here remain useful offline without those owners.
 
 ## Route by the current uncertainty
 
-Read the matching reference, not every document. Follow another only when evidence crosses layers.
+Read the matching reference, not every document. Read a second reference after the first one names a different layer (for example waiting plus memory).
 
 | Question | Local reference |
 | --- | --- |
