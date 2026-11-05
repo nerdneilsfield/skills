@@ -12,6 +12,9 @@
 | --- | --- |
 | [`qi-read-paper`](research/qi-read-paper/) | 用户给出论文并要求精读、逐轮讲解或评估复现时使用；只问一个具体点时直接回答。不用于写技术文档或改文风。 |
 | [`research-report`](research/research-report/) | 用户要求基于多个来源写调研报告或综述时使用：来源简述、大纲、分章、配图、全文审阅与导出。 |
+| [`orchestrate`](agents/orchestrate/) | 仅手动调用。不绑定工具地协调多个 agent：判断是否派发、任务状态与结果整合。 |
+| [`agent-brief`](agents/agent-brief/) | 把工作交给其他 agent 或新会话时使用。 |
+| [`agent-verify`](agents/agent-verify/) | agent 报告完成或疑似卡住时使用：按证据决定接受、重试或替换。 |
 | [`co-commit`](coding/co-commit/) | 用户要求按仓库惯例分组并逐次本地提交时使用。不用于 push、开 PR 或改写历史。 |
 | [`counterweight`](coding/counterweight/) | 用户要求实现、修复、重构或调试代码时使用，并按证据选择最轻流程。不用于答疑、独立评审、写文档、初始化 `AGENTS.md` 或事后删减清单。 |
 | [`counterweight-setup`](coding/counterweight-setup/) | 用户要求在仓库根 `AGENTS.md` 启用或修复 Counterweight 时使用。不用于实现功能或列删减清单。 |
@@ -91,6 +94,9 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | --- | --- |
 | [`qi-read-paper`](research/qi-read-paper/) | Use when the user supplies a paper and asks for a close reading, round-by-round explanation, or reproduction assessment. Answer a single concrete question directly. Not for writing technical docs or changing literary voice. |
 | [`research-report`](research/research-report/) | Use for research reports or surveys from many sources: source notes, outline, chapters, figures, full review, and export. |
+| [`orchestrate`](agents/orchestrate/) | Manual only. Coordinate several agents toward one goal, independent of the runtime: delegation, task status, and integration. |
+| [`agent-brief`](agents/agent-brief/) | Use when handing work to another agent or a fresh session. |
+| [`agent-verify`](agents/agent-verify/) | Use when an agent reports done or looks stalled: check against evidence, then accept, retry, or replace. |
 | [`co-commit`](coding/co-commit/) | Use when the user asks to group uncommitted work by the repo's commit conventions and create the local commits. Not for push, opening a PR, or rewriting history. |
 | [`counterweight`](coding/counterweight/) | Use when the user asks to implement, fix, refactor, or debug code, and pick the lightest process the evidence supports. Not for Q&A, standalone review, prose, root `AGENTS.md` setup, or a post-diff cut list. |
 | [`counterweight-setup`](coding/counterweight-setup/) | Use when the user asks to enable or repair Counterweight in the repository root `AGENTS.md`. Not for implementing features or listing cuts. |
