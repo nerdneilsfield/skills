@@ -30,9 +30,10 @@ Good guides lean on figures. Use a schematic and an architecture diagram in one 
 
 Pick the first source available:
 
-1. The running agent's own image generation tool.
-2. The drawing MCP the user provides.
-3. SVG or a `mermaid` block.
+1. The running agent's own image generation tool. Agents such as Codex, Grok, and Antigravity have one; Claude Code does not.
+2. Another available agent that has one: send it the prompt and an output path through `agent-brief`, then check the file.
+3. The drawing MCP the user provides.
+4. SVG or a `mermaid` block.
 
 Use a generated image for explanation, never for data or exact numbers. Request a calm, flat style on an off-white ground, in indigo, vermilion, and ink. Keep labels short, since generated text is often wrong. Save each file beside the data, set `source` to the prompt or tool, and look at it before keeping it. Redraw as SVG if the labels stay wrong.
 
