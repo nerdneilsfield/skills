@@ -24,12 +24,12 @@ description: "用户要求用鲁迅的语气、用词、逻辑或修辞来写作
 2. 如未指定体裁，根据内容自动判断最适合的鲁迅文体（杂文/散文/书信/评论）。
 3. 如未指定时期，默认使用 `auto`（综合各期精华）。
 4. 加载参考文件（按需）：
-   - `$SKILL_DIR/references/LEXICON.md` — 词汇系统（文白混融、仿词造词、外来词、方言、虚词）
-   - `$SKILL_DIR/references/RHETORIC.md` — 修辞武器库（讽刺十三法、隐喻四系统、互文策略）
-   - `$SKILL_DIR/references/SYNTAX.md` — 句法与节奏（长短交错、排比反诘、欧化句式、叠加重复）
-   - `$SKILL_DIR/references/LOGIC.md` — 逻辑与结构（论辩路径、篇章布局、寓言框架）
-   - `$SKILL_DIR/references/TONE.md` — 语调与精神（沉雄清峻、老辣、诗性品格、战斗姿态）
-   - `$SKILL_DIR/references/EXAMPLES.md` — 经典范例与风格标尺
+   - `references/LEXICON.md` — 词汇系统（文白混融、仿词造词、外来词、方言、虚词）
+   - `references/RHETORIC.md` — 修辞武器库（讽刺十三法、隐喻四系统、互文策略）
+   - `references/SYNTAX.md` — 句法与节奏（长短交错、排比反诘、欧化句式、叠加重复）
+   - `references/LOGIC.md` — 逻辑与结构（论辩路径、篇章布局、寓言框架）
+   - `references/TONE.md` — 语调与精神（沉雄清峻、老辣、诗性品格、战斗姿态）
+   - `references/EXAMPLES.md` — 经典范例与风格标尺
 5. 根据模式执行对应工作流。
 
 ### Mode: `write` — 原创写作

@@ -39,7 +39,8 @@ from an amortized repeated-call result.
 
 For sparse matrices inspect format, index dtype, nonzero count and factorization
 fill-in. A sparse input can produce a large factor. Accidental `.toarray()` can
-be the real memory bottleneck. Conversion among CSR/CSC/COO costs time and storage;
+be the real memory bottleneck. `*` and `**` are elementwise on `sparray` but matrix
+operations on `spmatrix`; use `@` and identify the type before migrating. Conversion among CSR/CSC/COO costs time and storage;
 choose a format for the next operation, not an unconditional favorite. Iterative
 methods can save storage but require convergence criteria and a suitable
 preconditioner. Compare residual, iteration count and failure frequency alongside

@@ -15,7 +15,7 @@ Reserve the test set before model choices. Audit exact duplicate IDs and known g
 
 ## 2. Make every learned transformation part of fitting
 
-Imputation values, normalization statistics, categorical vocabularies, target encoding, feature selection and dimensionality reduction are learned state. Their `fit` belongs inside the training fold, even if a transformation does not consume labels. A scikit-learn `Pipeline` passed into CV is cloned and fitted per fold; fitting a scaler first on all development rows silently bypasses this protection. Target encoding additionally needs an appropriate out-of-fold training scheme; a pipeline alone cannot make a leaky custom transformer safe.
+Imputation values, normalization statistics, categorical vocabularies, target encoding, feature selection and dimensionality reduction are learned state. Their `fit` belongs inside the training fold, even if a transformation does not consume labels. A scikit-learn `Pipeline` passed into CV is cloned and fitted per fold; fitting a scaler first on all development rows silently bypasses this protection. Target encoding additionally needs an appropriate out-of-fold training scheme: scikit-learn's `TargetEncoder.fit_transform(X, y)` cross-fits, while `fit(X, y).transform(X)` does not, so use `fit_transform` on training data; a pipeline alone cannot make a leaky custom transformer safe.
 
 Use a `ColumnTransformer` when columns need distinct treatment; make unknown-category and missing-column behavior explicit. Preserve training feature names, order, dtype and units at inference. A model accepting an array of the right width may still receive swapped columns. Never include a feature merely because it is present in the offline table: availability at decision time is the contract.
 

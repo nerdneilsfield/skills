@@ -27,6 +27,8 @@ tolerance until the change passes without understanding the error.
 - Dtype reduction: include large and tiny magnitudes, sums with cancellation and
   range boundaries. Integer overflow and floating overflow have different
   behavior; input conversion may already lose information before computation.
+  Since NumPy 2 (NEP 50), `np.float32(3) + 3.` stays float32 and a float32 array
+  plus `np.float64(3)` becomes float64, so check promotion after upgrading.
 - Reused buffers: include overlapping views, read-only inputs and a check that
   callers' arrays remain unchanged. One correct output can coexist with corrupted
   input for the next iteration.

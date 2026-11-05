@@ -300,7 +300,7 @@ def main():
     writer=JsonlOutput(sys.stdout);emit=writer.emit
     if not emit({'type':'header','schema_version':1,'pid':args.pid,'clock_ticks_per_second':hz,'page_size_bytes':page,
           'limits':{'intervals':600,'selected_threads':args.max_threads,'task_entries_scanned':MAX_TASK_SCAN,'output_bytes':MAX_OUTPUT_BYTES},
-          'limitations':['System counters are host-visible totals, not attribution to this PID.','R state snapshots and thread counts miss transient scheduling; S/D are not proven lock waits.','schedstat zero can mean disabled statistics; inspect schedstats_enabled_raw.','Affinity is per-thread; quota is visible ancestor CPU bandwidth, not physical core count.','No cache/HITM/lock stack events collected; use supported targeted profilers.','Paths/cgroup identities may be sensitive; review JSON before sharing.']}):return 3
+          'limitations':['System counters are host-visible totals, not attribution to this PID.','R state snapshots and thread counts miss transient scheduling; S/D are not proven lock waits.','schedstat all zero means unavailable (CONFIG_SCHED_INFO off), not zero wait; the sysctl does not gate it.','Affinity is per-thread; quota is visible ancestor CPU bandwidth, not physical core count.','No cache/HITM/lock stack events collected; use supported targeted profilers.','Paths/cgroup identities may be sensitive; review JSON before sharing.']}):return 3
     previous=snapshot(args.pid,max_threads=args.max_threads,smaps=args.smaps)
     if not emit({'type':'snapshot','sample':previous}):return 3
     if previous['process'] is None:return 1

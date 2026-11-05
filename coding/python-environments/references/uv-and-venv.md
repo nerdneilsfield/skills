@@ -27,7 +27,7 @@ An accelerator-specific index is not a replacement source for unrelated packages
 ```toml
 [[tool.uv.index]]
 name = "pytorch-cuda"
-url = "https://download.pytorch.org/whl/cu124"
+url = "https://download.pytorch.org/whl/cu130"
 explicit = true
 
 [tool.uv.sources]

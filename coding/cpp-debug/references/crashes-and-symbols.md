@@ -68,7 +68,7 @@ Only launch a trusted target when executing it is authorized; its normal filesys
 | Launch the configured target | `run` | `run` |
 | Continue to next stop | `continue` | `continue` |
 | Inspect a local without intentionally calling code | `info locals` | `frame variable` |
-| Inspect source/assembly relationship | `disassemble /m parse_frame` | `disassemble --name parse_frame --mixed` |
+| Inspect source/assembly relationship | `disassemble /s parse_frame` | `disassemble --name parse_frame --mixed` |
 
 Function names and arguments are illustrative, not shell placeholders to execute blindly. Optimized/inlined code may not stop on the expected source line. If a field unexpectedly changes, a carefully scoped watchpoint can identify its writer, but hardware slots/size are limited and addresses can become stale after reallocation. Establish the object's live storage first. Do not evaluate user-defined getters or overloaded expressions just to “print” a value when they could change state.
 

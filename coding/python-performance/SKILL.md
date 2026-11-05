@@ -50,5 +50,5 @@ Stop when the agreed target is met or the next necessary measurement is unavaila
 
 Return the workload/scope, evidence and uncertainty, concrete change, comparable before/
 after observations, correctness result, tradeoffs and what remains untested. Label an
-unmeasured remedy a hypothesis, not an established improvement. External links below
-are provenance; all decision procedures and the example work without visiting them.
+unmeasured remedy a hypothesis, not an established improvement. All decision procedures
+and the example work without external links.

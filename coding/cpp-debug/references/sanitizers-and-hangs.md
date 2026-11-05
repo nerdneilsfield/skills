@@ -16,9 +16,11 @@ Use the project's target/preset structure. For a supported Clang toolchain, an e
 ```cmake
 # Opt-in diagnostic configuration, not unconditional release policy.
 target_compile_options(app PRIVATE -g -fno-omit-frame-pointer
-  -fsanitize=address,undefined)
+  -fsanitize=address,undefined -fno-sanitize-recover=undefined)
 target_link_options(app PRIVATE -fsanitize=address,undefined)
 ```
+
+UBSan recovers by default, so a run with reports can still exit 0. `-fno-sanitize-recover=undefined` makes the first report fail the run.
 
 `app` is illustrative. Instrument relevant first-party libraries too and link the final executable with the compiler driver so the runtime is included. Do not paste GNU-style flags into an unsupported toolchain. Keep TSan separate from ASan; use `-fsanitize=thread` at compilation and final linking only where supported. Select optimization with the actual compiler guidance and failure, not a universal Debug-only assumption.
 

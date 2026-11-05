@@ -40,7 +40,7 @@ Exit 0: requested duration completed. Exit 1: PID unavailable/disappeared/reused
 | `threads[].state`, `selected_thread_state_counts` | Sparse instantaneous states for selected readable threads | R is running/runnable; S/D do not identify a specific lock or I/O source; transient phases can be missed |
 | `voluntary/nonvoluntary_context_switches` | Per-thread cumulative events and interval rates | Voluntary can reflect waits; involuntary can reflect scheduling/preemption. Neither count alone is a root cause |
 | `process.leader_*context_switches` | Leader only, not task-group aggregate | Do not report as all-thread switches or double-count it with the leader in `threads` |
-| `runtime_ns`, `runqueue_wait_ns`, `timeslices` | Per-thread schedstat CPU/runtime, runnable-queue wait and slices | Requires kernel statistics support/enabling; all zeros may be unavailable/disabled, not zero wait |
+| `runtime_ns`, `runqueue_wait_ns`, `timeslices` | Per-thread schedstat CPU/runtime, runnable-queue wait and slices | Requires `CONFIG_SCHED_INFO`, not the `kernel.sched_schedstats` sysctl; all three fields zero means unavailable, not zero wait. Zero wait beside nonzero runtime is a real reading |
 | `cpu_migrations` | Per-thread `se.nr_migrations` when exposed | A migration is not automatically a harmful NUMA move or cache miss |
 | `minflt`, `majflt` | Per-process or per-thread fault counters, explicitly separated | Minor != free, major != swap; see memory reference |
 | `rss_pages`, `virtual_bytes`, `VmRSS_kib`, `VmSwap_kib` | Process memory gauges | RSS pages use header page size; virtual space is not resident consumption |
@@ -52,7 +52,7 @@ Exit 0: requested duration completed. Exit 1: PID unavailable/disappeared/reused
 
 `counter_decreased` means the sampler refuses subtraction for that field; it does not turn a reset into a huge unsigned rate. `unavailable` means a value was missing. `new_or_reused_thread` means there was no matching prior TID/start-time identity, so no interval CPU/switch delta is fabricated. Threads absent from the selected next snapshot can have exited, become inaccessible or been omitted by truncation; absence alone is not an exit event.
 
-For example, a `runqueue_wait_ns.delta` of 200,000,000 over 1 second is 0.2 seconds accumulated runnable waiting for that sampled thread. It is not necessarily a single 200 ms wait and is not a mutex-blocked duration. Summing across many threads can exceed wall time. If `schedstats_enabled_raw` is `0`, missing or unavailable, a zero counter does not prove that runnable delay was absent.
+For example, a `runqueue_wait_ns.delta` of 200,000,000 over 1 second is 0.2 seconds accumulated runnable waiting for that sampled thread. It is not necessarily a single 200 ms wait and is not a mutex-blocked duration. Summing across many threads can exceed wall time. `schedstats_enabled_raw` records the sysctl but does not decide whether this file is valid. If runtime is also zero, the counters are unavailable and do not prove that runnable delay was absent.
 
 ## Capacity is a constraint, not a physical-core count
 
@@ -66,7 +66,7 @@ Important limits:
 - Null quota can mean no finite quota among visible records **or** unavailable records. Distinguish using `visible_cpu_max_records`, status and errors; do not convert null to unlimited.
 - cgroup v1 is explicitly reported as unsupported for this quota helper; use the offline scheduler reference's `cpu.cfs_quota_us`/period and ancestor procedure. Do not infer the host CPU count as usable capacity.
 - A process/group can move between samples. Cgroup counter differences are computed only when the visible cgroup path matches; namespace changes or hidden limits still need manual interpretation.
-- `nr_throttled`, `nr_periods`, `throttled_usec` are cgroup-level counters shared by workloads in that group, not exclusive attribution to this process. Throttled microseconds can reflect multiple execution entities; do not equate them uncritically to wall latency.
+- `nr_throttled`, `nr_periods`, `throttled_usec` are cgroup-level counters shared by workloads in that group, not exclusive attribution to this process. They cover this group's own limit, so a leaf can read zero while an ancestor throttles it; check `cpu.stat.local` or the ancestors. Throttled microseconds can reflect multiple execution entities; do not equate them uncritically to wall latency.
 
 A 200-thread service with 195 sleeping threads may be fine. A 32-worker compute loop constrained to 2 CPU-equivalents, with increasing runnable delay, throttling and worse throughput, warrants reducing/redistributing parallelism. The sampler supplies parts of that evidence; its snapshots do not alone establish the causal chain.
 

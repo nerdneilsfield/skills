@@ -26,10 +26,10 @@ Make prose less templated while preserving meaning, facts, format, and the write
    | Narrative or creative prose | Preserve POV, characterization, and supplied scene detail; do not inject quirks or biography |
 
    For detailed scene rules and document-level checks, read `references/REWRITING_GUIDE.md`. Use the most conservative scene when text mixes genres.
-2. Diagnose before editing. Run the candidate scanner:
+2. Diagnose before editing. Run the candidate scanner from this skill directory:
 
    ```bash
-   python3 $SKILL_DIR/scripts/deai_check.py <file> --analyze --lang <zh|en|mixed|auto> --profile <generic|deepseek|claude|mixed>
+   python3 scripts/deai_check.py <file> --analyze --lang <zh|en|mixed|auto> --profile <generic|deepseek|claude|mixed>
    ```
 
    The script finds lexical and measurable structural candidates; it does not assess authorship or replace document-level review. Inspect four layers in order: document architecture, paragraph/discourse flow, sentence structure, then vocabulary/punctuation. Quote the shortest evidence for each finding. Treat isolated low-signal hits as normal variation; act on unsupported high-signal defects or clusters.
