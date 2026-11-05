@@ -1,17 +1,6 @@
----
-name: paper-page
-description: "用户要求把一篇论文做成网页、一次读完三轮，或要带原图和讲解图的交互式精读时使用：一次完成问题、方法与证据、局限与复现三轮，生成内嵌论文原图和补充解释图的单文件网页。逐轮对话式精读用 qi-read-paper。不用于多篇比较（paper-compare）或综述（research-report）。"
-license: MIT
-compatibility: 需要 python3、poppler（pdfimages、pdftoppm）、Node 与 npm。依赖同仓库的 interactive-guide 和 qi-read-paper 两个 skill。
-metadata:
-  author: DengQi
----
+# 网页输出
 
-# 把论文读成一个网页
-
-一次做完 `qi-read-paper` 的三轮，结果是一个可以反复翻看的页面，不是一段聊天回复。三轮各自要讲什么、证据如何核验，以 `qi-read-paper` 为准，先读它。这里不分轮等待用户回复“继续”，也不省略任何一轮。
-
-页面由 `interactive-guide` 构建，组件见其 `references/blocks.md`，保持它的配色和排版。缺少这两个 skill 时，告诉用户安装，不要自己写 HTML。
+一次做完全部轮次，结果是一个可以反复翻看的页面。各轮要讲什么、证据如何核验，以 `SKILL.md` 为准，这里只说怎么做成页面。页面由 `interactive-guide` 构建，组件见其 `references/blocks.md`，保持它的配色和排版。没装这个 skill 时告诉用户安装，不要自己写 HTML。
 
 ## 1. 取得正文和图
 
@@ -29,7 +18,7 @@ python3 scripts/extract_figures.py paper.pdf --crop 3 8 12 84 40 work/fig3.png
 
 ## 2. 写页面数据
 
-存成 `work/guide.json`，每个 tab 一页：
+存成 `work/guide.json`，每个 tab 一页。读了代码时在第三轮后加“代码对照”页：
 
 | 页 | `level` | 内容 |
 | --- | --- | --- |
@@ -37,6 +26,7 @@ python3 scripts/extract_figures.py paper.pdf --crop 3 8 12 84 40 work/fig3.png
 | 第一轮 | 问题 | 问题、不足、贡献、推荐先看的图 |
 | 第二轮 | 方法与证据 | 流程、公式、3 到 5 张关键图、比较是否公平 |
 | 第三轮 | 局限与复现 | 可靠结论、假设、失败场景、最小复现路径、后续问题 |
+| 代码对照 | 实现 | 读了代码时才有：`papercode` 逐条对照，`flow` 走真实调用 |
 | 术语 | 附录 | 可选 |
 
 组件的用法：
@@ -45,6 +35,7 @@ python3 scripts/extract_figures.py paper.pdf --crop 3 8 12 84 40 work/fig3.png
 - 论文的图设 `origin: "paper"`，`ref` 写 `Fig. 3`；自己补的图设 `origin: "explain"`。
 - 主张、证据、推断用 `claim` 分开，`where` 写章节、图表或公式编号。论文没说的写 `unknown`，不要补造。
 - 公式用 `formula`，方法流程用 `flow`，一个步骤对应一个模块。
+- 代码对照用 `papercode`，`status` 取 `match`、`differs`、`unstated`。构建时加 `--repo`，核对位置。
 - 每轮结尾一道 `quiz`，考应用，不考复述。
 
 ## 3. 补充解释图
@@ -72,6 +63,5 @@ python3 scripts/build_guide.py work/guide.json work/paper.html
 - 页面图片多时文件会很大。整页用 220 dpi 只作定位，正文只放裁切后的图。
 - 只读到摘要时不要生成完整页面，说明缺什么。
 
-## 汇报
 
-说明论文版本、读过的范围、页面路径和大小、原图与解释图数量，以及标为未报告或待核验的内容。
+完成后说明论文版本、读过的范围、页面路径和大小、原图与解释图数量，以及标为未报告或待核验的内容。

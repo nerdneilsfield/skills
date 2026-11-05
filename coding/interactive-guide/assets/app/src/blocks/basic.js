@@ -29,6 +29,19 @@ export function figuretour(b) {
     box.replaceChildren(el("h3", null, s.title)); const p = el("div", "prose"); p.innerHTML = marked.parse(s.md); box.append(p); n.textContent = `${k + 1} / ${b.stops.length}`; };
   prev.onclick = () => { k = Math.max(0, k - 1); show(); }; next.onclick = () => { k = Math.min(b.stops.length - 1, k + 1); show(); }; show(); return root;
 }
+const PC = { match: "一致", differs: "有差异", unstated: "论文未写" };
+export function papercode(b) {
+  const root = el("div"), bar = el("div", "pc-filter"), rows = el("div"); root.append(bar, rows);
+  const render = (only) => { rows.replaceChildren(...b.items.filter((x) => !only || x.status === only).map((x) => {
+    const r = el("div", "pc"), grid = el("div", "pc-row"), left = el("div", "prose"), right = el("div");
+    r.append(el("div", "pc-state " + x.status, PC[x.status]));
+    left.innerHTML = marked.parse(x.paper); if (x.where) left.append(el("div", "loc", x.where));
+    right.append(el("div", "loc", x.file + (x.line ? ":" + x.line : ""))); if (x.code) right.append(el("pre", null, x.code));
+    grid.append(left, right); r.append(grid); if (x.note) r.append(el("p", "pc-note", x.note)); return r; })); };
+  [[null, "全部"], ...Object.entries(PC)].forEach(([k, t], i) => { const n = k ? b.items.filter((x) => x.status === k).length : b.items.length;
+    const x = el("button", i ? null : "on", `${t} ${n}`); x.onclick = () => { [...bar.children].forEach((c) => c.classList.remove("on")); x.classList.add("on"); render(k); }; bar.append(x); });
+  render(null); return root;
+}
 export function figure(b) {
   const f = el("figure"), i = el("img"); i.src = b.src; i.alt = b.alt; i.loading = "lazy"; f.append(i);
   if (b.caption || b.origin) { const c = el("figcaption"); if (b.origin) c.append(originTag(b)); if (b.caption) c.append(b.caption); f.append(c); }

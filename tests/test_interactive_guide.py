@@ -51,6 +51,10 @@ class Walkthrough(unittest.TestCase):
         self.flow()['flows'][0]['steps'][1]['to'] = 'text'
         self.assertIn('no edge', build(self.data, self.out).stderr)
 
+    def test_rejects_bad_papercode_status(self):
+        self.data['pages'][0]['blocks'].append({'type': 'papercode', 'items': [{'paper': 'p', 'file': 'README.md', 'status': 'maybe'}]})
+        self.assertIn('bad status', build(self.data, self.out).stderr)
+
     def test_rejects_remote_image(self):
         figure = self.data['pages'][0]['blocks'][0]
         figure['src'] = 'https://example.com/a.png'

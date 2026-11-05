@@ -1,6 +1,6 @@
 ---
 name: interactive-guide
-description: "Use when the user wants an interactive page instead of a document: to see how a codebase works through animated call flows, or to learn a field from beginner to expert over many tabs, with quizzes, figures, formulas, and a knowledge graph. Builds one HTML file from an npm component template. Not for a written repository map (code-reading), a report (research-report), or a single answer."
+description: "Use when the user wants an interactive page instead of a document: to see how a codebase works through animated call flows, or to learn a field from beginner to expert over many tabs, with quizzes, figures, formulas, and a knowledge graph. Builds one HTML file from an npm component template. For one paper, use qi-read-paper. Not for a written repository map (code-reading), a report (research-report), or a single answer."
 license: MIT
 compatibility: Needs python3, Node with npm, and network to build. Pages load libraries from a CDN unless built offline. The 3D view needs WebGL.
 metadata:

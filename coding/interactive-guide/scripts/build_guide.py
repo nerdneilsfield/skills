@@ -12,10 +12,10 @@ import tempfile
 from pathlib import Path
 
 APP = Path(__file__).resolve().parents[1] / "assets" / "app"
-BLOCKS = {"text", "callout", "code", "figure", "compare", "steps", "terms", "quiz", "formula", "mermaid", "flow", "graph", "claim", "figuretour"}
+BLOCKS = {"text", "callout", "code", "figure", "compare", "steps", "terms", "quiz", "formula", "mermaid", "flow", "graph", "claim", "figuretour", "papercode"}
 REQUIRED = {"text": ["md"], "callout": ["md"], "code": ["code"], "figure": ["src", "alt"], "compare": ["headers", "rows"],
             "steps": ["items"], "terms": ["items"], "quiz": ["question", "options", "answer"], "formula": ["tex"],
-            "mermaid": ["code"], "claim": ["kind", "md"], "figuretour": ["src", "alt", "stops"], "flow": ["nodes", "edges", "flows"], "graph": ["nodes", "edges"]}
+            "mermaid": ["code"], "claim": ["kind", "md"], "papercode": ["items"], "figuretour": ["src", "alt", "stops"], "flow": ["nodes", "edges", "flows"], "graph": ["nodes", "edges"]}
 
 
 def location_error(repo, where, file, line):
@@ -93,6 +93,10 @@ def validate(data, repo):
                 errors.append(location_error(repo, where, block["file"], block.get("line")))
             elif kind == "claim" and block["kind"] not in {"author", "evidence", "inference", "unknown"}:
                 errors.append(f"{where}: unknown claim kind {block['kind']}")
+            elif kind == "papercode":
+                errors += [f"{where}: item {n} has bad status" for n, x in enumerate(block["items"], 1)
+                           if x.get("status") not in {"match", "differs", "unstated"}]
+                errors += check_located(block["items"], repo, where)
             elif kind == "figuretour":
                 errors += [f"{where}: stop {n} leaves the image" for n, s in enumerate(block["stops"], 1)
                            if s["x"] < 0 or s["y"] < 0 or s["x"] + s["w"] > 100 or s["y"] + s["h"] > 100]

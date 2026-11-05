@@ -9,6 +9,7 @@ A guide is `{title, summary, repo, commit, pages[]}`. A page is `{id, title, lev
 | `code` | `code`, `file`, `line` | A short excerpt with its location |
 | `figure` | `src`, `alt`, `caption`, `source`, `origin` (`paper`, `explain`), `ref` | A local image, always inlined as base64. `origin` shows whose figure it is |
 | `figuretour` | `src`, `alt`, `caption`, `origin`, `ref`, `stops[{x, y, w, h, title, md}]` | Step through regions of one figure. Coordinates are percentages of the image |
+| `papercode` | `items[{paper, where, file, line, code, status, note}]`, `status` is `match`, `differs`, or `unstated` | Paper-to-code comparison, with a filter by status |
 | `claim` | `kind` (`author`, `evidence`, `inference`, `unknown`), `md`, `where` | Keep a claim, its evidence, and your inference visibly apart |
 | `compare` | `headers[]`, `rows[][]` | Trade-offs |
 | `steps` | `items[]` | An ordered procedure |
