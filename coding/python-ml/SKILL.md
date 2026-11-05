@@ -1,6 +1,6 @@
 ---
 name: python-ml
-description: "Use when the user asks to build, evaluate, debug, or speed up a classical ML or deep-learning training or inference pipeline: leakage, misleading splits, unstable training, slow data loading, GPU out-of-memory, or untrusted checkpoints. Defer shared contracts to python. Not for generic profiling outside a training loop (python-performance), array kernels with no model (python-numerics), packaging (python-environments), or descriptive tables and charts (python-data-analysis)."
+description: "Use when the user builds, evaluates, debugs, or speeds up a classical ML or deep-learning training or inference pipeline, even for a quick how or why question with no code: leakage, misleading splits, unstable training, slow data loading, GPU out-of-memory, or untrusted checkpoints. Defer shared contracts to python. Not for generic profiling outside a training loop (python-performance), array kernels with no model (python-numerics), packaging (python-environments), or descriptive tables and charts (python-data-analysis)."
 ---
 
 # Machine learning: trustworthy evidence before faster training
