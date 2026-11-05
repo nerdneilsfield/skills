@@ -63,7 +63,9 @@ Keep it short, since every agent pays for it on every run. Merge or replace stal
 
 ## Memory files
 
-One fact per file, with an index of one-line pointers, where the tool allows it. Check for an existing entry and update it rather than adding a duplicate. Write absolute dates, and give the reason with the fact so a later agent can judge edge cases. Delete what proved wrong. A memory that names a file, flag, or command is a claim from the past: verify it before acting on it.
+Several agents now maintain this layer themselves: they extract after a session, consolidate in the background, and generate the index. Where one does, do not fight it. Write through its own save mechanism or to topic files, never to a generated index, and put must-hold rules in instructions files instead. Do the same four jobs by hand where nothing automates them: save, consolidate duplicates, recall with verification, and forget on request.
+
+Classify an entry as `user`, `feedback`, `project`, or `reference`. Do not save code patterns, git history, debug recipes, task state, or what instructions files already say. One fact per file, with an index of one-line pointers, where the tool allows it. Check for an existing entry and update it rather than adding a duplicate. Write absolute dates, and give the reason with the fact so a later agent can judge edge cases. Delete what proved wrong. A memory that names a file, flag, or command is a claim from the past: verify it before acting on it.
 
 ## Important history
 
