@@ -9,7 +9,7 @@ const KATEX_CSS = `https://cdn.jsdelivr.net/npm/katex@${pkg.dependencies.katex}/
 
 // Offline bundles every dynamic import. Libraries that no block in this page uses are
 // replaced by an empty module, so a two-block page does not carry mermaid and three.js.
-const NEEDS = { katex: ["formula"], mermaid: ["mermaid"], cytoscape: ["graph"], "3d-force-graph": ["graph"] };
+const NEEDS = { katex: ["formula", "trace"], mermaid: ["mermaid"], cytoscape: ["graph"], "3d-force-graph": ["graph"] };
 function unusedLibs() {
   let used;
   try { used = new Set(JSON.parse(readFileSync("src/data.json", "utf8")).pages.flatMap((p) => p.blocks.map((b) => b.type))); }

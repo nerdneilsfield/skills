@@ -15,11 +15,11 @@ import tempfile
 from pathlib import Path
 
 APP = Path(__file__).resolve().parents[1] / "assets" / "app"
-BLOCKS = {"text", "callout", "code", "figure", "compare", "steps", "terms", "quiz", "formula", "mermaid", "flow", "graph", "claim", "figuretour", "papercode"}
+BLOCKS = {"text", "callout", "code", "figure", "compare", "steps", "terms", "quiz", "formula", "mermaid", "flow", "graph", "claim", "figuretour", "papercode", "trace"}
 # REQUIRED fields hold the structure; a block cannot render without them, so a missing one stops the build.
 REQUIRED = {"text": [], "callout": [], "code": ["code"], "figure": ["src"], "compare": ["headers", "rows"],
             "steps": ["items"], "terms": ["items"], "quiz": ["options", "answer"], "formula": ["tex"],
-            "mermaid": ["code"], "claim": ["kind"], "papercode": ["items"], "figuretour": ["src", "stops"], "flow": ["nodes", "edges", "flows"], "graph": ["nodes", "edges"]}
+            "mermaid": ["code"], "claim": ["kind"], "papercode": ["items"], "trace": ["steps"], "figuretour": ["src", "stops"], "flow": ["nodes", "edges", "flows"], "graph": ["nodes", "edges"]}
 # DISPLAY fields are facts for the reader. A missing one shows a marker on the page and a warning here.
 DISPLAY = {"text": ["md"], "callout": ["md"], "figure": ["alt"], "figuretour": ["alt"], "quiz": ["question"], "claim": ["md"]}
 MODES = {None, "answer"}
@@ -147,6 +147,10 @@ def shape_errors(kind, block, where):
         if not dicts(block["nodes"], ("id",)) or not isinstance(block["edges"], list) or not all(
                 isinstance(e, dict) and "from" in e and "to" in e for e in block["edges"]):
             return [f"{where}: graph needs non-empty nodes (with id) and edges (with from, to)"]
+    elif kind == "trace" and not dicts(block["steps"]):
+        return [f"{where}: trace needs a non-empty list of steps"]
+    elif kind == "formula" and not (isinstance(block.get("symbols", []), list) and all(isinstance(s, dict) and "sym" in s for s in block.get("symbols", []))):
+        return [f"{where}: formula symbols must be a list of objects with sym"]
     elif kind == "papercode" and not dicts(block["items"]):
         return [f"{where}: papercode needs a non-empty list of items"]
     elif kind == "quiz" and (not isinstance(block["options"], list) or not block["options"] or not isinstance(block["answer"], int)):

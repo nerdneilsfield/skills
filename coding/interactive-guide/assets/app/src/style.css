@@ -138,3 +138,5 @@ body.present{overflow:hidden;background:var(--wash)}
 .deck-bar{position:fixed;z-index:10;right:16px;bottom:12px;display:flex;align-items:center;gap:8px;background:var(--gofun);border:1px solid var(--line);padding:4px 8px}
 .deck-bar[hidden]{display:none}.deck-bar button{padding:2px 12px;font-size:13px}.deck-bar button:disabled{opacity:.4;cursor:default}
 @media print{.deck-bar{display:none}}
+.formula-card{border-left:3px solid var(--shu);padding:4px 0 4px 16px;margin:16px 0}.syms td{vertical-align:middle}
+.trace .stage-t{min-width:0;overflow-x:auto}.trace .ctl button:disabled{opacity:.4;cursor:default}

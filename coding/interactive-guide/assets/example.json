@@ -193,7 +193,54 @@
    "blocks": [
     {
      "type": "formula",
-     "tex": "\\text{hit rate}=\\frac{\\text{hits}}{N}"
+     "tex": "\\text{hit rate}=\\frac{\\text{hits}}{N}",
+     "name": "命中率",
+     "symbols": [
+      {
+       "sym": "N",
+       "meaning": "请求总数",
+       "shape": "标量"
+      }
+     ],
+     "why": "分母是全部请求，所以冷启动的未命中也算在内。"
+    },
+    {
+     "type": "trace",
+     "title": "四个请求",
+     "data": "invented",
+     "input": "缓存为空，请求依次是 A、B、A、A。",
+     "steps": [
+      {
+       "title": "第一次 A",
+       "md": "缓存是空的，未命中。",
+       "tex": "\\frac{0}{1}=0",
+       "state": [
+        {
+         "name": "hits",
+         "value": "0"
+        },
+        {
+         "name": "N",
+         "value": "1"
+        }
+       ]
+      },
+      {
+       "title": "最后一次 A",
+       "md": "四个请求里 A 后两次命中。",
+       "tex": "\\frac{2}{4}=0.5",
+       "state": [
+        {
+         "name": "hits",
+         "value": "2"
+        },
+        {
+         "name": "N",
+         "value": "4"
+        }
+       ]
+      }
+     ]
     },
     {
      "type": "mermaid",

@@ -25,7 +25,8 @@ A field that gives the page its structure, such as `code`, `src`, `options`, or 
 | `steps` | `items[]` | An ordered procedure |
 | `terms` | `items[{term, meaning}]` | Vocabulary |
 | `quiz` | `question`, `options[]`, `answer` (index), `explain` | Check understanding before moving on |
-| `formula` | `tex` | KaTeX display math |
+| `formula` | `tex`, `name`, `symbols[{sym, meaning, shape}]`, `why` | KaTeX display math. `sym` is TeX; `why` says what each term does and what breaks without it |
+| `trace` | `title`, `data` (`paper`, `invented`), `input`, `steps[{title, md, tex, state[{name, value}]}]` | Step through one concrete input with its values changing. `data` tells the reader where the numbers came from |
 | `mermaid` | `code` | A quick diagram |
 | `flow` | `nodes[{id, label, layer, summary, file, line}]`, `edges[{from, to, verified}]`, `flows[{title, steps[{from, to, title, explain, code, file, line, verified}]}]` | Animated call or process flow. At most 12 nodes; `from` is `null` on the first step |
 | `graph` | `nodes[{id, label, kind, summary, file, line}]`, `edges[{from, to, rel, verified}]` | Explorable knowledge graph, 2D with a 3D toggle |

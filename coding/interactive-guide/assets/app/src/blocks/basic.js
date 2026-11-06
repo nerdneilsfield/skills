@@ -69,10 +69,39 @@ export function quiz(b) {
   });
   d.append(why); return d;
 }
-export async function formula(b) {
+async function loadTex() {
   if (import.meta.env.MODE === "offline") await import("katex/dist/katex.min.css");
   const { default: katex } = await import("katex");
-  const d = el("div", "formula"); d.innerHTML = katex.renderToString(b.tex, { displayMode: true, throwOnError: false }); return d;
+  return (tex, displayMode) => katex.renderToString(tex, { displayMode, throwOnError: false });
+}
+const tex = (host, render, src, display) => { host.innerHTML = render(src, display); return host; };
+export async function formula(b) {
+  const render = await loadTex(), root = el("div", "formula-card");
+  if (b.name) root.append(el("h3", null, b.name));
+  root.append(tex(el("div", "formula"), render, b.tex, true));
+  if (b.symbols?.length) {
+    const t = el("table", "cmp syms"), h = el("tr"); ["符号", "含义", "形状或单位"].forEach((x) => h.append(el("th", null, x))); t.append(h);
+    b.symbols.forEach((s) => { const r = el("tr"); r.append(tex(el("td"), render, s.sym, false), put(el("td"), s.meaning, "含义"), el("td", null, s.shape || "")); t.append(r); });
+    root.append(t);
+  }
+  if (b.why) root.append(md(el("div", "prose"), b.why));
+  return root;
+}
+const TRACE = { paper: "论文中的数字", invented: "自拟数字，仅作演示" };
+export async function trace(b) {
+  const render = await loadTex(), root = el("div", "ftour trace"), g = el("div", "grid"), stage = el("div", "stage-t"), box = el("aside");
+  if (b.title) root.append(el("h3", null, b.title));
+  root.append(TRACE[b.data] ? el("span", "tag" + (b.data === "invented" ? " inferred" : ""), TRACE[b.data]) : gap("数字来源"));
+  if (b.input) root.append(md(el("div", "prose"), b.input));
+  g.append(stage, box); root.append(g);
+  const ctl = el("div", "ctl"), prev = el("button", null, "上一步"), next = el("button", null, "下一步"), n = el("span", "count"); ctl.append(prev, next, n); root.append(ctl);
+  let k = 0;
+  const show = () => { const s = b.steps[k], rows = el("table", "cmp");
+    (s.state || []).forEach((v) => { const r = el("tr"); r.append(put(el("th"), v.name, "变量"), put(el("td"), v.value, "取值")); rows.append(r); });
+    stage.replaceChildren(...(s.tex ? [tex(el("div", "formula"), render, s.tex, true)] : []), rows);
+    box.replaceChildren(put(el("h3"), s.title, "标题"), md(el("div", "prose"), s.md, "说明"));
+    n.textContent = `${k + 1} / ${b.steps.length}`; prev.disabled = k === 0; next.disabled = k === b.steps.length - 1; };
+  prev.onclick = () => { k = Math.max(0, k - 1); show(); }; next.onclick = () => { k = Math.min(b.steps.length - 1, k + 1); show(); }; show(); return root;
 }
 let id = 0;
 export async function mermaid(b) {

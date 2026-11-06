@@ -237,6 +237,15 @@ class Walkthrough(unittest.TestCase):
             self.assertIn(word, err)
             self.assertNotIn('Traceback', err)
 
+    def test_rejects_malformed_teaching_blocks(self):
+        sys.path.insert(0, str(BUILD.parent))
+        import build_guide
+        cases = [({'type': 'trace', 'steps': []}, 'trace'),
+                 ({'type': 'formula', 'tex': 'x', 'symbols': [{'meaning': 'm'}]}, 'symbols')]
+        for block, word in cases:
+            data = {'title': 't', 'summary': 's', 'pages': [{'id': 'a', 'title': 'a', 'blocks': [block]}]}
+            self.assertTrue(any(word in e for e in build_guide.validate(data, None)), block)
+
     def test_papercode_without_file_is_a_marked_gap(self):
         sys.path.insert(0, str(BUILD.parent))
         import build_guide
