@@ -43,3 +43,7 @@ For each slide write what you would say in the order you would say it, in short 
 ## 6. Ownership of the text
 
 The agent drafts from the user's material: papers, notes, data, earlier decks. Where the material is silent, leave a visible placeholder (`TODO`, `figure-slot`) instead of inventing a number, citation, or customer name. Every figure on a slide traces to a source line. Tell the user which claims you could not support, and let them edit titles and script before layout begins. Avoid stock phrases such as "let's dive in", "exciting", "in conclusion"; end on a takeaway or a request, not on "Thank you".
+
+## Explain before you evaluate
+
+If the audience does not already know the subject, the slides must say what it is and how it works before any result. A deck of findings about something never explained loses the room on slide two. Check the storyline as that audience: can each slide be followed from the ones before it?

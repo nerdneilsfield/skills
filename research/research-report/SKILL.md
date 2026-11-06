@@ -49,7 +49,7 @@ Write one short note per source, as a separate file, before planning anything. R
 
 ## 2. Outline
 
-Read `matrix.md` for agreements, splits, and gaps, then build `outline.md` from it. Write the report's main point first, as one sentence, followed by the structure for its kind in [Report kinds](references/kinds.md). For a survey, derive the taxonomy first. Keep the outline at most two heading levels. Under each chapter, give its one-sentence point, which must be a claim and not a topic, and the notes that support it. A chapter with no supporting note is a gap: search more, or cut it. If the user is available, confirm the outline before drafting.
+Read `matrix.md` for agreements, splits, and gaps, then build `outline.md` from it. Write the report's main point first, as one sentence, followed by the structure for its kind in [Report kinds](references/kinds.md). For a survey, derive the taxonomy first. Keep the outline at most two heading levels. Under each chapter, give its one-sentence point, which must be a claim and not a topic, and the notes that support it. Then read the outline as the reader named in `frame.md`: if a chapter judges something earlier chapters never explained, add the explanation first. Answer "what is it" and "how does it work" before "how well does it work". A chapter with no supporting note is a gap: search more, or cut it. If the user is available, confirm the outline before drafting.
 
 ## 3. Chapters
 
@@ -95,6 +95,7 @@ Run these from `report/`, so relative image paths resolve. Render Mermaid to SVG
 - A Chinese PDF built without a CJK font drops or garbles text, sometimes with only a warning. Check the font with `fc-list :lang=zh` and read a page of the output.
 - A search snippet is not a source. Fetch the page, or mark the note as snippet-only.
 - A citation that exists can still fail to support the sentence beside it. Spot-check claims against the notes during review.
+- Findings first is not the same as explanation skipped. An answer-first summary still needs the definition and the mechanism before the evidence, or a new reader cannot follow it.
 - Taxonomy by year or by keyword reads as organised but explains nothing. Split on assumptions or trade-offs.
 - Ten papers from one group or on one dataset are not ten independent confirmations.
 - A long reference list hides thin reading. Report how many sources were read in full.

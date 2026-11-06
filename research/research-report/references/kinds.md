@@ -13,6 +13,8 @@ If the user asks for a "survey" but has a decision to make, write the decision r
 
 ## Structures
 
+Explain before you evaluate. Unless `frame.md` says the reader already knows the subject, every kind except a decision memo for experts first says what the subject is and how it works. A reader cannot judge results for a thing nobody has explained.
+
 Use these as starting points. Drop what the material does not support.
 
 **Decision report**
@@ -35,12 +37,13 @@ Use these as starting points. Drop what the material does not support.
 
 1. Introduction: why now, what earlier surveys miss, contributions of this survey
 2. Scope and selection: what is in, what is out, how sources were found
-3. Background: only what the taxonomy needs
-4. Taxonomy, shown as a figure or table
-5. One chapter per branch: core idea, how methods differ, what each trades away
-6. Cross-branch comparison, with comparable metrics only
-7. Open problems: why each is unsolved, and what a solution would need
-8. Conclusion
+3. What the subject is: definition, what it is not, where it came from, with a concrete example
+4. How it works: the common process, step by step, with one example traced through
+5. Taxonomy, shown as a figure or table
+6. One chapter per branch: the steps of its workflow, how it differs, what it trades away
+7. Cross-branch comparison, with comparable metrics only
+8. Open problems: why each is unsolved, and what a solution would need
+9. Conclusion
 
 **Systematic review**
 
