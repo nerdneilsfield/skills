@@ -17,7 +17,7 @@
   cover-title: (x: 5%, y: 30%, w: 70%, h: 25%, size: 48pt),
   cover-subtitle: (x: 5%, y: 60%, w: 60%, h: 15%, size: 22pt),
   footer: (x: 5%, y: 92%, w: 40%, h: 4%, size: 10pt),
-  number: (x: 92%, y: 92%, w: 4%, h: 4%, size: 10pt),
+  number: (x: 88%, y: 92%, w: 8%, h: 4%, size: 10pt),   // shows "n / N"; keep the box wide enough
   decor: (),   // shapes behind every slide: (x: 0%, y: 0%, w: 100%, h: 3%, fill: rgb("#165E83"))
   logo: none,  // e.g. (x: 90%, y: 3%, w: 7%, content: image("logo.svg")), or a dashed placeholder
 )
@@ -42,7 +42,7 @@
       background: { decor-layer },
       foreground: {
         at(spec.footer, align(left + horizon, text(spec.footer.size, fill: spec.text.transparentize(30%), utils.call-or-display(self, self.store.footer))))
-        at(spec.number, align(right + horizon, text(spec.number.size, fill: spec.text.transparentize(30%), context utils.slide-counter.display())))
+        at(spec.number, align(right + horizon, text(spec.number.size, fill: spec.text.transparentize(30%), context utils.slide-counter.display() + " / " + utils.last-slide-number)))
       },
     ),
     config-common(subslide-preamble: self.store.title-fn),
@@ -61,6 +61,17 @@
   })
 })
 
+/// Section divider for `=` headings: a plain slide showing the heading, no counter step.
+#let section-slide(config: (:), body) = touying-slide-wrapper(self => {
+  self = utils.merge-dicts(self, config-common(freeze-slide-counter: true),
+    config-page(margin: 0pt, background: decor-layer, foreground: none))
+  touying-slide(self: self, config: config, {
+    at(spec.cover-title, align(left + horizon, text(spec.cover-title.size, weight: "bold", fill: spec.title-color,
+      utils.display-current-heading(level: 1, numbered: false))))
+    body
+  })
+})
+
 #let replica-theme(footer: none, ..args, body) = {
   let (W, H) = spec.size
   let tx = spec.title
@@ -74,7 +85,7 @@
   }
   show: touying-slides.with(
     config-page(width: W, height: H, fill: spec.bg, margin: 0pt),
-    config-common(slide-fn: slide, title-slide-fn: title-slide, zero-margin-header: false, zero-margin-footer: false),
+    config-common(slide-fn: slide, title-slide-fn: title-slide, new-section-slide-fn: section-slide, zero-margin-header: false, zero-margin-footer: false),
     config-methods(init: (self: none, body) => {
       set text(font: spec.font, size: spec.body.size, fill: spec.text)
       show heading.where(level: 1): set text(fill: spec.title-color)

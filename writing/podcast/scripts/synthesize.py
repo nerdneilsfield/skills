@@ -32,7 +32,7 @@ DEFAULTS = {
     'api_key': '',
     'api_key_env': 'PODCAST_TTS_API_KEY',
     'model': '',
-    'voices': {},               # speaker id -> "voice" or {"voice","style","speed"}
+    'voices': {},               # speaker id -> "voice" or {"voice","style","speed","instruction"}
     'style_mode': 'auto',       # auto | tag | instruction | none
     'format': 'wav',            # clip format requested from the backend
     'sample_rate': 24000,       # used when decoding or joining clips
@@ -144,6 +144,9 @@ def load_config(path):
             cfg[key] = os.environ[env]
     if not cfg['api_key']:
         cfg['api_key'] = os.environ.get(cfg['api_key_env'], '')
+    mc = cfg['max_chars']
+    if isinstance(mc, bool) or not isinstance(mc, int) or mc <= 0:
+        raise ScriptError(f'max_chars must be a positive integer, got {mc!r}')
     return cfg
 
 
@@ -151,7 +154,10 @@ def voice_for(cfg, speaker):
     v = cfg['voices'].get(speaker)
     if v is None:
         raise ScriptError(f'no voice configured for speaker "{speaker}"')
-    return {'voice': v} if isinstance(v, str) else dict(v)
+    v = {'voice': v} if isinstance(v, str) else dict(v)
+    if 'voicedesign' in (cfg['model'] or '') and not v.get('instruction'):
+        raise ScriptError(f'speaker "{speaker}": the voicedesign model needs "instruction" (the voice description)')
+    return v
 
 
 def style_mode(cfg):
@@ -171,15 +177,28 @@ def plan(items, cfg):
         for n, piece in enumerate(pieces):
             last = n == len(pieces) - 1
             pause = (it['pause'] if it['pause'] is not None else cfg['default_pause']) if last else cfg['split_pause']
-            reqs.append({'no': it['no'], 'speaker': it['speaker'], 'text': piece, 'voice': v['voice'],
+            reqs.append({'no': it['no'], 'speaker': it['speaker'], 'text': piece, 'voice': v.get('voice', ''),
+                         'instruction': v.get('instruction', ''),
                          'style': it['style'] or v.get('style', ''), 'speed': v.get('speed'),
                          'pause': pause, 'chapter_before': None})
     return reqs
 
 
+def endpoint_id(cfg):
+    """Normalised base URL without credentials, query, or trailing slash (never the key)."""
+    u = urllib.parse.urlsplit(cfg['base_url'].strip())
+    host = (u.hostname or '').lower()
+    if u.port:
+        host += f':{u.port}'
+    return f"{u.scheme.lower()}://{host}{u.path.rstrip('/')}"
+
+
 def cache_key(cfg, req):
-    blob = json.dumps({'b': cfg['backend'], 'm': cfg['model'], 'v': req['voice'], 's': req['style'],
-                       'sp': req['speed'], 'sm': style_mode(cfg), 'f': cfg['format'], 't': req['text']},
+    # MiMo has no numeric speed field, so speed must not split its cache.
+    speed = req['speed'] if cfg['backend'] != 'mimo' else None
+    blob = json.dumps({'b': cfg['backend'], 'e': endpoint_id(cfg), 'm': cfg['model'], 'v': req['voice'],
+                       'i': req.get('instruction', ''), 's': req['style'],
+                       'sp': speed, 'sm': style_mode(cfg), 'f': cfg['format'], 't': req['text']},
                       ensure_ascii=False, sort_keys=True)
     return hashlib.sha256(blob.encode('utf-8')).hexdigest()[:32]
 
@@ -223,14 +242,17 @@ def call_openai(cfg, req):
 
 def call_mimo(cfg, req):
     text, mode = req['text'], style_mode(cfg)
-    messages = []
-    if req['style'] and mode == 'instruction':
-        messages.append({'role': 'user', 'content': req['style']})
-    elif req['style'] and mode == 'tag':
+    model = cfg['model'] or 'mimo-v2.5-tts'
+    # The user message is not spoken. voicedesign requires it as the voice description.
+    user = [t for t in (req.get('instruction'), req['style'] if mode == 'instruction' else '') if t]
+    if req['style'] and mode == 'tag':
         text = f"({req['style']}){text}"
+    messages = [{'role': 'user', 'content': ' '.join(user)}] if user else []
     messages.append({'role': 'assistant', 'content': text})
-    payload = {'model': cfg['model'] or 'mimo-v2.5-tts', 'messages': messages,
-               'audio': {'format': cfg['format'], 'voice': req['voice']}}
+    audio = {'format': cfg['format']}
+    if 'voicedesign' not in model and req['voice']:
+        audio['voice'] = req['voice']
+    payload = {'model': model, 'messages': messages, 'audio': audio}
     body, _ = _post(cfg, cfg['base_url'].rstrip('/') + '/chat/completions', payload,
                     {'api-key': cfg['api_key']})
     try:
@@ -296,7 +318,8 @@ def write_output(pcm, out, rate, normalize):
         raise RuntimeError('mp3 output and --normalize need ffmpeg; use a .wav output path without it')
     cmd = ['ffmpeg', '-v', 'error', '-y', '-f', 'wav', '-i', 'pipe:0']
     if normalize:
-        cmd += ['-af', 'loudnorm=I=-16:TP=-1.5:LRA=11']
+        # loudnorm resamples to 192 kHz internally; pin the output to the source rate.
+        cmd += ['-af', 'loudnorm=I=-16:TP=-1.5:LRA=11', '-ar', str(rate)]
     if out.suffix.lower() == '.mp3':
         cmd += ['-codec:a', 'libmp3lame', '-q:a', '4']
     p = subprocess.run(cmd + [str(out)], input=wav, capture_output=True)
@@ -335,17 +358,20 @@ def build(items, cfg, cache_dir, out, normalize, log, sleep=time.sleep):
     pcm, chapters, by_line = bytearray(), [], {}
     for r in reqs:
         by_line.setdefault(r['no'], []).append(r)
-    pending_title = None
+    pending = []
     for it in items:
         if it['kind'] == 'chapter':
-            pending_title = it['title']
+            pending.append(it['title'])
             continue
-        if pending_title is not None:
-            chapters.append((len(pcm) / 2 / rate, pending_title))
-            pending_title = None
+        for title in pending:
+            chapters.append((len(pcm) / 2 / rate, title))
+        pending = []
         for r in by_line[it['no']]:
             pcm += decode_pcm(r['path'], rate)
             pcm += b'\x00\x00' * int(r['pause'] * rate)
+    # Headings with no line after them still get a mark, at the end.
+    for title in pending:
+        chapters.append((len(pcm) / 2 / rate, title))
     write_output(bytes(pcm), out, rate, normalize)
     ch = Path(out).with_suffix('.chapters.txt')
     ch.write_text(''.join(f'{stamp(t)} {title}\n' for t, title in chapters), encoding='utf-8')

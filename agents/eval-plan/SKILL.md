@@ -1,11 +1,10 @@
 ---
 name: eval-plan
-description: "Run when the user explicitly asks to plan a model-backed eval: preregister bars, arms, decoys, and stop rules, dry-run at zero cost, price a small pilot, and get approval before the full run, with results beside a no-skill arm. Not for deterministic tests, which run without a model."
+description: "Use when planning a model-backed eval: preregister bars, arms, decoys, and stop rules, dry-run at zero cost, price a small pilot, and get human approval before any spend or the full run, with results beside a no-skill arm. Not for deterministic tests, which run without a model."
 license: MIT
 compatibility: Works with whatever runs the eval; in this repository the harnesses under evals/. Needs a way to read each call's real cost or to declare it unknown.
 metadata:
   author: DengQi
-disable-model-invocation: true
 ---
 
 # Preregister a paid eval, then earn the full run

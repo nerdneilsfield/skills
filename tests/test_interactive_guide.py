@@ -224,6 +224,27 @@ class Walkthrough(unittest.TestCase):
         self.data['pages'][0]['blocks'].append({'type': 'papercode', 'items': [{'paper': 'p', 'file': 'README.md', 'status': 'maybe'}]})
         self.assertIn('bad status', build(self.data, self.out).stderr)
 
+    def test_rejects_empty_or_malformed_structure(self):
+        blocks = self.data['pages'][0]['blocks']
+        cases = [({'type': 'figuretour', 'src': 'x.png', 'stops': []}, 'stops'),
+                 ({'type': 'figuretour', 'src': 'x.png', 'stops': [{'x': 1, 'y': 1}]}, 'stops'),
+                 ({'type': 'flow', 'nodes': [], 'edges': [], 'flows': []}, 'flow needs'),
+                 ({'type': 'graph', 'nodes': [], 'edges': []}, 'graph needs')]
+        for block, word in cases:
+            blocks.append(block)
+            err = build(self.data, self.out).stderr
+            blocks.pop()
+            self.assertIn(word, err)
+            self.assertNotIn('Traceback', err)
+
+    def test_papercode_without_file_is_a_marked_gap(self):
+        sys.path.insert(0, str(BUILD.parent))
+        import build_guide
+        data = {'title': 't', 'summary': 's', 'pages': [{'id': 'a', 'title': 'A', 'blocks': [
+            {'type': 'papercode', 'items': [{'paper': 'p', 'status': 'match'}, {'paper': 'q', 'status': 'unstated'}]}]}]}
+        self.assertEqual(build_guide.validate(data, None), [])
+        self.assertEqual([g for g in build_guide.display_gaps(data) if 'file' in g], ['page a block 1 papercode: item 1 file'])
+
     def test_rejects_remote_image(self):
         figure = self.data['pages'][0]['blocks'][0]
         figure['src'] = 'https://example.com/a.png'

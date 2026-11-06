@@ -6,19 +6,25 @@
 
 先通读全文，再动手做页面。文字用 `pdftotext -layout`，公式损坏或双栏错乱时回看渲染页。
 
-在本 skill 目录下运行 `scripts/extract_figures.py`：
+两个脚本分属 `qi-read-paper` 和 `interactive-guide` 两个 skill 目录，安装位置不固定。先定位，之后全部用绝对路径，可以在任何目录运行：
 
 ```sh
-python3 scripts/extract_figures.py paper.pdf --list
-python3 scripts/extract_figures.py paper.pdf --pages 3,7 work/pages
-python3 scripts/extract_figures.py paper.pdf --crop 3 8 12 84 40 work/fig3.png
+EXTRACT=$(find "$HOME" -path '*qi-read-paper/scripts/extract_figures.py' -print -quit)
+BUILD=$(find "$HOME" -path '*interactive-guide/scripts/build_guide.py' -print -quit)
+WORK=$PWD/work    # 工作目录，绝对路径；找不到脚本时问用户 skill 装在哪
+
+python3 "$EXTRACT" /abs/paper.pdf --list
+python3 "$EXTRACT" /abs/paper.pdf --pages 3,7 "$WORK/pages"
+python3 "$EXTRACT" /abs/paper.pdf --crop 3 8 12 84 40 "$WORK/fig3.png"
 ```
+
+`--pages` 也接受范围，如 `2-5,9`；页码越界会报一行错误并以状态 2 退出。裁切百分比相对于显示出来的页面（已应用页面旋转）。
 
 矢量图不在 `pdfimages` 结果里，这是常态：先渲染整页，看清位置后用 `--crop` 按页面百分比裁切。每张图都要亲眼看过，确认没有裁掉坐标轴、图例或图注。
 
 ## 2. 写页面数据
 
-存成 `work/guide.json`，每个 tab 一页。读了代码时在第三轮后加“代码对照”页：
+存成 `$WORK/guide.json`，图片路径相对于它（如 `pages/page-3.png`），每个 tab 一页。读了代码时在第三轮后加“代码对照”页：
 
 | 页 | `level` | 内容 |
 | --- | --- | --- |
@@ -46,10 +52,10 @@ python3 scripts/extract_figures.py paper.pdf --crop 3 8 12 84 40 work/fig3.png
 
 ## 4. 构建
 
-在 `interactive-guide` 目录下运行：
+用上面定位到的 `$BUILD`，不必切换目录：
 
 ```sh
-python3 scripts/build_guide.py work/guide.json work/paper.html
+python3 "$BUILD" "$WORK/guide.json" "$WORK/paper.html"
 ```
 
 打开检查每个 tab，确认图都显示了，`figuretour` 的高亮对得上。

@@ -1,6 +1,6 @@
 ---
 name: algorithm-experiment
-description: "Use when running experiments to test an algorithmic idea: fix the hypothesis and baseline first, change one thing per ablation, pick the metric and seeds before looking, decide whether the evidence is statistically sufficient, and log every run so leakage and tuning bias are visible. Not for designing the method itself (algorithm-design) or for reproducing a published number (paper-reproduce)."
+description: "Use when running experiments to test an algorithmic idea: fix the hypothesis and baseline first, change one thing per ablation, pick the metric and seeds before looking, decide whether the evidence is statistically sufficient, and log every run so leakage and tuning bias are visible. Not for designing the method itself (algorithm-design), for turning an unexplained observation into rival hypotheses (research-hypothesis) or for reproducing a published number (paper-reproduce)."
 license: MIT
 compatibility: Uses uv or the project's environment to run; hyperfine for timing; jq to aggregate run logs. A GPU run needs a fixed precision mode to be comparable across runs.
 metadata:

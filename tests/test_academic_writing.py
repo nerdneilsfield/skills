@@ -62,6 +62,25 @@ class CheckPaper(unittest.TestCase):
                                capture_output=True, text=True)
             self.assertEqual(r.returncode, 0, r.stdout)
 
+    def test_nested_input_multiline_cite_and_missing(self):
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            (d / 'sec').mkdir()
+            (d / 'm.tex').write_text('\\begin{abstract}x\\end{abstract}\n\\input{sec/a}\n\\input{gone}\n'
+                                     '\\bibliography{r}\n')
+            # nested input is relative to the main file's directory, as in LaTeX
+            (d / 'sec' / 'a.tex').write_text('See \\cite{k,\n  nokey} and \\ref{x\n}.\n\\input{sec/b}\n')
+            (d / 'sec' / 'b.tex').write_text('\\label{x}\n')
+            (d / 'r.bib').write_text('@misc{k, title={T}}\n')
+            r = subprocess.run([sys.executable, '-I', str(TOOL), str(d / 'm.tex'), '--json'],
+                               capture_output=True, text=True)
+            out = {(i['code'], i['message']): i['where'] for i in json.loads(r.stdout)}
+            codes = {c for c, _ in out}
+            self.assertIn('missing-input', codes)
+            self.assertNotIn('undefined-reference', codes)
+            self.assertNotIn('unused-bib-entry', codes)
+            self.assertEqual([w for (c, m), w in out.items() if c == 'undefined-citation'], ['a.tex:1'])
+
 
 if __name__ == '__main__':
     unittest.main()

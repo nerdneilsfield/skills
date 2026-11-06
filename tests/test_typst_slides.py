@@ -146,6 +146,69 @@ class PptxExtractor(unittest.TestCase):
         self.assertEqual(pptx_spec.main([bad]), 1)
 
 
+class PptxEdgeCases(unittest.TestCase):
+    def rewrite(self, tmp, edit):
+        src = os.path.join(tmp, 'a.pptx')
+        make_pptx(src)
+        dst = os.path.join(tmp, 'b.pptx')
+        with zipfile.ZipFile(src) as zi, zipfile.ZipFile(dst, 'w') as zo:
+            for n in zi.namelist():
+                zo.writestr(n, edit(n, zi.read(n)))
+        return dst
+
+    def test_absolute_rels_targets(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dst = self.rewrite(tmp, lambda n, b: b.replace(b'../slideLayouts/', b'/ppt/slideLayouts/')
+                               .replace(b'../media/', b'/ppt/media/') if n.endswith('.rels') else b)
+            spec = pptx_spec.build(dst)
+            self.assertEqual(spec['masters'][0]['layouts'][0]['name'], 'Cover')
+            self.assertEqual(spec['slides'][0]['layout'], 'Cover')
+
+    def test_missing_sldsz_is_a_clean_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dst = self.rewrite(tmp, lambda n, b: b'<p:presentation xmlns:p="%s"/>' % P.encode()
+                               if n == 'ppt/presentation.xml' else b)
+            self.assertEqual(pptx_spec.main([dst]), 1)
+
+
+class CheckDeck(unittest.TestCase):
+    def page(self, title, n, total):
+        return f'{title}\nbody\n{n} / {total}\n'
+
+    def test_appendix_frozen_counter_is_not_overflow(self):
+        rows = check_deck.analyze([self.page('A', 1, 2), self.page('B', 2, 2),
+                                   self.page('Backup 1', 2, 2), self.page('Backup 2', 2, 2)])
+        self.assertEqual([r[3] for r in rows], ['', '', 'frozen?', 'frozen?'])
+
+    def test_overflow_and_steps(self):
+        rows = check_deck.analyze([self.page('A', 1, 3), self.page('A', 1, 3),
+                                   self.page('A cont', 1, 3), self.page('B', 2, 3)])
+        self.assertEqual([r[3] for r in rows], ['', 'step', 'OVERFLOW?', ''])
+
+
+class BuildScript(unittest.TestCase):
+    @unittest.skipUnless(shutil.which('sh'), 'needs sh')
+    def test_option_is_not_taken_as_outdir_and_stale_pngs_go(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            bin_ = tmp / 'bin'
+            bin_.mkdir()
+            (bin_ / 'typst').write_text('#!/bin/sh\necho "$@" > "$TYPST_LOG"\nfor a; do last=$a; done\n: > "$last"\n')
+            (bin_ / 'pdftoppm').write_text('#!/bin/sh\nfor a; do last=$a; done\n: > "$last-1.png"\n')
+            for f in bin_.iterdir():
+                f.chmod(0o755)
+            (tmp / 'deck.typ').write_text('x')
+            stale = tmp / 'deck-pages'
+            stale.mkdir()
+            (stale / 'page-9.png').write_text('old')
+            env = dict(os.environ, PATH=f'{bin_}:{os.environ["PATH"]}', TYPST_LOG=str(tmp / 'log'))
+            subprocess.run(['sh', str(SKILL / 'scripts' / 'build_deck.sh'), 'deck.typ', '--root', '..'],
+                           cwd=tmp, env=env, capture_output=True, text=True)
+            self.assertTrue((tmp / 'log').read_text().startswith('compile --root .. deck.typ deck-pages/deck.pdf'))
+            self.assertFalse((stale / 'page-9.png').exists())
+            self.assertFalse((tmp / '--root').exists())
+
+
 class Structure(unittest.TestCase):
     def test_files_exist_and_linked(self):
         body = (SKILL / 'SKILL.md').read_text(encoding='utf-8')
@@ -205,15 +268,7 @@ class Compile(unittest.TestCase):
                     self.assertEqual(self.overflow(str(pdf)), [], f'{name} overflows')
 
     def overflow(self, pdf):
-        seen, prev, bad = [], (None, None), []
-        for i, text in enumerate(check_deck.pages(pdf), 1):
-            m = re.findall(r'(\d+)\s*/\s*(\d+)\s*$', text.strip(), re.M)
-            lines = [l.strip() for l in text.splitlines() if l.strip()]
-            n, first = (int(m[-1][0]) if m else None), (lines[0] if lines else '')
-            if n is not None and n == prev[0] and first != prev[1]:
-                bad.append(i)
-            prev = (n, first)
-        return bad
+        return [r[0] for r in check_deck.analyze(check_deck.pages(pdf)) if r[3] == 'OVERFLOW?']
 
     def test_replica_skeleton_compiles(self):
         with tempfile.TemporaryDirectory() as tmp:

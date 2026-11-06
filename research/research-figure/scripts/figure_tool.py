@@ -15,6 +15,7 @@ MODES = ('light', 'dark')
 STYLE = re.compile(r'(<style\b[^>]*>)(.*?)(</style>)', re.S)
 ROOT_BLOCK = re.compile(r':root\s*\{[^{}]*\}')
 VAR = re.compile(r'var\(\s*(--[\w-]+)\s*(?:,\s*([^()]*?)\s*)?\)')
+ATTRIBUTE = re.compile(r'''(\s[\w:-]+\s*=\s*)(["'])(.*?)\2''', re.S)
 HARDCODED = re.compile(r'\b(?:fill|stroke)\s*[=:]\s*["\']?#[0-9a-fA-F]{3,8}')
 SHAPES = {'rectangle', 'ellipse', 'diamond'}
 FONT = 18
@@ -89,7 +90,17 @@ def apply_theme(text, variables, where='svg', flatten=False):
 def flatten_variables(text, variables, where):
     def literal(match):
         return variables.get(match[1], match[2])
+
+    def in_attribute(match):
+        # A value that contains the attribute's own quote character would break the XML;
+        # write that character as an entity, which the parser decodes back.
+        quote = match[2]
+        entity = '&apos;' if quote == "'" else '&quot;'
+        body = VAR.sub(lambda m: literal(m).replace(quote, entity), match[3])
+        return f'{match[1]}{quote}{body}{quote}'
+
     # Resolve the uses first, then remove the definitions nothing needs any more.
+    text = ATTRIBUTE.sub(in_attribute, text)
     result = ROOT_BLOCK.sub(lambda _: '', VAR.sub(literal, text))
     if 'var(' in result:
         raise FigureError(f'{where}: a var() remains after flattening; nested fallbacks are not supported')
@@ -207,7 +218,7 @@ def place(nodes, edges, direction):
     for node in nodes:
         layers.setdefault(ranks[node['id']], []).append(node['id'])
     main, cross = (0, 1) if direction == 'LR' else (1, 0)
-    span = [max(s[main] for s in sizes.values()) + GAP[main], max(s[cross] for s in sizes.values()) + GAP[main]]
+    span = [max(s[main] for s in sizes.values()) + GAP[main], max(s[cross] for s in sizes.values()) + GAP[cross]]
     tallest = max(len(layer) for layer in layers.values())
     placed = {}
     for node in nodes:
@@ -218,7 +229,7 @@ def place(nodes, edges, direction):
             continue
         along = ranks[node['id']] * span[0] + (span[0] - GAP[main] - sizes[node['id']][main]) / 2
         across = (layer.index(node['id']) + (tallest - len(layer)) / 2) * span[1]
-        across += (span[1] - GAP[main] - sizes[node['id']][cross]) / 2
+        across += (span[1] - GAP[cross] - sizes[node['id']][cross]) / 2
         placed[node['id']] = (along, across, width, height) if main == 0 else (across, along, width, height)
     return placed
 

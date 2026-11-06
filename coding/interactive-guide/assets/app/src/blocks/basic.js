@@ -38,7 +38,9 @@ export function papercode(b) {
     const r = el("div", "pc"), grid = el("div", "pc-row"), left = el("div", "prose"), right = el("div");
     r.append(el("div", "pc-state " + x.status, PC[x.status]));
     md(left, x.paper, "论文内容"); if (x.where) left.append(el("div", "loc", x.where));
-    right.append(el("div", "loc", x.file + (x.line ? ":" + x.line : ""))); if (x.code) right.append(codeBlock(x.code, x.lang, x.file));
+    if (x.file) right.append(el("div", "loc", x.file + (x.line ? ":" + x.line : "")));
+    else if (x.status !== "unstated") right.append(gap("代码位置"));
+    if (x.code) right.append(codeBlock(x.code, x.lang, x.file));
     grid.append(left, right); r.append(grid); if (x.note) r.append(el("p", "pc-note", x.note)); return r; })); };
   [[null, "全部"], ...Object.entries(PC)].forEach(([k, t], i) => { const n = k ? b.items.filter((x) => x.status === k).length : b.items.length;
     const x = el("button", i ? null : "on", `${t} ${n}`); x.onclick = () => { [...bar.children].forEach((c) => c.classList.remove("on")); x.classList.add("on"); render(k); }; bar.append(x); });

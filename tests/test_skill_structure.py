@@ -48,7 +48,7 @@ class SkillStructure(unittest.TestCase):
             self.assertNotRegex(head, r'(?m)^version:', path)
 
     def test_side_effect_skills_are_user_invoked(self):
-        for name in ('coding/co-commit', 'coding/counterweight-setup', 'agents/orchestrate', 'agents/eval-plan',
+        for name in ('coding/co-commit', 'coding/counterweight-setup', 'agents/orchestrate',
                      'agents/steward-board', 'agents/steward-reports', 'agents/spec',
                      'agents/council'):
             head = (ROOT / name / 'SKILL.md').read_text(encoding='utf-8').split('---\n')[1]

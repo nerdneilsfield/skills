@@ -14,7 +14,7 @@ Collect missing facts before drafting. A paper built on guessed facts costs more
 | Material | Existing draft, bib file, figures, template, previous reviews, related own papers |
 | Language | English, Chinese, or both; Chinese thesis versus paper |
 | Policy | Disclosure rules for generated text and figures; code and data release; prior-publication overlap |
-| House style | Whether `house-style.md` has been filled in |
+| House style | Whether a `.house-style.md` exists in the paper repository |
 
 ## Ask once
 

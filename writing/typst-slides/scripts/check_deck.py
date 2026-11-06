@@ -16,23 +16,39 @@ def pages(pdf):
     return out.split("\f")[:-1] if out.endswith("\f") else out.split("\f")
 
 
-def main(pdf):
-    seen = []
-    for i, text in enumerate(pages(pdf), 1):
+def analyze(texts):
+    """Return [(page, n, N, label, first line)]; label is '', 'step', 'frozen?' or 'OVERFLOW?'."""
+    rows, prev = [], (None, None)
+    for i, text in enumerate(texts, 1):
         m = re.findall(r"(\d+)\s*/\s*(\d+)\s*$", text.strip(), re.M)
         lines = [l.strip() for l in text.splitlines() if l.strip()]
-        seen.append((i, int(m[-1][0]) if m else None, lines[0][:60] if lines else "(blank)"))
-    flagged = 0
-    prev = (None, None)
-    for i, n, first in seen:
-        mark = ""
+        n, total = (int(m[-1][0]), int(m[-1][1])) if m else (None, None)
+        first = lines[0][:60] if lines else "(blank)"
+        label = ""
         if n is not None and n == prev[0]:
-            # Same slide number again: an animation step repeats the title, an overflow page does not.
-            mark = "step" if first == prev[1] else "OVERFLOW?"
-            flagged += mark != "step"
-        print(f"page {i:2d} slide {n if n else '-':>2} {mark:9} {first}")
+            if first == prev[1]:
+                label = "step"
+            elif n == total:
+                # `#show: appendix` freezes the counter at the last slide, so every appendix
+                # page repeats "N / N". Indistinguishable from overflow of the last slide.
+                label = "frozen?"
+            else:
+                label = "OVERFLOW?"
+        rows.append((i, n, total, label, first))
         prev = (n, first)
-    print(f"{len(seen)} pages, {flagged} suspected overflow page(s)")
+    return rows
+
+
+def main(pdf):
+    rows = analyze(pages(pdf))
+    for i, n, _, label, first in rows:
+        print(f"page {i:2d} slide {n if n else '-':>2} {label:9} {first}")
+    over = sum(r[3] == "OVERFLOW?" for r in rows)
+    frozen = sum(r[3] == "frozen?" for r in rows)
+    print(f"{len(rows)} pages, {over} suspected overflow page(s)")
+    if frozen:
+        print(f"{frozen} page(s) repeat the final slide number with a new title: appendix pages "
+              "(frozen counter), or overflow of the last slide. Look at them.")
     return 0
 
 

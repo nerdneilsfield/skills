@@ -10,7 +10,7 @@ Keep it outside the repository. Environment variables override it: `PODCAST_TTS_
 {
   "backend": "mimo",
   "model": "mimo-v2.5-tts",
-  "voices": {"A": "冰糖", "B": {"voice": "苏打", "speed": 1.0}, "C": "白桦"},
+  "voices": {"A": "冰糖", "B": {"voice": "苏打", "style": "语速稍慢"}, "C": "白桦"},
   "style_mode": "auto",
   "format": "wav",
   "max_chars": 150,
@@ -32,6 +32,9 @@ Source: the official MiMo API docs, "Speech Synthesis (MiMo-V2.5-TTS Series)", u
 - Built-in voices (ID equals name): Chinese female 冰糖 and 茉莉, Chinese male 苏打 and 白桦, English female Mia and Chloe, English male Milo and Dean; `mimo_default` is 冰糖 on the China cluster and Mia elsewhere.
 - Style, two ways. Natural language in the user message (a sentence, or a "director" block with character, scene, and guidance). Or tags in the assistant text: a leading `(style1 style2)` (half- or full-width parentheses, or square brackets; multiple styles in one pair with any separator), and inline `[tag]`-style cues anywhere for whisper, laugh, sigh, breath, pause, cough, speed. Recommended style families listed: basic emotions (happy, sad, angry, calm ...), complex emotions, overall tone (gentle, cold, serious ...), timbre, character tone, dialects (Northeast, Sichuan, Henan, Cantonese), role-play, and singing, where `(唱歌)` must be the very first thing in the text. The English page is a translation; for Chinese lines use Chinese tag words, which is an inference from the `(唱歌)` example and should be tested.
 - Pricing: the page said "Free for a limited time" at check time. Rate limits and a maximum text length per request were not stated on that page; synthesize.py defaults to 150 characters per request to stay safe. Treat both as unverified.
+
+- Speed: the official request schema has no numeric speed field. `speed` in a voice entry is sent to OpenAI-style backends only and is ignored (and kept out of the cache key) for `mimo`; control pace with the style text or an inline tag instead.
+- Voice design: with `mimo-v2.5-tts-voicedesign` give each speaker `{"instruction": "<voice description>"}`; it is sent as the required user message and no `audio.voice` is sent. For other MiMo models an `instruction` is sent as an extra user message.
 
 In the script, put the style in the line's `[style]` slot; with `style_mode: tag` it becomes the leading `(style)`. For sung or heavily styled lines, test first.
 

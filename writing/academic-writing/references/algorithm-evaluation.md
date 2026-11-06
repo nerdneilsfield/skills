@@ -19,7 +19,13 @@ Define each metric by formula or by citation to its standard implementation, and
 
 ## Seeds and variance
 
-Single runs hide variance. Report mean and spread over several seeds or runs (standard deviation or confidence interval, and which), or say that the method is deterministic. For stochastic systems such as learning-based or sampling-based methods, run enough seeds to see the spread. When differences are small, test significance or call them equal.
+Single runs hide variance. Three things are reported separately; none replaces another.
+
+- Algorithm randomness: mean and spread over several seeds (standard deviation or confidence interval, and which), or state that the method has no random component.
+- Measurement repeatability: repeated timing and power runs, even for a deterministic method.
+- Sample coverage: more than one scene or sequence, even for a deterministic method.
+
+Aggregate seeds within each scene first, then compare across scenes. The independent unit is the scene, not scenes x seeds; pooling them as N is pseudoreplication and makes tests look stronger than they are. When differences are small, test significance at the scene level or call them equal.
 
 ## Ablation
 

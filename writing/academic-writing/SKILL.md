@@ -19,7 +19,7 @@ Write papers whose claims are backed by evidence the reader can check. The autho
 
 ## Read references on demand
 
-Always read [references/modes.md](references/modes.md), [references/integrity.md](references/integrity.md), and [references/house-style.md](references/house-style.md). The last is the author's own slot, empty until filled from their paper repository. If it has content, it overrides the defaults below, except for venue rules and integrity.
+Always read [references/modes.md](references/modes.md) and [references/integrity.md](references/integrity.md). Then look for the author's house style: `.house-style.md` in the paper repository, or a private config the user names. If found, it overrides the defaults below, except for venue rules and integrity. [references/house-style.md](references/house-style.md) is only a public template of what such a file may hold; never write the user's rules into it.
 
 Then read what the task needs:
 
@@ -55,11 +55,11 @@ Then read what the task needs:
 - Power or area without voltage, frequency, scope, and corner cannot be compared. FPGA results need device, speed grade, tool version, and whether post-synthesis or post-implementation.
 - Normalised metrics and FoMs hide the raw numbers. Show both, and define the formula in the paper.
 - A baseline you tuned less than your method is a result about tuning. Report the budget.
-- A single run or single sequence is an anecdote. Give variance or say the method is deterministic.
+- A single run or single sequence is an anecdote. Report separately: algorithm randomness (seeds, or state it is absent), measurement repeatability (repeated timing and power runs, even for a deterministic kernel), and sample coverage (several scenes or sequences, even for a deterministic SLAM).
 - In a double-blind submission, self-citation in the third person, scrubbed metadata, and anonymous links are required; "omitted for review" placeholders are often barred.
 - A journal extension without disclosed overlap and new content is a reuse problem.
 - Do not upload unpublished manuscripts or confidential reviews to external tools beyond what the venue and data owners allow.
-- If `house-style.md` is empty, do not invent a house style.
+- If no `.house-style.md` is found, do not invent a house style.
 
 ## Final check
 

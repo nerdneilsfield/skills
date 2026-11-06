@@ -1,6 +1,6 @@
 ---
 name: research-figure
-description: "Use when the user asks for an academic or technical figure on any agent, with or without image generation: method pipeline, mechanism, network architecture, schematic, graphical abstract, comparison, poster, publication chart, system architecture, sequence, state machine, flowchart, ER, topology, or mind map. Picks a backend by detection, saves the prompt first, inspects every output, and delivers a compressed file with its editable source. Not for analysing the data behind a chart (python-data-analysis), inserting figures into a manuscript (latex-paper-en, typst-paper), or a paper's own published figures (qi-read-paper)."
+description: "Use when the user asks for an academic or technical figure on any agent, with or without image generation: method pipeline, mechanism, network architecture, schematic, graphical abstract, comparison, poster, publication chart, system architecture, sequence, state machine, flowchart, ER, topology, or mind map. Picks a backend by detection, saves the prompt first, inspects every output, and delivers a compressed file with its editable source. Figure rules live here; data cleaning, joins, and statistics behind a publication chart belong to python-data-analysis. Not for analysing that data, inserting figures into a manuscript (academic-writing), or a paper's own published figures (qi-read-paper)."
 license: MIT
 compatibility: Scripts need only python3. Image generation depends on whatever backend is detected; no backend is required, since SVG and Mermaid always work. Rendering and compression use whichever of a browser, rsvg-convert, Inkscape, mmdc, cwebp, pngquant, or ImageMagick is installed.
 metadata:
@@ -27,7 +27,7 @@ Read the one reference you need: [references/academic-figures.md](references/aca
 | `source` | sequence, state machine, ER, flowchart, network topology, mind map, network architecture | Mermaid or SVG first. A polished render may follow from it |
 | `image` | method pipeline, mechanism, schematic, graphical abstract, overview poster, system architecture | Any backend, with an editable source when practical |
 
-A named backend does not lift the `code` route. If the user asks for generated data, explain and plot it instead; `python-data-analysis` and `dataviz` cover the chart itself.
+A named backend does not lift the `code` route. If the user asks for generated data, explain and plot it instead; For a publication chart, this skill owns the figure rules (theme, labels, export) and `python-data-analysis` owns cleaning the data and the statistics; `dataviz` can help with chart design if installed.
 
 Hybrid figures, as in recent papers, put the intuition beside the components: panel (a) shows the idea, panel (b) the architecture, in one figure with shared colours, so a colour means the same thing in both. The structure panel keeps the `source` route; the intuition panel may be `image`. Compose them in SVG. Generate the intuition with no text at all and set every label as SVG text above it. Start from [assets/example-figure.svg](assets/example-figure.svg).
 

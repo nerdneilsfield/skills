@@ -122,6 +122,43 @@ def check_graph(block, repo, where):
     return errors + check_located(block["nodes"], repo, where)
 
 
+def is_num(v):
+    return isinstance(v, (int, float)) and not isinstance(v, bool)
+
+
+def dicts(value, keys=()):
+    """True when value is a non-empty list of objects that each carry every key."""
+    return isinstance(value, list) and bool(value) and all(isinstance(x, dict) and all(k in x for k in keys) for x in value)
+
+
+def shape_errors(kind, block, where):
+    """Reject empty or malformed structure the page script would crash on."""
+    if kind == "figuretour":
+        if not dicts(block["stops"], ("x", "y", "w", "h")):
+            return [f"{where}: stops must be a non-empty list, each with x, y, w, h"]
+        if not all(is_num(s[k]) for s in block["stops"] for k in "xywh"):
+            return [f"{where}: stop x, y, w, h must be numbers (percent of the image)"]
+    elif kind == "flow":
+        if not dicts(block["nodes"], ("id",)) or not dicts(block["flows"]) or not dicts(block["edges"], ("from", "to")):
+            return [f"{where}: flow needs non-empty nodes (with id), edges (with from, to) and flows"]
+        if not all(isinstance(f.get("steps", []), list) and all(isinstance(x, dict) for x in f.get("steps", [])) for f in block["flows"]):
+            return [f"{where}: every flow needs a list of step objects"]
+    elif kind == "graph":
+        if not dicts(block["nodes"], ("id",)) or not isinstance(block["edges"], list) or not all(
+                isinstance(e, dict) and "from" in e and "to" in e for e in block["edges"]):
+            return [f"{where}: graph needs non-empty nodes (with id) and edges (with from, to)"]
+    elif kind == "papercode" and not dicts(block["items"]):
+        return [f"{where}: papercode needs a non-empty list of items"]
+    elif kind == "quiz" and (not isinstance(block["options"], list) or not block["options"] or not isinstance(block["answer"], int)):
+        return [f"{where}: quiz needs a non-empty options list and an integer answer"]
+    elif kind in {"steps", "terms"} and not isinstance(block["items"], list):
+        return [f"{where}: {kind} items must be a list"]
+    elif kind == "compare" and (not isinstance(block["headers"], list) or not isinstance(block["rows"], list)
+                                 or not all(isinstance(r, list) for r in block["rows"])):
+        return [f"{where}: compare needs a headers list and rows that are lists"]
+    return []
+
+
 def validate(data, repo):
     if not data.get("pages"):
         return ["missing or empty: pages"]
@@ -141,10 +178,14 @@ def validate(data, repo):
     if len(set(ids)) != len(ids) or not all(ids):
         errors.append("every page needs a unique id")
     for page in data["pages"]:
-        if not page.get("blocks"):
+        if not isinstance(page.get("blocks") or [], list) or not page.get("blocks"):
             errors.append(f"page {page.get('id')}: no blocks")
+            continue
         for i, block in enumerate(page.get("blocks") or [], 1):
             where = f"page {page.get('id')} block {i}"
+            if not isinstance(block, dict):
+                errors.append(f"{where}: a block must be an object")
+                continue
             kind = block.get("type")
             if kind not in BLOCKS:
                 errors.append(f"{where}: unknown type {kind}")
@@ -152,6 +193,10 @@ def validate(data, repo):
             missing = [k for k in REQUIRED[kind] if k not in block]
             if missing:
                 errors.append(f"{where}: {kind} needs {', '.join(missing)}")
+                continue
+            bad = shape_errors(kind, block, where)
+            if bad:
+                errors += bad
             elif kind == "flow":
                 errors += check_flow(block, repo, where)
             elif kind == "graph":
@@ -166,7 +211,8 @@ def validate(data, repo):
                 errors += check_located(block["items"], repo, where)
             elif kind == "figuretour":
                 errors += [f"{where}: stop {n} leaves the image" for n, s in enumerate(block["stops"], 1)
-                           if s["x"] < 0 or s["y"] < 0 or s["x"] + s["w"] > 100 or s["y"] + s["h"] > 100]
+                           if s["x"] < 0 or s["y"] < 0 or s["w"] <= 0 or s["h"] <= 0
+                           or s["x"] + s["w"] > 100 or s["y"] + s["h"] > 100]
             elif kind == "quiz" and not 0 <= block["answer"] < len(block["options"]):
                 errors.append(f"{where}: answer out of range")
     return [e for e in errors if e]
@@ -193,6 +239,8 @@ def display_gaps(data):
                 found += [f"{where}: item {n}" for n, x in enumerate(block["items"], 1) if blank(x.get("term")) or blank(x.get("meaning"))]
             elif kind == "papercode":
                 found += [f"{where}: item {n}" for n, x in enumerate(block["items"], 1) if blank(x.get("paper"))]
+                found += [f"{where}: item {n} file" for n, x in enumerate(block["items"], 1)
+                          if blank(x.get("file")) and x.get("status") != "unstated"]
             elif kind == "figuretour":
                 found += [f"{where}: stop {n}" for n, x in enumerate(block["stops"], 1) if blank(x.get("title")) or blank(x.get("md"))]
             elif kind in {"flow", "graph"}:
@@ -242,7 +290,8 @@ def inline_images(data, base, warnings=None, compress=False):
                 if compress and mime == "image/png" and len(raw) > IMAGE_WARN_KB * 1024:
                     raw = compress_png(path, raw, warnings)
                 if len(raw) > IMAGE_WARN_KB * 1024:
-                    warnings.append(f"large image: {src} is {len(raw) // 1024} KB (limit {IMAGE_WARN_KB}); shrink it or redraw as SVG")
+                    note = "" if mime == "image/png" or not compress else "; only PNG is compressed here, so convert or resize it"
+                    warnings.append(f"large image: {src} is {len(raw) // 1024} KB (limit {IMAGE_WARN_KB}); shrink it or redraw as SVG{note}")
                 total += len(raw)
                 block["src"] = f"data:{mime};base64," + base64.b64encode(raw).decode("ascii")
     if total > TOTAL_WARN_MB * 1024 * 1024:

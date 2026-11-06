@@ -10,12 +10,14 @@ Usage:
 
 Exit status: 1 if any error is found (or any warning with --strict), else 0.
 It never edits files and never touches the network. It reads \\input and
-\\include files relative to the main file. It does not run LaTeX, so macros that
+\\include files relative to the main file's directory, as LaTeX does, and reports
+missing ones. It does not run LaTeX, so macros that
 generate labels or citations are invisible to it.
 """
 from __future__ import annotations
 
 import argparse
+import bisect
 import json
 import re
 import sys
@@ -37,10 +39,16 @@ def strip_comments(text: str) -> str:
     return re.sub(r'(?<!\\)%.*', '', text)
 
 
-def load_tex(path: Path, seen: set[Path] | None = None) -> list[tuple[Path, int, str]]:
-    """Return (file, line number, comment-stripped line) for the file and its inputs."""
+def load_tex(path: Path, root: Path | None = None, seen: set[Path] | None = None,
+             missing: list | None = None) -> list[tuple[Path, int, str]]:
+    """Return (file, line number, comment-stripped line) for the file and its inputs.
+
+    Inputs resolve from the main file's directory (`root`), as LaTeX does, not from
+    the including file. Inputs that cannot be read are appended to `missing`.
+    """
     seen = seen if seen is not None else set()
     path = path.resolve()
+    root = root or path.parent
     if path in seen or not path.is_file():
         return []
     seen.add(path)
@@ -49,11 +57,29 @@ def load_tex(path: Path, seen: set[Path] | None = None) -> list[tuple[Path, int,
         line = strip_comments(raw)
         lines.append((path, n, line))
         for target in INPUT.findall(line):
-            sub = path.parent / target
-            if not sub.suffix:
-                sub = sub.with_suffix('.tex')
-            lines.extend(load_tex(sub, seen))
+            sub = root / target.strip()
+            if not sub.is_file():
+                sub = sub.with_name(sub.name + '.tex')
+            if not sub.is_file():
+                if missing is not None:
+                    missing.append((target.strip(), path, n))
+                continue
+            lines.extend(load_tex(sub, root, seen, missing))
     return lines
+
+
+def joined(lines):
+    """Join stripped lines into one text and return it with each line's start offset."""
+    starts, pos = [], 0
+    for _, _, line in lines:
+        starts.append(pos)
+        pos += len(line) + 1
+    return '\n'.join(line for _, _, line in lines), starts
+
+
+def where_of(lines, starts, offset):
+    i = bisect.bisect_right(starts, offset) - 1
+    return lines[i][0], lines[i][1]
 
 
 def parse_bib(path: Path) -> dict[str, tuple[str, set[str]]]:
@@ -82,13 +108,16 @@ def parse_bib(path: Path) -> dict[str, tuple[str, set[str]]]:
     return entries
 
 
-def keys(pattern: re.Pattern, lines) -> dict[str, tuple[Path, int]]:
+def keys(pattern: re.Pattern, lines, full=None, starts=None) -> dict[str, tuple[Path, int]]:
+    """Map each key to its first location; matches may span several lines."""
+    if full is None:
+        full, starts = joined(lines)
     found: dict[str, tuple[Path, int]] = {}
-    for path, n, line in lines:
-        for group in pattern.findall(line):
-            for key in (k.strip() for k in group.split(',')):
-                if key:
-                    found.setdefault(key, (path, n))
+    for m in pattern.finditer(full):
+        where = where_of(lines, starts, m.start())
+        for key in (k.strip() for k in m[1].split(',')):
+            if key:
+                found.setdefault(key, where)
     return found
 
 
@@ -114,21 +143,24 @@ def check(main: Path, bibs: list[Path]) -> list[dict]:
         loc = f'{where[0].name}:{where[1]}' if where else None
         issues.append({'level': level, 'code': code, 'message': msg, 'where': loc})
 
-    lines = load_tex(main)
+    missing: list = []
+    lines = load_tex(main, missing=missing)
     if not lines:
         add('error', 'no-input', f'cannot read {main}')
         return issues
-    full = '\n'.join(line for _, _, line in lines)
+    for target, path, n in missing:
+        add('error', 'missing-input', f'\\input/\\include file not found: {target}', (path, n))
+    full, starts = joined(lines)
 
-    cites = keys(CITE, lines)
+    cites = keys(CITE, lines, full, starts)
     nocite_all = re.search(r'\\nocite\{\*\}', full) is not None
-    refs = keys(REF, lines)
+    refs = keys(REF, lines, full, starts)
     labels: dict[str, tuple[Path, int]] = {}
-    for path, n, line in lines:
-        for lab in LABEL.findall(line):
-            if lab in labels:
-                add('error', 'duplicate-label', f'label {lab!r} defined twice', (path, n))
-            labels.setdefault(lab, (path, n))
+    for m in LABEL.finditer(full):
+        lab, where = m[1].strip(), where_of(lines, starts, m.start())
+        if lab in labels:
+            add('error', 'duplicate-label', f'label {lab!r} defined twice', where)
+        labels.setdefault(lab, where)
 
     if not bibs:
         for group in BIBRES.findall(full):

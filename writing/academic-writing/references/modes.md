@@ -5,7 +5,7 @@ Choose one from the request. Name it at the start and say what you will produce.
 ## write
 
 1. Run intake (`intake.md`).
-2. Read `house-style.md`; if it has content, it overrides defaults here.
+2. Read `.house-style.md` from the paper repository (or the private config the user names); if found, it overrides defaults here.
 3. Fill the claim-evidence ledger (`sections.md`). Show it to the user if the claim and the evidence do not match.
 4. Outline each section with one sentence per paragraph. Confirm the outline if the user is available.
 5. Draft in the order: method and evaluation first, then introduction, related work, abstract, conclusion, title. Insert placeholders for anything missing.

@@ -193,6 +193,43 @@ class Calls(Base):
         self.assertEqual(body['messages'][-1], {'role': 'assistant', 'content': '(curious)第一句。'})
         self.assertEqual(body['audio']['voice'], 'va')
 
+    def test_mimo_voicedesign_sends_user_message_and_no_voice(self):
+        self.serve()
+        cfg = self.cfg(backend='mimo', model='mimo-v2.5-tts-voicedesign',
+                       voices={'A': {'instruction': 'young male'}, 'B': {'instruction': 'old female'}})
+        syn.build(self.items()[1], cfg, self.tmp / 'c', self.tmp / 'o.wav', False, lambda s: None)
+        body = self.fake.requests[0][2]
+        self.assertEqual(body['messages'][0], {'role': 'user', 'content': 'young male'})
+        self.assertNotIn('voice', body['audio'])
+        with self.assertRaises(syn.ScriptError):
+            syn.plan(self.items()[1], dict(cfg, voices={'A': 'x', 'B': 'y'}))
+
+    def test_cache_key_has_endpoint_not_key(self):
+        _, items = syn.parse_script(SCRIPT)
+        a = syn.plan(items, self.cfg(base_url='http://h1/v1/', api_key='SECRET1'))[0]
+        k1 = syn.cache_key(self.cfg(base_url='http://h1/v1/', api_key='SECRET1'), a)
+        self.assertEqual(k1, syn.cache_key(self.cfg(base_url='http://H1/v1', api_key='OTHER'), a))
+        self.assertNotEqual(k1, syn.cache_key(self.cfg(base_url='http://h2/v1'), a))
+
+    def test_max_chars_must_be_positive(self):
+        cf = self.tmp / 'c.json'
+        for bad in (0, -3, 1.5, 'x'):
+            cf.write_text(json.dumps({'max_chars': bad}))
+            with self.assertRaises(syn.ScriptError):
+                syn.load_config(str(cf))
+        script = self.tmp / 's.txt'
+        script.write_text(SCRIPT, encoding='utf-8')
+        cf.write_text(json.dumps({'max_chars': 0, 'voices': {'A': 'a', 'B': 'b'}}))
+        self.assertEqual(syn.main([str(script), '--config', str(cf), '--dry-run']), 2)
+
+    def test_consecutive_and_trailing_chapters_kept(self):
+        self.serve()
+        _, items = syn.parse_script('# One\n## Two\nA: hi\n# End\n')
+        out = self.tmp / 'o.wav'
+        syn.build(items, self.cfg(), self.tmp / 'c', out, False, lambda s: None)
+        titles = [l.split(' ', 1)[1] for l in out.with_suffix('.chapters.txt').read_text().splitlines()]
+        self.assertEqual(titles, ['One', 'Two', 'End'])
+
     def test_wav_concat_with_pauses_and_chapters(self):
         self.serve()
         out = self.tmp / 'o.wav'
@@ -212,6 +249,15 @@ class Calls(Base):
         r = syn.build(self.items()[1], self.cfg(), self.tmp / 'c', out, True, lambda s: None)
         self.assertTrue(r['ok'])
         self.assertGreater(out.stat().st_size, 500)
+
+
+    @unittest.skipUnless(shutil.which('ffmpeg'), 'needs ffmpeg')
+    def test_normalize_keeps_sample_rate(self):
+        self.serve()
+        out = self.tmp / 'o.wav'
+        syn.build(self.items()[1], self.cfg(), self.tmp / 'c', out, True, lambda s: None)
+        with wave.open(str(out)) as w:
+            self.assertEqual(w.getframerate(), 24000)
 
 
 class Cli(Base):

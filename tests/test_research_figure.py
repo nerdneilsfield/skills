@@ -40,6 +40,25 @@ def contrast(a, b):
     return (high + 0.05) / (low + 0.05)
 
 
+class Regressions(unittest.TestCase):
+    def test_cross_axis_uses_cross_gap(self):
+        nodes = [{'id': i, 'label': i, 'w': 100, 'h': 60} for i in 'abc']
+        edges = [{'from': 'a', 'to': 'b'}, {'from': 'a', 'to': 'c'}]
+        lr = figure_tool.place(nodes, edges, 'LR')
+        self.assertEqual(lr['c'][1] - lr['b'][1], 60 + figure_tool.GAP[1])
+        self.assertEqual(lr['b'][0] - lr['a'][0], 100 + figure_tool.GAP[0])
+        tb = figure_tool.place(nodes, edges, 'TB')
+        self.assertEqual(tb['c'][0] - tb['b'][0], 100 + figure_tool.GAP[0])
+        self.assertEqual(tb['b'][1] - tb['a'][1], 60 + figure_tool.GAP[1])
+
+    def test_flatten_single_quoted_attribute_is_valid_xml(self):
+        theme = json.loads(THEME.read_text(encoding='utf-8'))['light']
+        svg = "<svg xmlns='http://www.w3.org/2000/svg'><rect style='font-family:var(--font-sans)'/></svg>"
+        out = figure_tool.apply_theme(svg, theme, 'x', flatten=True)
+        ET.fromstring(out)
+        self.assertIn('Inter', out)
+
+
 class Skill(unittest.TestCase):
     def test_contract(self):
         text = (SKILL / 'SKILL.md').read_text(encoding='utf-8')

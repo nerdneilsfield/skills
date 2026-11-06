@@ -34,10 +34,10 @@ python3 scripts/synthesize.py script.txt --config tts.json --out episode.mp3 --n
 ```
 
 - `--dry-run` parses, lints, and prints line count, request count (after splitting), characters, cached versus to-call, a rough speaking time, and a cost estimate if `price_per_1k_chars` is set. No network, no key, no base URL needed.
-- Each request is cached under `<out dir>/.tts-cache/` by a hash of backend, model, voice, style, speed, style mode, format, and text. Rerunning after an edit calls only changed lines.
+- Each request is cached under `<out dir>/.tts-cache/` by a hash of backend, normalised base URL (never the key), model, voice, voice instruction, style, speed (OpenAI-style only), style mode, format, and text. `max_chars` must be a positive integer. Rerunning after an edit calls only changed lines.
 - Retries: up to `retries` (default 4) with exponential backoff from `backoff` seconds (default 1) on timeouts, connection errors, 408, 429, and 5xx. Other 4xx errors fail at once.
 - If any line fails, nothing is written; the tool lists each failed line number, speaker, and error, keeps the successful cache, and exits 1. Fix the cause (key, voice name, base URL) and rerun.
-- Output: `.mp3` or `.wav` plus `<name>.chapters.txt` (`HH:MM:SS Title`). Without ffmpeg only wav-to-wav joining works (mono 16-bit at `sample_rate`, default 24000); with ffmpeg any clip format is decoded, `--normalize` applies a loudnorm filter (I=-16 LUFS), and mp3 is encoded with libmp3lame.
+- Output: `.mp3` or `.wav` plus `<name>.chapters.txt` (`HH:MM:SS Title`). Without ffmpeg only wav-to-wav joining works (mono 16-bit at `sample_rate`, default 24000); with ffmpeg any clip format is decoded, `--normalize` applies a loudnorm filter (I=-16 LUFS) and keeps the source sample rate, and mp3 is encoded with libmp3lame.
 - Exit codes: 0 done, 1 some lines failed, 2 configuration or script error.
 - Tests: `python3 -m unittest tests.test_podcast` runs against a local fake server; no paid service is called.
 

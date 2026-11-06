@@ -25,14 +25,18 @@ export async function graph(b) {
     q.addEventListener("input", () => { const v = q.value.trim().toLowerCase(); cy.elements().removeClass("faded hot"); if (!v) return;
       const hit = cy.nodes().filter((n) => n.data("label").toLowerCase().includes(v)); cy.elements().not(hit).addClass("faded"); if (hit.length === 1) focus(hit[0]); });
   };
+  const shown = () => b.nodes.filter((n) => !off.has(n.kind || "其他"));
+  const data3 = () => { const ids = new Set(shown().map((n) => n.id));
+    return { nodes: shown().map((n) => ({ ...n })), links: b.edges.filter((e) => ids.has(e.from) && ids.has(e.to)).map((e) => ({ source: e.from, target: e.to })) }; };
   kinds.forEach((k) => { const x = el("button", "on", k); x.onclick = () => { off.has(k) ? off.delete(k) : off.add(k); x.classList.toggle("on");
-    cy.nodes().forEach((n) => n.style("display", off.has(n.data("kind")) ? "none" : "element")); }; tools.append(x); });
+    if (g3) g3.graphData(data3()); else cy.nodes().forEach((n) => n.style("display", off.has(n.data("kind")) ? "none" : "element")); }; tools.append(x); });
   const b3 = el("button", null, "三维"); tools.append(b3); let g3 = null;
   b3.onclick = async () => { const on = b3.classList.toggle("on");
-    if (!on) { g3._destructor(); g3 = null; host.replaceChildren(); start(); return; }
-    const { default: FG } = await import("3d-force-graph"); cy.destroy(); host.replaceChildren();
-    g3 = FG()(host).width(host.clientWidth).height(host.clientHeight).backgroundColor(css("--gofun"))
-      .graphData({ nodes: b.nodes.map((n) => ({ ...n })), links: b.edges.map((e) => ({ source: e.from, target: e.to })) })
-      .nodeLabel("label").nodeColor((n) => colour(n.kind || "其他")).linkColor(() => css("--rikyu")).linkOpacity(.5).onNodeClick((n) => describe(box, n)); };
+    if (!on) { g3?._destructor(); g3 = null; host.replaceChildren(); q.hidden = false; start(); cy.nodes().forEach((n) => n.style("display", off.has(n.data("kind")) ? "none" : "element")); return; }
+    const { default: FG } = await import("3d-force-graph"); cy.destroy(); host.replaceChildren(); q.hidden = true; // search only works in the 2D view
+    try { g3 = FG()(host).width(host.clientWidth).height(host.clientHeight).backgroundColor(css("--gofun"))
+      .graphData(data3())
+      .nodeLabel("label").nodeColor((n) => colour(n.kind || "其他")).linkColor(() => css("--rikyu")).linkOpacity(.5).onNodeClick((n) => describe(box, n)); }
+    catch { g3 = null; b3.classList.remove("on"); host.replaceChildren(); q.hidden = false; start(); } }; // no WebGL: stay in 2D
   root.mount = () => { if (!cy && !g3) start(); }; describe(box, b.nodes[0]); return root;
 }

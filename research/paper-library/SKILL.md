@@ -53,7 +53,7 @@ for f in *.pdf; do grep -qF -- "$f" INDEX.md || echo "unindexed: $f"; done
 Never send a whole PDF into context, and never print `pdftotext` output to the terminal. Extract to a sidecar in `.text/`, then search the sidecar:
 
 ```sh
-mkdir -p .text
+mkdir -p .text && [ -e .text/.gitignore ] || printf '*\n' > .text/.gitignore   # keep sidecars out of git
 pdfinfo "$f" | grep -E '^(Title|Pages):'
 pdftotext "$f" ".text/${f%.pdf}.txt"
 ```

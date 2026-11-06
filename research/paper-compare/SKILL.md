@@ -17,7 +17,7 @@ Write down what the comparison is for: choosing a method, positioning a new one,
 
 ## 2. Extract each paper into its own file, before any synthesis
 
-One file per paper, `compare/<key>.md`, same fields in the same order, and nothing about the other papers. Do this for two papers as well as for thirty. Finish every file before writing a single comparative sentence. With many papers, give each one a separate pass or agent (brief through `agent-brief`), find local files through `paper-library`, and resume from the files after any interruption.
+One file per paper, `compare/<key>.md`, same fields in the same order, and nothing about the other papers. Do this for two papers as well as for thirty. Finish every file before writing a single comparative sentence. With many papers, give each one a separate pass or agent (brief through `agent-brief`), for a local folder of papers, read `paper-library`'s index first and open only the files it points to, and resume from the files after any interruption.
 
 | Field | What to record |
 | --- | --- |

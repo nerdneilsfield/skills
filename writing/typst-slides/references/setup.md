@@ -26,10 +26,10 @@ Typst finds system fonts. The theme asks for `Inter` (Latin), `Noto Sans CJK SC`
 1. Copy `assets/theme.typ` and one template (for example `assets/research-talk.typ`) into a new folder.
 2. `typst compile research-talk.typ`. It writes `research-talk.pdf`.
 3. Replace the placeholder text and the `figure-slot(...)` boxes with your own.
-4. Run `scripts/build_deck.sh research-talk.typ`. It renders PNGs, and flags slides that spilled onto a second page.
+4. Run `scripts/build_deck.sh research-talk.typ`. It writes the PDF and the page PNGs into `research-talk-pages/` next to the deck (not next to the source `.pdf` of step 2), and flags slides that spilled onto a second page. Old `page-*.png` there are deleted first. Pass a second argument for another folder; arguments starting with `-` go to `typst compile`.
 5. Look at every PNG. For live editing use `typst watch research-talk.typ` beside a PDF viewer, or the Tinymist extension in VS Code.
 
-If the template sits outside the folder you compile from, add `--root` with a parent that contains both.
+If the template sits outside the folder you compile from, add `--root` with a parent that contains both, for example `build_deck.sh deck.typ --root ..`.
 
 ## Sharing and confidentiality
 

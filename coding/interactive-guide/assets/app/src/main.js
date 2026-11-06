@@ -49,6 +49,6 @@ async function route() {
   if (me === turn && !deck.on) { display(s, i); scrollTo(0, 0); }
 }
 const deck = createPresent({ D, main, header, section, display, pageIndex, leave: route });
-if (D.pages.length > 1) { const b = el("button", "hl-open", "演示"); b.onclick = () => deck.enter(); tabs.parentElement.append(b); }
+if (D.pages.reduce((n, p) => n + p.blocks.length, 0) > 1) { const b = el("button", "hl-open", "演示"); b.onclick = () => deck.enter(); tabs.parentElement.append(b); }
 addEventListener("hashchange", route);
 if (new URLSearchParams(location.search).has("present")) deck.enter(); else route();

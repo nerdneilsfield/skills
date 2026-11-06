@@ -1,6 +1,6 @@
 ---
 name: typst-slides
-description: "Use when the user wants a presentation as real, editable Typst slides instead of PowerPoint: research talk, group meeting, project review, defence or proposal, client demo or pitch, technical sharing, or teaching lecture, in English or Chinese. Plans the storyline and speaker script first, then builds a Touying deck in one Japanese-colour palette with figures from an image model, CeTZ, fletcher, or the user's images, and can reproduce another .pptx, .pdf, or image template. Not for a figure alone (research-figure), a paper's PDF (typst-paper), or an interactive HTML page (interactive-guide)."
+description: "Use when the user wants a presentation as real, editable Typst slides instead of PowerPoint: research talk, group meeting, project review, defence or proposal, client demo or pitch, technical sharing, or teaching lecture, in English or Chinese. Plans the storyline and speaker script first, then builds a Touying deck in one Japanese-colour palette with figures from an image model, CeTZ, fletcher, or the user's images, and can reproduce another .pptx, .pdf, or image template. Not for a figure alone (research-figure), a paper's PDF (academic-writing), or an interactive HTML page (interactive-guide)."
 license: MIT
 compatibility: Needs Typst 0.15 or newer, which downloads Touying 0.8.0 from Typst Universe on first compile, plus poppler (pdftoppm, pdftotext) and python3 for the checks. CJK text needs an installed font such as Noto Sans CJK SC. Optional LibreOffice for viewing a .pptx template.
 metadata:

@@ -44,7 +44,10 @@ def rels(z, part):
     for r in read_xml(z, rel_name).findall("rel:Relationship", NS):
         if r.get("TargetMode") == "External":
             continue
-        out[r.get("Id")] = (posixpath.normpath(posixpath.join(d, r.get("Target"))), r.get("Type", "").rsplit("/", 1)[-1])
+        target = r.get("Target", "")
+        # An absolute target ("/ppt/theme/theme1.xml") is relative to the package root.
+        path = posixpath.normpath(target.lstrip("/") if target.startswith("/") else posixpath.join(d, target))
+        out[r.get("Id")] = (path, r.get("Type", "").rsplit("/", 1)[-1])
     return out
 
 
@@ -195,7 +198,15 @@ def build(path):
         names = z.namelist()
         pres = read_xml(z, "ppt/presentation.xml")
         sz = pres.find("p:sldSz", NS)
-        size = (int(sz.get("cx")), int(sz.get("cy")))
+        if sz is None:
+            kind = "Strict OOXML" if "purl.oclc.org/ooxml" in (pres.tag or "") else "a presentation without p:sldSz"
+            raise ValueError(f"no p:sldSz in ppt/presentation.xml ({kind}; save as a regular .pptx and retry)")
+        try:
+            size = (int(sz.get("cx")), int(sz.get("cy")))
+        except (TypeError, ValueError):
+            raise ValueError("p:sldSz has no usable cx/cy")
+        if min(size) <= 0:
+            raise ValueError("p:sldSz has a zero size")
         spec = {"file": path.rsplit("/", 1)[-1],
                 "slide_size": {"cm": [round(v / EMU_PER_CM, 2) for v in size], "ratio": round(size[0] / size[1], 3)}}
         spec["slide_size"]["aspect"] = "16-9" if abs(size[0] / size[1] - 16 / 9) < 0.02 else "4-3" if abs(size[0] / size[1] - 4 / 3) < 0.02 else "custom"
@@ -250,7 +261,7 @@ def main(argv):
     args = ap.parse_args(argv)
     try:
         spec = build(args.pptx)
-    except (zipfile.BadZipFile, KeyError, ValueError, ET.ParseError) as e:
+    except (zipfile.BadZipFile, KeyError, ValueError, AttributeError, ET.ParseError) as e:
         print(f"cannot read {args.pptx}: {e}", file=sys.stderr)
         return 1
     text = json.dumps(spec, indent=2, ensure_ascii=False)

@@ -42,4 +42,4 @@ Report baselines fairly, include results that do not favour you, and do not cher
 
 ## Confidential and company material
 
-For industry authors: check employer review and release rules, patent filing, and customer or vendor NDAs before disclosing designs, process data, or code. Foundry PDK data and tool outputs are often under NDA; check what can be published. Do not paste private text into the skill's `house-style.md` if the repository is public.
+For industry authors: check employer review and release rules, patent filing, and customer or vendor NDAs before disclosing designs, process data, or code. Foundry PDK data and tool outputs are often under NDA; check what can be published. Never paste private rules into the skill's tracked `references/house-style.md`; keep them in the paper repository's `.house-style.md`.

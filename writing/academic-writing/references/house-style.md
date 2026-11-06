@@ -1,14 +1,12 @@
-# House style (fill in)
+# House style (public template)
 
-This file is a slot for the author's own conventions, taken from their paper repository. It is intentionally empty. Do not invent its content, and do not fill it from guesses.
+This file is a tracked template, not a slot to fill. It shows what an author's house-style file may contain. Never write a user's rules into it: this repository is public, and anything written here would be published.
 
-When this file has content, it overrides the defaults in this skill: terminology, notation, section structure, phrasing preferences, figure style, bibliography style, abbreviations, and venue habits. If a house rule conflicts with a venue's current call, the call wins and the conflict is reported to the user. If a house rule conflicts with integrity rules (`integrity.md`), integrity wins.
+Read the user's rules from `.house-style.md` in their paper repository, or from a private config they name. If it exists, it overrides the defaults in this skill: terminology, notation, section structure, phrasing, figure style, bibliography style, abbreviations, and venue habits. If a house rule conflicts with a venue's current call, the call wins and the conflict is reported. If it conflicts with `integrity.md`, integrity wins. If none exists, do not invent one.
 
-Because this repository is public, put in only what is safe to publish: no unpublished text, private results, or confidential data.
+## Suggested sections
 
-## How to fill it
-
-Copy short, concrete rules from your paper repository. One line each, with an example where it helps. Delete sections you do not use.
+One line per rule, with an example where it helps. Omit sections you do not need.
 
 ## Terminology and notation
 
@@ -49,8 +47,3 @@ Copy short, concrete rules from your paper repository. One line each, with an ex
 
 - Fixed opening and closing lines:
 - Disclosure statements the author's institution requires:
-
-## Status
-
-- Source repository and date filled:
-- Not yet filled: everything above.

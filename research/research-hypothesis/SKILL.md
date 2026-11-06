@@ -20,7 +20,7 @@ The output is one file, written before the experiment: the frozen observation, t
 | Mechanism | The process linking cause to outcome | Fewer inliers, then a worse-conditioned pose solve, then drift |
 | Prediction | An observable consequence, written before checking | Error rises with the condition number of the pose Hessian |
 | Alternative | A rival account, including bug, data, and bias | Those three scenes share a calibration file |
-| Null | The specific no-difference model an analysis tests | Paired per-scene error difference has median zero |
+| Null | The specific no-difference model an analysis tests | Paired per-scene error difference has median zero (testable only with enough scenes, see section 4) |
 | Evidence | Observations bearing on a claim, never the claim itself | Per-scene table linked from the run log |
 
 A mechanism is not a prediction. A prediction is not evidence. Rejecting a null does not establish the mechanism, and beating one rival does not eliminate the rivals nobody listed.
@@ -59,6 +59,7 @@ Add a negative control: a case that shares the same bias paths but where the mec
 ## 4. Fix the design before the run
 
 - **Unit of replication:** decide what the independent unit is. Five seeds on one scene are repeats of one scene; generalizing across scenes needs scenes.
+- **Minimum units:** a two-sided paired signed-rank or sign test has smallest possible p of 2/2^N, so 3 scenes give 0.25 and 5 give 0.0625; p<0.05 needs N>=6 independent units. With fewer, add scenes, or report the result as descriptive only and do not claim significance. Count scenes, not scenes x seeds.
 - **Pairing:** run arms on the same seeds and inputs and analyze per-pair differences; this removes variation you would otherwise pay for in repeats.
 - **Order:** interleave or randomize run order when drift is possible, such as thermal throttling, a warming cache, or a shared machine.
 - **Interactions:** one-at-a-time ablation cannot see two components that only help together. If you suspect that, run the small factorial.
