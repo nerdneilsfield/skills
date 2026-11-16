@@ -1,6 +1,6 @@
 ---
 name: python-testing
-description: "Use when writing, fixing, organizing, or reviewing Python tests, including any quick how or why question: pytest fixtures, parametrization, mocks, async tests, flaky or order-dependent tests, coverage gaps, and test configuration. Defer shared conventions to python. Not for an unexplained production failure (python-debug), new project scaffolding (python-project-init), or benchmarks (python-performance)."
+description: "Use when writing, fixing, organizing, or reviewing Python tests, including any quick how or why question: pytest fixtures, parametrization, mocks, async tests, flaky or order-dependent tests, coverage gaps, and test configuration. Defer shared conventions to python. Not for an unexplained production failure (python-debug), new project scaffolding (python-project-init), or benchmarks (python-performance). Not for disposable feasibility spikes or quick POCs; use `spike` instead."
 license: MIT
 compatibility: Requires Python 3. Uses the project's test runner; pytest examples assume pytest 9.
 metadata:

@@ -1,6 +1,6 @@
 ---
 name: cpp-testing
-description: "Use when writing, fixing, organizing, or reviewing C++ tests: Catch2 or GoogleTest cases, CTest wiring, sanitizer test builds, floating-point assertions, and flaky or order-dependent tests. Defer shared conventions to cpp and project-wide presets to cpp-project-init. Not for crashes or races with an unknown cause (cpp-debug), benchmarks (cpp-performance), or solver and residual correctness (cpp-numerics)."
+description: "Use when writing, fixing, organizing, or reviewing C++ tests: Catch2 or GoogleTest cases, CTest wiring, sanitizer test builds, floating-point assertions, and flaky or order-dependent tests. Defer shared conventions to cpp and project-wide presets to cpp-project-init. Not for crashes or races with an unknown cause (cpp-debug), benchmarks (cpp-performance), or solver and residual correctness (cpp-numerics). Not for disposable feasibility spikes or quick POCs; use `spike` instead."
 license: MIT
 compatibility: Requires CMake with CTest. Examples use Catch2 v3; a project on another framework keeps it.
 metadata:

@@ -21,6 +21,7 @@ This hub is the shared contract for ordinary Python: what an operation means, wh
 | Writing, fixing, or organizing tests, including fixtures, mocks, and flaky tests | [python-testing](../python-testing/SKILL.md) |
 | Crash, hang, stuck task, or a failure still unexplained after the first traceback and nearby diff | [python-debug](../python-debug/SKILL.md) |
 | User asks to create a project or package, or to add pyproject, Ruff, ty, or pytest configuration | [python-project-init](../python-project-init/SKILL.md) |
+| Disposable spike or quick POC to check one idea, not a project to keep | [spike](../spike/SKILL.md), not `python-project-init` |
 | Interpreter, uv, venv, Conda, Pixi, mirrors, locks, offline artifacts, or CUDA/native ABI | [python-environments](../python-environments/SKILL.md) |
 | Classical ML or deep-learning splits, training, evaluation, checkpoints, or training-loop performance | [python-ml](../python-ml/SKILL.md) |
 | Tabular, time, or missing data, join and group meaning, statistical summaries, or charts | [python-data-analysis](../python-data-analysis/SKILL.md) |

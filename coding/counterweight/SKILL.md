@@ -1,6 +1,6 @@
 ---
 name: counterweight
-description: "Run before any request to change code, however small or terse: implement, fix, refactor, wire configuration, add a flag or feature, or debug, including when the user says skip the plan, and when that request would otherwise grow a plan, framework, compatibility layer, retry, cache, fallback, or unearned test suite. Pick the lightest sufficient process and keep the change proportional to current evidence and risk. Not for questions about existing code, standalone review, prose, root AGENTS.md setup (counterweight-setup), or a post-implementation cut list (counterweight-cut)."
+description: "Run before any request to change code, however small or terse: implement, fix, refactor, wire configuration, add a flag or feature, or debug, including when the user says skip the plan, and when that request would otherwise grow a plan, framework, compatibility layer, retry, cache, fallback, or unearned test suite. Pick the lightest sufficient process and keep the change proportional to current evidence and risk. Not for questions about existing code, standalone review, prose, root AGENTS.md setup (counterweight-setup), or a post-implementation cut list (counterweight-cut). Not for disposable feasibility spikes or quick POCs; use `spike` instead."
 license: MIT
 metadata:
   author: DengQi

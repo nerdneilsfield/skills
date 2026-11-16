@@ -16,6 +16,7 @@ This hub is shared language, ownership, and interface policy for all C++ work, a
 | Task | Skill |
 | --- | --- |
 | User asks to create a C++ project or to restructure CMake presets, vendored dependencies, offline builds, or developer command entry points | `cpp-project-init` |
+| Disposable spike or quick POC to check one idea, not a project to keep | `spike`, not `cpp-project-init` |
 | Writing, fixing, or organizing tests, CTest wiring, sanitizer test builds, or flaky tests | `cpp-testing` |
 | Crash, hang, race, memory corruption, nondeterminism, or a failure still unexplained after the first diagnostic and nearby diff | `cpp-debug` |
 | Measured CPU latency, throughput, cache or lock contention, scheduling, oversubscription, paging, allocation, or scaling | `cpp-performance` |

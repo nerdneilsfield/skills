@@ -30,6 +30,7 @@
 | [`steward-board`](agents/steward-board/) | 仅手动调用。把一批 chronicle 事件和证据写成 `BOARD.md` 与项目日记录，保留批次、证据与缺口，最后推进消费水位；只读查询不改状态。不用于写日报周报或提炼项目经验。 |
 | [`steward-reports`](agents/steward-reports/) | 仅手动调用。从同一批证据生成 `daily/<date>.md` 和 `weekly/<year>-W<week>.md`，事实、结果、卡点与缺口分开写，下一步只作建议。不用于更新白板或提炼项目经验。 |
 | [`co-commit`](coding/co-commit/) | 用户要求按仓库惯例分组并逐次本地提交时使用。不用于 push、开 PR 或改写历史。 |
+| [`spike`](coding/spike/) | 用户要一次性验证某个想法的 spike 或快速 POC 时使用：写出最小可运行的东西，跑一遍，给出结论就停。不用于正式实现、项目脚手架（`cpp-project-init`、`python-project-init`）、系统化实验（`algorithm-experiment`）或复现论文数字（`paper-reproduce`）。 |
 | [`counterweight`](coding/counterweight/) | 用户要求实现、修复、重构或调试代码时使用，并按证据选择最轻流程。不用于答疑、独立评审、写文档、初始化 `AGENTS.md` 或事后删减清单。 |
 | [`counterweight-setup`](coding/counterweight-setup/) | 用户要求在仓库根 `AGENTS.md` 启用或修复 Counterweight 时使用。不用于实现功能或列删减清单。 |
 | [`counterweight-cut`](coding/counterweight-cut/) | 实现之后，用户询问这次 diff 里什么没挣到留下资格时使用。默认只出清单，用户点名才改。不用于实现功能或正确性审查。 |
@@ -134,6 +135,7 @@ This repository contains reusable Agent Skills for coding workflows, Git commits
 | [`steward-board`](agents/steward-board/) | Manual only. Turn a batch of chronicle events and evidence into `BOARD.md` and the project day records, keeping batch, evidence, and gap ids, then advance the watermark; a read-only query changes nothing. Not for daily or weekly reports or distilling practices. |
 | [`steward-reports`](agents/steward-reports/) | Manual only. Write `daily/<date>.md` and `weekly/<year>-W<week>.md` from the same evidence, with facts, results, blockers, and gaps kept apart and next steps marked as suggestions. Not for refreshing the board or distilling practices. |
 | [`co-commit`](coding/co-commit/) | Use when the user asks to group uncommitted work by the repo's commit conventions and create the local commits. Not for push, opening a PR, or rewriting history. |
+| [`spike`](coding/spike/) | Use when the user wants a throwaway spike or quick POC to validate one idea: write the smallest thing that runs, execute it, and stop with a verdict. Not for production implementation, project scaffolding (`cpp-project-init`, `python-project-init`), formal experiment campaigns (`algorithm-experiment`), or paper number reproduction (`paper-reproduce`). |
 | [`counterweight`](coding/counterweight/) | Use when the user asks to implement, fix, refactor, or debug code, and pick the lightest process the evidence supports. Not for Q&A, standalone review, prose, root `AGENTS.md` setup, or a post-diff cut list. |
 | [`counterweight-setup`](coding/counterweight-setup/) | Use when the user asks to enable or repair Counterweight in the repository root `AGENTS.md`. Not for implementing features or listing cuts. |
 | [`counterweight-cut`](coding/counterweight-cut/) | After implementation, use when the user asks what in this diff did not earn the cost of staying. Default is a cut list; edit only when the user asks to apply it. Not for implementing features or correctness review. |

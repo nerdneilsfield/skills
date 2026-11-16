@@ -1,6 +1,6 @@
 ---
 name: spec
-description: "Use when the user asks to turn a discussion into a specification, a plan of record, or a set of tickets for later sessions or for another agent: synthesize what was already said into goal, constraints, out-of-scope, and checkable acceptance, then optionally split it into tickets. Writes local files. Not for interviewing the user about unresolved choices (grill-me) or for implementing the work."
+description: "Use when the user asks to turn a discussion into a specification, a plan of record, or a set of tickets for later sessions or for another agent: synthesize what was already said into goal, constraints, out-of-scope, and checkable acceptance, then optionally split it into tickets. Writes local files. Not for interviewing the user about unresolved choices (grill-me) or for implementing the work. Not for disposable feasibility spikes or quick POCs; use `spike` instead."
 license: MIT
 metadata:
   author: DengQi

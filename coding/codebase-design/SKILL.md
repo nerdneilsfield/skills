@@ -1,6 +1,6 @@
 ---
 name: codebase-design
-description: "Use when designing or improving a module's interface, deciding where a seam goes, or making code more testable: work in terms of deep modules, place the seam where something actually varies, and change structure only when the evidence justifies it. Not for implementing the change (counterweight), reviewing a diff (code-review), or reading a repository you have never seen (code-reading)."
+description: "Use when designing or improving a module's interface, deciding where a seam goes, or making code more testable: work in terms of deep modules, place the seam where something actually varies, and change structure only when the evidence justifies it. Not for implementing the change (counterweight), reviewing a diff (code-review), or reading a repository you have never seen (code-reading). Not for disposable feasibility spikes or quick POCs; use `spike` instead."
 license: MIT
 metadata:
   author: DengQi

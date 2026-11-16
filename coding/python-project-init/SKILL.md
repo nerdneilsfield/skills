@@ -1,6 +1,6 @@
 ---
 name: python-project-init
-description: "Use when the user asks to create a Python project or package, or to add pyproject.toml, src layout, Ruff, ty, or pytest configuration to one. Defer shared conventions to python and interpreter, lock, Conda, Pixi, and CUDA questions to python-environments. Not for ordinary source fixes or for changing the tooling of a project that already has working choices."
+description: "Use when the user asks to create a Python project or package, or to add pyproject.toml, src layout, Ruff, ty, or pytest configuration to one. Defer shared conventions to python and interpreter, lock, Conda, Pixi, and CUDA questions to python-environments. Not for ordinary source fixes or for changing the tooling of a project that already has working choices. Not for disposable feasibility spikes or quick POCs; use `spike` instead."
 license: MIT
 compatibility: Requires Python 3. Examples use uv; a project already on another tool keeps it.
 metadata:
